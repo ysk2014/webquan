@@ -1,15 +1,12 @@
 define(['react','jquery'],function(React, $) {
-var CommentBox = React.creatClass({
+
+	return React.creatClass({
 		render:function(){
-		return(
-		<div class="sign-in">
-			gfdsghsdfhf
-		</div>
-		)
+			return(
+				<div class="sign-in">
+					gfdsghsdfhf
+				</div>
+			)
 		}
 	});
-	React.render(
-		<CommentBox />,
-		document.getElementById("content")
-	)
 })

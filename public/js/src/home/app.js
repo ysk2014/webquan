@@ -19,6 +19,6 @@ requirejs.config({
 
 requirejs(['react', 'jquery', 'WQ', 'home/home/home'],function(React, $, WQ, Home){
 
-    React.render(React.createElement(Home), document.getElementById('container'));
+    React.render(<Home />, $('#container').get(0));
     
 })
