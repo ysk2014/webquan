@@ -26,7 +26,7 @@ class UserController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home.login');
+		return view('home.app');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class UserController extends Controller {
 	{
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		if($isLogin) return redirect('home.home');
-		return view('home.login.signIn');
+		return view('home.app');
 	}
 
 
@@ -67,7 +67,7 @@ class UserController extends Controller {
 	*/
 	public function register()
 	{
-		return view('home.login.signUp');
+		return view('home.app');
 	}
 
     /**

@@ -50,7 +50,7 @@ requirejs([
 
 
     ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
-      React.render(<Handler/>, document.body);
+      React.render(<Handler/>, document.getElementById('container'));
     });
 
 })

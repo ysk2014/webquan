@@ -13,7 +13,6 @@
 	<script data-main="{{ asset('js/build/home/app.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
 </head>
 <body>
-	
-	@yield('content')
+	<div id='container'></div>
 </body>
 </html>

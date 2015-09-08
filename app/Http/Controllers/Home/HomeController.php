@@ -27,7 +27,7 @@ class HomeController extends Controller {
 		$data = ['navStatus'=>$this->navStatus];
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		if($isLogin) $data = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
-		return view('home/home',$data);
+		return view('home/app',$data);
 	}
 
 }
