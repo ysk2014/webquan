@@ -17,6 +17,4 @@ return [
     //上传的路径，包括ueditor的上传路径也在这里定义了，因为修改了ueditor，重新加载了这个文件。
     'sys_upload_path' => __DIR__ . '/../../upload_path',
 
-
-    'a' => 'ds',
 ];
