@@ -1,20 +1,25 @@
 
-define(['react','jquery'],function(React, $) {
+define([
+	'react',
+	'jquery',
+	'home/common/leftNav'
+	],function(React, $, LeftNav) {
 
 	return React.createClass({
+		minxs: []
 		getInitialState: function() {
 			return {
 				name: 'home',
+				navActive: '',
 			}
 		},
-		handleClick: function() {
-			window.location.href = '/sign_in';
-		},
+		
 		render: function() {
 			return (
 				<div>
-					<div onClick={this.handleClick}>登陆</div>
-					<div>注册</div>
+					<div><a className="btn" href="/sign_in">登陆</a></div>
+					<div><a className="btn" href="/sign_up">注册</a></div>
+					<LeftNav active={this.state.navActive} />
 				</div>
 			);
 		}

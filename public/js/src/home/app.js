@@ -21,11 +21,10 @@ requirejs.config({
 requirejs([
         'react', 
         'reactRouter', 
-        'jquery', 
-        'WQ', 
         'home/home/home', 
-        'home/login/signin'
-    ],function(React, ReactRouter, $, WQ, Home, Signin){
+        'home/login/signIn',
+        'home/login/signUp',
+    ],function(React, ReactRouter, Home, SignIn, SignUp){
 
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -44,7 +43,8 @@ requirejs([
     var routes = (
         <Route handler={App}>
             <Route path="/" handler={Home}/>
-            <Route path="/sign_in" handler={Signin}/>
+            <Route path="/sign_in" handler={SignIn}/>
+            <Route path="/sign_up" handler={SignUp}/>
         </Route>
     );
 

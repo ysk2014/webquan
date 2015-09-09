@@ -65,6 +65,7 @@ class Routes
             Route::get('/sign_out', 'Home\UserController@getOut');
 
             Route::get('/', 'Home\HomeController@index');
+            Route::post('/home', 'Home\HomeController@home');
 
             Route::get('/cloumn/{id}', 'Home\CloumnController@showCloumn');
             

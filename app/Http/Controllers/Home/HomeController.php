@@ -22,12 +22,16 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(LoginProcess $loginProcess)
+	public function index()
 	{	
+		return view('home/app');
+	}
+	public function home(LoginProcess $loginProcess) 
+	{
 		$data = ['navStatus'=>$this->navStatus];
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		if($isLogin) $data = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
-		return view('home/app',$data);
+		return response()->json($data);
 	}
 
 }
