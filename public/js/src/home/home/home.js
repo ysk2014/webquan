@@ -1,4 +1,3 @@
-
 define([
 	'react',
 	'jquery',
@@ -6,7 +5,7 @@ define([
 	],function(React, $, LeftNav) {
 
 	return React.createClass({
-		minxs: []
+		mixins: [],
 		getInitialState: function() {
 			return {
 				name: 'home',

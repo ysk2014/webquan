@@ -1,21 +1,21 @@
 requirejs.config({
-	baseUrl: '/js/lib',
-	paths: {
-		jquery 			: "jquery-1.11.3.min",
+    baseUrl: '/js/lib',
+    paths: {
+        jquery          : "jquery-1.11.3.min",
         jqueryextend    : "jquery.extend", 
         WQ              : "WQ",
-        react			: "react-with-addons.min",
+        react           : "react-with-addons.min",
         reactRouter     : 'react-router.min',
-        home			: "../build/home"
-	},
+        home            : "../build/home"
+    },
 
-	shim: {
+    shim: {
         WQ:{
             deps:[ 'jquery','jqueryextend'],
             exports:'WQ'
         },
-	},
-	waitSeconds: 30
+    },
+    waitSeconds: 30
 });
 
 requirejs([
