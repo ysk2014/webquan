@@ -8,8 +8,7 @@ define([
 
 	var mixin = {
 		init: function() {
-			var state = {};
-			return state;
+			
 		},
 	}
 
@@ -21,10 +20,7 @@ define([
 			}
 		},
 		componentDidMount: function() {
-			this.stateChange(mixin.init());
-		},
-		stateChange: function(state) {
-			this.setState(state);
+			
 		},
 		render: function() {
 			return (
