@@ -4,7 +4,7 @@ define(['react','jquery'],function(React, $) {
 	return React.createClass({
 		getInitialState: function() {
 			return {
-				actice: this.props.actice,
+				active: this.props.active,
 			}
 		},
 		
@@ -27,7 +27,7 @@ define(['react','jquery'],function(React, $) {
 								<span>专题</span>
 							</a>
 						</li>
-						<li className={this.state.active == 'home' ? "active" : null}>
+						<li className={this.state.active == 'talk' ? "active" : null}>
 							<a href="/">
 								<i className="fa fa-bell-o"></i>
 								<span>问答</span>
