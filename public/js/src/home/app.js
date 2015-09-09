@@ -33,7 +33,6 @@ requirejs([
         render: function() {
             return (
                 <div>
-                    <h1>App</h1>
                     <RouteHandler/>
                 </div>
             )
@@ -42,7 +41,7 @@ requirejs([
 
     var routes = (
         <Route handler={App}>
-            <Route path="/" handler={Home}/>
+            <Route name="home" path="/" handler={Home}/>
             <Route path="/sign_in" handler={SignIn}/>
             <Route path="/sign_up" handler={SignUp}/>
         </Route>
@@ -50,7 +49,7 @@ requirejs([
 
 
     ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
-      React.render(<Handler/>, document.getElementById('container'));
+      React.render(<Handler />, document.getElementById('container'));
     });
 
 })

@@ -5,7 +5,6 @@ use Request;
 
 class CloumnController extends Controller {
 
-	public $navStatus;
 
 	public $returnData;
 	/**
@@ -15,10 +14,8 @@ class CloumnController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->navStatus = 'cloumn';
-		$this->returnData = ['navStatus'=>$this->navStatus];
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) $this->returnData = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
+		if($isLogin) $this->returnData = ['userInfo'=>$isLogin];
 	}
 
 	/**
@@ -28,7 +25,7 @@ class CloumnController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home/cloumn/index',$this->returnData);
+		return view('home.app');
 	}
 
 	public function showCloumn($id)

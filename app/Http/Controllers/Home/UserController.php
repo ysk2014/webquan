@@ -30,12 +30,12 @@ class UserController extends Controller {
 	}
 
 	/**
-	* 登陆页面
+	* 登陆注册页面
 	*/
 	public function login(LoginProcess $loginProcess)
 	{
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) return redirect('home.home');
+		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		// if($isLogin) return redirect('home.app');
 		return view('home.app');
 	}
 
@@ -62,14 +62,6 @@ class UserController extends Controller {
 		return response()->json($result);
 	}
 
-	/**
-	* 注册页面
-	*/
-	public function register()
-	{
-		return view('home.app');
-	}
-
     /**
      * 开始注册处理
      *
@@ -90,6 +82,16 @@ class UserController extends Controller {
 		}
 		
 	}
+
+    /**
+     * 判断用户是否登陆并获取用户信息
+     */
+    public function getUserInfo(LoginProcess $loginProcess)
+    {
+		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
+		return response()->json($data);
+    }
 
     /**
      * 登录退出

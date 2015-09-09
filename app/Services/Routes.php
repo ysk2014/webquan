@@ -58,11 +58,12 @@ class Routes
     {
         Route::group(['domain' =>  $this->wwwDomain], function()
         {
-            Route::get('/sign_in', 'Home\UserController@login');
-            Route::get('/sign_up', 'Home\UserController@register');
-            Route::post('/login', 'Home\UserController@getProc');
-            Route::post('/register', 'Home\UserController@addUser');
+            Route::get('/login', 'Home\UserController@login');
+            Route::post('/sign_in', 'Home\UserController@getProc');
+            Route::post('/sign_up', 'Home\UserController@addUser');
             Route::get('/sign_out', 'Home\UserController@getOut');
+
+            Route::post('/getUserInfo', 'Home\UserController@getUserInfo');
 
             Route::get('/', 'Home\HomeController@index');
             Route::post('/home', 'Home\HomeController@home');

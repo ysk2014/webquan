@@ -1,24 +1,36 @@
 define([
 	'react',
 	'jquery',
-	'home/common/leftNav'
-	],function(React, $, LeftNav) {
+	'home/common/leftNav',
+	'home/common/userDropMenu',
+	],function(React, $, LeftNav, UserDropMenu) {
+
+
+	var mixin = {
+		init: function() {
+			var state = {};
+			return state;
+		},
+	}
 
 	return React.createClass({
-		mixins: [],
+		mixins: [mixin],
 		getInitialState: function() {
 			return {
 				name: 'home',
-				navActive: '',
 			}
 		},
-		
+		componentDidMount: function() {
+			this.stateChange(mixin.init());
+		},
+		stateChange: function(state) {
+			this.setState(state);
+		},
 		render: function() {
 			return (
 				<div>
-					<div><a className="btn" href="/sign_in">登陆</a></div>
-					<div><a className="btn" href="/sign_up">注册</a></div>
-					<LeftNav active={this.state.navActive} />
+					<UserDropMenu />
+					<LeftNav active={this.state.name} />
 				</div>
 			);
 		}

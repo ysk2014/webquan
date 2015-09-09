@@ -13,8 +13,7 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		// $this->middleware('auth');
-		$this->navStatus = 'home';
+		// $this->navStatus = 'home';
 	}
 
 	/**
@@ -25,13 +24,6 @@ class HomeController extends Controller {
 	public function index()
 	{	
 		return view('home/app');
-	}
-	public function home(LoginProcess $loginProcess) 
-	{
-		$data = ['navStatus'=>$this->navStatus];
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) $data = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
-		return response()->json($data);
 	}
 
 }
