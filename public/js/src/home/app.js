@@ -22,9 +22,8 @@ requirejs([
         'react', 
         'reactRouter', 
         'home/home/home', 
-        'home/login/signIn',
-        'home/login/signUp',
-    ],function(React, ReactRouter, Home, SignIn, SignUp){
+        'home/login/login',
+    ],function(React, ReactRouter, Home, Login){
 
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -42,8 +41,7 @@ requirejs([
     var routes = (
         <Route handler={App}>
             <Route name="home" path="/" handler={Home}/>
-            <Route path="/sign_in" handler={SignIn}/>
-            <Route path="/sign_up" handler={SignUp}/>
+            <Route path="/login" handler={Login}/>
         </Route>
     );
 
