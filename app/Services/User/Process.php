@@ -74,7 +74,7 @@ class Process extends BaseProcess
 
 		if($this->userModel->deleteUser($ids) !== false) return true;
 
-		return $this->setErrorMsg(Lang::get('common.action_error'));
+		return $this->setErrorMsg(Lang::get('删除失败'));
 	}
 
     /**
@@ -86,7 +86,7 @@ class Process extends BaseProcess
      */
     public function editUser(\App\Services\User\Param\UserSave $data)
     {
-    	if( !isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
+    	if( !isset($data->id)) return $this->setErrorMsg(Lang::get('没有用户id'));
     	// 进行用户表单验证
     	if( !$this->userValidate->edit($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
 

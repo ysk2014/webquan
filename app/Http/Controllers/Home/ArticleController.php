@@ -10,21 +10,19 @@ class ArticleController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->navStatus = 'article';
+
 	}
 
 	/**
-	 * Show the application dashboard to the user.
+	 * article
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		return view('home/article/index',['navStatus'=>$this->navStatus]);
+		return view('home.app');
 	}
-
-	public function cloumn(){
-		return view('home/article/cloumn',['navStatus'=>$this->navStatus]);
+	public function getAllArt() {
+		
 	}
-
 }
