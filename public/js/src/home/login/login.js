@@ -1,71 +1,70 @@
+
 define(['react','jquery'],function(React, $) {
-
-    var SignUpForm = React.createClass({
-        render: function(){
-        return(
-            <form method="post">
-                <input type="text" name= "username" placeholder="请输入手机号或邮箱" />
-                <input type="text" name= "nickname" placeholder="写一个昵称" />
-                <input type="text" name="password" placeholder= "请输入密码" />
-                <input type="submit" className="sub" value="注册" />
-            </form>
-        )    
-        }
-    });
-
-    var SignInForm = React.createClass({
-        render: function(){
-        return(
-            <form method="post">
-                <input type="text" name="username" placeholder="请输入手机号或邮箱" />
-                <input type="text" name="password" placeholder="请输入密码" />
-                <input type="submit" className="sub" value="登录" />
-                <a className="text-left" href="">忘记密码</a>
-            </form>
-        )    
-        }
-    });
-    var Choose = React.createClass({
-        render: function(){
-        return(
-            <div className="choose">
-                <span className="chooseA">
-                    <a href="#" onClick={this.props.handleClick.bind(this,"SignIn")} className="fontColor">登陆</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#" onClick={this.props.handleClick.bind(this,"SignUp")}>注册</a>
-                </span>
-            </div>
-        )    
-        }
-    });
 
     return React.createClass({
         getInitialState: function() {
             return {
-                name: 'LoginIn',
-                login: 'SignIn'
+                nav: 0,
             }
         },
-        handleClick: function(a){
-            this.setState({login: a});
+        changeNav: function(event) {
+            var _this = this;
+            var nav = $(event.target).data('nav');
+            if(nav != _this.state.nav) {
+                _this.setState({
+                    nav: nav
+                });
+            }
         },
         render: function() {
-            $(".chooseA").find("a").removeClass("fontColor");
-            if (this.state.login=="SignIn"){
-                $(".chooseA").find("a:eq(0)").addClass("fontColor")
-                return (
-                    <div className="LoginBox" id="content">
-                        <Choose handleClick={this.handleClick}/> 
-                        <SignInForm />
+            var _this = this;
+            return (
+                <div className="login-page">
+                    <div className="logo"></div>
+                    <h4 className="title">
+                        <span>
+                            <a className={_this.state.nav==0 ? "active" : ""} data-nav="0" onClick={this.changeNav} href="javascript:void(0);">登陆</a>
+                            <b>·</b>
+                            <a className={_this.state.nav==1 ? "active" : ""} data-nav="1" onClick={this.changeNav} href="javascript:void(0);">注册</a>
+                        </span>
+                    </h4>
+                    <div className="login-contianer">
+                        <form className="form-horizontal">
+                            <div className="input-prepend">
+                                <span className="add-on">
+                                    <i className="fa fa-user"></i>
+                                </span>
+                                <input type="text" name="username" placeholder="用户名" />
+                            </div>
+                            <div className="input-prepend">
+                                <span className="add-on">
+                                    <i className="fa fa-unlock-alt"></i>
+                                </span>
+                                <input type="password" name="password" placeholder="密码" />
+                            </div>
+                            {
+                                (_this.state.nav ==1) ? 
+                                (<div>
+                                    <div className="input-prepend">
+                                        <span className="add-on">
+                                            <i className="fa fa-envelope-o"></i>
+                                        </span>
+                                        <input type="text" name="email" placeholder="email" />
+                                    </div>
+                                    <div className="input-prepend">
+                                        <span className="add-on">
+                                            <i className="fa fa-leaf"></i>
+                                        </span>
+                                        <input type="text" name="job" placeholder="职位" />
+                                    </div>
+                                </div>) : null
+                            }
+                            
+                            <button className="submit-button">登陆</button>
+                        </form>
                     </div>
-                )
-            }else{ 
-                $(".chooseA").find("a:eq(1)").addClass("fontColor")
-                return (
-                    <div className="LoginBox" id="content">
-                        <Choose handleClick={this.handleClick}/>
-                        <SignUpForm />
-                    </div>
-                )
-            }
+                </div>
+            );
         }
     });
-})
+});

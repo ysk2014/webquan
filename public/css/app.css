@@ -112,93 +112,120 @@ input:focus{
 .btn:hover{
   color: #fff;
 }
+
 /*登陆*/
-.LoginBox{
-  position: absolute;
-  left: 0px;
-  top: 0px;
+.login-page{
+  width: 940px;
+  margin: 50px auto 0px;
+}
+.login-page .logo{
   width: 100%;
-  height: 100%;
+  height: 100px;
 }
-.LoginBox .choose{
-  position: absolute;
-  left: 50%;
-  top: 105px;
-  margin-left: -450px;
-  width: 900px;
+.login-page .title{
+  margin: 50px auto;
+  border-bottom: 1px solid #eeeeee;
+  color: #b1b1b1;
   text-align: center;
-  border-bottom: 1px solid #f0f1f3;
-  font-size: 17px;
-  font-weight: bolder;
+  font-size: 18px;
 }
-.LoginBox .choose .chooseA{
+.login-page .title span{
   position: relative;
-  left: 50%;
   top: 10px;
-  display: block;
-  width: 120px;
-  margin-left: -60px;
-  background: #fff;
-  color: #cfd0d1;
+  background-color: #fff;
+  padding: 0 30px;
 }
-.LoginBox .choose .chooseA .fontColor{
-  color: #cfd0d1;
+.login-page .title span a{
+  color: #b1b1b1;
 }
-.LoginBox form{
-  position:absolute;
-  left:50%;
-  top: 160px;
-  margin-left:-160px;
-  width: 320px;
-  height: 300px;
-  background: #fff;
-  border-radius: 5px;
+.login-page .title span a.active{
+  color: #555;
 }
-.LoginBox form input{
-  width:250px;
+.login-page .title span b{
+  margin: 0px 10px;
+}
+
+.login-page form{
+  width: 300px;
+  padding-bottom: 40px;
   margin: 0 auto;
-  display: block;
-  padding: 8px 0px; 
-  margin-top: 15px;
-  border-radius: 4px;
-  border: 1px solid #e2e2e2;
-  padding-left: 10px;
 }
-.LoginBox form input.sub{
-  background: #2f7ff8;
-  color: #fff;
-  border: none;
-  width: 260px;
-  padding-left: 0px;
+.login-page .input-prepend{
+  width: 100%;
+  margin-bottom: 15px;
+  white-space: nowrap;
 }
-.LoginBox form a.text-left{
-  display:block;
-  margin-left: 30px;
-  margin-top: 15px;
-  color:#cacbcb;
-}
-/*注册*/
-.LoginBox form .code{
-  width: 260px;
-  margin:0 auto;
-}
-.LoginBox form .code input{
-  float:left;
-  width: 180px;
-  display: inline;
-}
-.LoginBox form .code a.gain{
-  display:block;
-  float:left;
-  text-align:center;
-  background: #eeeff1;
-  width: 60px;
+.login-page .input-prepend .add-on{
+  display: inline-block;
+  width: 34px;
   height: 34px;
-  line-height:30px;
-  margin-top:15px;
-  margin-left:6px;
-  border: 1px solid #d2d3d4
+  padding: 4px 5px;
+  background: none;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 34px;
+  margin-right: -1px;
+  vertical-align: top;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+  border: 1px solid #ccc;
 }
-.LoginBox form .code div.clear{
-  clear: both;
+.login-page .input-prepend .add-on:first-child {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.login-page .input-prepend input {
+  width: 228px;
+  width: calc(100% - 44px);
+  height: 44px;
+  padding: 4px 12px;
+  font-size: 14px;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+.login-page .input-prepend input:focus{
+  outline: none;
+  box-shadow: none;
+  border-color: rgba(82,168,236,0.8);
+}
+
+.login-page .submit-button{
+  width: 100%;
+  background: #049cdb;
+  padding: 14px 18px;
+  font-size: 18px;
+  line-height: 20px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 2px;
+  border: 1px solid #15a7f0;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
+  -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
+  -ms-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
+  -o-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
+}
+.login-page .submit-button:focus,
+.login-page .submit-button:hover{
+  color: white;
+  border-color: #3dbcf5;
+  background-color: #3dbcf5;
 }
