@@ -49,7 +49,15 @@ class ProcessDefault extends AbstractProcess {
      */
     public function check($username, $password)
     {
+        $result = [];
         $userInfo = $this->userModel->InfoByName($username);
+
+        if(count($userInfo) === 0) 
+        {
+            $result = ['error'=>true, 'msg'=>'您还没有注册，请先去注册吧'];
+            return $result;
+        }
+
         $sign = $userInfo['password'];
         if($sign == strtolower(md5($password)))
         {
@@ -59,9 +67,13 @@ class ProcessDefault extends AbstractProcess {
             SC::setLoginSession($userInfo);
             SC::setUserPermissionSession($userInfo['status']);
             // event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
-            return $userInfo;
+            $result = ['error'=>false, 'msg'=>'登录成功'];
+            return $result;
+        } else {
+            $result = ['error'=>true, 'msg'=>'密码错误'];
+            return $result;
         }
-        return false;
+        
     }
 
     /**
@@ -76,12 +88,12 @@ class ProcessDefault extends AbstractProcess {
     {
         // $this->checkCsrfToken();
         $data = array( 'name' => $username, 'password' => $password );
-        $rules = array( 'name' => 'required|min:1', 'password' => 'required|min:1' );
+        $rules = array( 'name' => 'required|min:1', 'password' => 'required|min:6' );
         $messages = array(
-            'name.required' => Lang::get('login.please_input_name'),
+            'name.required' => Lang::get('请输入用户名'),
             'name.min' => Lang::get('login.please_input_name'),
-            'password.required' => Lang::get('login.please_input_password'),
-            'password.min' => Lang::get('login.please_input_password')
+            'password.required' => Lang::get('请输入密码'),
+            'password.min' => Lang::get('密码不能小于6位')
         );
         $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails())
