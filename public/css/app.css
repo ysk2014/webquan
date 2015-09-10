@@ -128,10 +128,10 @@ input:focus{
   width: 900px;
   text-align: center;
   border-bottom: 1px solid #f0f1f3;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bolder;
 }
-.LoginBox .choose span{
+.LoginBox .choose .chooseA{
   position: relative;
   left: 50%;
   top: 10px;
@@ -139,9 +139,10 @@ input:focus{
   width: 120px;
   margin-left: -60px;
   background: #fff;
+  color: #cfd0d1;
 }
-.LoginBox .choose span a{
-  display: inline;
+.LoginBox .choose .chooseA .fontColor{
+  color: #cfd0d1;
 }
 .LoginBox form{
   position:absolute;

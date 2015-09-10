@@ -5,11 +5,7 @@ define(['react','jquery'],function(React, $) {
         return(
             <form method="post">
                 <input type="text" name= "username" placeholder="请输入手机号或邮箱" />
-                <div className="code">
-                    <input type="text" name="code" placeholder="短信验证码" />
-                    <a href="#" className="gain" >点击获取</a>
-                    <div className="clear"></div>
-                </div>
+                <input type="text" name= "nickname" placeholder="写一个昵称" />
                 <input type="text" name="password" placeholder= "请输入密码" />
                 <input type="submit" className="sub" value="注册" />
             </form>
@@ -33,7 +29,9 @@ define(['react','jquery'],function(React, $) {
         render: function(){
         return(
             <div className="choose">
-                <span><a href="#">登陆</a><a href="#">注册</a></span>
+                <span className="chooseA">
+                    <a href="#" onClick={this.props.handleClick.bind(this,"SignIn")} className="fontColor">登陆</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a href="#" onClick={this.props.handleClick.bind(this,"SignUp")}>注册</a>
+                </span>
             </div>
         )    
         }
@@ -43,15 +41,31 @@ define(['react','jquery'],function(React, $) {
         getInitialState: function() {
             return {
                 name: 'LoginIn',
+                login: 'SignIn'
             }
         },
+        handleClick: function(a){
+            this.setState({login: a});
+        },
         render: function() {
-            return (
-                <div className="LoginBox" id="content">
-                    <Choose />
-                    <SignInForm />
-                </div>
-            );
+            $(".chooseA").find("a").removeClass("fontColor");
+            if (this.state.login=="SignIn"){
+                $(".chooseA").find("a:eq(0)").addClass("fontColor")
+                return (
+                    <div className="LoginBox" id="content">
+                        <Choose handleClick={this.handleClick}/> 
+                        <SignInForm />
+                    </div>
+                )
+            }else{ 
+                $(".chooseA").find("a:eq(1)").addClass("fontColor")
+                return (
+                    <div className="LoginBox" id="content">
+                        <Choose handleClick={this.handleClick}/>
+                        <SignUpForm />
+                    </div>
+                )
+            }
         }
     });
 })
