@@ -57,9 +57,7 @@ class UserController extends Controller {
 		// 开始登陆验证
 		$userInfo = $loginProcess->getProcess()->check($username,$password);
 		
-		$result = $userInfo ? ['msg' => '登录成功', 'result' => true]
-                                : ['msg' => '登录失败', 'result' => false];
-		return response()->json($result);
+		return response()->json($userInfo);
 	}
 
     /**
@@ -75,10 +73,10 @@ class UserController extends Controller {
 		$param = new \App\Services\User\Param\UserSave();
 		$param->setAttributes($data);
 		if($msg = $manager->addUser($param)){
-			 return response()->json(['msg' => '注册成功', 'result' => true]);
+			 return response()->json(['msg' => '注册成功', 'error' => false]);
 		}else{
 			$error = $manager->getErrorMessage();
-			return response()->json(['msg' => $error, 'result' => false]);
+			return response()->json(['msg' => $error, 'error' => true]);
 		}
 		
 	}

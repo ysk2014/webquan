@@ -51,14 +51,14 @@ class Process extends BaseProcess
 		// 进行用户表单验证
 		if( !$this->userValidate->add($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
 		// 检测改用户名是否已存在
-		if($this->userModel->getUserByName($data->name)) return  $this->setErrorMsg(Lang::get('user.account_exists'));
+		if($this->userModel->getUserByName($data->name)) return  $this->setErrorMsg(Lang::get('用户名已经存在'));
 
 		$data->setPassword(md5($data->password));
 
 		// 开始保存到数据库
 		if($this->userModel->addUser($data->toArray()) !== false ) return true;
 
-		return $this->setErrorMsg(Lang::get('common.action_error'));
+		return $this->setErrorMsg('注册失败');
 	}
 
     /**
