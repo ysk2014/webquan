@@ -58,28 +58,43 @@ class Routes
     {
         Route::group(['domain' =>  $this->wwwDomain], function()
         {
+            // 主页
             Route::get('/', 'Home\HomeController@index');
 
+            // 登录页
             Route::get('/login', 'Home\UserController@login');
+            // 登录处理
             Route::post('/sign_in', 'Home\UserController@getProc');
+            // 注册处理
             Route::post('/sign_up', 'Home\UserController@addUser');
+            // 退出
             Route::get('/sign_out', 'Home\UserController@getOut');
 
-            Route::get('/user', 'Home\UserController@index'); 
+            // 个人首页
+            Route::get('/user', 'Home\UserController@index');
+            // 根据id获取用户信息 
             Route::post('/user/info', 'Home\UserController@getUserInfoById'); 
+            // 获取登录用户的信息
+            Route::post('/user/me', 'Home\UserController@getUserInfoByLogin');
 
-            Route::post('/getUserInfoByLogin', 'Home\UserController@getUserInfoByLogin');
-
+            // 文章页
             Route::get('/article', 'Home\ArticleController@index');
+            // 文章列表
             Route::post('/article/list', 'Home\ArticleController@getAllArticle');
+            // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
             
             Route::group(['middleware' =>  'auth'], function() {
-                Route::post('/user/edit', 'Home\UserController@editUser'); 
+                // 编辑用户信息
+                Route::post('/user/edit', 'Home\UserController@editUser');
+                // 修改密码 
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
 
+                // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
+                // 添加文章
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
+                // 删除文章
                 Route::post('/article/del', 'Home\ArticleController@delArticle');
             });
         });

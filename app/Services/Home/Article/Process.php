@@ -110,7 +110,7 @@ class Process extends BaseProcess
 	/**
 	* 获取文章列表
 	*
-	* @param string $data;
+	* @param intval $data;
 	* @access public
 	* @return array
 	*/
@@ -135,11 +135,13 @@ class Process extends BaseProcess
 	{
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
+			$this->articleModel->increment('view', $id);
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
 	}
+
 
 }
 
