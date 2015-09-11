@@ -20,7 +20,7 @@ class UserValidate extends BaseValidate
 	{
 		// 创建验证规则
 		$rules = array(
-			'name' 		  => 'required',
+			'username'    => 'required',
 			'password'    => 'required',
 			'job' 		  => 'required',
 			'email'       => 'required'
@@ -28,7 +28,7 @@ class UserValidate extends BaseValidate
 
 		// 自定义验证信息
 		$messages = array(
-			'name.required'        => Lang::get('用户名不能为空'),
+			'username.required'    => Lang::get('用户名不能为空'),
 			'password.required'    => Lang::get('密码不能为空'),
 			'job.required'         => Lang::get('职位不能为空'),
 			'email.required'       => Lang::get('邮箱不能为空')
@@ -92,7 +92,7 @@ class UserValidate extends BaseValidate
 	{
 		// 创建验证规则
 		$rules = array(
-			'name' 		  => 'required',
+			'username' 	  => 'required',
 			'password'    => 'required',
 			'job' 		  => 'required',
 			'email'       => 'required'
@@ -100,7 +100,7 @@ class UserValidate extends BaseValidate
 
 		// 自定义验证信息
 		$messages = array(
-			'name.required'        => Lang::get('用户名不能为空'),
+			'username.required'    => Lang::get('用户名不能为空'),
 			'password.required'    => Lang::get('密码不能为空'),
 			'job.required'         => Lang::get('职位不能为空'),
 			'email.required'       => Lang::get('邮箱不能为空')

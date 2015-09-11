@@ -11,7 +11,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		//获取用户信息
 		getUserInfo: function(callback) {
-			BaseModel.post('/getUserInfo',{}, callback);
+			BaseModel.post('/getUserInfoByLogin',{}, callback);
 		}
 	};
 	return UserModel;

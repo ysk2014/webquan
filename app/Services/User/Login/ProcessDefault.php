@@ -68,12 +68,10 @@ class ProcessDefault extends AbstractProcess {
             SC::setUserPermissionSession($userInfo['status']);
             // event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
             $result = ['error'=>false, 'msg'=>'登录成功'];
-            return $result;
         } else {
             $result = ['error'=>true, 'msg'=>'密码错误'];
-            return $result;
         }
-        
+        return $result;
     }
 
     /**

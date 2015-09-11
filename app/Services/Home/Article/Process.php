@@ -46,13 +46,19 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function addArticle($data)
+	public function addArticle(\App\Services\Home\Article\ArticleSave $data)
 	{
+		$resultArr = [];
 		// 进行文章表单验证
-		if( !$this->articleValidate->add($data)) return $this->setErrorMsg($this->articleValidate->getErrorMessage());
+		if( !$this->articleValidate->add($data) ) 
+			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
 
-		if($this->articleModel->addArticle($data) != false) return true;
-		return $this->setErrorMsg('添加失败');
+		if($this->articleModel->addArticle($data->toArray()) != false) {
+			$resultArr = array('error'=>false, 'msg'=>'创建成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'创建失败');
+		}
+		return $resultArr;
 	}
 
 	/**
@@ -64,10 +70,15 @@ class Process extends BaseProcess
 	*/
 	public function delArticle($ids)
 	{
-		if( !is_array($ids) ) return false;
+		$resultArr = [];
+		if( !is_array($ids) ) return array('error'=>true,'msg'=>'没有文章id');
 
-		if($this->articleModel->delArticle($ids) != false) return true;
-		return $this->setErrorMsg('删除失败');
+		if($this->articleModel->delArticle($ids) != false) {
+			$resultArr = array('error'=>false, 'msg'=>'删除成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'删除失败');
+		}
+		return $resultArr;
 	}
 
 
@@ -78,20 +89,57 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function editArticle($data)
-	{
-		if( !is_array($data->id) ) return $this->setErrorMsg('没有文章id');
+	public function editArticle(\App\Services\Home\Article\ArticleSave $data)
+	{	
+		$resultArr = [];
+		if( !isset($data->id) ) return array('error'=>true,'msg'=>'没有文章id');
 		// 进行文章表单验证
-		if( !$this->articleValidate->edit($data)) return $this->setErrorMsg($this->articleValidate->getErrorMessage());
+		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
 
 		$id = intval($data->id);
 		unset($data->id);
 
-		if($this->articleModel->editArticle($data, $id) != false) return true;
-		return $this->setErrorMsg('编辑失败');
+		if($this->articleModel->editArticle($data, $id) != false) {
+			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
+		}
+		return $resultArr;
 	}
 
+	/**
+	* 获取文章列表
+	*
+	* @param string $data;
+	* @access public
+	* @return array
+	*/
+	public function getAllArticle($data)
+	{
+		$articleInfo = $this->articleModel->getAllArticle($data);
+		if($articleInfo) {
+			return array('error'=>false,'data'=>$articleInfo);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
 
+	/**
+	* 获取文章信息
+	*
+	* @param intval $id;
+	* @access public
+	* @return array
+	*/
+	public function getArticleById($id)
+	{
+		$articleInfo = $this->articleModel->getArtById($id);
+		if($articleInfo) {
+			return array('error'=>false,'data'=>$articleInfo);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
 
 }
 

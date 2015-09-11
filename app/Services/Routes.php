@@ -58,25 +58,29 @@ class Routes
     {
         Route::group(['domain' =>  $this->wwwDomain], function()
         {
+            Route::get('/', 'Home\HomeController@index');
+
             Route::get('/login', 'Home\UserController@login');
             Route::post('/sign_in', 'Home\UserController@getProc');
             Route::post('/sign_up', 'Home\UserController@addUser');
             Route::get('/sign_out', 'Home\UserController@getOut');
 
-            Route::post('/getUserInfo', 'Home\UserController@getUserInfo');
+            Route::get('/user', 'Home\UserController@index'); 
+            Route::post('/user/info', 'Home\UserController@getUserInfoById'); 
 
-            Route::get('/', 'Home\HomeController@index');
-            Route::post('/home', 'Home\HomeController@home');
+            Route::post('/getUserInfoByLogin', 'Home\UserController@getUserInfoByLogin');
 
-            Route::get('/cloumn/{id}', 'Home\CloumnController@showCloumn');
+            Route::get('/article', 'Home\ArticleController@index');
+            Route::post('/article/list', 'Home\ArticleController@getAllArticle');
+            Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
             
-            Route::group(['middleware' =>  'auth'], function(){
-                Route::get('/cloumn', 'Home\CloumnController@index'); 
-                Route::get('/cloumn/new', 'Home\CloumnController@newIndex'); 
-                Route::post('/cloumn/create', 'Home\CloumnController@addCloumn'); 
+            Route::group(['middleware' =>  'auth'], function() {
+                Route::post('/user/edit', 'Home\UserController@editUser'); 
+                Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
 
-                Route::get('/article', 'Home\ArticleController@index'); 
-                Route::get('/article/cloumn', 'Home\ArticleController@cloumn');  
+                Route::post('/article/edit', 'Home\ArticleController@editArticle');
+                Route::post('/article/add', 'Home\ArticleController@addArticle');
+                Route::post('/article/del', 'Home\ArticleController@delArticle');
             });
         });
         return $this;

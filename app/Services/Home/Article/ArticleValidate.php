@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Home\ArticleValidate;
+namespace App\Services\Home\Article;
 
 use App\Services\BaseValidate;
 use Validator, Lang;
@@ -16,7 +16,7 @@ class ArticleValidate extends BaseValidate
 	*
 	* @access public
 	*/
-	public function add($data)
+	public function add(\App\Services\Home\Article\ArticleSave $data)
 	{
 		// 创建验证规则
 		$rules = array(
@@ -37,7 +37,7 @@ class ArticleValidate extends BaseValidate
 		);
 
 		// 开始验证
-		$validator = Validator::make($data,$rules,$messages);
+		$validator = Validator::make($data->toArray(),$rules,$messages);
 		if($validator->fails())
 		{
 			$this->errorMsg = $validator->messages()->first();
@@ -52,7 +52,7 @@ class ArticleValidate extends BaseValidate
 	*
 	* @access public
 	*/
-	public function edit($data)
+	public function edit(\App\Services\Home\Article\ArticleSave $dat)
 	{
 		$this->add($data);
 	}

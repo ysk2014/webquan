@@ -67,11 +67,11 @@ class Article extends Base
     }
 
     /**
-     * 获取所有专题信息
+     * 获取所有文章信息
      * 
      * @param $data 排序
      */
-    public function getArts($data)
+    public function getAllArticle($data)
     {
         return $this->select(array('article.*','user.*'))
                     ->leftJoin('user','article.uid','=','user.id')

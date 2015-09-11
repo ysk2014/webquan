@@ -32,7 +32,7 @@ class UserController extends Controller {
 	/**
 	* 登陆注册页面
 	*/
-	public function login(LoginProcess $loginProcess)
+	public function login()
 	{
 		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		// if($isLogin) return redirect('home.app');
@@ -63,33 +63,91 @@ class UserController extends Controller {
     /**
      * 开始注册处理
      *
-     * @param App\Services\User\Process $process 登录核心处理
+     * @param App\Services\User\Process $process 用户核心处理
      * @access public
      */
 	public function addUser(UserActionProcess $manager)
 	{
 		$data = (array) Request::input('data');
 		$data['addtime'] = time();
+
 		$param = new \App\Services\User\Param\UserSave();
 		$param->setAttributes($data);
-		if($msg = $manager->addUser($param)){
-			 return response()->json(['msg' => '注册成功', 'error' => false]);
-		}else{
-			$error = $manager->getErrorMessage();
-			return response()->json(['msg' => $error, 'error' => true]);
-		}
-		
+
+		$result = $manager->addUser($param);
+
+		return $result;
 	}
 
     /**
-     * 判断用户是否登陆并获取用户信息
+     * 编辑用户信息
+     *
+     * @param App\Services\User\Process $process 用户核心处理
+     * @access public
      */
-    public function getUserInfo(LoginProcess $loginProcess)
+	public function editUser(UserActionProcess $manager)
+	{
+		$data = (array) Request::input('data');
+		// $data['addtime'] = time();
+		$param = new \App\Services\User\Param\UserSave();
+		$param->setAttributes($data);
+
+		$result = $manager->editUser($param);
+		
+		return response()->json($result);
+	}
+
+    /**
+     * 删除用户
+     *
+     * @access public
+     */
+	public function delUser()
+	{
+		$id = Request::input('id');
+		$ids = [$id];
+		$result = $manager->delUser($ids);
+		return response()->json($result);
+	}
+
+    /**
+     * 修改密码
+     *
+     * @param App\Services\User\Process $process 用户核心处理
+     * @access public
+     */
+	public function modifyPassword(UserActionProcess $manager)
+	{
+		$data = (array) Request::input('data');
+
+		$param = new \App\Services\User\Param\UserModifyPassword();
+		$param->setAttributes($data);
+
+		$result = $manager->modifyPassword($param);
+		
+		return response()->json($result);
+	}
+
+    /**
+     * 获取登录用户的信息
+     */
+    public function getUserInfoByLogin(LoginProcess $loginProcess)
     {
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
 		return response()->json($data);
     }
+
+    /**
+     * 根据用户的id获取用户的信息
+     */
+    public function getUserInfoById(UserActionProcess $manager)
+    {
+		$id = intval(Request::input('id'));
+		$result = $manager->getUserInfoById($id);
+		return response()->json($result);
+    }
+
 
     /**
      * 登录退出
