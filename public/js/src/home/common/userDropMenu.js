@@ -4,7 +4,7 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
 	var mixin = {
 		init: function() {
 			var _this = this;
-            UserModel.getUserInfo(function(success, data) {
+            UserModel.getUserInfoByLogin(function(success, data) {
                 if(success) {
 					_this.setState({
 						userInfo : data ? data : []
@@ -32,10 +32,20 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
 					{ 
 						(len <= 0) ? (
 							<div>
-								<div><a href="/login">登陆</a></div>
-								<div><a href="/login">注册</a></div>
+								<a className="login" href="/login">
+									<i className="fa fa-user"></i>
+									<span>注册</span>
+								</a>
+								<a className="login" href="/login">
+									<i className="fa fa-sign-in"></i>
+									<span>登陆</span>
+								</a>
 							</div>
-						) : null
+						) : (
+							<div>
+								<a></a>
+							</div>
+						)
 					}
 					
 				</div>

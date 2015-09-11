@@ -379,6 +379,18 @@
 
 .drop-menu {
 	position: fixed;
-	top: 0;
-	right: 10px;
+	top: 10px;
+	right: 0;
+	margin-bottom: 0;
+	z-index: 1010;
+}
+.drop-menu .login{
+    position: relative;
+    top: 7px;
+    float: right;
+    padding: 0 2px;
+    margin-right: 8px;
+}
+.drop-menu .login i{
+	margin-right: 4px;
 }
