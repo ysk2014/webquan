@@ -138,7 +138,8 @@ input:focus{
 .login-page .title span a{
   color: #b1b1b1;
 }
-.login-page .title span a.active{
+.login-page .title span a.active,
+.login-page .title span a:hover{
   color: #555;
 }
 .login-page .title span b{

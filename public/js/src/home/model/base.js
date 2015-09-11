@@ -32,8 +32,6 @@ define(['jquery'],function($) {
 	    },
         handleStatus: function(jqXHR) {
             if (jqXHR.status == 401) {
-                Router.login();
-                Router.tooltip('登陆超时，请重新登录！', 3);
                 return true;
             }
 

@@ -32,7 +32,7 @@ class UserController extends Controller {
 	/**
 	* 登陆注册页面
 	*/
-	public function login()
+	public function login($way)
 	{
 		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
 		// if($isLogin) return redirect('home.app');
@@ -52,7 +52,7 @@ class UserController extends Controller {
 		$password = Request::input('password');
 		// 进行表单验证
 		if($error = $loginProcess->getProcess()->validate($username,$password)){
-			 return response()->json(['msg' => $error, 'result' => false]);
+			 return response()->json(['msg' => $error, 'error' => true]);
 		}
 		// 开始登陆验证
 		$userInfo = $loginProcess->getProcess()->check($username,$password);

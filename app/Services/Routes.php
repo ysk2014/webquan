@@ -62,7 +62,7 @@ class Routes
             Route::get('/', 'Home\HomeController@index');
 
             // 登录页
-            Route::get('/login', 'Home\UserController@login');
+            Route::get('/login/{way}', 'Home\UserController@login');
             // 登录处理
             Route::post('/sign_in', 'Home\UserController@getProc');
             // 注册处理

@@ -10,10 +10,10 @@ requirejs.config({
     },
 
     shim: {
-        WQ:{
-            deps:[ 'jquery','jqueryextend'],
-            exports:'WQ'
-        },
+        jqueryextend: {
+            deps:[ 'jquery'],
+            exports:'jqueryextend'
+        }
     },
     waitSeconds: 30
 });
@@ -41,7 +41,7 @@ requirejs([
     var routes = (
         <Route handler={App}>
             <Route name="home" path="/" handler={Home}/>
-            <Route path="/login" handler={Login}/>
+            <Route path="/login/:way" handler={Login}/>
         </Route>
     );
 
