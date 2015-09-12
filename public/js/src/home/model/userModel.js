@@ -7,7 +7,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		// 注册处理
 		register: function(data, callback) {
-			BaseModel.post('/sign_up',data, callback);
+			BaseModel.post('/sign_up',{'data':data}, callback);
 		},
 		//获取登录用户信息
 		getUserInfoByLogin: function(callback) {

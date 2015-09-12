@@ -60,7 +60,7 @@ class Process extends BaseProcess
 		if($this->userModel->addUser($data->toArray()) !== false ) {
             $resultArr = array('error'=> false, 'msg'=>'注册成功');
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'注册失败')；
+            $resultArr = array('error'=>true, 'msg'=>'注册失败');
         }
         return $resultArr;
 	}

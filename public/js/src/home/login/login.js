@@ -28,16 +28,6 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
                 job: event.target.value,
             });
         },
-        // nav切换
-        changeNav: function(event) {
-            var _this = this;
-            var nav = $(event.target).data('nav');
-            if(nav != _this.state.nav) {
-                _this.setState({
-                    nav: nav
-                });
-            }
-        },
         // 登陆处理
         handleSignIn: function() {
             var _this = this;
@@ -75,6 +65,7 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
             if(_this.state.nav=='sign_in') {
                 _this.handleSignIn();
             } else if(_this.state.nav == 'sign_up') {
+                console.log(111);
                 _this.handleSignUp();
             }
         },
@@ -91,16 +82,18 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
                 job: '',
             }
         },
+
         render: function() {
             var _this = this;
+            console.log(_this.props.params.way);
             return (
                 <div className="login-page">
                     <div className="logo"></div>
                     <h4 className="title">
                         <span>
-                            <a className={_this.state.nav=='sign_in' ? "active" : ""} data-nav="sign_in" onClick={this.changeNav} href="javascript:void(0);">登陆</a>
+                            <a className={_this.state.nav=='sign_in' ? "active" : ""} href="/login/sign_in">登陆</a>
                             <b>·</b>
-                            <a className={_this.state.nav=='sign_up' ? "active" : ""} data-nav="sign_up" onClick={this.changeNav} href="javascript:void(0);">注册</a>
+                            <a className={_this.state.nav=='sign_up' ? "active" : ""} href="/login/sign_up">注册</a>
                         </span>
                     </h4>
                     <div className="login-contianer">
@@ -135,7 +128,7 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
                                 </div>) : null
                             }
                             
-                            <a className="submit-button" onClick={this.handleSubmit}>{_this.state.nav=='sign_in' ? "登陆" : "注册"}</a>
+                            <a className="submit-button" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
                         </form>
                     </div>
                 </div>
