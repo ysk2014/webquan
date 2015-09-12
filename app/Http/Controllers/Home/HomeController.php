@@ -13,8 +13,7 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		// $this->middleware('auth');
-		$this->navStatus = 'home';
+		// $this->navStatus = 'home';
 	}
 
 	/**
@@ -22,12 +21,9 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(LoginProcess $loginProcess)
+	public function index()
 	{	
-		$data = ['navStatus'=>$this->navStatus];
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) $data = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
-		return view('home/home',$data);
+		return view('home/app');
 	}
 
 }

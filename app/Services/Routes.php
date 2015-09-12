@@ -58,23 +58,44 @@ class Routes
     {
         Route::group(['domain' =>  $this->wwwDomain], function()
         {
-            Route::get('/sign_in', 'Home\UserController@login');
-            Route::get('/sign_up', 'Home\UserController@register');
-            Route::post('/login', 'Home\UserController@getProc');
-            Route::post('/register', 'Home\UserController@addUser');
-            Route::get('/sign_out', 'Home\UserController@getOut');
-
+            // 主页
             Route::get('/', 'Home\HomeController@index');
 
-            Route::get('/cloumn/{id}', 'Home\CloumnController@showCloumn');
-            
-            Route::group(['middleware' =>  'auth'], function(){
-                Route::get('/cloumn', 'Home\CloumnController@index'); 
-                Route::get('/cloumn/new', 'Home\CloumnController@newIndex'); 
-                Route::post('/cloumn/create', 'Home\CloumnController@addCloumn'); 
+            // 登录页
+            Route::get('/login/{way}', 'Home\UserController@login');
+            // 登录处理
+            Route::post('/sign_in', 'Home\UserController@getProc');
+            // 注册处理
+            Route::post('/sign_up', 'Home\UserController@addUser');
+            // 退出
+            Route::get('/sign_out', 'Home\UserController@getOut');
 
-                Route::get('/article', 'Home\ArticleController@index'); 
-                Route::get('/article/cloumn', 'Home\ArticleController@cloumn');  
+            // 个人首页
+            Route::get('/user', 'Home\UserController@index');
+            // 根据id获取用户信息 
+            Route::post('/user/info', 'Home\UserController@getUserInfoById'); 
+            // 获取登录用户的信息
+            Route::post('/user/me', 'Home\UserController@getUserInfoByLogin');
+
+            // 文章页
+            Route::get('/article', 'Home\ArticleController@index');
+            // 文章列表
+            Route::post('/article/list', 'Home\ArticleController@getAllArticle');
+            // 获取单个文章信息
+            Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
+            
+            Route::group(['middleware' =>  'auth'], function() {
+                // 编辑用户信息
+                Route::post('/user/edit', 'Home\UserController@editUser');
+                // 修改密码 
+                Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
+
+                // 编辑文章
+                Route::post('/article/edit', 'Home\ArticleController@editArticle');
+                // 添加文章
+                Route::post('/article/add', 'Home\ArticleController@addArticle');
+                // 删除文章
+                Route::post('/article/del', 'Home\ArticleController@delArticle');
             });
         });
         return $this;

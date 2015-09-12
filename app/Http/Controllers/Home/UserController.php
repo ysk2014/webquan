@@ -26,17 +26,17 @@ class UserController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home.login');
+		return view('home.app');
 	}
 
 	/**
-	* 登陆页面
+	* 登陆注册页面
 	*/
-	public function login(LoginProcess $loginProcess)
+	public function login($way)
 	{
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) return redirect('home.home');
-		return view('home.login.signIn');
+		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		// if($isLogin) return redirect('home.app');
+		return view('home.app');
 	}
 
 
@@ -52,44 +52,102 @@ class UserController extends Controller {
 		$password = Request::input('password');
 		// 进行表单验证
 		if($error = $loginProcess->getProcess()->validate($username,$password)){
-			 return response()->json(['msg' => $error, 'result' => false]);
+			 return response()->json(['msg' => $error, 'error' => true]);
 		}
 		// 开始登陆验证
 		$userInfo = $loginProcess->getProcess()->check($username,$password);
 		
-		$result = $userInfo ? ['msg' => '登录成功', 'result' => true]
-                                : ['msg' => '登录失败', 'result' => false];
-		return response()->json($result);
-	}
-
-	/**
-	* 注册页面
-	*/
-	public function register()
-	{
-		return view('home.login.signUp');
+		return response()->json($userInfo);
 	}
 
     /**
      * 开始注册处理
      *
-     * @param App\Services\User\Process $process 登录核心处理
+     * @param App\Services\User\Process $process 用户核心处理
      * @access public
      */
 	public function addUser(UserActionProcess $manager)
 	{
 		$data = (array) Request::input('data');
 		$data['addtime'] = time();
+
 		$param = new \App\Services\User\Param\UserSave();
 		$param->setAttributes($data);
-		if($msg = $manager->addUser($param)){
-			 return response()->json(['msg' => '注册成功', 'result' => true]);
-		}else{
-			$error = $manager->getErrorMessage();
-			return response()->json(['msg' => $error, 'result' => false]);
-		}
-		
+
+		$result = $manager->addUser($param);
+
+		return $result;
 	}
+
+    /**
+     * 编辑用户信息
+     *
+     * @param App\Services\User\Process $process 用户核心处理
+     * @access public
+     */
+	public function editUser(UserActionProcess $manager)
+	{
+		$data = (array) Request::input('data');
+		// $data['addtime'] = time();
+		$param = new \App\Services\User\Param\UserSave();
+		$param->setAttributes($data);
+
+		$result = $manager->editUser($param);
+		
+		return response()->json($result);
+	}
+
+    /**
+     * 删除用户
+     *
+     * @access public
+     */
+	public function delUser()
+	{
+		$id = Request::input('id');
+		$ids = [$id];
+		$result = $manager->delUser($ids);
+		return response()->json($result);
+	}
+
+    /**
+     * 修改密码
+     *
+     * @param App\Services\User\Process $process 用户核心处理
+     * @access public
+     */
+	public function modifyPassword(UserActionProcess $manager)
+	{
+		$data = (array) Request::input('data');
+
+		$param = new \App\Services\User\Param\UserModifyPassword();
+		$param->setAttributes($data);
+
+		$result = $manager->modifyPassword($param);
+		
+		return response()->json($result);
+	}
+
+    /**
+     * 获取登录用户的信息
+     */
+    public function getUserInfoByLogin(LoginProcess $loginProcess)
+    {
+		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
+		return response()->json($data);
+    }
+
+    /**
+     * 根据用户的id获取用户的信息
+     */
+    public function getUserInfoById(UserActionProcess $manager)
+    {
+		$id = intval(Request::input('id'));
+		$result = $manager->getUserInfoById($id);
+		return response()->json($result);
+    }
+
 
     /**
      * 登录退出
