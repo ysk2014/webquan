@@ -56,16 +56,22 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
             }
             UserModel.register(data,function(success,data) {
                 if (success) {
-                    alert("注册成功");
+                    if(!data.error) {
+                        alert("注册成功");
+                        _this.setState({
+                            nav: "sign_in",
+                        });
+                    } else {
+                        alert(data.msg);
+                    }
                 };
             });
         },
         handleSubmit: function() {
             var _this = this;
-            if(_this.state.nav=='sign_in') {
+            if(_this.state.nav == 'sign_in') {
                 _this.handleSignIn();
             } else if(_this.state.nav == 'sign_up') {
-                console.log(111);
                 _this.handleSignUp();
             }
         },
