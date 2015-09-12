@@ -55,12 +55,27 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
                 }
             });
         },
+        //注册处理
+        handleSignUp: function() {
+            var _this = this;
+            var data = {
+                username: _this.state.username,
+                password: _this.state.password,
+                   email: _this.state.email,
+                     job: _this.state.job,
+            }
+            UserModel.register(data,function(success,data) {
+                if (success) {
+                    alert("注册成功");
+                };
+            });
+        },
         handleSubmit: function() {
             var _this = this;
             if(_this.state.nav=='sign_in') {
                 _this.handleSignIn();
             } else if(_this.state.nav == 'sign_up') {
-
+                _this.handleSignUp();
             }
         },
     };
@@ -120,7 +135,7 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
                                 </div>) : null
                             }
                             
-                            <a className="submit-button" onClick={this.handleSubmit}>登陆</a>
+                            <a className="submit-button" onClick={this.handleSubmit}>{_this.state.nav=='sign_in' ? "登陆" : "注册"}</a>
                         </form>
                     </div>
                 </div>
