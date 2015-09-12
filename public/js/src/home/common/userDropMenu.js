@@ -60,7 +60,7 @@ define(['react', 'jquery', 'home/model/userModel', 'jqueryextend'],function(Reac
 					</a>
 					<ul className="dropdown-menu arrow-top">
 						<li>
-							<a href="/">
+							<a href="/article/edit">
 								<i className="fa fa-pencil"></i>
 								<span>写文章</span>
 							</a>

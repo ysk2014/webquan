@@ -92,6 +92,8 @@ class Routes
 
                 // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
+                // 编辑文章页
+                Route::get('/article/edit', 'Home\ArticleController@editPage');
                 // 添加文章
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
                 // 删除文章

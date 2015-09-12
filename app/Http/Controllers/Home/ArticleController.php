@@ -25,6 +25,15 @@ class ArticleController extends Controller {
 	}
 
 	/**
+	 * edit article
+	 *
+	 */
+	public function editPage()
+	{
+		return view('home.article');
+	}
+
+	/**
 	 * 获取文章列表
 	 *
 	 * @return Response
