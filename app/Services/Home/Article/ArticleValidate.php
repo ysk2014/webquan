@@ -22,6 +22,7 @@ class ArticleValidate extends BaseValidate
 		$rules = array(
 			'title' 		  => 'required',
 			'content'    	  => 'required',
+			'description'     => 'description',
 			'cid' 		      => 'required',
 			'uid'             => 'required',
 			'is_publish'      => 'required',
@@ -31,6 +32,7 @@ class ArticleValidate extends BaseValidate
 		$messages = array(
 			'title.required'         => Lang::get('标题不能为空'),
 			'content.required'       => Lang::get('内容不能为空'),
+			'description.required'   => Lang::get('描述不能为空'),
 			'cid.required'           => Lang::get('专题不能为空'),
 			'uid.required'           => Lang::get('作者不能为空'),
 			'is_publish.required'    => Lang::get('公布不能为空'),

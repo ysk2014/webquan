@@ -15,6 +15,8 @@ class ArticleSave extends AbstractParam
 
     protected $content;
 
+    protected $description;
+
     protected $cid;
 
     protected $uid;
@@ -41,7 +43,13 @@ class ArticleSave extends AbstractParam
 
     public function setContent($content)
     {
-        $this->realname = $this->attributes['realname'] = $realname;
+        $this->content = $this->attributes['content'] = $content;
+        return $this;
+    }
+
+    public function seDescription($description)
+    {
+        $this->description = $this->attributes['description'] = $realname;
         return $this;
     }
 

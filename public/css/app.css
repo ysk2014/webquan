@@ -206,6 +206,7 @@ input:focus{
 }
 
 .login-page .submit-button{
+  display: block;
   width: 100%;
   background: #049cdb;
   padding: 14px 18px;

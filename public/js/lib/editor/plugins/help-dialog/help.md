@@ -58,20 +58,3 @@
 | Ctrl + Shift + Alt + U                          | 将所选文本的第一个首字母转成大写  | Selection text first letter convert to uppercase   |
 | Ctrl + Alt + G                                  | 跳转到指定的行                    | Goto line                                          |
 
-##### Emoji表情参考 (Emoji reference)
-
-- [Github emoji](http://www.emoji-cheat-sheet.com/ "Github emoji")
-- [Twitter Emoji \(Twemoji\)](http://twitter.github.io/twemoji/preview.html "Twitter Emoji \(Twemoji\)")
-- [FontAwesome icons emoji](http://fortawesome.github.io/Font-Awesome/icons/ "FontAwesome icons emoji")
-
-##### 流程图参考 (Flowchart reference)
-
-[http://adrai.github.io/flowchart.js/](http://adrai.github.io/flowchart.js/)
-
-##### 时序图参考 (SequenceDiagram reference)
-
-[http://bramp.github.io/js-sequence-diagrams/](http://bramp.github.io/js-sequence-diagrams/)
-
-##### TeX/LaTeX reference
-
-[http://meta.wikimedia.org/wiki/Help:Formula](http://meta.wikimedia.org/wiki/Help:Formula)

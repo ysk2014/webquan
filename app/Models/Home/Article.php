@@ -21,7 +21,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'is_check', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'is_check', 'addtime');
 
     /**
      * 增加文章

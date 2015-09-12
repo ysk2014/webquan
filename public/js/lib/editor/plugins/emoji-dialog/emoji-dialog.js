@@ -19,19 +19,6 @@
 		var emojiData     = [];
         var selecteds     = [];
 
-		var logoPrefix    = "editormd-logo";
-		var logos         = [
-			logoPrefix,
-			logoPrefix + "-1x",
-			logoPrefix + "-2x",
-			logoPrefix + "-3x",
-			logoPrefix + "-4x",
-			logoPrefix + "-5x",
-			logoPrefix + "-6x",
-			logoPrefix + "-7x",
-			logoPrefix + "-8x"
-		];
-
 		var langs = {
 			"zh-cn" : {
 				toolbar : {
@@ -169,7 +156,7 @@
 			}
             
 			var tabBoxs = tab.find("." + classPrefix + "tab-box");
-            var emojiCategories = ["github-emoji", "twemoji", "font-awesome", logoPrefix];
+            var emojiCategories = ["github-emoji", "twemoji", "font-awesome"];
 
 			var drawTable = function() {
                 var cname = emojiCategories[emojiTabIndex];
@@ -218,11 +205,6 @@
                                 {
                                     icon = "<i class=\"fa fa-" + emoji + " fa-emoji\" title=\"" + emoji + "\"></i>";
                                     row += "<a href=\"javascript:;\" value=\":fa-" + emoji + ":\" title=\":fa-" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
-                                }
-                                else if (type === "editormd-logo")
-                                {
-                                    icon = "<i class=\"" + emoji + "\" title=\"Editor.md logo (" + emoji + ")\"></i>";
-                                    row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" style=\"width:20%;\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
                                 }
                             }
                             else
@@ -278,7 +260,6 @@
                     }
 
 					emojiData = json;
-                    emojiData[logoPrefix] = logos;
 					drawTable();
 				});
 			} 
