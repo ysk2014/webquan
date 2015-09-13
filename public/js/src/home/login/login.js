@@ -1,6 +1,49 @@
 
 define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel) {
 
+function alert(content){
+  $("body").append("<div id='alertMask' class='alert-mask'></div>");
+  var AlertBox = React.createClass({
+  componentDidMount: function(){
+    var mLeft = parseInt($(".alert-box").css("width"))/2;
+    $(".alert-box").css({"margin-left":-mLeft});
+    var i = 0;
+    var timer = setInterval(
+      function(){
+        i++;
+        if(i >= 5){
+          clearInterval(timer);
+          $(".alert-box").remove();
+          $(".alert-mask").remove();
+        }
+      },1000);
+  },
+  removeDom: function(){
+    $(".alert-box").remove();
+    $(".alert-mask").remove();
+  },
+  render: function(){
+    return (
+      <div className="alert-box">
+        <div className="top">
+          <h4>提示:</h4>
+          <p>{content}</p>
+        </div>
+        <div className="bottom">
+          <input type="button" value="确定" onClick={this.removeDom} />
+        </div>
+      </div>
+    );
+  }
+});
+  React.render(
+    <AlertBox />,
+    document.getElementById("alertMask")
+    )
+};
+
+
+
 
     var mixin = {
         // 输入框的值改变
@@ -56,16 +99,22 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
             }
             UserModel.register(data,function(success,data) {
                 if (success) {
-                    alert("注册成功");
+                    if(!data.error) {
+                        alert("注册成功");
+                        _this.setState({
+                            nav: "sign_in",
+                        });
+                    } else {
+                        alert(data.msg);
+                    }
                 };
             });
         },
         handleSubmit: function() {
             var _this = this;
-            if(_this.state.nav=='sign_in') {
+            if(_this.state.nav == 'sign_in') {
                 _this.handleSignIn();
             } else if(_this.state.nav == 'sign_up') {
-                console.log(111);
                 _this.handleSignUp();
             }
         },
@@ -87,7 +136,7 @@ define(['react', 'jquery', 'home/model/userModel'],function(React, $, UserModel)
             var _this = this;
             console.log(_this.props.params.way);
             return (
-                <div className="login-page">
+                <div className="login-page" id="login-page">
                     <div className="logo"></div>
                     <h4 className="title">
                         <span>
