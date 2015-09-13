@@ -10,31 +10,7 @@
  * @updateTime  2015-06-09
  */
 
-;(function(factory) {
-    "use strict";
-    
-	// CommonJS/Node.js
-	if (typeof require === "function" && typeof exports === "object" && typeof module === "object")
-    { 
-        module.exports = factory;
-    }
-	else if (typeof define === "function")  // AMD/CMD/Sea.js
-	{
-        if (define.amd) // for Require.js
-        {
-            /* Require.js define replace */
-        } 
-        else 
-        {
-		    define(["jquery"], factory);  // for Sea.js
-        }
-	} 
-	else
-	{ 
-        window.editormd = factory();
-	}
-    
-}(function() {    
+define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeMirror, marked, prettify){
 
     /* Require.js assignment replace */
     
@@ -53,10 +29,11 @@
      * @param   {Object} options      配置选项 Key/Value
      * @returns {Object} editormd     返回editormd对象
      */
-    
+   
     var editormd         = function (id, options) {
         return new editormd.fn.init(id, options);
     };
+
     
     editormd.title        = editormd.$name = "Editor.md";
     editormd.version      = "1.5.0";
@@ -451,105 +428,15 @@
                 this.preview.addClass(classPrefix + "preview-theme-" + settings.previewTheme);
             }
             
-            if (typeof define === "function" && define.amd)
-            {
-                if (typeof katex !== "undefined") 
-                {
-                    editormd.$katex = katex;
-                }
-                
-                if (settings.searchReplace && !settings.readOnly) 
-                {
-                    editormd.loadCSS(settings.path + "codemirror/addon/dialog/dialog");
-                    editormd.loadCSS(settings.path + "codemirror/addon/search/matchesonscrollbar");
-                }
-            }
-            
-            if ((typeof define === "function" && define.amd) || !settings.autoLoadModules)
-            {
-                if (typeof CodeMirror !== "undefined") {
-                    editormd.$CodeMirror = CodeMirror;
-                }
-                
-                if (typeof marked     !== "undefined") {
-                    editormd.$marked     = marked;
-                }
-                
-                this.setCodeMirror().setToolbar().loadedDisplay();
-            } 
-            else 
-            {
-                this.loadQueues();
-            }
-
-            return this;
-        },
-        
-        /**
-         * 所需组件加载队列
-         * Required components loading queue
-         * 
-         * @returns {editormd}  返回editormd的实例对象
-         */
-        
-        loadQueues : function() {
-            var _this        = this;
-            var settings     = this.settings;
-            var loadPath     = settings.path;
-
-            editormd.loadCSS(loadPath + "codemirror/codemirror.min");
-            
-            if (settings.searchReplace && !settings.readOnly)
-            {
-                editormd.loadCSS(loadPath + "codemirror/addon/dialog/dialog");
-                editormd.loadCSS(loadPath + "codemirror/addon/search/matchesonscrollbar");
-            }
-            
-            if (settings.codeFold)
-            {
-                editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter");            
-            }
-            
-            editormd.loadScript(loadPath + "codemirror/codemirror.min", function() {
+            if (typeof CodeMirror !== "undefined") {
                 editormd.$CodeMirror = CodeMirror;
-                
-                editormd.loadScript(loadPath + "codemirror/modes.min", function() {
-                    
-                    editormd.loadScript(loadPath + "codemirror/addons.min", function() {
-                        
-                        _this.setCodeMirror();
-                        
-                        if (settings.mode !== "gfm" && settings.mode !== "markdown") 
-                        {
-                            _this.loadedDisplay();
-                            
-                            return false;
-                        }
-                        
-                        _this.setToolbar();
-
-                        editormd.loadScript(loadPath + "marked.min", function() {
-
-                            editormd.$marked = marked;
-                                
-                            if (settings.previewCodeHighlight) 
-                            {
-                                editormd.loadScript(loadPath + "prettify.min", function() {
-                                     _this.loadedDisplay();
-                                });
-                            } 
-                            else
-                            {                  
-                                 _this.loadedDisplay();
-                            }
-                        });
-                        
-                    });
-                    
-                });
-                
-            });
-
+            }
+            
+            if (typeof marked     !== "undefined") {
+                editormd.$marked     = marked;
+            }
+            this.setCodeMirror().setToolbar().loadedDisplay();
+            
             return this;
         },
         
@@ -1214,6 +1101,7 @@
                 if (typeof toolbarIconHandlers[name] !== "undefined") 
                 {
                     $.proxy(toolbarIconHandlers[name], _this)(cm);
+                    console.log(11);
                 }
                 else 
                 {
@@ -1934,7 +1822,7 @@
                 
                 return this;
             }
-            
+
             var marked          = editormd.$marked;
             var markdownToC     = this.markdownToC = [];            
             var rendererOptions = this.markedRendererOptions = {  
@@ -3034,7 +2922,7 @@
         },
 
         link : function() {
-            this.executePlugin("linkDialog", "link-dialog/link-dialog");
+            // this.executePlugin("linkDialog", "link-dialog/link-dialog");
         },
 
         "reference-link" : function() {
@@ -4542,7 +4430,6 @@
 
         return datefmt;
     };
-
     return editormd;
 
-}));
+});
