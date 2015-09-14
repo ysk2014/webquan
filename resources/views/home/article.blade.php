@@ -69,35 +69,6 @@
 
             <div class="input-prepend"><a class="submit-button" href="">发布文章</a></div>
         </div>
-        <!-- // <script src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script> -->
-        <!-- // <script src="{{ asset('js/lib/editor/lib/marked.min.js') }}"></script> -->
-        <!-- // <script src="{{ asset('js/lib/editor/lib/prettify.min.js') }}"></script> -->
-        <!-- // <script src="{{ asset('js/lib/editor/editormd.js') }}"></script> -->
-        <script type="text/javascript">
-			// var testEditor;
 
-   //          $(function() {
-   //              testEditor = editormd("test-editormd", {
-   //                  width   : "99.5%",
-   //                  height  : 640,
-   //                  // syncScrolling : "single",
-   //                  toolbarIcons: function() {
-   //                  	return [
-   //                  		"undo", "redo", "clear", "|", 
-			// 	            "bold", "italic", "quote", "uppercase", "lowercase", "|", 
-			// 	            "h1", "h2", "h3", "h4", "h5", "h6", "|", 
-			// 	            "list-ul", "list-ol", "hr", "|",
-			// 	            "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
-			// 	            "watch", "preview", "fullscreen", "help"
-   //                  	];
-   //                  },
-   //                  imageUpload: 'true',
-   //                  imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-   //                  imageUploadURL : "{{ asset('js/lib/editor/php/upload.php') }}",
-   //                  path    : "{{ asset('js/lib/editor/lib') }}/"
-   //              });
-   //              // editormd.markdownToHTML('test-editormd');
-   //          });
-        </script>
 </body>
 </html>

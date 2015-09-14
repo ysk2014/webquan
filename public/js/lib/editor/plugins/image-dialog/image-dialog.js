@@ -14,7 +14,6 @@
     var factory = function (exports) {
 
 		var pluginName   = "image-dialog";
-
 		exports.fn.imageDialog = function() {
 
             var _this       = this;

@@ -10,14 +10,9 @@ requirejs.config({
         codemirror      : 'editor/lib/codemirror/codemirror.min',
         marked          : 'editor/lib/marked.min',
         editormd        : 'editor/editormd',
+        plugins         : 'editor/plugins',
+        editorlib       : 'editor/lib',
         home            : "../build/home"
-    },
-
-    shim: {
-        editormd: {
-            deps:[ 'jquery','codemirror','marked','prettify'],
-            exports:'editormd'
-        }
     },
 
     waitSeconds: 30
@@ -27,11 +22,10 @@ requirejs([
         'react', 
         'jquery',
         'WQ',
-        'codemirror',
-        'marked',
-        'prettify',
-        'editormd'
-    ],function(React, $, WQ, Codemirror, marked, prettify, editormd){
+        'editormd',
+        "plugins/image-dialog/image-dialog",
+        "plugins/code-block-dialog/code-block-dialog",
+    ],function(React, $, WQ, editormd){
         console.log(editormd);
         // WQ.loadScript('/js/lib/editor/editormd',function() {
             // console.log(Codemirror);

@@ -17,42 +17,54 @@
     
 		// for CodeBlock dialog select
 		var codeLanguages = exports.codeLanguages = {
-			asp           : ["ASP", "vbscript"],
-			actionscript  : ["ActionScript(3.0)/Flash/Flex", "clike"],
-			bash          : ["Bash/Bat", "shell"],
+			html          : ["HTML", "text/html"],
 			css           : ["CSS", "css"],
+			less          : ["LESS", "css"],
+			sass          : ["SASS/SCSS", "sass"],
+			javascript    : ["Javascript", "javascript"],
+			php           : ["PHP", "php"],
+			json          : ["JSON", "text/json"],
+			sql           : ["SQL", "sql"],
+			shell         : ["Shell", "shell"],
+			markdown      : ["Markdown", "gfm"],
+			python        : ["Python", "python"],
+			java          : ["Java", "clike"],
+			// asp           : ["ASP", "vbscript"],
+			// actionscript  : ["ActionScript(3.0)/Flash/Flex", "clike"],
+			// bash          : ["Bash/Bat", "shell"],
+			
 			c             : ["C", "clike"],
 			cpp           : ["C++", "clike"],
 			csharp        : ["C#", "clike"],
-			coffeescript  : ["CoffeeScript", "coffeescript"],
-			d             : ["D", "d"],
-			dart          : ["Dart", "dart"],
-			delphi        : ["Delphi/Pascal", "pascal"],
-			erlang        : ["Erlang", "erlang"],
-			go            : ["Golang", "go"],
-			groovy        : ["Groovy", "groovy"],
-			html          : ["HTML", "text/html"],
-			java          : ["Java", "clike"],
-			json          : ["JSON", "text/json"],
-			javascript    : ["Javascript", "javascript"],
-			lua           : ["Lua", "lua"],
-			less          : ["LESS", "css"],
-			markdown      : ["Markdown", "gfm"],
+			// coffeescript  : ["CoffeeScript", "coffeescript"],
+			// d             : ["D", "d"],
+			// dart          : ["Dart", "dart"],
+			// delphi        : ["Delphi/Pascal", "pascal"],
+			// erlang        : ["Erlang", "erlang"],
+			// go            : ["Golang", "go"],
+			// groovy        : ["Groovy", "groovy"],
+			
+			
+			
+			
+			// lua           : ["Lua", "lua"],
+			
+			
 			"objective-c" : ["Objective-C", "clike"],
-			php           : ["PHP", "php"],
-			perl          : ["Perl", "perl"],
-			python        : ["Python", "python"],
-			r             : ["R", "r"],
-			rst           : ["reStructedText", "rst"],
-			ruby          : ["Ruby", "ruby"],
-			sql           : ["SQL", "sql"],
-			sass          : ["SASS/SCSS", "sass"],
-			shell         : ["Shell", "shell"],
-			scala         : ["Scala", "clike"],
-			swift         : ["Swift", "clike"],
-			vb            : ["VB/VBScript", "vb"],
+			
+			// perl          : ["Perl", "perl"],
+			
+			// r             : ["R", "r"],
+			// rst           : ["reStructedText", "rst"],
+			// ruby          : ["Ruby", "ruby"],
+			
+			
+			
+			// scala         : ["Scala", "clike"],
+			// swift         : ["Swift", "clike"],
+			// vb            : ["VB/VBScript", "vb"],
 			xml           : ["XML", "text/xml"],
-			yaml          : ["YAML", "yaml"]
+			// yaml          : ["YAML", "yaml"]
 		};
 
 		exports.fn.codeBlockDialog = function() {

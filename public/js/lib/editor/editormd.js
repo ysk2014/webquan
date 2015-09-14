@@ -10,7 +10,19 @@
  * @updateTime  2015-06-09
  */
 
-define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeMirror, marked, prettify){
+define('editormd',
+    ["jquery",
+    "codemirror",
+    "marked",
+    "prettify",
+    "lib/codemirror/mode/gfm/gfm",
+    "lib/codemirror/mode/javascript/javascript",
+    "lib/codemirror/mode/php/php",
+    "lib/codemirror/mode/sass/sass",
+    "lib/codemirror/mode/python/python",
+    "lib/codemirror/mode/sql/sql",
+    "lib/codemirror/mode/shell/shell",
+    ], function($, CodeMirror, marked, prettify){
 
     /* Require.js assignment replace */
     
@@ -430,12 +442,19 @@ define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeM
             
             if (typeof CodeMirror !== "undefined") {
                 editormd.$CodeMirror = CodeMirror;
+
             }
             
             if (typeof marked     !== "undefined") {
                 editormd.$marked     = marked;
             }
-            this.setCodeMirror().setToolbar().loadedDisplay();
+            var _this=this;
+            // editormd.loadScript(settings.path + "codemirror/modes.min", function(){
+                // editormd.loadScript(settings.path + "codemirror/addons.min", function(){
+                    _this.setCodeMirror().setToolbar().loadedDisplay();
+                // });
+            // });
+            
             
             return this;
         },
@@ -1101,7 +1120,6 @@ define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeM
                 if (typeof toolbarIconHandlers[name] !== "undefined") 
                 {
                     $.proxy(toolbarIconHandlers[name], _this)(cm);
-                    console.log(11);
                 }
                 else 
                 {
@@ -2546,8 +2564,9 @@ define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeM
                     alert("Error: " + name + " plugin is not found, you are not load this plugin.");
                     
                     return this;
+                    // require(path);
                 }
-                
+                // require(path);
                 this[name](cm);
                 
                 return this;
@@ -3617,7 +3636,7 @@ define('editormd',["jquery","codemirror","marked","prettify"], function($, CodeM
 
                         if (firstA.children(".fa").length < 1)
                         {
-                            firstA.append( $(icon).css({ float:"right", paddingTop:"4px" }) );
+                            firstA.append( $(icon).css({ 'float':"right", 'padding-top':"4px" }) );
                         }
                     }
 
