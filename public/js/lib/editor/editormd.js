@@ -15,13 +15,13 @@ define('editormd',
     "codemirror",
     "marked",
     "prettify",
-    "lib/codemirror/mode/gfm/gfm",
-    "lib/codemirror/mode/javascript/javascript",
-    "lib/codemirror/mode/php/php",
-    "lib/codemirror/mode/sass/sass",
-    "lib/codemirror/mode/python/python",
-    "lib/codemirror/mode/sql/sql",
-    "lib/codemirror/mode/shell/shell",
+    "editorlib/codemirror/mode/gfm/gfm",
+    "editorlib/codemirror/mode/javascript/javascript",
+    "editorlib/codemirror/mode/php/php",
+    "editorlib/codemirror/mode/sass/sass",
+    "editorlib/codemirror/mode/python/python",
+    "editorlib/codemirror/mode/sql/sql",
+    "editorlib/codemirror/mode/shell/shell",
     ], function($, CodeMirror, marked, prettify){
 
     /* Require.js assignment replace */
@@ -907,52 +907,52 @@ define('editormd',
          * @returns {editormd}  返回editormd的实例对象
          */
         
-        setToolbarAutoFixed : function(fixed) {
+        // setToolbarAutoFixed : function(fixed) {
             
-            var state    = this.state;
-            var editor   = this.editor;
-            var toolbar  = this.toolbar;
-            var settings = this.settings;
+        //     var state    = this.state;
+        //     var editor   = this.editor;
+        //     var toolbar  = this.toolbar;
+        //     var settings = this.settings;
             
-            if (typeof fixed !== "undefined")
-            {
-                settings.toolbarAutoFixed = fixed;
-            }
+        //     if (typeof fixed !== "undefined")
+        //     {
+        //         settings.toolbarAutoFixed = fixed;
+        //     }
             
-            var autoFixedHandle = function(){
-                var $window = $(window);
-                var top     = $window.scrollTop();
+        //     var autoFixedHandle = function(){
+        //         var $window = $(window);
+        //         var top     = $window.scrollTop();
                 
-                if (!settings.toolbarAutoFixed)
-                {
-                    return false;
-                }
+        //         if (!settings.toolbarAutoFixed)
+        //         {
+        //             return false;
+        //         }
 
-                if (top - editor.offset().top > 10 && top < editor.height())
-                {
-                    toolbar.css({
-                        position : "fixed",
-                        width    : editor.width() + "px",
-                        left     : ($window.width() - editor.width()) / 2 + "px"
-                    });
-                }
-                else
-                {
-                    toolbar.css({
-                        position : "absolute",
-                        width    : "100%",
-                        left     : 0
-                    });
-                }
-            };
+        //         if (top - editor.offset().top > 10 && top < editor.height())
+        //         {
+        //             toolbar.css({
+        //                 position : "fixed",
+        //                 width    : editor.width() + "px",
+        //                 left     : ($window.width() - editor.width()) / 2 + "px"
+        //             });
+        //         }
+        //         else
+        //         {
+        //             toolbar.css({
+        //                 position : "absolute",
+        //                 width    : "100%",
+        //                 left     : 0
+        //             });
+        //         }
+        //     };
             
-            if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed)
-            {
-                $(window).bind("scroll", autoFixedHandle);
-            }
+        //     if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed)
+        //     {
+        //         $(window).bind("scroll", autoFixedHandle);
+        //     }
 
-            return this;
-        },
+        //     return this;
+        // },
         
         /**
          * 配置和初始化工具栏
@@ -1051,7 +1051,7 @@ define('editormd',
             toolbarMenu.find("[title=\"ucwords\"]").attr("title", settings.lang.toolbar.ucwords);
             
             this.setToolbarHandler();
-            this.setToolbarAutoFixed();
+            // this.setToolbarAutoFixed();
 
             return this;
         },
@@ -2941,7 +2941,7 @@ define('editormd',
         },
 
         link : function() {
-            // this.executePlugin("linkDialog", "link-dialog/link-dialog");
+            this.executePlugin("linkDialog", "link-dialog/link-dialog");
         },
 
         "reference-link" : function() {

@@ -30,7 +30,7 @@ class ArticleController extends Controller {
 	 */
 	public function editPage()
 	{
-		return view('home.article');
+		return view('home.app');
 	}
 
 	/**

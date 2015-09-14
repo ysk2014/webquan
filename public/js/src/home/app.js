@@ -6,7 +6,14 @@ requirejs.config({
         WQ              : "WQ",
         react           : "react-with-addons.min",
         reactRouter     : 'react-router.min',
-        home            : "../build/home"
+        editormd        : 'editor/editormd',
+        prettify        : 'editor/lib/prettify.min',
+        codemirror      : 'editor/lib/codemirror/codemirror.min',
+        marked          : 'editor/lib/marked.min',
+        editormd        : 'editor/editormd',
+        plugins         : 'editor/plugins',
+        editorlib       : 'editor/lib',
+        home            : "../build/home",
     },
 
     shim: {
@@ -23,7 +30,8 @@ requirejs([
         'reactRouter', 
         'home/home/home', 
         'home/login/login',
-    ],function(React, ReactRouter, Home, Login){
+        'home/article/editArticle',
+    ],function(React, ReactRouter, Home, Login, EditArticle){
 
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -42,6 +50,7 @@ requirejs([
         <Route handler={App}>
             <Route name="home" path="/" handler={Home}/>
             <Route path="/login/:way" handler={Login}/>
+            <Route path="/article/edit" handler={EditArticle}/>
         </Route>
     );
 

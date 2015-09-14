@@ -55,7 +55,7 @@ define(['react', 'jquery', 'home/model/userModel', 'jqueryextend'],function(Reac
 			return (
 				<div>
 					<a className="user avatar dropdown" data-toggle="dropdown" href="javascript:void(0);">
-						<img src="image/user-default.png" />
+						<img src="/image/user-default.png" />
 						<b className="caret"></b>
 					</a>
 					<ul className="dropdown-menu arrow-top">
