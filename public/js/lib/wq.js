@@ -1,24 +1,6 @@
 
 var WQ = WQ || {};
 
-WQ.init = function(){
-	var that = this;
-	that.bindEvent();
-	that.goTop();
-}
-
-WQ.bindEvent = function(){
-	var that = this;
-
-	//下拉菜单
-	$('[data-toggle="dropdown"]').dropdown();
-	// 工具提示
-	$('[data-toggle="tooltip"]').tooltip();
-	// 滚动监听
-	$(document).on('scroll',function(){
-		that.goTop();
-	});
-}
 // 到页面顶部
 WQ.goTop = function(){
 	if($(document).scrollTop()>100){
@@ -73,6 +55,131 @@ WQ.loadScript = function(fileName, callback, into) {
         document.body.appendChild(script);
     }
 };
+
+// 判断是否为数组
+WQ.isArray = Array.isArray || function(value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+};
+// 转化为数组
+WQ.toArray = function(value) {
+    return Array.prototype.slice.call(value);
+};
+
+// 本地存储cookie
+WQ.cookie = {
+    // 工具
+    utils: {
+        isPlainObject: function (value) {
+            return !!value && Object.prototype.toString.call(value) === '[object Object]';
+        },
+        getKeys: Object.keys || function (obj) {
+            var keys = [],
+                key = '';
+            for (key in obj) {
+                if (obj.hasOwnProperty(key)) keys.push(key);
+            }
+            return keys;
+        },
+        escape: function (value) {
+            return String(value).replace(/[,;"\\=\s%]/g, function (character) {
+                return encodeURIComponent(character);
+            });
+        },
+        retrieve: function (value, fallback) {
+            return value == null ? fallback : value;
+        }
+    },
+
+    defaults: {},
+    // 有效期
+    expiresMultiplier: 60 * 60 * 24,
+
+    // 添加cookie
+    set: function(key, value, options) {
+        var _this = this;
+        if(_this.utils.isPlainObject(key)) {
+            for(k in key) {
+                if (key.hasOwnProperty(k)) _this.set(k, key[k], value);
+            }
+        } else {
+            options = _this.utils.isPlainObject(options) ? options : {expires: options};
+
+            var expires = options.expires !== undefined ? options.expires : (_this.defaults.expires || '');
+            var expiresType = typeof(expires);
+
+            if(expiresType === 'string' && expires != '') expires = new Date(expires);
+            else if(expiresType === 'number') expires = new Date(+new Date + 1000 * _this.expiresMultiplier * expires);
+
+            if (expires !== '' && 'toGMTString' in expires) expires = ';expires=' + expires.toGMTString();
+
+            var path = options.path || this.defaults.path;
+            path = path ? ';path=' + path : '';
+
+            var domain = options.domain || this.defaults.domain;
+            domain = domain ? ';domain=' + domain : '';
+
+            var secure = options.secure || this.defaults.secure ? ';secure' : '';
+
+            document.cookie = _this.utils.escape(key) + '=' + _this.utils.escape(value) + expires + path + domain + secure;
+        }
+        return _this;
+    },
+    get: function(keys, fallback) {
+        var _this = this;
+
+        fallback = fallback || undefined;
+
+        var cookies = _this.all();
+
+        if(WQ.isArray(keys)) {
+            var result = {};
+
+            for (var i = 0, l = keys.length; i < l; i++) {
+                var value = keys[i];
+                result[value] = _this.utils.retrieve(cookies[value], fallback);
+            }
+
+            return result;
+        } else {
+            return _this.utils.retrieve(cookies[keys], fallback);
+        }
+
+    },
+    all: function() {
+        if(document.cookie == '') return;
+
+        var cookies = document.cookie.split('; ');
+        var result = {};
+
+        for (var i = 0, l = cookies.length; i < l; i++) {
+            var item = cookies[i].split('=');
+            result[decodeURIComponent(item[0])] = decodeURIComponent(item[1]);
+        }
+
+        return result;
+    },
+    remove: function(keys) {
+        keys = WQ.isArray(keys) ? keys : WQ.toArray(keys);
+
+        for (var i = 0, l = keys.length; i < l; i++) {
+            this.set(keys[i], '', -1);
+        }
+
+        return this;
+    },
+    empty: function() {
+        return this.remove(this.utils.getKeys(this.all()));
+    },
+    enabled: function() {
+        if (navigator.cookieEnabled) return true;
+
+        var ret = this.set('_', '_').get('_') === '_';
+        this.remove('_');
+        return ret;
+    }
+}
+
+
 
 if ( typeof define === "function" && define.amd ) {
     define( "WQ", [], function() {

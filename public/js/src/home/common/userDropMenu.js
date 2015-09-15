@@ -1,21 +1,32 @@
 
-define(['react', 'jquery', 'home/model/userModel', 'jqueryextend'],function(React, $, UserModel) {
+define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function(React, $, WQ, UserModel) {
 
 	var mixin = {
 		init: function() {
+
+		},
+		getUserInfo: function() {
 			var _this = this;
-            UserModel.getUserInfoByLogin(function(success, data) {
-                if(success) {
-                	console.log(data);
-					_this.setState({
-						userInfo : data.userInfo ? data.userInfo : [],
-						len: data.userInfo ? data.userInfo.length: 0,
-					});
-                }
-            });
+			var userInfo = WQ.cookie.all();
+			if(userInfo) {
+				this.setState({
+					userInfo : userInfo,
+					len: userInfo.length,
+				})
+			} else {
+	            UserModel.getUserInfoByLogin(function(success, data) {
+	                if(success) {
+						_this.setState({
+							userInfo : data.userInfo ? data.userInfo : [],
+							len: data.userInfo ? data.userInfo.length: 0,
+						});
+						WQ.cookie.set(data.userInfo,1);
+	                }
+	            });
+			}
 		},
 		componentDidMount: function() {
-			this.init();
+			this.getUserInfo();
 		},
 	};
 
