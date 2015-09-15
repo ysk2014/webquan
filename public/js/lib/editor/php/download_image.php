@@ -5,8 +5,9 @@
     error_reporting(E_ALL & ~E_NOTICE);
 	
 	$path     = __DIR__ . DIRECTORY_SEPARATOR;
+	$url      = dirname($_SERVER['PHP_SELF']) . '/';
 	$savePath = realpath($path . '../uploads/') . DIRECTORY_SEPARATOR;
-
+	$saveURL  = $url . '../uploads/';
 	$formats  = array(
 		'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp')
 	);
@@ -34,10 +35,11 @@
 	 
 	    // 获取文件类型
 	    $suffix = substr(strrchr($url, '.'), 1);
-	    if (!in_array($suffix, $fileType))
+	    $suffix = preg_replace('/!heading/','',$suffix);
+	    if(!in_array($suffix, $fileType['image']))
 	    {
-	        return false;
-	    }
+	    	return array('error'=>'图片上传仅支持'.$formats.'格式');
+	    } 
 	 
 	    // 设置保存后的文件名
 	    $fileName = $fileName == '' ? time() . rand(0, 9) . '.' . $suffix : $defaultFileName;
@@ -63,24 +65,20 @@
 	 
 	    // 设置文件保存路径
 	    //$dirName = $dirName . '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
-	    $dirName = $dirName . '/' . date('Ym', time());
-	    if (!file_exists($dirName))
-	    {
-	        mkdir($dirName, 0777, true);
-	    }
 	 
 	    // 保存文件
 	    $res = fopen($dirName . '/' . $fileName, 'a');
 	    fwrite($res, $file);
 	    fclose($res);
-	 
+	
 	    return array(
 	        'fileName' => $fileName,
-	        'saveDir' => $dirName.'/'.$fileName
+	        
 	    );
 	}
 
 	$result = download_image($_POST['url'], '', $savePath, $formats);
+	$result['fileName'] = $saveURL.$result['fileName'];
 
 	echo json_encode($result);
 ?>

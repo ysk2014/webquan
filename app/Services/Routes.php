@@ -114,6 +114,8 @@ class Routes
                 Route::post('/article/del', 'Home\ArticleController@delArticle');
                 
 
+                //编辑专题页面
+                Route::get('/cloumn/edit', 'Home\CloumnController@cloumnPage');
                 //编辑专题
                 Route::post('/cloumn/edit', 'Home\CloumnController@editCloumn');
                 //创建专题

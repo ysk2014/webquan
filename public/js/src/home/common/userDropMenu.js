@@ -16,11 +16,20 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			} else {
 	            UserModel.getUserInfoByLogin(function(success, data) {
 	                if(success) {
-						_this.setState({
-							userInfo : data.userInfo ? data.userInfo : [],
-							len: data.userInfo ? data.userInfo.length: 0,
-						});
-						WQ.cookie.set(data.userInfo,1);
+	                	if(data.userInfo) {
+	                		var userInfo = {username: data.userInfo.username, id: data.userInfo.id};
+							_this.setState({
+								userInfo : userInfo,
+								len: 2,
+							});
+							WQ.cookie.set(userInfo,1);
+	                	} else {
+							_this.setState({
+								userInfo : [],
+								len: 0,
+							});
+	                	}
+	                	
 	                }
 	            });
 			}
@@ -62,6 +71,10 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		componentDidMount: function() {
 			$('.dropdown').dropdown();
 		},
+
+		handleClick: function() {
+			WQ.cookie.empty();
+		},
 		render: function() {
 			return (
 				<div>
@@ -95,7 +108,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href="/sign_out">
+							<a href="/sign_out" onClick={this.handleClick}>
 								<i className="fa fa-sign-out"></i>
 								<span>退出</span>
 							</a>
@@ -120,7 +133,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			return (
 				<div className="drop-menu">
 					{ 
-						(len >= 0) ? <Login /> : <User info={_this.state.userInfo}/>
+						(len <= 0) ? <Login /> : <User info={_this.state.userInfo}/>
 					}
 				</div>
 			);

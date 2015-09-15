@@ -183,9 +183,13 @@
 
                         loading('show');
                         $.post('/js/lib/editor/php/download_image.php',{url:val},function(data) {
-                            loading('hide');
-                            dialog.find("[data-url]").val(data.saveDir);
-                        });
+                            loading();
+                            if(data.error) {
+                                alert(data.error);
+                                return;
+                            }
+                            dialog.find("[data-url]").val(data.fileName);
+                        },'json');
                     },100);
                 });
             }

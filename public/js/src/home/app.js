@@ -31,7 +31,8 @@ requirejs([
         'home/home/home', 
         'home/login/login',
         'home/article/editArticle',
-    ],function(React, ReactRouter, Home, Login, EditArticle){
+        'home/cloumn/editCloumn',
+    ],function(React, ReactRouter, Home, Login, EditArticle, EditCloumn){
 
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -51,6 +52,7 @@ requirejs([
             <Route name="home" path="/" handler={Home}/>
             <Route path="/login/:way" handler={Login}/>
             <Route path="/article/edit" handler={EditArticle}/>
+            <Route path="/cloumn/edit" handler={EditCloumn}/>
         </Route>
     );
 
