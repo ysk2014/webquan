@@ -174,6 +174,20 @@
 
                     dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
 				});
+
+                dialog.find("[data-url]").on('paste',function() {
+                    setTimeout(function(){
+                        var patt = new RegExp('webquan.com');
+                        var val = dialog.find("[data-url]").val();
+                        if(patt.test(val)) return false;
+
+                        loading('show');
+                        $.post('/js/lib/editor/php/download_image.php',{url:val},function(data) {
+                            loading('hide');
+                            dialog.find("[data-url]").val(data.saveDir);
+                        });
+                    },100);
+                });
             }
 
 			dialog = editor.find("." + dialogName);

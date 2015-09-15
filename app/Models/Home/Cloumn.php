@@ -23,7 +23,7 @@ class Cloumn extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'description', 'uid', 'view', 'count', 'care', 'is_contribute', 'is_check', 'last_time', 'addtime');
+    protected $fillable = array('id', 'title', 'description', 'logo_dir', 'uid', 'view', 'count', 'care', 'tag','addtime');
 
     /**
      * 增加专题
@@ -82,29 +82,31 @@ class Cloumn extends Base
                     ->toArray();
     }
 
+
     /**
-     * 获取专题check
+     * 根据专题名称获取专题信息
      * 
+     * @param string $title 专题的名称
+     */
+    public function getInfoByTitle($title)
+    {
+        return $this->where('title','=', $title)->first();
+    }
+
+
+    /**
+     * 获取专题某个字段
+     * 
+     * @param string $data 专题的字段
      * @param intval $id 专题的ID
      */
-    public function getCheckById($id)
+    public function getDataById($data,$id)
     {
-        return $this->select('is_check')
+        return $this->select($data)
                     ->where('id','=', intval($id))
                     ->first();
     }
 
-    /**
-     * 获取专题contribute
-     * 
-     * @param intval $id 专题的ID
-     */
-    public function getContributeById($id)
-    {
-        return $this->select('is_contribute')
-                    ->where('id','=', intval($id))
-                    ->first();
-    }
 
     /**
      * 自增数量

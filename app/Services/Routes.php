@@ -70,6 +70,7 @@ class Routes
             // 退出
             Route::get('/sign_out', 'Home\UserController@getOut');
 
+
             // 个人首页
             Route::get('/user', 'Home\UserController@index');
             // 根据id获取用户信息 
@@ -77,18 +78,31 @@ class Routes
             // 获取登录用户的信息
             Route::post('/user/me', 'Home\UserController@getUserInfoByLogin');
 
+
             // 文章页
             Route::get('/article', 'Home\ArticleController@index');
             // 文章列表
             Route::post('/article/list', 'Home\ArticleController@getAllArticle');
             // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
+
+
+            // 专题列表页
+            Route::get('/cloumns', 'Home\CloumnController@cloumnListPage');
+            // 专题详情页
+            Route::get('/cloumn/{id}', 'Home\CloumnController@cloumnPage');
+            // 专题列表
+            Route::post('/cloumn/list', 'Home\CloumnController@getAllCloumns');
+            // 获取单个专题的信息
+            Route::post('/cloumn/info', 'Home\CloumnController@getCloumnById');
+
             
             Route::group(['middleware' =>  'auth'], function() {
                 // 编辑用户信息
                 Route::post('/user/edit', 'Home\UserController@editUser');
                 // 修改密码 
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
+
 
                 // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
@@ -98,6 +112,15 @@ class Routes
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
                 // 删除文章
                 Route::post('/article/del', 'Home\ArticleController@delArticle');
+                
+
+                //编辑专题
+                Route::post('/cloumn/edit', 'Home\CloumnController@editCloumn');
+                //创建专题
+                Route::post('/cloumn/add', 'Home\CloumnController@addCloumn');
+                // 删除专题
+                Route::post('/cloumn/del', 'Home\CloumnController@delCloumn');
+
             });
         });
         return $this;
