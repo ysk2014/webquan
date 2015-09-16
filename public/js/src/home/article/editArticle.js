@@ -27,7 +27,7 @@ define([
                 height  : 640,
                 imageUpload: 'true',
                 imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "/js/lib/editor/php/upload.php",
+                imageUploadURL : "/upload",
                 path    : "/js/lib/editor/lib/",
                 toolbarIcons: function() {
                     return [

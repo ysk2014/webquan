@@ -38,7 +38,7 @@
             if (editor.find("." + dialogName).length < 1)
             {
                 var guid   = (new Date).getTime();
-                var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
+                var action = settings.imageUploadURL;
 
                 if (settings.crossDomainUpload)
                 {
@@ -159,13 +159,13 @@
 
                             json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
-                            if (json.success === 1)
+                            if (json.file)
                             {
-                                dialog.find("[data-url]").val(json.url);
+                                dialog.find("[data-url]").val('/upload_path/'+json.file);
                             }
                             else
                             {
-                                alert(json.message);
+                                alert(json.msg);
                             }
 
                             return false;
