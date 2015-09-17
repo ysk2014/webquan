@@ -159,9 +159,9 @@
 
                             json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
-                            if (json.file)
+                            if (json.success == 1)
                             {
-                                dialog.find("[data-url]").val('/upload_path/'+json.file);
+                                dialog.find("[data-url]").val('/upload_path/'+json.url);
                             }
                             else
                             {
@@ -182,13 +182,14 @@
                         if(patt.test(val)) return false;
 
                         loading('show');
-                        $.post('/js/lib/editor/php/download_image.php',{url:val},function(data) {
+                        $.post('/download_image',{url:val},function(data) {
                             loading();
-                            if(data.error) {
-                                alert(data.error);
-                                return;
+                            if(data.success==1) {
+                                dialog.find("[data-url]").val(data.fileName);
+                            } else {
+                                alert(data.msg);
                             }
-                            dialog.find("[data-url]").val(data.fileName);
+                            
                         },'json');
                     },100);
                 });

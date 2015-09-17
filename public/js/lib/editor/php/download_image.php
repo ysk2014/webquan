@@ -64,7 +64,7 @@
 	    }
 	 
 	    // 设置文件保存路径
-	    //$dirName = $dirName . '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
+	    $dirName = $dirName . '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
 	 
 	    // 保存文件
 	    $res = fopen($dirName . '/' . $fileName, 'a');
