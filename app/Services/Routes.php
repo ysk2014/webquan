@@ -123,6 +123,8 @@ class Routes
                 // 删除专题
                 Route::post('/cloumn/del', 'Home\CloumnController@delCloumn');
 
+                //upload
+                Route::post('/upload', 'Home\UploadController@upload');
             });
         });
         return $this;
