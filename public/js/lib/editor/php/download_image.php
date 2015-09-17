@@ -9,7 +9,7 @@
 	$savePath = realpath($path . '../uploads/') . DIRECTORY_SEPARATOR;
 	$saveURL  = $url . '../uploads/';
 	$formats  = array(
-		'image' => array('gif', 'jpg', 'jpeg', 'png', 'bmp')
+		'gif', 'jpg', 'jpeg', 'png', 'bmp'
 	);
 
 	/**
@@ -36,7 +36,7 @@
 	    // 获取文件类型
 	    $suffix = substr(strrchr($url, '.'), 1);
 	    $suffix = preg_replace('/!heading/','',$suffix);
-	    if(!in_array($suffix, $fileType['image']))
+	    if(!in_array($suffix, $fileType))
 	    {
 	    	return array('error'=>'图片上传仅支持'.$formats.'格式');
 	    } 
@@ -64,7 +64,7 @@
 	    }
 	 
 	    // 设置文件保存路径
-	    //$dirName = $dirName . '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
+	    $dirName = $dirName . '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
 	 
 	    // 保存文件
 	    $res = fopen($dirName . '/' . $fileName, 'a');

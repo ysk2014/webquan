@@ -34,17 +34,34 @@ class UploadController extends Controller {
 	 */
 	public function upload()
 	{	
-        // $parpams = Request::only('authkey', 'args');
-        // // var_dump($parpams); exit;
-        // $config = @ unserialize(base64url_decode($parpams['args']));
-        // echo $config; exit;
+		// 配置参数
+		$config = array();
         //检测请求是否合法
         $uploadObject = new UploadManager();
-        // if( ! $uploadObject->setParam($config)->checkUploadToken($parpams['authkey'])) return abort(500);
+
+        $uploadObject->setParam($config);
         //开始处理上传
         $file = Request::file('editormd-image-file');
-        $returnFileUrl = $uploadObject->setFile($file)->upload();
-        if( ! $returnFileUrl) return response()->json(['msg'=>'上传失败']);;
-        return response()->json(['file'=>$returnFileUrl]);
+        $result = $uploadObject->setFile($file)->upload();
+        
+        return response()->json($result);
+	}
+
+	/**
+	 * 远程图片下载到服务器
+	 *
+	 * @return Response
+	 */
+	public function downloadImage()
+	{	
+		// 远程图片地址
+		$url = Request::input('url');
+
+        $uploadObject = new UploadManager();
+
+		//开始远程图片下载到服务器
+        $result = $uploadObject->downloadImage($url);
+        
+        return response()->json($result);
 	}
 }
