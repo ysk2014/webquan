@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
+use Cache;
 
 class ArticleController extends Controller {
 

@@ -126,7 +126,7 @@ class Routes
                 //图片上传upload
                 Route::post('/upload', 'Home\UploadController@upload');
                 // 远程图片下载
-                Route::post('/download_mage', 'Home\UploadController@downloadImage');
+                Route::post('/download_image', 'Home\UploadController@downloadImage');
             });
         });
         return $this;

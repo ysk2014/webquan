@@ -58,21 +58,27 @@ define([
 				<div>
 					<UserDropMenu />
 					<LeftNav active={this.state.name} />
+
 					<div className="edit-article">
-						<h3>发布文章</h3>
-			            <div className="input-prepend">
-			            	<input type="text" name="title" placeholder="文章标题" />
-			            </div>
-			            <div className="input-prepend">
-			            	<input type="text" name="title" placeholder="所属专题,不填写,默认为笔记本" />
-			            </div>
-			            <div className="input-prepend">
-			            	<textarea name="description" maxLength="200" placeholder="请以200字以内简单描述此内容"></textarea>
-			            </div>
-						<div id="article-editormd">
-							<textarea></textarea>
-						</div>
-						<a className="submit-button" href="" style={{marginBottom: '10px'}}>提交</a>
+						<div className="header">发布文章</div>
+						<form>
+				            <div className="input-prepend">
+				            	<input type="text" name="title" placeholder="文章标题" />
+				            </div>
+				            <div className="input-prepend">
+				            	<input type="text" name="cloumn" placeholder="所属专题,不填写,默认为笔记本" />
+				            </div>
+				            <div className="input-prepend">
+				            	<input type="text" name="logo_dir" placeholder="给文章添加个封面吧，可以让你的文章更加好看" />
+				            </div>
+				            <div className="input-prepend">
+				            	<textarea name="description" maxLength="200" placeholder="请以200字以内简单描述此内容"></textarea>
+				            </div>
+							<div id="article-editormd">
+								<textarea></textarea>
+							</div>
+							<a className="submit-button" href="" style={{marginBottom: '10px'}}>提交</a>
+						</form>
 					</div>
 				</div>
 			);

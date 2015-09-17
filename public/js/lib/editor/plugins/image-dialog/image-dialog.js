@@ -161,7 +161,7 @@
 
                             if (json.success == 1)
                             {
-                                dialog.find("[data-url]").val('/upload_path/'+json.url);
+                                dialog.find("[data-url]").val(json.url);
                             }
                             else
                             {
@@ -185,7 +185,7 @@
                         $.post('/download_image',{url:val},function(data) {
                             loading();
                             if(data.success==1) {
-                                dialog.find("[data-url]").val(data.fileName);
+                                dialog.find("[data-url]").val(data.url);
                             } else {
                                 alert(data.msg);
                             }

@@ -112,7 +112,7 @@ class Process extends BaseProcess
      */
     private function setSavePath()
     {
-        $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . '/' . date('m', time()) . '/' . date('d', time());
+        $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
         if( ! is_dir($savePath))
         {
             //如果保存路径不存在，那么建立它
@@ -139,7 +139,7 @@ class Process extends BaseProcess
      */
     private function getConfigSavePath()
     {
-        if( ! $this->configSavePath) $this->configSavePath = \Config::get('sys.sys_upload_path');
+        if( ! $this->configSavePath) $this->configSavePath = \Config::get('sys.sys_upload_path'). '/' ;
         return $this->configSavePath;
     }
 
@@ -159,7 +159,7 @@ class Process extends BaseProcess
 
         if ($success == 1)
         {
-            $array['url']    = $url;
+            $array['url']    = $message;
         }
         else
         {
@@ -230,7 +230,7 @@ class Process extends BaseProcess
 
 
         //返回文件
-        $realFileUrl[] = str_replace('/', '', str_replace($this->getConfigSavePath(), '', $realFile));
+        $realFileUrl[] = str_replace(dirname($this->getConfigSavePath()), '', $realFile);
         $thumbRealFileUrl = [];
 
         //是否要裁剪
@@ -254,7 +254,7 @@ class Process extends BaseProcess
      * @param  int $type 远程获取文件的方式
      * @return json 返回文件的保存路径
      */
-    public function downloadImage($url, $filename='' ,$type=1)
+    public function downloadImage($url, $fileName='' ,$type=1)
     {
         if ($url == '')
         {
@@ -269,7 +269,7 @@ class Process extends BaseProcess
         $suffix = preg_replace('/!heading/','',$suffix);
 
         $formats = implode(',', $this->formats);
-        if(!in_array($suffix, $fileType))
+        if(!in_array($suffix, $this->formats))
         {
             return $this->message('图片上传仅支持'.$formats.'格式');
         } 
@@ -305,8 +305,8 @@ class Process extends BaseProcess
         fwrite($res, $file);
         fclose($res);
 
-        $realFileUrl = str_replace('/', '', str_replace($this->getConfigSavePath(), '', $fileName));
-    
+         $realFileUrl = str_replace(dirname($this->getConfigSavePath()), '', $fileName);
+
         return $this->message($realFileUrl,1);
     }
 
