@@ -73,7 +73,7 @@ class Cloumn extends Base
      * 
      * @param $data 排序
      */
-    public function getCloumns($data)
+    public function getCloumns($data='addtime')
     {
         return $this->select(array('cloumn.*','user.*'))
                     ->leftJoin('user','cloumn.uid','=','user.id')

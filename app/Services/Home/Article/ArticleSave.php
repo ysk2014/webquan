@@ -17,9 +17,13 @@ class ArticleSave extends AbstractParam
 
     protected $description;
 
+    protected $logo_dir;
+
     protected $cid;
 
     protected $uid;
+
+    protected $nid;
 
     protected $view;
 
@@ -28,8 +32,6 @@ class ArticleSave extends AbstractParam
     protected $care;
 
     protected $is_publish;
-
-    protected $is_check;
 
     protected $addtime;
 
@@ -47,15 +49,27 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function seDescription($description)
+    public function setDescription($description)
     {
-        $this->description = $this->attributes['description'] = $realname;
+        $this->description = $this->attributes['description'] = $description;
+        return $this;
+    }
+
+    public function setLogoDir($logo_dir)
+    {
+        $this->logo_dir = $this->attributes['logo_dir'] = $logo_dir;
         return $this;
     }
 
     public function setCid($cid)
     {
         $this->cid = $this->attributes['cid'] = $cid;
+        return $this;
+    }
+
+    public function setNid($nid)
+    {
+        $this->nid = $this->attributes['nid'] = $nid;
         return $this;
     }
 
@@ -92,12 +106,6 @@ class ArticleSave extends AbstractParam
     public function setIsPublish($is_publish)
     {
         $this->is_publish = $this->attributes['is_publish'] = $is_publish;
-        return $this;
-    }
-
-    public function setIsCheck($is_check)
-    {
-        $this->is_check = $this->attributes['is_check'] = $is_check;
         return $this;
     }
 

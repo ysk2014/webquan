@@ -35,7 +35,7 @@ class ArticleController extends Controller {
 	}
 
 	/**
-	 * 获取文章列表
+	 * 获取已公布的文章列表
 	 *
 	 * @return Response
 	 */
@@ -47,7 +47,31 @@ class ArticleController extends Controller {
 	}
 
 	/**
-	 * 获取文章列表
+	 * 根据专题id获取文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCid(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsByCid($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 根据专题id获取文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByNid(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsByNid($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 获取文章详情
 	 *
 	 * @return Response
 	 */
@@ -95,7 +119,7 @@ class ArticleController extends Controller {
 	}
 
 	/**
-	 * 编辑文章
+	 * 删除文章
 	 *
 	 * @return Response
 	 */

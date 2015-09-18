@@ -128,7 +128,7 @@ class Process extends BaseProcess
      */
     public function getCloumns($data)
     {
-        if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
+        $way = isset($data) ? $data : 'addtime';
         $cloumns = $this->cloumnModel->getCloumns($data);
         if($cloumns) 
         {

@@ -81,8 +81,10 @@ class Routes
 
             // 文章页
             Route::get('/article', 'Home\ArticleController@index');
-            // 文章列表
+            // 获取已公布的文章列表
             Route::post('/article/list', 'Home\ArticleController@getAllArticle');
+            // 根据专题id获取文章列表
+            Route::post('/cloumn/article/list', 'Home\ArticleController@getArtsByCid');
             // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
 
@@ -104,6 +106,8 @@ class Routes
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
 
 
+                //根据笔记本id获取文章列表
+                Route::post('/notebook/article/list', 'Home\ArticleController@getArtsByNid');
                 // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
                 // 编辑文章页
@@ -127,6 +131,16 @@ class Routes
                 Route::post('/upload', 'Home\UploadController@upload');
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
+
+
+                // 添加笔记本
+                Route::post('/notebook/add', 'Home\NotebookController@addNotebook');
+                // 编辑笔记本
+                Route::post('/notebook/edit', 'Home\NotebookController@editNotebook');
+                // 删除笔记本
+                Route::post('/notebook/del', 'Home\NotebookController@delNotebook');
+                // 获取笔记本列表
+                Route::post('/notebook/list', 'Home\NotebookController@getNotebooksByUid');
             });
         });
         return $this;

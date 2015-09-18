@@ -21,7 +21,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'is_check', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'nid', 'view', 'care', 'comment', 'is_publish', 'addtime');
 
     /**
      * 增加文章
@@ -30,7 +30,7 @@ class Article extends Base
      */
     public function addArticle(array $data)
     {
-        return $this->create($data);
+        return $this->insertGetId($data);
     }
 
     /**
@@ -46,7 +46,7 @@ class Article extends Base
     /**
      * 删除文章
      * 
-     * @param array $ids 专题的ID
+     * @param array $ids 文章的ID
      */
     public function delArticle(array $ids)
     {
@@ -54,9 +54,9 @@ class Article extends Base
     }
 
     /**
-     * 获取文章信息
+     * 根据文章id获取文章信息
      * 
-     * @param intval $id 专题的ID
+     * @param intval $id 文章的ID
      */
     public function getArtById($id)
     {
@@ -67,27 +67,56 @@ class Article extends Base
     }
 
     /**
-     * 获取所有文章信息
+     * 根据专题id获取文章信息
      * 
-     * @param $data 排序
+     * @param intval $cid 专题的ID
      */
-    public function getAllArticle($data)
+    public function getArtsByCid($cid,$way='addtime')
     {
         return $this->select(array('article.*','user.*'))
                     ->leftJoin('user','article.uid','=','user.id')
-                    ->orderBy('article.'.$data,'desc')
+                    ->where('article.cid','=', intval($cid))
+                    ->orderBy($way,'desc')
                     ->get()
                     ->toArray();
     }
 
     /**
-     * 获取专题check
+     * 根据个人笔记id获取文章信息
+     * 
+     * @param intval $nid 个人笔记的ID
+     */
+    public function getArtsByNid($nid,$way='addtime')
+    {
+        return $this->where('nid','=', intval($nid))
+                    ->orderBy($way,'desc')
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 获取已公布的所有文章信息
+     * 
+     * @param $data 排序
+     */
+    public function getAllArticle($data='addtime')
+    {
+        return $this->select(array('article.*','user.*'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->orderBy('article.'.$data,'desc')
+                    ->where('article.is_publish','=',1)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 获取专题is_publish
      * 
      * @param intval $id 专题的ID
      */
-    public function getCheckById($id)
+    public function getPublishById($id)
     {
-        return $this->select('is_check')
+        return $this->select('is_publish')
                     ->where('id','=', intval($id))
                     ->first();
     }

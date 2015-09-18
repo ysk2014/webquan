@@ -45,7 +45,7 @@ class CloumnController extends Controller {
      */
 	public function addCloumn(CloumnProcess $manager)
 	{
-		$data = (array) Request::input('cloumn');
+		$data = (array) Request::input('data');
 		$data['addtime'] = time();
 
 		$param = new \App\Services\Home\Cloumn\CloumnSave();
@@ -116,7 +116,7 @@ class CloumnController extends Controller {
      */
 	public function getAllCloumns(CloumnProcess $manager)
 	{
-		$data = Request::input('data');
+		$data = Request::input('way');
 		
 		$result = $manager->getCloumns($data);
 

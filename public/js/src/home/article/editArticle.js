@@ -66,12 +66,6 @@ define([
 				            	<input type="text" name="title" placeholder="文章标题" />
 				            </div>
 				            <div className="input-prepend">
-				            	<input type="text" name="cloumn" placeholder="所属专题,不填写,默认为笔记本" />
-				            </div>
-				            <div className="input-prepend">
-				            	<input type="text" name="logo_dir" placeholder="给文章添加个封面吧，可以让你的文章更加好看" />
-				            </div>
-				            <div className="input-prepend">
 				            	<textarea name="description" maxLength="200" placeholder="请以200字以内简单描述此内容"></textarea>
 				            </div>
 							<div id="article-editormd">
