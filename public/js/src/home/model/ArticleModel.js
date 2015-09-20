@@ -18,15 +18,6 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		getAllArticleByCid: function(data, callback) {
 			BaseModel.post('/cloumn/article/list',{'data':data}, callback);
 		},
-	    /**
-	     * 根据笔记本id获取文章列表
-	     * 
-	     * @param nid 笔记本id
-	     * @param way 根据way进行排序，可以不传，默认为addtime创建时间排序
-	     */
-		getAllArticleByNid: function(data,callback) {
-			BaseModel.post('/notebook/article/list',{'data':data}, callback);
-		},
 
 	    /**
 	     * 根据文章id获取文章详情
@@ -54,5 +45,5 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 			BaseModel.post('/article/del', data, callback);
 		},
 	};
-	return UserModel;
+	return ArticleModel;
 });

@@ -1,5 +1,6 @@
 <?php namespace App\Models\Home;
 
+use App\Models\Base;
 
 /**
  * 文章表模型
@@ -21,7 +22,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'nid', 'view', 'care', 'comment', 'is_publish', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'addtime');
 
     /**
      * 增加文章
@@ -60,8 +61,9 @@ class Article extends Base
      */
     public function getArtById($id)
     {
-        return $this->select(array('article.*','user.*'))
+        return $this->select(array('article.*','user.username','cloumn.title as cloumnName'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.id','=', intval($id))
                     ->first();
     }
@@ -76,19 +78,6 @@ class Article extends Base
         return $this->select(array('article.*','user.*'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->where('article.cid','=', intval($cid))
-                    ->orderBy($way,'desc')
-                    ->get()
-                    ->toArray();
-    }
-
-    /**
-     * 根据个人笔记id获取文章信息
-     * 
-     * @param intval $nid 个人笔记的ID
-     */
-    public function getArtsByNid($nid,$way='addtime')
-    {
-        return $this->where('nid','=', intval($nid))
                     ->orderBy($way,'desc')
                     ->get()
                     ->toArray();
@@ -127,7 +116,7 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function increment($data,$id)
+    public function incrementById($data,$id)
     {
         return $this->where('id','=', intval($id))
                     ->increment($data);
@@ -138,7 +127,7 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function decrement($data,$id)
+    public function decrementById($data,$id)
     {
         return $this->where('id','=', intval($id))
                     ->decrement($data);

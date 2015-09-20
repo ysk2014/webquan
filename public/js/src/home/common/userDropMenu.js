@@ -11,7 +11,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			if(userInfo) {
 				this.setState({
 					userInfo : userInfo,
-					len: userInfo.length,
+					len: 2,
 				})
 			} else {
 	            UserModel.getUserInfoByLogin(function(success, data) {
@@ -133,7 +133,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			return (
 				<div className="drop-menu">
 					{ 
-						(len <= 0) ? <Login /> : <User info={_this.state.userInfo}/>
+						(len >= 0) ? ( (len==0) ? <Login /> : <User info={_this.state.userInfo}/>) : null
 					}
 				</div>
 			);

@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\Home\Article;
 
-use App\Models\Article as ArticleModel;
+use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Services\BaseProcess;
 use Lang, Cache;
@@ -36,7 +36,29 @@ class Process extends BaseProcess
 	function __construct()
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
-        if( ! $this->articleValidate) $this->asrticleValidate = new ArticleValidate();
+        if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
+	}
+
+	/**
+	* 判断上传文件的文件夹是否为空
+	*
+	* @param string 文件夹路径
+	* @access private
+	* @return boolean true|false
+	*/
+	private function is_empty_dir($dir)
+	{
+		$H = @opendir($dir); 
+        $i=0;    
+        while($_file=readdir($H)){    
+            $i++;    
+        }    
+        closedir($H);
+        if($i>2){ 
+            return false; 
+        }else{ 
+            return true;  
+        } 
 	}
 
 	/**
@@ -49,21 +71,30 @@ class Process extends BaseProcess
 	private function dealData(\App\Services\Home\Article\ArticleSave $data)
 	{
 		// 匹配文章内容中所有的图片
-		preg_match_all('/!\[\]\(\/upload_path\/.+?\.[png|jpg|jpeg|gif]{1}\)/g',$data->content,$imgArr);
+		$status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$data->content,$imgArr);
 
 		// 把第一张图片设置为文章的logo
-		$data->setLogoDir($imgArr[0]);
+		if(!$status) return $data;
 
-		if(Cache::key('uploadImg'))
+		$logo_dir = preg_replace('/!\[\]\(/', '', $imgArr[0][0]);
+		$logo_dir = preg_replace('/\)/', '', $logo_dir);
+		$data->setLogoDir($logo_dir);
+
+		if(Cache::has('uploadImg'))
 		{
 			$uploadImg = Cache::get('uploadImg');
 
 			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
 
 			foreach ($uploadImg as $key => $value) {
-				if(!in_array($value, $imgArr))
+				if(!in_array($value, $imgArr[0]))
 				{
-					@unlink(dirname($savePath).$value);
+					@unlink(dirname(dirname($savePath)).$value);
+					// 判断文件夹是否为空
+					if( $this->is_empty_dir(dirname($savePath)) )
+					{
+						@unlink(dirname($savePath));
+					}
 				}
 			}
 
@@ -131,6 +162,7 @@ class Process extends BaseProcess
 	{	
 		$resultArr = [];
 		if( !isset($data->id) ) return array('error'=>true,'msg'=>'没有文章id');
+
 		// 进行文章表单验证
 		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
 
@@ -140,7 +172,7 @@ class Process extends BaseProcess
 		$id = intval($data->id);
 		unset($data->id);
 
-		if($this->articleModel->editArticle($data, $id) != false) {
+		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
@@ -183,25 +215,6 @@ class Process extends BaseProcess
 		}
 	}
 
-
-	/**
-	* 根据笔记本id获取文章列表
-	*
-	* @param intval $nid;
-	* @access public
-	* @return array
-	*/
-	public function getArtsByNid($data)
-	{
-		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
-		$articleInfo = $this->articleModel->getArtsByNid($data['nid'],$way);
-		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
-		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
-		}
-	}
-
 	/**
 	* 获取文章信息
 	*
@@ -213,7 +226,7 @@ class Process extends BaseProcess
 	{
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
-			$this->articleModel->increment('view', $id);
+			$this->articleModel->incrementById('view', $id);
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');

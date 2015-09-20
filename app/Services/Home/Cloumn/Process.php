@@ -2,8 +2,8 @@
 
 use Lang;
 use App\Models\Home\Cloumn as CloumnModel;
-use App\Models\Home\UserCareCloumn as UCCModel;
-use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
+// use App\Models\Home\UserCareCloumn as UCCModel;
+// use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
 use App\Services\BaseProcess;
 
 /**
@@ -21,27 +21,11 @@ class Process extends BaseProcess
     public $cloumnModel;
 
     /**
-     * 用户关注专题数据模型
-     *
-     * @var object
-     */
-    public $uccModel;
-
-    /**
-     * 专题的表单验证
-     *
-     * @var object
-     */
-    public $cloumnValidate;
-
-    /**
      * 初始化
      */
     public function __construct()
     {
         if( !$this->cloumnModel ) $this->cloumnModel = new CloumnModel();
-        if( !$this->cloumnValidate ) $this->cloumnValidate = new CloumnValidate();
-        if( !$this->uccModel ) $this->uccModel = new UCCModel();
     }
 
     /**
@@ -53,8 +37,6 @@ class Process extends BaseProcess
     */
     public function addCloumn(\App\Services\Home\Cloumn\CloumnSave $data)
     {
-        // 表单验证
-        if(!$this->cloumnValidate->add($data)) return array('error'=>true, 'msg'=>$this->cloumnValidate->getErrorMessage());
         // 保存到数据库
         $id=$this->cloumnModel->add($data->toArray());
         if($id) return array('error'=>false, 'msg'=>'创建成功', 'data'=>$id);
@@ -73,7 +55,6 @@ class Process extends BaseProcess
     {
         if( !isset($data->id) ) return array('error'=>true, 'msg'=>'参数没有设置');
         // 表单验证
-        if(!$this->cloumnValidate->edit($data)) return array('error'=>true, 'msg'=>$this->cloumnValidate->getErrorMessage());
         $id = intval($data->id); unset($data->id);
         // 更新数据库
         if( $this->cloumnModel->edit($data,$id) !== false) return array('error'=>false, 'msg'=>'更新成功');
@@ -94,7 +75,7 @@ class Process extends BaseProcess
 
         if($this->cloumnModel->deleteCloumn($ids) !== false) return array('error'=>false, 'msg'=>'删除成功');
 
-        return return array('error'=>true, 'msg'=>'删除失败');
+        return array('error'=>true, 'msg'=>'删除失败');
     }
 
     /**
@@ -136,7 +117,7 @@ class Process extends BaseProcess
         }
         else 
         {
-            return array('error'=>true, 'data'=>'查询失败');
+            return array('error'=>true, 'msg'=>'查询失败');
         }
 
     }

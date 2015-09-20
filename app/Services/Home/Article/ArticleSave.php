@@ -23,8 +23,6 @@ class ArticleSave extends AbstractParam
 
     protected $uid;
 
-    protected $nid;
-
     protected $view;
 
     protected $comment;
@@ -64,12 +62,6 @@ class ArticleSave extends AbstractParam
     public function setCid($cid)
     {
         $this->cid = $this->attributes['cid'] = $cid;
-        return $this;
-    }
-
-    public function setNid($nid)
-    {
-        $this->nid = $this->attributes['nid'] = $nid;
         return $this;
     }
 

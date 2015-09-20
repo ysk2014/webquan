@@ -1,11 +1,10 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
-use Cache;
+use Request,Cache;
 
 class ArticleController extends Controller {
 
-	public $navStatus;
 	/**
 	 * Create a new controller instance.
 	 *
@@ -58,17 +57,6 @@ class ArticleController extends Controller {
 		return response()->json($data);
 	}
 
-	/**
-	 * 根据专题id获取文章列表
-	 *
-	 * @return Response
-	 */
-	public function getArtsByNid(ArticleProcess $articleProcess)
-	{
-		$data = Request::input('data');
-		$data = $articleProcess->getArtsByNid($data);
-		return response()->json($data);
-	}
 
 	/**
 	 * 获取文章详情

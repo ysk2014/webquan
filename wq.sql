@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-09-03 11:53:19
+-- Generation Time: 2015-09-20 12:50:07
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -32,12 +32,22 @@ CREATE TABLE IF NOT EXISTS `article` (
   `uid` int(11) NOT NULL,
   `cid` int(11) NOT NULL,
   `content` text NOT NULL,
-  `view` int(11) NOT NULL,
-  `attr` varchar(50) NOT NULL,
-  `comments` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `logo_dir` text NOT NULL,
+  `view` int(11) DEFAULT '0',
+  `care` tinyint(1) DEFAULT '0',
+  `comment` int(11) DEFAULT '0',
+  `is_public` int(1) DEFAULT '0',
   `addtime` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `article`
+--
+
+INSERT INTO `article` (`id`, `title`, `uid`, `cid`, `content`, `description`, `logo_dir`, `view`, `care`, `comment`, `is_public`, `addtime`) VALUES
+(1, '测试', 5, 27, '![](/upload_path/20150920/4c46d21a9436192d4016c17fe4a4a191.png)', '的萨达', '/upload_path/20150920/4c46d21a9436192d4016c17fe4a4a191.png', 83, 0, 0, 0, '1442714041');
 
 -- --------------------------------------------------------
 
@@ -48,24 +58,23 @@ CREATE TABLE IF NOT EXISTS `article` (
 CREATE TABLE IF NOT EXISTS `cloumn` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
-  `description` text NOT NULL,
-  `uid` int(11) NOT NULL,
-  `view` varchar(50) DEFAULT NULL COMMENT '浏览量',
-  `count` varchar(50) DEFAULT NULL COMMENT '文章数',
-  `care` varchar(50) DEFAULT NULL COMMENT '关注数',
-  `is_contribute` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否接受投稿',
-  `is_check` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否需要审核',
-  `last_time` varchar(20) DEFAULT NULL COMMENT '最新文章的添加时间',
+  `count` int(11) DEFAULT '0' COMMENT '文章数',
   `addtime` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- 转存表中的数据 `cloumn`
 --
 
-INSERT INTO `cloumn` (`id`, `title`, `description`, `uid`, `view`, `count`, `care`, `is_contribute`, `is_check`, `last_time`, `addtime`) VALUES
-(15, 'dsdasd', 'dsadsad', 0, NULL, NULL, NULL, 1, 1, NULL, '1438521113');
+INSERT INTO `cloumn` (`id`, `title`, `count`, `addtime`) VALUES
+(20, 'HTML5', 0, '1442646830'),
+(21, 'CSS3', 0, '1442646974'),
+(22, 'JavaScript', 0, '1442646989'),
+(24, 'NodeJs', 0, '1442647024'),
+(25, 'PHP', 0, '1442647038'),
+(26, 'Python', 0, '1442647052'),
+(27, 'Java', 0, '1442647063');
 
 -- --------------------------------------------------------
 
@@ -104,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `team` (
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL COMMENT '昵称',
+  `username` varchar(20) NOT NULL COMMENT '昵称',
   `realname` varchar(20) DEFAULT NULL COMMENT '真实姓名',
   `password` varchar(50) NOT NULL,
   `email` varchar(20) NOT NULL,
@@ -121,14 +130,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_login_time` varchar(20) DEFAULT NULL COMMENT '最后登陆的时间',
   `addtime` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- 转存表中的数据 `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `realname`, `password`, `email`, `phone`, `sex`, `city`, `job`, `company`, `github`, `description`, `status`, `token`, `last_login_ip`, `last_login_time`, `addtime`) VALUES
-(5, '殷士凯', NULL, '698d51a19d8a121ce581499d7b701668', '1181102772@qq.com', NULL, 0, NULL, '11', NULL, NULL, NULL, 0, NULL, '127.0.0.1', '1439389876', '1438010485');
+INSERT INTO `user` (`id`, `username`, `realname`, `password`, `email`, `phone`, `sex`, `city`, `job`, `company`, `github`, `description`, `status`, `token`, `last_login_ip`, `last_login_time`, `addtime`) VALUES
+(5, '殷士凯', NULL, '96e79218965eb72c92a549dd5a330112', '1181102772@qq.com', NULL, 0, NULL, '11', NULL, NULL, NULL, 0, NULL, '127.0.0.1', '1442728589', '1438010485');
 
 -- --------------------------------------------------------
 
