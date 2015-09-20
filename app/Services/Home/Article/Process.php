@@ -101,6 +101,7 @@ class Process extends BaseProcess
 			Cache::forget('uploadImg');
 		}
 
+
 		return $data;
 	}
 
