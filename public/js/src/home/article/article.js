@@ -2,7 +2,7 @@ define([
 	'react',
 	'jquery',
 	'WQ',
-	'home/model/ArticleModel',
+	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
     'editormd',
