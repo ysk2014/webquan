@@ -76,30 +76,31 @@ class Process extends BaseProcess
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
 
-		$logo_dir = preg_replace('/!\[\]\(/', '', $imgArr[0][0]);
+		$logo_dir = $imgArr[0][0];
+		$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
 		$logo_dir = preg_replace('/\)/', '', $logo_dir);
 		$data->setLogoDir($logo_dir);
 
-		if(Cache::has('uploadImg'))
-		{
-			$uploadImg = Cache::get('uploadImg');
+		// if(Cache::has('uploadImg'))
+		// {
+		// 	$uploadImg = Cache::get('uploadImg');
 
-			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
+		// 	$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
 
-			foreach ($uploadImg as $key => $value) {
-				if(!in_array($value, $imgArr[0]))
-				{
-					@unlink(dirname(dirname($savePath)).$value);
-					// 判断文件夹是否为空
-					if( $this->is_empty_dir(dirname($savePath)) )
-					{
-						@unlink(dirname($savePath));
-					}
-				}
-			}
+		// 	foreach ($uploadImg as $key => $value) {
+		// 		if(!in_array($value, $imgArr[0]))
+		// 		{
+		// 			@unlink(dirname(dirname($savePath)).$value);
+		// 			// 判断文件夹是否为空
+		// 			if( $this->is_empty_dir(dirname($savePath)) )
+		// 			{
+		// 				@unlink(dirname($savePath));
+		// 			}
+		// 		}
+		// 	}
 
-			Cache::forget('uploadImg');
-		}
+		// 	Cache::forget('uploadImg');
+		// }
 
 
 		return $data;
