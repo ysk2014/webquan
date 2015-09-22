@@ -1,8 +1,9 @@
 define([
 	'react',
 	'jquery',
+	'WQ',
 	'home/model/articleModel'
-	],function(React, $, ArticleModel) {
+	],function(React, $, WQ, ArticleModel) {
 
 
 	var mixin = {
@@ -45,7 +46,7 @@ define([
 									<img className="avatar" src="/image/user-default.png" />
 									<span className="name">{d.username}</span>
 								</a>
-								<span className="time">&nbsp;•&nbsp;{d.addtime}</span>
+								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
 							</div>
 							<div className="description">{d.description}</div>
 						</div>
