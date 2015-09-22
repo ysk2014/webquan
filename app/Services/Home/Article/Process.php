@@ -212,7 +212,7 @@ class Process extends BaseProcess
 		if($articleInfo) {
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('error'=>false,'data'=>array());
 		}
 	}
 

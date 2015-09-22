@@ -1,3 +1,9 @@
+*{
+	font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
 
 /**
 * 三角箭头图标, 没有定义方向和颜色，大小4px
@@ -309,7 +315,7 @@
 
 .drop-menu {
 	position: fixed;
-	top: 10px;
+	top: 6px;
 	right: 0;
 	margin-bottom: 0;
 	z-index: 1010;
@@ -386,10 +392,10 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 60px;
+	height: 50px;
 	width: 100%;
 	font-size: 18px;
-	line-height: 60px;
+	line-height: 50px;
 	/*padding-left: 250px;*/
 	background-color: #fff;
 	border-bottom: 1px solid #ddd;
@@ -405,7 +411,7 @@
 	text-align: center;
 	text-decoration: none;
 	padding: 6px 12px;
-	margin: 13px 100px 13px 0;
+	margin: 8px 100px 8px 0;
 	font-size: 18px;
 	height: 20px;
 	line-height: 20px;
@@ -554,7 +560,7 @@
 	display: inline-block;
 	color: #555;
 	font-size: 16px;
-	line-height: 60px;
+	line-height: 50px;
 	padding: 0;
 	margin-left: 20px;
 }
@@ -565,7 +571,7 @@
 
 
 .article-list {
-	max-width: 1000px;
+	max-width: 1080px;
 	min-width: 320px;
 	height: 100%;
 	margin: 0 auto;
@@ -623,4 +629,43 @@
 }
 .article-list article .description{
 	color: #666666;
+}
+
+.header .nav {
+	margin-left: 210px;
+	font-size: 16px;
+}
+.header .tab{
+    float: left;
+    line-height: 49px;
+    display: inline-block;
+    padding: 0 13px;
+    color: #666666;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    border-bottom: 1px solid transparent;
+}
+.header .tab:hover,
+.header .tab.active{
+    border-color: #03a9f4;
+    background-color: transparent;
+}
+.header .tab:after{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    border-bottom: 0 solid #03a9f4;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 218ms ease,border-width 218ms ease;
+    -o-transition: opacity 218ms ease,border-width 218ms ease;
+    transition: opacity 218ms ease,border-width 218ms ease;
+}
+.header .tab:hover:after,
+.header .tab.active:after{
+    border-width: 2px;
+    opacity: 1;
 }
