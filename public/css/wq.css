@@ -115,7 +115,7 @@
 	white-space: nowrap;
 }
 .dropdown-menu > li > a:hover{
-	background-color: #64ba9d;
+	background-color: #178fe6;
 	color: #fff;
 }
 .dropdown-menu i{
@@ -125,77 +125,6 @@
 }
 .open > .dropdown-menu{
 	display: block;
-}
-/**
-* 如果显示下拉菜单功能的按钮有图片，就让它圆角显示
-*/
-.avatar {
-	border-radius: 50%;
-}
-.avatar img{
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	border: 2px solid #fff;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-.avatar:hover img{
-	border-color: #64ba9d;
-}
-
-/**
-* 用户下拉菜单 dropdown-menu
-*/
-.navbar-user{
-	position: fixed;
-	top: 10px;
-	right: 0;
-	margin-bottom: 0;
-	z-index: 1010;
-}
-.navbar-user .user {
-	position: relative;
-	float: right;
-	width: 38px;
-	height: 38px;
-	display: inline-block;
-	padding-right: 10px;
-	margin-right: 10px;
-	border: none;
-}
-.navbar-user .user .caret{
-	position: absolute;
-	top: 20px;
-	right: 0;
-	border-top: 4px solid #000;
-}
-.navbar-user > .dropdown-menu{
-	right: 2px;
-	left: auto;
-	margin-top: 10px;
-	border: 1px solid #d9d9d9;
-}
-.navbar-user > .dropdown-menu::before,
-.navbar-user > .dropdown-menu::after{
-	left: 115px;
-}
-.navbar-user a.login{
-  position: relative;
-  top: 7px;
-  float: right;
-  padding: 0 2px;
-  margin-right: 8px;
-}
-.navbar-user a.login:hover{
-	color: #000;
-}
-.navbar-user .login i{
-	width: 18px;
-	height: 15px;
-	display: inline-block;
-	text-align: center;
 }
 
 
@@ -299,7 +228,6 @@
 * 动画
 */
 
-
 @-webkit-keyframes fade {
 	from { opacity: 0; }
 	to { opacity: 0.7; }
@@ -316,3 +244,383 @@
 
 
 
+.left-bar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 200px;
+	height: 100%;
+	bottom: 0;
+	background-color: #fff;
+	border-right: 1px solid #ddd;
+	z-index: 1001;
+}
+
+.left-bar .logo{
+	width: 90px;
+	height: 90px;
+	margin: 10px auto;
+}
+
+.left-nav{
+	list-style: none;
+}
+.left-nav li{
+	width: 100%;
+	height: 50px;
+	position: relative;
+}
+.left-nav li.active:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: -1px;
+	height: 100%;
+	border-right: 1px solid #fff;
+}
+.left-nav li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 50px;
+	text-align: center;
+	font-size: 16px;
+	/*border: 2px solid #fff;*/
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+.left-nav li a:hover{
+	color: #178fe6;
+}
+.left-nav li.active {
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+.left-nav li.active a{
+	font-weight: bold;
+	color: #178fe6;
+}
+.left-nav li a i{
+	margin-right: 10px;
+	font-size: 16px;
+}
+
+.drop-menu {
+	position: fixed;
+	top: 10px;
+	right: 0;
+	margin-bottom: 0;
+	z-index: 1010;
+}
+.drop-menu .login{
+    position: relative;
+    top: 7px;
+    float: right;
+    padding: 0 2px;
+    margin-right: 8px;
+}
+.drop-menu a.login:hover{
+	color: #000;
+}
+.drop-menu .login i{
+	margin-right: 4px;
+}
+.drop-menu .user.avatar{
+    position: relative;
+    float: right;
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    padding-right: 10px;
+    margin-right: 10px;
+    border: none;
+}
+/**
+* 如果显示下拉菜单功能的按钮有图片，就让它圆角显示
+*/
+.avatar {
+	border-radius: 50%;
+}
+.avatar img{
+	width: 100%;
+    height: 100%;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    vertical-align: middle;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.avatar:hover img{
+	border-color: #178fe6;
+}
+.user.avatar .caret{
+	position: absolute;
+	top: 20px;
+	right: 0;
+	border-top: 4px solid #000;
+}
+.drop-menu .dropdown-menu{
+	right: 2px;
+	left: auto;
+	margin-top: 10px;
+	border: 1px solid #d9d9d9;
+}
+.drop-menu .dropdown-menu::before,
+.drop-menu .dropdown-menu::after{
+	left: 115px;
+}
+
+.edit-article,
+.article-page{
+	max-width: 1000px;
+	min-width: 320px;
+	height: 100%;
+	margin: 0 auto;
+	margin-left: 250px;
+	padding-top: 70px;
+}
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 60px;
+	width: 100%;
+	font-size: 18px;
+	line-height: 60px;
+	/*padding-left: 250px;*/
+	background-color: #fff;
+	border-bottom: 1px solid #ddd;
+	z-index: 1000;
+}
+.header .desc{
+	margin-left: 250px;
+}
+/*提交按钮*/
+.header .submit-button {
+	float: right;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	padding: 6px 12px;
+	margin: 13px 100px 13px 0;
+	font-size: 18px;
+	height: 20px;
+	line-height: 20px;
+	cursor: pointer;
+	color: #555;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	transition: all 0.2s;
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+}
+.header .submit-button:hover,
+.header .submit-button:focus {
+	background-color: #049cdb;
+	color: #fff;
+}
+.edit-article > form{
+	margin: 0px auto 20px;
+}
+.edit-article .input-prepend{
+	width: 100%;
+	margin-bottom: 15px;
+	white-space: nowrap;
+}
+.edit-article .input-prepend input,
+.edit-article .input-prepend select,
+.edit-article .input-prepend textarea {
+	width: 100%;
+	height: 40px;
+	padding: 4px 12px;
+	font-size: 14px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #fff;
+	border: 1px solid #cccccc;
+}
+.edit-article .input-prepend textarea{
+	height: 108px;
+	line-height: 24px;
+	resize: none;
+}
+.edit-article .input-prepend textarea:focus{
+	outline: none;
+}
+
+.edit-article .tags-list {
+	border: 1px solid #ddd;
+	width: 100%;
+	height: 48px;
+	margin-bottom: 15px;
+	line-height: 40px;
+	padding: 4px 12px;
+	color: #555;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+.edit-article .tags-list i,
+.edit-article .tags-list i+span{
+	margin-right: 6px;
+}
+.edit-article .tags-list .tag{
+	display: inline-block;
+	border: 1px solid #ddd;
+	height: 38px;
+	color: #555;
+	line-height: 38px;
+	padding: 0 8px;
+	margin: 0 6px;
+	word-break: break-all;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+}
+.edit-article .tags-list .tag:hover,
+.edit-article .tags-list .tag.selected{
+	border: 1px solid #049cdb;
+	background-color: #049cdb;
+	color: #fff;
+}
+
+#article-editormd > textarea,
+#editormd-view > textarea{
+	display: none;
+}
+
+
+#editormd-view{
+	padding-left: 0px;
+	padding-right: 0px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.article-page > h3.title{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.article-page.author{
+	margin: 0px 0 8px;
+    color: #aaaaaa;
+    display: inline-block;
+}
+.article-page .author a{
+	color: #3da9f7;
+}
+.article-page .author .avatar,
+.article-list .author .avatar{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+.article-page .author a:hover,
+.article-list .author a:hover{
+	color: #2c79b0;
+	text-decoration: none;
+}
+.article-page .author a:hover .avatar,
+.article-list .author a:hover .avatar{
+	border: 2px solid #2c79b0;
+}
+.article-page .tag{
+	margin-right: 6px;
+	color: #555;
+}
+.article-page .tag.time {
+	color: #aaaaaa;
+}
+
+.header .btn-list{
+	float: right;
+	margin-right: 80px;
+}
+.header .btn{
+	display: inline-block;
+	color: #555;
+	font-size: 16px;
+	line-height: 60px;
+	padding: 0;
+	margin-left: 20px;
+}
+.header .btn i{
+	margin-right: 4px;
+}
+
+
+
+.article-list {
+	max-width: 1000px;
+	min-width: 320px;
+	height: 100%;
+	margin: 0 auto;
+	margin-left: 250px;
+	padding-top: 70px;
+}
+.article-list article{
+    padding: 20px;
+    background: #fff;
+    margin-top: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.article-list article:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+.article-list article:hover{
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.article-list article .pic{
+    float: left;
+    margin-right: 20px;
+    width: 165px;
+    height: 120px;
+    background: no-repeat center center;
+    background-size: cover;
+}
+/*.article-list article .pic img{
+	width: 100%;
+	height:100%;
+}*/
+.article-list article .desc {
+    overflow: hidden;
+}
+.article-list article .desc .title {
+    font-size: 18px;
+    font-weight: 600;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.article-list article .desc .author{
+    margin: 15px 0 8px;
+    color: #aaaaaa;
+}
+.article-list article .desc .author a{
+	color: #3da9f7;
+}
+.article-list article .description{
+	color: #666666;
+}

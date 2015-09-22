@@ -5,9 +5,7 @@ use Request;
 
 class CloumnController extends Controller {
 
-	public $navStatus;
 
-	public $returnData;
 	/**
 	 * Create a new controller instance.
 	 *
@@ -15,10 +13,8 @@ class CloumnController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->navStatus = 'cloumn';
-		$this->returnData = ['navStatus'=>$this->navStatus];
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if($isLogin) $this->returnData = ['navStatus'=>$this->navStatus,'userInfo'=>$isLogin];
+		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		// if($isLogin) $this->returnData = ['userInfo'=>$isLogin];
 	}
 
 	/**
@@ -28,21 +24,17 @@ class CloumnController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home/cloumn/index',$this->returnData);
+		return view('home.app');
 	}
-
-	public function showCloumn($id)
+	// 专题详情页
+	public function cloumnPage($id)
 	{
-		$manager = new CloumnProcess();
-		$data = $manager->getCloumnById($id);
-		$returnData = $this->returnData;
-		if($data) $returnData['cloumnInfo'] = $data;
-		return view('home/cloumn/cloumn',$returnData);
+		return view('home.app');
 	}
-
-	public function newIndex()
+	// 专题列表页
+	public function cloumnListPage()
 	{
-		return view('home/cloumn/new',$this->returnData);
+		return view('home.app');
 	}
 
     /**
@@ -53,16 +45,83 @@ class CloumnController extends Controller {
      */
 	public function addCloumn(CloumnProcess $manager)
 	{
-		$data = (array) Request::input('cloumn');
+		$data = (array) Request::input('data');
 		$data['addtime'] = time();
+
 		$param = new \App\Services\Home\Cloumn\CloumnSave();
 		$param->setAttributes($data);
-		if($msg = $manager->addCloumn($param)){
-			 return response()->json(['msg' => '注册成功', 'result' => true, 'data'=>$msg]);
-		}else{
-			$error = $manager->getErrorMessage();
-			return response()->json(['msg' => $error, 'result' => false]);
-		}
+
+		$result = $manager->addCloumn($param);
+
+		return response()->json($result);
 		
 	}
+
+    /**
+     * 编辑专题
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function editCloumn(CloumnProcess $manager)
+	{
+		$data = (array) Request::input('data');
+		
+		$param = new \App\Services\Home\Cloumn\CloumnSave();
+		$param->setAttributes($data);
+
+		$result = $manager->editCloumn($param);
+
+		return response()->json($result);
+		
+	}
+
+    /**
+     * 删除专题
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function delCloumn(CloumnProcess $manager)
+	{
+		$ids = (array) Request::input('id');
+		
+		$result = $manager->delCloumn($ids);
+
+		return response()->json($result);
+		
+	}
+
+    /**
+     * 根据专题id获取专题信息
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function getCloumnById(CloumnProcess $manager)
+	{
+		$id = Request::input('id');
+		
+		$result = $manager->getCloumnById($id);
+
+		return response()->json($result);
+		
+	}
+
+    /**
+     * 获取所有专题信息
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function getAllCloumns(CloumnProcess $manager)
+	{
+		$data = Request::input('way');
+		
+		$result = $manager->getCloumns($data);
+
+		return response()->json($result);
+		
+	}
+
 }

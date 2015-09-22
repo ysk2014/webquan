@@ -1,5 +1,6 @@
 <?php namespace App\Models\Home;
 
+use App\Models\Base;
 
 /**
  * 文章表模型
@@ -21,16 +22,16 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'is_check', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'addtime');
 
     /**
      * 增加文章
      * 
      * @param array $data 所需要插入的信息
      */
-    public function add(array $data)
+    public function addArticle(array $data)
     {
-        return $this->create($data);
+        return $this->insertGetId($data);
     }
 
     /**
@@ -38,7 +39,7 @@ class Article extends Base
      * 
      * @param array $data 所需要更新的信息
      */
-    public function edit(array $data, $id)
+    public function editArticle(array $data, $id)
     {
         return $this->where('id','=', intval($id))->update($data);
     }
@@ -46,48 +47,65 @@ class Article extends Base
     /**
      * 删除文章
      * 
-     * @param array $ids 专题的ID
+     * @param array $ids 文章的ID
      */
-    public function delete(array $ids)
+    public function delArticle(array $ids)
     {
         return $this->destroy($ids);
     }
 
     /**
-     * 获取文章信息
+     * 根据文章id获取文章信息
      * 
-     * @param intval $id 专题的ID
+     * @param intval $id 文章的ID
      */
     public function getArtById($id)
     {
-        return $this->select(array('article.*','user.*'))
+        return $this->select(array('article.*','user.username','cloumn.title as cloumnName'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.id','=', intval($id))
                     ->first();
     }
 
     /**
-     * 获取所有专题信息
+     * 根据专题id获取文章信息
      * 
-     * @param $data 排序
+     * @param intval $cid 专题的ID
      */
-    public function getArts($data)
+    public function getArtsByCid($cid,$way='addtime')
     {
-        return $this->select(array('article.*','user.*'))
+        return $this->select(array('article.*','user.username'))
                     ->leftJoin('user','article.uid','=','user.id')
-                    ->orderBy('article.'.$data,'desc')
+                    ->where('article.cid','=', intval($cid))
+                    ->orderBy($way,'desc')
                     ->get()
                     ->toArray();
     }
 
     /**
-     * 获取专题check
+     * 获取已公布的所有文章信息
+     * 
+     * @param $data 排序
+     */
+    public function getAllArticle($data='addtime')
+    {
+        return $this->select(array('article.*','user.username'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->orderBy('article.'.$data,'desc')
+                    ->where('article.is_publish','=',0)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 获取专题is_publish
      * 
      * @param intval $id 专题的ID
      */
-    public function getCheckById($id)
+    public function getPublishById($id)
     {
-        return $this->select('is_check')
+        return $this->select('is_publish')
                     ->where('id','=', intval($id))
                     ->first();
     }
@@ -98,7 +116,7 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function increment($data,$id)
+    public function incrementById($data,$id)
     {
         return $this->where('id','=', intval($id))
                     ->increment($data);
@@ -109,7 +127,7 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function decrement($data,$id)
+    public function decrementById($data,$id)
     {
         return $this->where('id','=', intval($id))
                     ->decrement($data);

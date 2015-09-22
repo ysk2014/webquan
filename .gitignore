@@ -1,1 +1,6 @@
-/config/sys
+.env
+
+*.log
+/config/database.php
+/config/sys.php
+/public/js/build

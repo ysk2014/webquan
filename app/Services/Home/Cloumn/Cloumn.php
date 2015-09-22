@@ -20,13 +20,11 @@ class Cloumn extends BaseValidate
         //创建验证规则
         $rules = array(
             'title'    => 'required',
-            'description'   => 'required',
         );
         
         //自定义验证消息
         $messages = array(
-            'title.required'   => Lang::get('Cloumn.title_empty'),
-            'description.required'  => Lang::get('Cloumn.description_empty')
+            'title.required'   => Lang::get('专题名称不能为空'),
         );
         
         //开始验证

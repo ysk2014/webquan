@@ -11,7 +11,7 @@ use App\Services\AbstractParam;
 class UserSave extends AbstractParam
 {
 	
-    protected $name;
+    protected $username;
 
     protected $realname;
 
@@ -25,9 +25,9 @@ class UserSave extends AbstractParam
 
     protected $id;
 
-    public function setName($name)
+    public function setName($username)
     {
-        $this->name = $this->attributes['name'] = $name;
+        $this->username = $this->attributes['username'] = $name;
         return $this;
     }
 

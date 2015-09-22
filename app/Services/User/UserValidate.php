@@ -20,7 +20,7 @@ class UserValidate extends BaseValidate
 	{
 		// 创建验证规则
 		$rules = array(
-			'name' 		  => 'required',
+			'username'    => 'required',
 			'password'    => 'required',
 			'job' 		  => 'required',
 			'email'       => 'required'
@@ -28,10 +28,10 @@ class UserValidate extends BaseValidate
 
 		// 自定义验证信息
 		$messages = array(
-			'name.required'        => Lang::get('user.account_name_empty'),
-			'password.required'    => Lang::get('user.password_empty'),
-			'job.required'         => Lang::get('user.job_empty'),
-			'email.required' => Lang::get('user.email_empty')
+			'username.required'    => Lang::get('用户名不能为空'),
+			'password.required'    => Lang::get('密码不能为空'),
+			'job.required'         => Lang::get('职位不能为空'),
+			'email.required'       => Lang::get('邮箱不能为空')
 		);
 
 		// 开始验证
@@ -60,9 +60,9 @@ class UserValidate extends BaseValidate
         
         // 自定义验证消息
         $messages = array(
-            'oldPassword.required'  => Lang::get('user.password_empty'),
-            'newPassword.required'  => Lang::get('user.new_password_empty'),
-            'newPasswordRepeat.required' => Lang::get('user.newPasswordRepeat')
+            'oldPassword.required'  => Lang::get('旧密码不能为空'),
+            'newPassword.required'  => Lang::get('新密码不能为空'),
+            'newPasswordRepeat.required' => Lang::get('重复密码不能为空')
         );
 
         //开始验证
@@ -76,7 +76,7 @@ class UserValidate extends BaseValidate
         //新密码输入要一致
         if($data->newPassword != $data->newPasswordRepeat)
         {
-            $this->errorMsg = Lang::get('user.password_comfirm');
+            $this->errorMsg = Lang::get('新密码输入不一致');
             return false;
         }
 
@@ -92,7 +92,7 @@ class UserValidate extends BaseValidate
 	{
 		// 创建验证规则
 		$rules = array(
-			'name' 		  => 'required',
+			'username' 	  => 'required',
 			'password'    => 'required',
 			'job' 		  => 'required',
 			'email'       => 'required'
@@ -100,10 +100,10 @@ class UserValidate extends BaseValidate
 
 		// 自定义验证信息
 		$messages = array(
-			'name.required'        => Lang::get('user.account_name_empty'),
-			'password.required'    => Lang::get('user.password_empty'),
-			'job.required'         => Lang::get('user.job_empty'),
-			'email.required' => Lang::get('user.email_empty')
+			'username.required'    => Lang::get('用户名不能为空'),
+			'password.required'    => Lang::get('密码不能为空'),
+			'job.required'         => Lang::get('职位不能为空'),
+			'email.required'       => Lang::get('邮箱不能为空')
 		);
 
 		// 开始验证

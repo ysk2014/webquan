@@ -1,20 +1,34 @@
+define([
+	'react',
+	'jquery',
+	'home/common/leftNav',
+	'home/common/userDropMenu',
+	'home/home/articleList',
+	],function(React, $, LeftNav, UserDropMenu, ArticleList) {
 
-define(['react','jquery'],function(React, $) {
+
+	var mixin = {
+		init: function() {
+			
+		},
+	}
 
 	return React.createClass({
+		mixins: [mixin],
 		getInitialState: function() {
 			return {
 				name: 'home',
 			}
 		},
-		handleClick: function() {
-			window.location.href = '/sign_in';
+		componentDidMount: function() {
+			
 		},
 		render: function() {
 			return (
 				<div>
-					<div onClick={this.handleClick}>登陆</div>
-					<div>注册</div>
+					<UserDropMenu />
+					<LeftNav active={this.state.name} />
+					<ArticleList />
 				</div>
 			);
 		}
