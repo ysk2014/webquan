@@ -22,7 +22,7 @@ class Process extends BaseProcess
     private $articleModel;
 
     /**
-     * 用户表单验证对象
+     * 文章表单验证对象
      * 
      * @var object
      */

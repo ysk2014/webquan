@@ -1,7 +1,7 @@
-<?php namespace App\Services\Home\Comment\Validate;
+<?php namespace App\Services\Home\Comment;
 
 use Validator, Lang;
-use App\Services\Home\BaseValidate;
+use App\Services\BaseValidate;
 
 /**
  * 功能表单验证
@@ -19,18 +19,16 @@ class Comment extends BaseValidate
     {
         //创建验证规则
         $rules = array(
-            'object_id'    => 'required',
-            'object_type'   => 'required',
+            'aid'    => 'required',
+            'uid'   => 'required',
             'content'     => 'required',
-            'nickname'  => 'required',
         );
         
         //自定义验证消息
         $messages = array(
-            'object_id.required'   => Lang::get('home.comment_object_id_empty'),
-            'object_type.required'  => Lang::get('home.comment_object_type_empty'),
-            'nickname.required'    => Lang::get('home.comment_nickname_empty'),
-            'content.required' => Lang::get('home.comment_content_empty')
+            'aid.required'   => Lang::get('文章id不能为空'),
+            'uid.required'  => Lang::get('用户id不能为空'),
+            'content.required' => Lang::get('评论内容不能为空')
         );
         
         //开始验证
