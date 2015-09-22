@@ -89,6 +89,14 @@ class Routes
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
 
 
+            //根据文章ID取得评论的内容
+            Route::post('/article/comments', 'Home\CommentController@getContentByAid');
+            //添加评论
+            Route::post('/article/comments/add', 'Home\CommentController@addComment');
+            //删除评论
+            Route::delete('/article/comments', 'Home\CommentController@delContent');
+
+
             // 专题列表页
             Route::get('/cloumns', 'Home\CloumnController@cloumnListPage');
             // 专题详情页

@@ -57,6 +57,16 @@ class Comment extends Model
     }
 
     /**
+     * 删除评论
+     * 
+     * @param array $data 所需要插入的信息
+     */
+    public function delComment($ids)
+    {
+        return $this->destroy($ids);
+    }
+
+    /**
      * 根据用户id删除评论
      * 
      * @param $aid,$uid
