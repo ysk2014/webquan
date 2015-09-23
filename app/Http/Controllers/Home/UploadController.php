@@ -48,7 +48,7 @@ class UploadController extends Controller {
         {
         	$value = Cache::get('uploadImg');
         	$imgArr = array_push($value, $result['url']);
-        	Cache::put('uploadImg',$imgArr,60);
+        	Cache::add('uploadImg',$imgArr,60);
         } 
         else 
         {

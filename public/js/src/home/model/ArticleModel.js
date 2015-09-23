@@ -18,15 +18,6 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		getAllArticleByCid: function(data, callback) {
 			BaseModel.post('/cloumn/article/list',{'data':data}, callback);
 		},
-	    /**
-	     * 根据笔记本id获取文章列表
-	     * 
-	     * @param nid 笔记本id
-	     * @param way 根据way进行排序，可以不传，默认为addtime创建时间排序
-	     */
-		getAllArticleByNid: function(data,callback) {
-			BaseModel.post('/notebook/article/list',{'data':data}, callback);
-		},
 
 	    /**
 	     * 根据文章id获取文章详情
@@ -53,6 +44,23 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		delArticle: function(data, callback) {
 			BaseModel.post('/article/del', data, callback);
 		},
+
+
+
+
+		// 评论相关操作
+		//添加评论
+		addComment: function(data,callback) {
+			BaseModel.post('/article/comments/add', {'data':data}, callback);
+		},
+		// 根据文章ID取得评论的内容
+		getContentsByAid: function(aid,callback) {
+			BaseModel.post('/article/comments', {'aid':aid}, callback);
+		},
+		// 删除评论
+		delContent: function(cid,callback) {
+			BaseModel.del('/article/comments', {'cid':cid}, callback);
+		}
 	};
-	return UserModel;
+	return ArticleModel;
 });

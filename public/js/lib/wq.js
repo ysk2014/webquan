@@ -13,6 +13,50 @@ WQ.goTop = function(){
 	});
 }
 
+//时间转化
+WQ.timeFormat = function(time) {
+    time = time ? parseInt(time)*1000 : false;
+    if(!time) return false;
+
+    var nowDate = new Date();
+    
+    var oldDate = new Date(time);
+    var oldYear = oldDate.getFullYear();
+    var oldMonth = oldDate.getMonth()+1;
+    var oldDay = oldDate.getDate();
+    var oldHour = oldDate.getHours();
+    var oldMinute = oldDate.getMinutes();
+
+    var data = Math.floor(parseInt(nowDate - oldDate)/1000/60); //获取时间差，以分钟为单位
+
+
+    if(oldMonth<10) {
+        oldMonth = '0' + oldMonth;
+    }
+
+    if(oldDay<10) {
+        oldDay = '0' + oldDay;
+    }
+
+    if(oldHour<10) {
+        oldHour = '0' + oldHour;
+    }
+
+    if(oldMinute<10) {
+        oldMinute = '0' + oldMinute;
+    }
+    
+    if(data==0) {
+        return '1 分钟内';
+    } else if(data>0 && Math.floor(data/60)==0) {
+        return data + ' 分钟前';
+    } else if(Math.floor(data/60)>0 && Math.floor(data/60/24)==0) {
+        return Math.floor(data/60) + ' 小时前';
+    } else {
+        return oldYear + '/' + oldMonth + '/' + oldDay + '  ' + oldHour + ':' +oldMinute;
+    }
+}
+
 
 WQ.isIE    = (navigator.appName == "Microsoft Internet Explorer");
 WQ.isIE8   = (WQ.isIE && navigator.appVersion.match(/8./i) == "8.");

@@ -36,5 +36,5 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 			BaseModel.post('/cloumn/del', data, callback);
 		},
 	};
-	return UserModel;
+	return CloumnModel;
 });

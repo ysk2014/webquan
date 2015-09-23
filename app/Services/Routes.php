@@ -80,13 +80,21 @@ class Routes
 
 
             // 文章页
-            Route::get('/article', 'Home\ArticleController@index');
+            Route::get('/article/{id}', 'Home\ArticleController@index');
             // 获取已公布的文章列表
             Route::post('/article/list', 'Home\ArticleController@getAllArticle');
             // 根据专题id获取文章列表
             Route::post('/cloumn/article/list', 'Home\ArticleController@getArtsByCid');
             // 获取单个文章信息
-            Route::post('/article/{id}', 'Home\ArticleController@getArticleById');
+            Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
+
+
+            //根据文章ID取得评论的内容
+            Route::post('/article/comments', 'Home\CommentController@getContentByAid');
+            //添加评论
+            Route::post('/article/comments/add', 'Home\CommentController@addComment');
+            //删除评论
+            Route::delete('/article/comments', 'Home\CommentController@delContent');
 
 
             // 专题列表页
@@ -106,12 +114,12 @@ class Routes
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
 
 
-                //根据笔记本id获取文章列表
-                Route::post('/notebook/article/list', 'Home\ArticleController@getArtsByNid');
                 // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
                 // 编辑文章页
-                Route::get('/article/edit', 'Home\ArticleController@editPage');
+                Route::get('/article/add', 'Home\ArticleController@editPage');
+                // 编辑文章页
+                Route::get('/article/edit/{id}', 'Home\ArticleController@editPage');
                 // 添加文章
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
                 // 删除文章
@@ -119,7 +127,7 @@ class Routes
                 
 
                 //编辑专题页面
-                Route::get('/cloumn/edit', 'Home\CloumnController@cloumnPage');
+                Route::get('/cloumn/add', 'Home\CloumnController@cloumnPage');
                 //编辑专题
                 Route::post('/cloumn/edit', 'Home\CloumnController@editCloumn');
                 //创建专题
@@ -132,15 +140,6 @@ class Routes
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
 
-
-                // 添加笔记本
-                Route::post('/notebook/add', 'Home\NotebookController@addNotebook');
-                // 编辑笔记本
-                Route::post('/notebook/edit', 'Home\NotebookController@editNotebook');
-                // 删除笔记本
-                Route::post('/notebook/del', 'Home\NotebookController@delNotebook');
-                // 获取笔记本列表
-                Route::post('/notebook/list', 'Home\NotebookController@getNotebooksByUid');
             });
         });
         return $this;

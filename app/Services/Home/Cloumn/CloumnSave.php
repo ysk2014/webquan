@@ -11,19 +11,7 @@ class CloumnSave extends AbstractParam
 {
     protected $title;
 
-    protected $description;
-
-    protected $uid;
-
-    protected $view;
-
     protected $count;
-
-    protected $care;
-
-    protected $logo_dir;
-
-    protected $tag;
 
     protected $addtime;
 
@@ -35,47 +23,12 @@ class CloumnSave extends AbstractParam
         return $this;
     }
 
-    public function setDescription($description)
-    {
-        $this->description = $this->attributes['description'] = $description;
-        return $this;
-    }
-
-    public function setUid($uid)
-    {
-        $this->uid = $this->attributes['uid'] = $uid;
-        return $this;
-    }
-
-    public function setView($view)
-    {
-        $this->view = $this->attributes['view'] = $view;
-        return $this;
-    }
-
     public function setCount($count)
     {
         $this->count = $this->attributes['count'] = $count;
         return $this;
     }
 
-    public function setCare($care)
-    {
-        $this->care = $this->attributes['care'] = $care;
-        return $this;
-    }
-
-    public function setLogoDir($logo_dir)
-    {
-        $this->logo_dir = $this->attributes['logo_dir'] = $logo_dir;
-        return $this;
-    }
-
-    public function setTag($tag)
-    {
-        $this->tag = $this->attributes['tag'] = $tag;
-        return $this;
-    }
 
     public function setAddtime($addtime)
     {

@@ -7,7 +7,6 @@
 	<title>Web圈</title>
 
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/normalize.css') }}" rel="stylesheet">
 	<link href="{{ asset('js/lib/editor/css/editormd.css') }}" rel="stylesheet">
   	<link rel="stylesheet" href="{{ asset('js/lib/editor/lib/codemirror/codemirror.min.css') }}" />
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">

@@ -1,3 +1,9 @@
+*{
+	font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
 
 /**
 * 三角箭头图标, 没有定义方向和颜色，大小4px
@@ -309,7 +315,7 @@
 
 .drop-menu {
 	position: fixed;
-	top: 10px;
+	top: 6px;
 	right: 0;
 	margin-bottom: 0;
 	z-index: 1010;
@@ -373,28 +379,57 @@
 	left: 115px;
 }
 
-.edit-article{
-	max-width: 900px;
+.edit-article,
+.article-page{
+	max-width: 1000px;
 	min-width: 320px;
 	height: 100%;
 	margin: 0 auto;
 	margin-left: 250px;
+	padding-top: 70px;
 }
-.edit-article .header {
+.header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 60px;
+	height: 50px;
 	width: 100%;
 	font-size: 18px;
-	line-height: 60px;
-	padding-left: 250px;
+	line-height: 50px;
+	/*padding-left: 250px;*/
 	background-color: #fff;
 	border-bottom: 1px solid #ddd;
 	z-index: 1000;
 }
-.edit-article form{
-	margin: 70px auto 20px;
+.header .desc{
+	margin-left: 250px;
+}
+/*提交按钮*/
+.header .submit-button {
+	float: right;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	padding: 6px 12px;
+	margin: 8px 100px 8px 0;
+	font-size: 18px;
+	height: 20px;
+	line-height: 20px;
+	cursor: pointer;
+	color: #555;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	transition: all 0.2s;
+	-webkit-transition: all 0.2s;
+	-moz-transition: all 0.2s;
+}
+.header .submit-button:hover,
+.header .submit-button:focus {
+	background-color: #049cdb;
+	color: #fff;
+}
+.edit-article > form{
+	margin: 0px auto 20px;
 }
 .edit-article .input-prepend{
 	width: 100%;
@@ -424,27 +459,213 @@
 	outline: none;
 }
 
-/*提交按钮*/
-.edit-article .submit-button {
-	text-align: center;
-	text-decoration: none;
-	padding: 6px 12px;
-	font-size: 18px;
-	height: 40px;
-	line-height: 20px;
-	cursor: pointer;
-	color: #049cdb;
-	border-radius: 4px;
-	border: 1px solid #049cdb;
-	transition: all 1s;
-	-webkit-transition: all 1s;
-	-moz-transition: all 1s;
+.edit-article .tags-list {
+	border: 1px solid #ddd;
+	width: 100%;
+	height: 48px;
+	margin-bottom: 15px;
+	line-height: 40px;
+	padding: 4px 12px;
+	color: #555;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
 }
-.edit-article .submit-button:hover,
-.edit-article .submit-button:focus {
+.edit-article .tags-list i,
+.edit-article .tags-list i+span{
+	margin-right: 6px;
+}
+.edit-article .tags-list .tag{
+	display: inline-block;
+	border: 1px solid #ddd;
+	height: 38px;
+	color: #555;
+	line-height: 38px;
+	padding: 0 8px;
+	margin: 0 6px;
+	word-break: break-all;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+}
+.edit-article .tags-list .tag:hover,
+.edit-article .tags-list .tag.selected{
+	border: 1px solid #049cdb;
 	background-color: #049cdb;
 	color: #fff;
 }
-#article-editormd > textarea{
+
+#article-editormd > textarea,
+#editormd-view > textarea{
 	display: none;
+}
+
+
+#editormd-view{
+	padding-left: 0px;
+	padding-right: 0px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.article-page > h3.title{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.article-page.author{
+	margin: 0px 0 8px;
+    color: #aaaaaa;
+    display: inline-block;
+}
+.article-page .author a{
+	color: #3da9f7;
+}
+.article-page .author .avatar,
+.article-list .author .avatar{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	vertical-align: middle;
+	margin-right: 6px;
+}
+.article-page .author a:hover,
+.article-list .author a:hover{
+	color: #2c79b0;
+	text-decoration: none;
+}
+.article-page .author a:hover .avatar,
+.article-list .author a:hover .avatar{
+	border: 2px solid #2c79b0;
+}
+.article-page .tag{
+	margin-right: 6px;
+	color: #555;
+}
+.article-page .tag.time {
+	color: #aaaaaa;
+}
+
+.header .btn-list{
+	float: right;
+	margin-right: 80px;
+}
+.header .btn{
+	display: inline-block;
+	color: #555;
+	font-size: 16px;
+	line-height: 50px;
+	padding: 0;
+	margin-left: 20px;
+}
+.header .btn i{
+	margin-right: 4px;
+}
+
+
+
+.article-list {
+	max-width: 1080px;
+	min-width: 320px;
+	height: 100%;
+	margin: 0 auto;
+	margin-left: 250px;
+	padding-top: 70px;
+}
+.article-list article{
+    padding: 20px;
+    background: #fff;
+    margin-top: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.article-list article:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+.article-list article:hover{
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.article-list article .pic{
+    float: left;
+    margin-right: 20px;
+    width: 165px;
+    height: 120px;
+    background: no-repeat center center;
+    background-size: cover;
+}
+/*.article-list article .pic img{
+	width: 100%;
+	height:100%;
+}*/
+.article-list article .desc {
+    overflow: hidden;
+}
+.article-list article .desc .title {
+    font-size: 18px;
+    font-weight: 600;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.article-list article .desc .author{
+    margin: 15px 0 8px;
+    color: #aaaaaa;
+}
+.article-list article .desc .author a{
+	color: #3da9f7;
+}
+.article-list article .description{
+	color: #666666;
+}
+
+.header .nav {
+	margin-left: 210px;
+	font-size: 16px;
+}
+.header .tab{
+    float: left;
+    line-height: 49px;
+    display: inline-block;
+    padding: 0 13px;
+    color: #666666;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    border-bottom: 1px solid transparent;
+}
+.header .tab:hover,
+.header .tab.active{
+    border-color: #03a9f4;
+    background-color: transparent;
+}
+.header .tab:after{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    border-bottom: 0 solid #03a9f4;
+    content: '';
+    opacity: 0;
+    -webkit-transition: opacity 218ms ease,border-width 218ms ease;
+    -o-transition: opacity 218ms ease,border-width 218ms ease;
+    transition: opacity 218ms ease,border-width 218ms ease;
+}
+.header .tab:hover:after,
+.header .tab.active:after{
+    border-width: 2px;
+    opacity: 1;
 }

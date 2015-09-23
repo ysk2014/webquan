@@ -3,7 +3,8 @@ define([
 	'jquery',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
-	],function(React, $, LeftNav, UserDropMenu) {
+	'home/home/articleList',
+	],function(React, $, LeftNav, UserDropMenu, ArticleList) {
 
 
 	var mixin = {
@@ -27,6 +28,7 @@ define([
 				<div>
 					<UserDropMenu />
 					<LeftNav active={this.state.name} />
+					<ArticleList />
 				</div>
 			);
 		}

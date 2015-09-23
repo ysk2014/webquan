@@ -23,7 +23,7 @@ class Cloumn extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'description', 'logo_dir', 'uid', 'view', 'count', 'care', 'tag','addtime');
+    protected $fillable = array('id', 'title', 'count', 'addtime');
 
     /**
      * 增加专题
@@ -62,9 +62,7 @@ class Cloumn extends Base
      */
     public function getCloumnById($id)
     {
-        return $this->select(array('cloumn.*','user.name as uname'))
-                    ->leftJoin('user','cloumn.uid','=','user.id')
-                    ->where('cloumn.id','=', intval($id))
+        return $this->where('id','=', intval($id))
                     ->first();
     }
 
@@ -75,9 +73,7 @@ class Cloumn extends Base
      */
     public function getCloumns($data='addtime')
     {
-        return $this->select(array('cloumn.*','user.*'))
-                    ->leftJoin('user','cloumn.uid','=','user.id')
-                    ->orderBy('cloumn.'.$data,'desc')
+        return $this->orderBy($data,'desc')
                     ->get()
                     ->toArray();
     }
