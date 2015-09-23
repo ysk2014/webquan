@@ -6,6 +6,11 @@ define([
 	'home/common/leftNav',
 	'home/common/userDropMenu',
     'editormd',
+    'plugins/image-dialog/image-dialog',
+    'plugins/code-block-dialog/code-block-dialog',
+    'plugins/link-dialog/link-dialog',
+    'plugins/table-dialog/table-dialog',
+    'plugins/test-plugin/test-plugin',
 	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, editormd) {
 
 
@@ -33,7 +38,31 @@ define([
                 tocm            : true,
 	        });
 		},
-		
+		showComment: function() {
+	        var commentEditor = editormd("editormd-comment", {
+                width   : "100%",
+                height  : 200,
+                // markdown : content,
+                imageUpload: 'true',
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/upload",
+                path    : "/js/lib/editor/lib/",
+                toolbarIcons: function() {
+                    return [
+                        "clear", "bold", "italic", "quote", "h4", "|", 
+                        "list-ul", "list-ol","|",
+                        "link", "image", "code", "code-block", "table", "|",
+                        "watch", "preview", "fullscreen"
+                    ];
+                },
+                onchange: function() {
+                	_this.state.commentContent = this.getValue();
+                	_this.setState({
+                		commentContent: _this.state.commentContent
+                	});
+                }
+	        });
+		},
 	}
 
 	return React.createClass({
@@ -41,7 +70,9 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'home',
-				aid: this.props.params.id
+				aid: this.props.params.id,
+				commentList: [],
+				commentContent: ''
 			}
 		},
 		componentDidMount: function() {
@@ -90,6 +121,10 @@ define([
 						</div>
 						
 						<div id="editormd-view">
+							<textarea></textarea>
+						</div>
+
+						<div id="editormd-comment">
 							<textarea></textarea>
 						</div>
 					</div>

@@ -499,7 +499,8 @@
 }
 
 #article-editormd > textarea,
-#editormd-view > textarea{
+#editormd-view > textarea,
+#editormd-comment > textarea{
 	display: none;
 }
 
