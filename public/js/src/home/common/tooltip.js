@@ -1,6 +1,6 @@
 define(['react','jquery'],function(React, $) {
   return{
-      alert:function(){
+      alert:function(content){
           $("body").append("<div id='alertMask''></div>");
           var AlertBox = React.createClass({
               componentDidMount: function(){
@@ -25,7 +25,7 @@ define(['react','jquery'],function(React, $) {
             render: function(){
                 return (
                     <div className="alert-box">
-                        <p>范德萨官三代饭店</p>
+                        <p>{content}</p>
                     </div>
                 );
             }
