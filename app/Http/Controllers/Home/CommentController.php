@@ -5,6 +5,7 @@ use Request;
 
 class CommentController extends Controller {
 
+
 	/**
 	 * Create a new controller instance.
 	 *

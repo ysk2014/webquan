@@ -8,7 +8,7 @@ use App\Services\BaseValidate;
  *
  * @author jiang <mylampblog@163.com>
  */
-class Comment extends BaseValidate
+class CommentValidate extends BaseValidate
 {
     /**
      * 增加评论的表单验证

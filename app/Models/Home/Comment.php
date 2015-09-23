@@ -32,7 +32,11 @@ class Comment extends Model
      */
     public function getContentByAid($aid)
     {
-        return $this->where('aid', $aid)->get()->toArray();
+        return $this->select(array('comment.*','user.username'))
+                    ->leftJoin('user','comment.uid','=','user.id')
+                    ->where('aid', $aid)
+                    ->get()
+                    ->toArray();
     }
 
 

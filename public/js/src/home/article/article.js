@@ -5,13 +5,9 @@ define([
 	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
+	'marked',
     'editormd',
-    'plugins/image-dialog/image-dialog',
-    'plugins/code-block-dialog/code-block-dialog',
-    'plugins/link-dialog/link-dialog',
-    'plugins/table-dialog/table-dialog',
-    'plugins/test-plugin/test-plugin',
-	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, editormd) {
+	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, marked, editormd) {
 
 
 	var mixin = {
@@ -21,11 +17,11 @@ define([
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data.data);
 						_this.setState({
 							info: data.data,
 						});
 						_this.showEditor(data.data.content);
+						_this.showComment(data.data.id);
 					}
 				}
 			});
@@ -38,30 +34,50 @@ define([
                 tocm            : true,
 	        });
 		},
-		showComment: function() {
-	        var commentEditor = editormd("editormd-comment", {
-                width   : "100%",
-                height  : 200,
-                // markdown : content,
-                imageUpload: 'true',
-                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "/upload",
-                path    : "/js/lib/editor/lib/",
-                toolbarIcons: function() {
-                    return [
-                        "clear", "bold", "italic", "quote", "h4", "|", 
-                        "list-ul", "list-ol","|",
-                        "link", "image", "code", "code-block", "table", "|",
-                        "watch", "preview", "fullscreen"
-                    ];
-                },
-                onchange: function() {
-                	_this.state.commentContent = this.getValue();
-                	_this.setState({
-                		commentContent: _this.state.commentContent
-                	});
-                }
+		showComment: function(aid) {
+			var _this = this;
+	        ArticleModel.getContentsByAid(aid,function(success,data) {
+	        	if(success) {
+	        		if(!data.error) {
+	        			console.log(data);
+	        			var commentList = data.data.map(function(d,i){
+	        				marked(d.content,function(err, content) {
+	        					if(err) throw err;
+	        					d.content = content;
+	        				});
+	        				return d;
+	        			});
+	        			console.log(commentList);
+	        			_this.setState({
+	        				commentList: commentList
+	        			});
+	        		} else {
+	        			alert(data.msg);
+	        		}
+	        	}
 	        });
+		},
+		handleChangeCommnet: function(event) {
+			this.setState({
+				commentContent: event.target.value
+			});
+		},
+		submitComment: function() {
+			var aid = this.state.aid;
+			var content = this.state.commentContent;
+			var uid = WQ.cookie.get('id');
+
+			var data = {aid:aid, uid:uid, content:content};
+
+			ArticleModel.addComment(data,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						console.log(data);
+					} else {
+						alert(data.msg);
+					}
+				}
+			});
 		},
 	}
 
@@ -72,7 +88,7 @@ define([
 				name: 'home',
 				aid: this.props.params.id,
 				commentList: [],
-				commentContent: ''
+				commentContent: '',
 			}
 		},
 		componentDidMount: function() {
@@ -86,6 +102,28 @@ define([
 			var cloumn   = _this.state.info ? _this.state.info.cloumnName : null;
 			var view     = _this.state.info ? _this.state.info.view       : null;
 			var comment  = _this.state.info ? _this.state.info.comment    : null;
+
+			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
+				return (
+					<div className="comment-item  clearfix">
+						<a className="user avatar">
+							<img src="/image/user-default.png" />
+						</a>
+						<div className="comment-right">
+							<div className="con">
+								<span className="author">
+									<a href="javascript:void(0)" >{d.username}</a>
+									<div className="hd-time">{WQ.timeFormat(d.addtime)}</div>
+								</span>
+								<div className="html">{d.content}</div>
+							</div>
+							<div className="replay">
+								<a data-nick={d.username}>回复</a>
+							</div>
+						</div>
+					</div>
+				);
+			}) : null;
 			return (
 				<div>
 					<UserDropMenu />
@@ -124,8 +162,34 @@ define([
 							<textarea></textarea>
 						</div>
 
-						<div id="editormd-comment">
-							<textarea></textarea>
+						<div className="comment-box">
+							<div className="hd">评论</div>
+							<div className="bd">
+								<div className="publish">
+									<textarea id="comment-text" placeholder="参与讨论。支持markdown语法" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
+									<div className="comment-submit" onClick={this.submitComment}>发表评论</div>
+								</div>
+								<div className="comment-list">
+									<div className="comment-item  clearfix">
+										<a className="user avatar">
+											<img src="/image/user-default.png" />
+										</a>
+										<div className="comment-right">
+											<div className="con">
+												<span className="author">
+													<a href="" >dsad</a>
+													<div className="hd-time">3小时前</div>
+												</span>
+												<div className="html">赞了此文章！</div>
+											</div>
+											<div className="replay">
+												<a data-nick="龙卷X">回复</a>
+											</div>
+										</div>
+									</div>
+									{commentList}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

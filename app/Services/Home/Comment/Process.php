@@ -2,13 +2,13 @@
 
 use Lang;
 use App\Models\Home\Comment as CommentModel;
-use App\Models\Home\CommentValidate;
-use App\Services\Home\BaseProcess;
+use App\Services\Home\Comment\CommentValidate;
+use App\Services\BaseProcess;
 
 /**
  * 评论相关处理
  *
- * @author jiang <mylampblog@163.com>
+ * @author ysk
  */
 class Process extends BaseProcess
 {
