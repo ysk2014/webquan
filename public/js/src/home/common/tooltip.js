@@ -30,10 +30,10 @@ define(['react','jquery'],function(React, $) {
                 );
             }
           });
-      React.render(
-          <AlertBox />,
-          document.getElementById("alertMask")
-      )
+        React.render(
+            <AlertBox />,
+            document.getElementById("alertMask")
+        )
       }
   }
 })

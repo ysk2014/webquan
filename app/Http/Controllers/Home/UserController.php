@@ -39,6 +39,13 @@ class UserController extends Controller {
 		return view('home.app');
 	}
 
+	/**
+	* 设置
+	*/
+	public function settings()
+	{
+		return view('home.app');
+	}
 
     /**
      * 开始登录处理

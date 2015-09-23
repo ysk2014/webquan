@@ -112,6 +112,8 @@ class Routes
                 Route::post('/user/edit', 'Home\UserController@editUser');
                 // 修改密码 
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
+                //设置
+                Route::get('/settings', 'Home\UserController@settings');
 
 
                 // 编辑文章
