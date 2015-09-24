@@ -46,10 +46,10 @@ class Process extends BaseProcess
         
         if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
-        $cid = $this->commentModel->addComment($data);
-        if($cid)
+        $result = $this->commentModel->addComment($data);
+        if($result['id'])
         {
-            return array('error'=>false,'data'=>$cid);
+            return array('error'=>false,'data'=>$result);
         }
         else
         {

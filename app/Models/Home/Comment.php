@@ -57,7 +57,7 @@ class Comment extends Model
      */
     public function addComment(array $data)
     {
-        return $this->insertGetId($data);
+        return array('id'=>$this->insertGetId($data),'addtime'=>$data['addtime']);
     }
 
     /**

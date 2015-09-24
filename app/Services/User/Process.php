@@ -156,5 +156,23 @@ class Process extends BaseProcess
         return $resultArr;
     }
 
+    /**
+     * 检查用户是否存在
+     * 
+     * @param string $username
+     * @access public
+     * @return array
+     */
+    public function checkUserName($username)
+    {
+        $userInfo = $this->userModel->InfoByName($username);
+        if($userInfo !== false) {
+            $resultArr = array('error'=>true, 'msg'=>'用户名已占用');
+        } else {
+            $resultArr = array('error'=>false, 'msg'=>'用户名未占用');
+        }
+        return $resultArr;
+    }
+
 }
 ?>

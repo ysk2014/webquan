@@ -39,17 +39,8 @@ define([
 	        ArticleModel.getContentsByAid(aid,function(success,data) {
 	        	if(success) {
 	        		if(!data.error) {
-	        			console.log(data);
-	        			var commentList = data.data.map(function(d,i){
-	        				marked(d.content,function(err, content) {
-	        					if(err) throw err;
-	        					d.content = content;
-	        				});
-	        				return d;
-	        			});
-	        			console.log(commentList);
 	        			_this.setState({
-	        				commentList: commentList
+	        				commentList: data.data
 	        			});
 	        		} else {
 	        			alert(data.msg);
@@ -63,6 +54,7 @@ define([
 			});
 		},
 		submitComment: function() {
+			var _this = this;
 			var aid = this.state.aid;
 			var content = this.state.commentContent;
 			var uid = WQ.cookie.get('id');
@@ -72,12 +64,28 @@ define([
 			ArticleModel.addComment(data,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
+						var commentList = _this.state.commentList.push({
+							id: data.data.id,
+							aid: aid,
+							uid: uid,
+							content: content,
+							addtime: data.data.addtime
+						});
+						_this.setState({
+							commentList: commentList
+						});
 					} else {
 						alert(data.msg);
 					}
 				}
 			});
+		},
+		handleReplay: function(event) {
+			var nick = $(event.target).data('nick');
+			this.setState({
+				commentContent: '@' + nick + ' '
+			});
+			$('#comment-text').focus();
 		},
 	}
 
@@ -105,7 +113,7 @@ define([
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
-					<div className="comment-item  clearfix">
+					<div key={d.id} className="comment-item  clearfix" data-id={d.id}>
 						<a className="user avatar">
 							<img src="/image/user-default.png" />
 						</a>
@@ -115,10 +123,10 @@ define([
 									<a href="javascript:void(0)" >{d.username}</a>
 									<div className="hd-time">{WQ.timeFormat(d.addtime)}</div>
 								</span>
-								<div className="html">{d.content}</div>
+								<div className="html">{marked(d.content)}</div>
 							</div>
 							<div className="replay">
-								<a data-nick={d.username}>回复</a>
+								<a data-nick={d.username} onClick={_this.handleReplay}>回复</a>
 							</div>
 						</div>
 					</div>
@@ -170,23 +178,6 @@ define([
 									<div className="comment-submit" onClick={this.submitComment}>发表评论</div>
 								</div>
 								<div className="comment-list">
-									<div className="comment-item  clearfix">
-										<a className="user avatar">
-											<img src="/image/user-default.png" />
-										</a>
-										<div className="comment-right">
-											<div className="con">
-												<span className="author">
-													<a href="" >dsad</a>
-													<div className="hd-time">3小时前</div>
-												</span>
-												<div className="html">赞了此文章！</div>
-											</div>
-											<div className="replay">
-												<a data-nick="龙卷X">回复</a>
-											</div>
-										</div>
-									</div>
 									{commentList}
 								</div>
 							</div>

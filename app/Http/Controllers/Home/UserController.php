@@ -155,6 +155,15 @@ class UserController extends Controller {
 		return response()->json($result);
     }
 
+    /**
+     * 检查用户名是否占用
+     */
+    public function checkUserName(UserActionProcess $manager)
+    {
+		$username = intval(Request::input('username'));
+		$result = $manager->checkUserName($username);
+		return response()->json($result);
+    }
 
     /**
      * 登录退出
