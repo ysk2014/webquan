@@ -73,12 +73,13 @@ class Article extends Base
      * 
      * @param intval $cid 专题的ID
      */
-    public function getArtsByCid($cid,$way='addtime')
+    public function getArtsByCid($cid,$way='addtime',$page)
     {
         return $this->select(array('article.*','user.username'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->where('article.cid','=', intval($cid))
                     ->orderBy($way,'desc')
+                    ->skip($page*10)->take(1)
                     ->get()
                     ->toArray();
     }
@@ -88,12 +89,13 @@ class Article extends Base
      * 
      * @param $data 排序
      */
-    public function getAllArticle($data='addtime')
+    public function getAllArticle($data='addtime',$page)
     {
         return $this->select(array('article.*','user.username'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->orderBy('article.'.$data,'desc')
                     ->where('article.is_publish','=',0)
+                    ->skip($page*10)->take(1)
                     ->get()
                     ->toArray();
     }

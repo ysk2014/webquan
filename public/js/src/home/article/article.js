@@ -5,9 +5,8 @@ define([
 	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
-	'marked',
     'editormd',
-	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, marked, editormd) {
+	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, editormd) {
 
 
 	var mixin = {
@@ -58,21 +57,26 @@ define([
 			var aid = this.state.aid;
 			var content = this.state.commentContent;
 			var uid = WQ.cookie.get('id');
+			var username = WQ.cookie.get('username');
 
 			var data = {aid:aid, uid:uid, content:content};
 
 			ArticleModel.addComment(data,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						var commentList = _this.state.commentList.push({
+						_this.state.commentList.push({
 							id: data.data.id,
 							aid: aid,
 							uid: uid,
+							username: username,
 							content: content,
 							addtime: data.data.addtime
 						});
+						_this.state.info.comment = parseInt(_this.state.info.comment)+1;
 						_this.setState({
-							commentList: commentList
+							commentList: _this.state.commentList,
+							commentContent: '',
+							info: _this.state.info
 						});
 					} else {
 						alert(data.msg);
@@ -123,7 +127,7 @@ define([
 									<a href="javascript:void(0)" >{d.username}</a>
 									<div className="hd-time">{WQ.timeFormat(d.addtime)}</div>
 								</span>
-								<div className="html">{marked(d.content)}</div>
+								<div className="html">{d.content}</div>
 							</div>
 							<div className="replay">
 								<a data-nick={d.username} onClick={_this.handleReplay}>回复</a>
@@ -174,7 +178,7 @@ define([
 							<div className="hd">评论</div>
 							<div className="bd">
 								<div className="publish">
-									<textarea id="comment-text" placeholder="参与讨论。支持markdown语法" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
+									<textarea id="comment-text" placeholder="参与讨论" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
 									<div className="comment-submit" onClick={this.submitComment}>发表评论</div>
 								</div>
 								<div className="comment-list">

@@ -1,6 +1,7 @@
 <?php namespace App\Services\Home\Comment;
 
 use Lang;
+use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
 use App\Services\Home\Comment\CommentValidate;
 use App\Services\BaseProcess;
@@ -14,7 +15,7 @@ class Process extends BaseProcess
 {
 
     /**
-     * 文章模型
+     * 评论模型
      * 
      * @var object
      */
@@ -28,12 +29,20 @@ class Process extends BaseProcess
     private $commentValidate;
 
     /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articelModel;
+
+    /**
      * 初始化
      *
      * @access public
      */
     function __construct()
     {
+        if( ! $this->articelModel) $this->articelModel = new ArticleModel();
         if( ! $this->commentModel) $this->commentModel = new CommentModel();
         if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
     }
@@ -49,6 +58,7 @@ class Process extends BaseProcess
         $result = $this->commentModel->addComment($data);
         if($result['id'])
         {
+            $this->articelModel->incrementById('comment',$data['aid']);
             return array('error'=>false,'data'=>$result);
         }
         else
