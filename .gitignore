@@ -1,6 +1,6 @@
 .env
 
 *.log
-/config/database.php
-/config/sys.php
+/config/
+
 /public/js/build
