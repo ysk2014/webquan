@@ -141,6 +141,7 @@ class UserController extends Controller {
     public function getUserInfoByLogin(LoginProcess $loginProcess)
     {
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		unset($isLogin->password);
 		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
 		return response()->json($data);
     }

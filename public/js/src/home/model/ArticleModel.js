@@ -7,7 +7,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param way 根据way进行排序
 	     */
 		getAllArticle: function(data, callback) {
-			BaseModel.post('/article/list', data, callback);
+			BaseModel.post('/article/list', {'data':data}, callback);
 		},
 	    /**
 	     * 根据专题id获取文章列表

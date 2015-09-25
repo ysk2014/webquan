@@ -582,7 +582,7 @@
 .article-list article{
     padding: 20px;
     background: #fff;
-    margin-top: 20px;
+    margin-top: 10px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     border-radius: 2px;
     -webkit-transition: all 0.4s ease;
@@ -631,6 +631,23 @@
 .article-list article .description{
 	color: #666666;
 }
+.article-list .more{
+	border-radius: 2px;
+    margin-top: 20px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background: #cdd8e3;
+    display: block;
+    box-shadow: none;
+    color: #6483a2;
+    cursor: pointer;
+}
+.article-list .more:hover{
+    background: #bccbd9;
+}
+
+
 
 .header .nav {
 	margin-left: 210px;

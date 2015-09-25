@@ -190,7 +190,8 @@ class Process extends BaseProcess
 	*/
 	public function getAllArticle($data)
 	{
-		$articleInfo = $this->articleModel->getAllArticle($data);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
 		if($articleInfo) {
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
@@ -208,7 +209,8 @@ class Process extends BaseProcess
 	public function getArtsByCid($data)
 	{
 		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
-		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way,$page);
 		if($articleInfo) {
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {

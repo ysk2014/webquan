@@ -10,18 +10,7 @@ define([
 	var mixin = {
 		init: function() {
 			var _this = this;
-			ArticleModel.getAllArticle({way:'addtime'},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							list: data.data
-						});
-						_this.cache.set('0',data.data);
-					} else {
-						alert(data.error);
-					}
-				}
-			});
+			_this.getAllArticle(0);
 			CloumnModel.getAllCloumns({way:'addtime'},function(success,data) {
 				if(success) {
 					if(!data.error) {
@@ -34,43 +23,60 @@ define([
 				}
 			});
 		},
-		cache:{
-			objData:{},
-			set: function(key,data) {
-				this.objData[key] = data;
-			},
-			get: function(key){
-				return this.objData[key];
-			},
-			isset: function(key) {
-				return this.objData.hasOwnProperty(key);
-			}
-		},
 		hamdleTabChange: function(event) {
 			var _this = this;
 			var cid = $(event.target).data('cid');
 
 			if($(event.target).hasClass('active')) return;
+			_this.setState({
+				nav: cid,
+			});
 
-			if(_this.cache.isset(cid)) {
-				_this.setState({
-					list: _this.cache.get(cid)
-				});
-			} else {
-				ArticleModel.getAllArticleByCid({cid:cid,way:'addtime'},function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.setState({
-								list: data.data
-							});
-							_this.cache.set(cid,data.data);
-						} else {
-							alert(data.msg);
-						}
-					} 
-				});
+			if(!_this.state.list[cid]) {
+				_this.getAllArticleByCid(cid,0);
 			}
 			$(event.target).addClass('active').siblings().removeClass('active');
+		},
+		getAllArticle: function(page) {
+			var _this = this;
+			ArticleModel.getAllArticle({way:'addtime',page:page},function(success,data) {
+				if(success) {
+					if(!data.error) {
+						if(_this.state.list['0']) {
+							_this.state.list['0'].push(data.data);
+						} else {
+							_this.state.list['0'] = data.data;
+						}
+						_this.setState({
+							list: _this.state.list
+						});
+					} else {
+						alert(data.error);
+					}
+				}
+			});
+		},
+		getAllArticleByCid: function(cid,page) {
+			var _this = this;
+			ArticleModel.getAllArticleByCid({cid:cid,way:'addtime',page:page},function(success,data) {
+				if(success) {
+					if(!data.error) {
+						if(_this.state.list[cid]) {
+							_this.state.list[cid].push(data.data);
+						} else {
+							_this.state.list[cid] = data.data;
+						}
+						_this.setState({
+							list: _this.state.list
+						});
+					} else {
+						alert(data.msg);
+					}
+				} 
+			});
+		},
+		hamdleMore: function(event){
+			var page = $(event.target).data('page');
 		}
 	}
 
@@ -80,6 +86,8 @@ define([
 			return {
 				list: [],
 				cloumns: [],
+				nav: '0',
+				more:[]
 			}
 		},
 		componentDidMount: function() {
@@ -87,7 +95,8 @@ define([
 		},
 		render: function() {
 			var _this = this;
-			var list = this.state.list.length>0 ? this.state.list.map(function(d,i) {
+			var nav = this.state.nav;
+			var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 				return (
 					<article key={d.id}>
 						<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
@@ -121,6 +130,7 @@ define([
 					</div>
 					<div className="article-list">
 						{list}
+						<a className="more" data-page={ _this.state.more[nav] ? _this.more[nav] : 0} onClick={_this.hamdleMore}>更多</a>
 					</div>
 				</div>
 			);
