@@ -193,9 +193,10 @@ class Process extends BaseProcess
 		$page = isset($data['page']) ? $data['page'] : 0;
 		$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+			$next = count($articleInfo) == 20;
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 
@@ -212,9 +213,10 @@ class Process extends BaseProcess
 		$page = isset($data['page']) ? $data['page'] : 0;
 		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way,$page);
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+			$next = count($articleInfo) == 20;
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>false,'data'=>array());
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 

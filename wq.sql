@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `view` int(11) DEFAULT '0',
   `care` tinyint(1) DEFAULT '0',
   `comment` int(11) DEFAULT '0',
-  `is_public` int(1) DEFAULT '0',
+  `is_publish` int(1) DEFAULT '0',
   `addtime` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `article` (
 -- 转存表中的数据 `article`
 --
 
-INSERT INTO `article` (`id`, `title`, `uid`, `cid`, `content`, `description`, `logo_dir`, `view`, `care`, `comment`, `is_public`, `addtime`) VALUES
+INSERT INTO `article` (`id`, `title`, `uid`, `cid`, `content`, `description`, `logo_dir`, `view`, `care`, `comment`, `is_publish`, `addtime`) VALUES
 (1, '测试', 5, 27, '![](/upload_path/20150920/4c46d21a9436192d4016c17fe4a4a191.png)', '的萨达', '/upload_path/20150920/4c46d21a9436192d4016c17fe4a4a191.png', 83, 0, 0, 0, '1442714041');
 
 -- --------------------------------------------------------

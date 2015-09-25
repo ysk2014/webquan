@@ -37,38 +37,55 @@ define([
 			}
 			$(event.target).addClass('active').siblings().removeClass('active');
 		},
+		// 获取全部文章
 		getAllArticle: function(page) {
 			var _this = this;
 			ArticleModel.getAllArticle({way:'addtime',page:page},function(success,data) {
 				if(success) {
 					if(!data.error) {
 						if(_this.state.list['0']) {
-							_this.state.list['0'].push(data.data);
+							Array.prototype.push.apply(_this.state.list['0'],data.data);
 						} else {
 							_this.state.list['0'] = data.data;
 						}
+						
+						_this.state.more['0'] = parseInt(page)+1;
 						_this.setState({
-							list: _this.state.list
+							list: _this.state.list,
+							more: _this.state.more,
 						});
+						if(!data.next) {
+							_this.setState({
+								next: false
+							});
+						}
 					} else {
-						alert(data.error);
+						alert(data.msg);
 					}
 				}
 			});
 		},
+		// 获取专题文章
 		getAllArticleByCid: function(cid,page) {
 			var _this = this;
 			ArticleModel.getAllArticleByCid({cid:cid,way:'addtime',page:page},function(success,data) {
 				if(success) {
 					if(!data.error) {
 						if(_this.state.list[cid]) {
-							_this.state.list[cid].push(data.data);
+							Array.prototype.push.apply(_this.state.list[cid],data.data);
 						} else {
 							_this.state.list[cid] = data.data;
 						}
+						_this.state.more[cid] = parseInt(page)+1;
 						_this.setState({
-							list: _this.state.list
+							list: _this.state.list,
+							more: _this.state.more,
 						});
+						if(!data.next) {
+							_this.setState({
+								next: false
+							});
+						}
 					} else {
 						alert(data.msg);
 					}
@@ -77,6 +94,13 @@ define([
 		},
 		hamdleMore: function(event){
 			var page = $(event.target).data('page');
+			var _this = this;
+			var nav = _this.state.nav;
+			if(nav=='0') {
+				_this.getAllArticle(page)
+			} else {
+				_this.getAllArticleByCid(nav,page);
+			}
 		}
 	}
 
@@ -84,10 +108,11 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				list: [],
-				cloumns: [],
-				nav: '0',
-				more:[]
+				list: [],        //文章列表
+				cloumns: [],	 //专题列表
+				nav: '0',		 //标记当前的专题
+				more:[],         //记录每个专题进入到了第几页
+				next: true,      //判断是否还有数据
 			}
 		},
 		componentDidMount: function() {
@@ -130,7 +155,7 @@ define([
 					</div>
 					<div className="article-list">
 						{list}
-						<a className="more" data-page={ _this.state.more[nav] ? _this.more[nav] : 0} onClick={_this.hamdleMore}>更多</a>
+						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.hamdleMore}>更多</a>
 					</div>
 				</div>
 			);

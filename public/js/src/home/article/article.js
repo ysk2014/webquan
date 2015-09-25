@@ -33,14 +33,17 @@ define([
                 tocm            : true,
 	        });
 		},
+		// 显示评论
 		showComment: function(aid) {
 			var _this = this;
 	        ArticleModel.getContentsByAid(aid,function(success,data) {
 	        	if(success) {
 	        		if(!data.error) {
-	        			_this.setState({
-	        				commentList: data.data
-	        			});
+	        			if(data.data) {
+		        			_this.setState({
+		        				commentList: data.data
+		        			});
+	        			}
 	        		} else {
 	        			alert(data.msg);
 	        		}
@@ -52,6 +55,7 @@ define([
 				commentContent: event.target.value
 			});
 		},
+		// 提交评论
 		submitComment: function() {
 			var _this = this;
 			var aid = this.state.aid;

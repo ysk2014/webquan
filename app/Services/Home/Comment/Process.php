@@ -135,7 +135,7 @@ class Process extends BaseProcess
         }
         else
         {
-            return array('error'=>true, 'msg'=>'获取文章评论失败');
+            return array('error'=>false, 'msg'=>'没有文章评论');
         }
     }
 
