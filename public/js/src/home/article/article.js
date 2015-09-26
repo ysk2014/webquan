@@ -5,8 +5,9 @@ define([
 	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
+	'home/common/tooltip',
     'editormd',
-	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, editormd) {
+	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, Tooltip, editormd) {
 
 
 	var mixin = {
@@ -45,7 +46,7 @@ define([
 		        			});
 	        			}
 	        		} else {
-	        			alert(data.msg);
+	        			Tooltip(data.msg);
 	        		}
 	        	}
 	        });
@@ -83,7 +84,7 @@ define([
 							info: _this.state.info
 						});
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				}
 			});
@@ -168,7 +169,7 @@ define([
 									<span className="name">{username}</span>
 								</a>
 							</span>
-							<span className="tag time">&nbsp;•&nbsp;{time}</span>
+							<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
 							<span className="tag cloumn">&nbsp;发布在:&nbsp;{cloumn}</span>
 							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
 							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>

@@ -4,7 +4,8 @@ define([
 	'WQ',
 	'home/model/articleModel',
 	'home/model/cloumnModel',
-	],function(React, $, WQ, ArticleModel,CloumnModel) {
+	'home/common/tooltip',
+	],function(React, $, WQ, ArticleModel, CloumnModel, Tooltip) {
 
 
 	var mixin = {
@@ -18,7 +19,7 @@ define([
 							cloumns: data.data,
 						});
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				}
 			});
@@ -54,13 +55,13 @@ define([
 							list: _this.state.list,
 							more: _this.state.more,
 						});
-						if(!data.next) {
+						if(data.next) {
 							_this.setState({
-								next: false
+								next: true
 							});
 						}
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				}
 			});
@@ -81,13 +82,13 @@ define([
 							list: _this.state.list,
 							more: _this.state.more,
 						});
-						if(!data.next) {
+						if(data.next) {
 							_this.setState({
-								next: false
+								next: true
 							});
 						}
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				} 
 			});
@@ -112,7 +113,7 @@ define([
 				cloumns: [],	 //专题列表
 				nav: '0',		 //标记当前的专题
 				more:[],         //记录每个专题进入到了第几页
-				next: true,      //判断是否还有数据
+				next: false,      //判断是否还有数据
 			}
 		},
 		componentDidMount: function() {

@@ -236,12 +236,13 @@ input:focus{
   background-color: #3dbcf5;
 }
 
-#alertMask{
+#mask{
   position:absolute; 
   left:0%;
   top: 0%;
   width: 100%;
   height: 100%;
+  display: none;
 }
 /*alert弹出框样式*/
 .alert-box{

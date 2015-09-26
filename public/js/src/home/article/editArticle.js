@@ -6,6 +6,7 @@ define([
 	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
+	'home/common/tooltip',
     'editormd',
     'plugins/image-dialog/image-dialog',
     'plugins/code-block-dialog/code-block-dialog',
@@ -16,7 +17,7 @@ define([
     'plugins/reference-link-dialog/reference-link-dialog',
     'plugins/html-entities-dialog/html-entities-dialog',
     'plugins/preformatted-text-dialog/preformatted-text-dialog',
-	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, UserDropMenu, editormd) {
+	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, UserDropMenu, Tooltip, editormd) {
 
 
 	var mixin = {
@@ -29,7 +30,7 @@ define([
 							cloumns: data.data,
 						});
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				}
 			});
@@ -45,7 +46,7 @@ define([
 							});
 							_this.showEditor();
 						} else {
-							alert(data.msg);
+							Tooltip(data.msg);
 						}
 					}
 				});
@@ -114,7 +115,7 @@ define([
 						if(!data.error) {
 							window.location.href = '/article/'+aid;
 						} else {
-							alert(data.msg);
+							Tooltip(data.msg);
 						}
 					}
 				});
@@ -124,7 +125,7 @@ define([
 						if(!data.error) {
 							window.location.href = '/article/'+data.data;
 						} else {
-							alert(data.msg);
+							Tooltip(data.msg);
 						}
 					}
 				});	

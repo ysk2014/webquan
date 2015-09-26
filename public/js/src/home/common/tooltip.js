@@ -1,39 +1,35 @@
+
 define(['react','jquery'],function(React, $) {
-  return{
-      alert:function(content){
-          $("body").append("<div id='alertMask''></div>");
-          var AlertBox = React.createClass({
-              componentDidMount: function(){
-                  var width = parseInt($(".alert-box").css("width"));
-                  if(width <= 70){
-                      $(".alert-box").css({"width":"70"});
-                  }
-                var mLeft = width/2;
-                var pad = parseInt($(".alert-box").css("padding-left"));
-                $(".alert-box").css({"margin-left":-mLeft-pad});
-                var i = 0;
-                var timer = setInterval(
-                function(){
-                    i++;
-                    if(i >= 1){
-                        clearInterval(timer);
-                        $(".alert-box").remove();
-                        $("#alertMask").remove();
-                    }
-                },1000);
-              },
-            render: function(){
-                return (
-                    <div className="alert-box">
-                        <p>{content}</p>
-                    </div>
-                );
-            }
-          });
-        React.render(
-            <AlertBox />,
-            document.getElementById("alertMask")
-        )
-      }
-  }
-})
+
+	var Tooltip = function(content) {
+		return new Tooltip.propotype.init(content);
+	};
+
+	Tooltip.propotype = {
+		init: function(content) {
+			var AlertBox = React.createClass({
+				componentDidMount: function() {
+					var _this = this;
+					var alertBox = $(_this.getDOMNode());
+					$('#mask').show();
+					alertBox.css('margin-left',-parseInt(alertBox.width())/2);
+
+					setTimeout(function() {
+						React.unmountComponentAtNode($('#mask').get(0));
+						$('#mask').hide();
+					},1000);
+				},
+				render: function() {
+					return (
+						<div ref="alertBox" className="alert-box">
+							<p>{content}</p>
+						</div>
+					);
+				}
+			});
+			React.render(<AlertBox />,$('#mask').get(0));
+		},
+	};
+
+	return Tooltip;
+});
