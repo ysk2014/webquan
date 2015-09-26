@@ -157,7 +157,7 @@ WQ.cookie = {
             if (expires !== '' && 'toGMTString' in expires) expires = ';expires=' + expires.toGMTString();
 
             var path = options.path || this.defaults.path;
-            path = path ? ';path=' + path : '';
+            path = path ? ';path=' + path : ';path=/';
 
             var domain = options.domain || this.defaults.domain;
             domain = domain ? ';domain=' + domain : '';
@@ -208,7 +208,6 @@ WQ.cookie = {
         for (var i = 0, l = keys.length; i < l; i++) {
             this.set(keys[i], '', -1);
         }
-
         return this;
     },
     empty: function() {

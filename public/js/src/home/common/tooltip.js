@@ -11,6 +11,7 @@ define(['react','jquery'],function(React, $) {
 				componentDidMount: function() {
 					var _this = this;
 					var alertBox = $(_this.getDOMNode());
+					
 					$('#mask').show();
 					alertBox.css('margin-left',-parseInt(alertBox.width())/2);
 

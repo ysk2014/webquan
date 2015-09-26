@@ -33,8 +33,8 @@ class CommentController extends Controller {
 	 */
 	public function getContentByAid(CommentProcess $commentProcess)
 	{
-		$aid = Request::input('aid');
-		$data = $commentProcess->getContentByAid($aid);
+		$data = Request::input('data');
+		$data = $commentProcess->getContentByAid($data);
 		return response()->json($data);
 	}
 

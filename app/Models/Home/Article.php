@@ -79,7 +79,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->where('article.cid','=', intval($cid))
                     ->orderBy($way,'desc')
-                    ->skip($page*10)->take(20)
+                    ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }

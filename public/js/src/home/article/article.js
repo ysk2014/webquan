@@ -21,7 +21,7 @@ define([
 							info: data.data,
 						});
 						_this.showEditor(data.data.content);
-						_this.showComment(data.data.id);
+						_this.showComment(data.data.id,0,true);
 					}
 				}
 			});
@@ -34,19 +34,34 @@ define([
                 tocm            : true,
 	        });
 		},
-		// 显示评论
-		showComment: function(aid) {
+		// 获取评论
+		showComment: function(aid,page,first) {
 			var _this = this;
-	        ArticleModel.getContentsByAid(aid,function(success,data) {
+	        ArticleModel.getContentsByAid({aid:aid,page:page},function(success,data) {
 	        	if(success) {
 	        		if(!data.error) {
 	        			if(data.data) {
+	        				if(_this.state.commentList.length>0) {
+	        					Array.prototype.push.apply(_this.state.commentList,data.data);
+	        				} else {
+	        					_this.state.commentList = data.data;
+	        				}
+
 		        			_this.setState({
-		        				commentList: data.data
+		        				commentList: _this.state.commentList,
+		        				page: _this.state.page+1
 		        			});
+		        			if(data.next) {
+		        				_this.setState({
+		        					next: true,
+		        				});
+		        			}
 	        			}
 	        		} else {
-	        			Tooltip(data.msg);
+	        			if(!first) Tooltip(data.msg);
+	        			_this.setState({
+	        				next: data.next
+	        			});
 	        		}
 	        	}
 	        });
@@ -96,6 +111,13 @@ define([
 			});
 			$('#comment-text').focus();
 		},
+		hamdleMore: function() {
+			var _this = this;
+			var page = _this.state.page;
+			var aid = _this.state.aid;
+
+			_this.showComment(aid,page);
+		}
 	}
 
 	return React.createClass({
@@ -106,6 +128,8 @@ define([
 				aid: this.props.params.id,
 				commentList: [],
 				commentContent: '',
+				page: 0,
+				next: false,
 			}
 		},
 		componentDidMount: function() {
@@ -188,6 +212,7 @@ define([
 								</div>
 								<div className="comment-list">
 									{commentList}
+									<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} onClick={_this.hamdleMore}>更多评论</a>
 								</div>
 							</div>
 						</div>

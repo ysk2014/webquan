@@ -73,7 +73,9 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 
 		handleClick: function() {
-			WQ.cookie.empty();
+			if(WQ.cookie.empty()) {
+				window.location.href = "/sign_out"; 
+			}
 		},
 		render: function() {
 			return (
@@ -108,7 +110,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href="/sign_out" onClick={this.handleClick}>
+							<a onClick={this.handleClick}>
 								<i className="fa fa-sign-out"></i>
 								<span>退出</span>
 							</a>

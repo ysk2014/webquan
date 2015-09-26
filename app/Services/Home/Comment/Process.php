@@ -123,19 +123,22 @@ class Process extends BaseProcess
      * 
      * @return array
      */
-    public function getContentByAid($aid)
+    public function getContentByAid($data)
     {
-        if(!isset($aid)) return array('error'=>true,'msg'=>'没有文章id');
+        if(!isset($data['aid'])) return array('error'=>true,'msg'=>'没有文章id');
 
-        $data = $this->commentModel->getContentByAid($aid);
+        $page = isset($data['page']) ? $data['page'] : 0;
 
-        if($data)
+        $result = $this->commentModel->getContentByAid($data['aid'],$page);
+
+        if($result)
         {
-            return array('error'=>false, 'data'=>$data);
+            $next = count($result) == 8;
+            return array('error'=>false, 'data'=>$result, 'next'=>$next);
         }
         else
         {
-            return array('error'=>false, 'msg'=>'没有文章评论');
+            return array('error'=>true, 'msg'=>'没有文章评论了', 'next'=>false);
         }
     }
 
