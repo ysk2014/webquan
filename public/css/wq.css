@@ -779,7 +779,7 @@
     font-size: 14px;
     font-weight: bold;
     line-height: 20px;
-    color: #444;
+    color: #4094c7;
 }
 .comment-item .comment-right .author a:hover{
 	color: #2c79b0;
@@ -805,3 +805,8 @@
     color: #999;
     font-size: 12px;
 }
+.comment-item .comment-right .replay a:hover{
+	color: #4094c7;
+}
+
+
