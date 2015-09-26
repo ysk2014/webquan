@@ -134,4 +134,24 @@ class Article extends Base
         return $this->where('id','=', intval($id))
                     ->decrement($data);
     }  
+
+    /**
+     * 获取文章总数
+     * 
+     */
+    public function countArticle()
+    {
+        return $this->count();
+    } 
+
+    /**
+     * 获取根据专题id文章总数
+     * 
+     * @param intval $id 专题的ID
+     */
+    public function countArticleByCid($cid)
+    {
+        return $this->where('cid','=',intval($cid))->count();
+    }
+
 }

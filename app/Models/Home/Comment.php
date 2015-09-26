@@ -91,4 +91,15 @@ class Comment extends Model
         return $this->where('aid', $aid)->delete();
     }
 
+    /**
+     * 获取文章id的评论总数
+     * 
+     * @param $aid
+     */
+    public function countContentByAid($aid)
+    {
+        return $this->where('aid', $aid)->count();
+    }
+
+
 }

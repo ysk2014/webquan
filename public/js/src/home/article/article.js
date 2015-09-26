@@ -49,13 +49,9 @@ define([
 
 		        			_this.setState({
 		        				commentList: _this.state.commentList,
-		        				page: _this.state.page+1
+		        				page: _this.state.page+1,
+		        				next: data.next
 		        			});
-		        			if(data.next) {
-		        				_this.setState({
-		        					next: true,
-		        				});
-		        			}
 	        			}
 	        		} else {
 	        			if(!first) Tooltip(data.msg);

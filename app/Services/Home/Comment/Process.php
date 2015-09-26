@@ -133,7 +133,12 @@ class Process extends BaseProcess
 
         if($result)
         {
-            $next = count($result) == 8;
+            $count = $this->commentModel->countContentByAid($data['aid']);
+            if( (intval($page)+1)*8 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
             return array('error'=>false, 'data'=>$result, 'next'=>$next);
         }
         else

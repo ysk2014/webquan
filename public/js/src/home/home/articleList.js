@@ -54,12 +54,8 @@ define([
 						_this.setState({
 							list: _this.state.list,
 							more: _this.state.more,
+							next: data.next
 						});
-						if(data.next) {
-							_this.setState({
-								next: true
-							});
-						}
 					} else {
 						Tooltip(data.msg);
 					}
@@ -81,12 +77,8 @@ define([
 						_this.setState({
 							list: _this.state.list,
 							more: _this.state.more,
+							next: data.next
 						});
-						if(data.next) {
-							_this.setState({
-								next: true
-							});
-						}
 					} else {
 						Tooltip(data.msg);
 					}
