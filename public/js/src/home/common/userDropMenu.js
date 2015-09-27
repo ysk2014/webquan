@@ -108,6 +108,12 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
+							<a href="/settings">
+								<i className="fa fa-asterisk"></i>
+								<span>设置</span>
+							</a>
+						</li>
+						<li>
 							<a href="/sign_out" onClick={this.handleClick}>
 								<i className="fa fa-sign-out"></i>
 								<span>退出</span>

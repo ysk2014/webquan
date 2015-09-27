@@ -90,7 +90,6 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
 
         render: function() {
             var _this = this;
-            console.log(_this.props.params.way);
             return (
                 <div className="login-page" id="login-page">
                     <div className="logo"></div>
