@@ -12,7 +12,7 @@ define(['react','jquery'],function(React, $) {
 			return (
 				<div className="left-bar">
 					<div className="logo">
-						<a href="/">logo</a>
+						<a href="/"><img src="/image/logo1.png" /></a>
 					</div>
 					<ul className="left-nav">
 						<li className={this.state.active == 'home' ? "active" : null}>

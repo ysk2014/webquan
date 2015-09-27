@@ -122,7 +122,7 @@
 	cursor: pointer;
 }
 .dropdown-menu > li > a:hover{
-	background-color: #178fe6;
+	background-color: #03a9f4;
 	color: #fff;
 }
 .dropdown-menu i{
@@ -264,8 +264,8 @@
 }
 
 .left-bar .logo{
-	width: 90px;
-	height: 90px;
+	width: 100px;
+	height: 100px;
 	margin: 10px auto;
 }
 
@@ -299,7 +299,7 @@
 	-ms-box-sizing: border-box;
 }
 .left-nav li a:hover{
-	color: #178fe6;
+	color: #03a9f4;
 }
 .left-nav li.active {
 	border-top: 1px solid #ddd;
@@ -307,7 +307,7 @@
 }
 .left-nav li.active a{
 	font-weight: bold;
-	color: #178fe6;
+	color: #03a9f4;
 }
 .left-nav li a i{
 	margin-right: 10px;
@@ -361,7 +361,7 @@
     -moz-box-sizing: border-box;
 }
 .avatar:hover img{
-	border-color: #178fe6;
+	border-color: #03a9f4;
 }
 .user.avatar .caret{
 	position: absolute;
@@ -777,9 +777,8 @@
 }
 .comment-item .comment-right .author a{
     font-size: 14px;
-    font-weight: bold;
     line-height: 20px;
-    color: #4094c7;
+    color: #3da9f7;
 }
 .comment-item .comment-right .author a:hover{
 	color: #2c79b0;
@@ -806,7 +805,41 @@
     font-size: 12px;
 }
 .comment-item .comment-right .replay a:hover{
-	color: #4094c7;
+	color: #3da9f7;
 }
+
+
+
+/*个人首页*/
+.user-page{
+	margin-left: 205px;
+}
+.user-info{
+	padding: 10px 20px;
+}
+.user-info .hd{
+    line-height: 16px;
+    margin: 10px 0;
+    font-size: 16px;
+    height: 16px;
+    font-weight: 100;
+    color: #666;
+    border-left: 3px solid #3da9f7;
+    padding-left: 8px;
+}
+.user-info .hd > span:last-child{
+	color: #666;
+    margin-left: 10px;
+    font-size: 12px;
+}
+.user-info .main-info {
+	
+}
+
+
+
+
+
+
 
 

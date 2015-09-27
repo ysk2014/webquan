@@ -1,6 +1,6 @@
 .env
 
 *.log
-/config/
+/config
 
 /public/js/build
