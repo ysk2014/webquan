@@ -4,24 +4,14 @@ define([
 	'WQ',
 	'home/model/articleModel',
 	'home/model/cloumnModel',
-	],function(React, $, WQ, ArticleModel,CloumnModel) {
+	'home/common/tooltip',
+	],function(React, $, WQ, ArticleModel, CloumnModel, Tooltip) {
 
 
 	var mixin = {
 		init: function() {
 			var _this = this;
-			ArticleModel.getAllArticle({way:'addtime'},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							list: data.data
-						});
-						_this.cache.set('0',data.data);
-					} else {
-						alert(data.error);
-					}
-				}
-			});
+			_this.getAllArticle(0);
 			CloumnModel.getAllCloumns({way:'addtime'},function(success,data) {
 				if(success) {
 					if(!data.error) {
@@ -29,48 +19,81 @@ define([
 							cloumns: data.data,
 						});
 					} else {
-						alert(data.msg);
+						Tooltip(data.msg);
 					}
 				}
 			});
-		},
-		cache:{
-			objData:{},
-			set: function(key,data) {
-				this.objData[key] = data;
-			},
-			get: function(key){
-				return this.objData[key];
-			},
-			isset: function(key) {
-				return this.objData.hasOwnProperty(key);
-			}
 		},
 		hamdleTabChange: function(event) {
 			var _this = this;
 			var cid = $(event.target).data('cid');
 
 			if($(event.target).hasClass('active')) return;
+			_this.setState({
+				nav: cid,
+			});
 
-			if(_this.cache.isset(cid)) {
-				_this.setState({
-					list: _this.cache.get(cid)
-				});
-			} else {
-				ArticleModel.getAllArticleByCid({cid:cid,way:'addtime'},function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.setState({
-								list: data.data
-							});
-							_this.cache.set(cid,data.data);
-						} else {
-							alert(data.msg);
-						}
-					} 
-				});
+			if(!_this.state.list[cid]) {
+				_this.getAllArticleByCid(cid,0);
 			}
 			$(event.target).addClass('active').siblings().removeClass('active');
+		},
+		// 获取全部文章
+		getAllArticle: function(page) {
+			var _this = this;
+			ArticleModel.getAllArticle({way:'addtime',page:page},function(success,data) {
+				if(success) {
+					if(!data.error) {
+						if(_this.state.list['0']) {
+							Array.prototype.push.apply(_this.state.list['0'],data.data);
+						} else {
+							_this.state.list['0'] = data.data;
+						}
+						
+						_this.state.more['0'] = parseInt(page)+1;
+						_this.setState({
+							list: _this.state.list,
+							more: _this.state.more,
+							next: data.next
+						});
+					} else {
+						Tooltip(data.msg);
+					}
+				}
+			});
+		},
+		// 获取专题文章
+		getAllArticleByCid: function(cid,page) {
+			var _this = this;
+			ArticleModel.getAllArticleByCid({cid:cid,way:'addtime',page:page},function(success,data) {
+				if(success) {
+					if(!data.error) {
+						if(_this.state.list[cid]) {
+							Array.prototype.push.apply(_this.state.list[cid],data.data);
+						} else {
+							_this.state.list[cid] = data.data;
+						}
+						_this.state.more[cid] = parseInt(page)+1;
+						_this.setState({
+							list: _this.state.list,
+							more: _this.state.more,
+							next: data.next
+						});
+					} else {
+						Tooltip(data.msg);
+					}
+				} 
+			});
+		},
+		hamdleMore: function(event){
+			var page = $(event.target).data('page');
+			var _this = this;
+			var nav = _this.state.nav;
+			if(nav=='0') {
+				_this.getAllArticle(page)
+			} else {
+				_this.getAllArticleByCid(nav,page);
+			}
 		}
 	}
 
@@ -78,8 +101,11 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				list: [],
-				cloumns: [],
+				list: [],        //文章列表
+				cloumns: [],	 //专题列表
+				nav: '0',		 //标记当前的专题
+				more:[],         //记录每个专题进入到了第几页
+				next: false,      //判断是否还有数据
 			}
 		},
 		componentDidMount: function() {
@@ -87,7 +113,8 @@ define([
 		},
 		render: function() {
 			var _this = this;
-			var list = this.state.list.length>0 ? this.state.list.map(function(d,i) {
+			var nav = this.state.nav;
+			var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 				return (
 					<article key={d.id}>
 						<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
@@ -121,6 +148,7 @@ define([
 					</div>
 					<div className="article-list">
 						{list}
+						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.hamdleMore}>更多</a>
 					</div>
 				</div>
 			);

@@ -190,11 +190,21 @@ class Process extends BaseProcess
 	*/
 	public function getAllArticle($data)
 	{
-		$articleInfo = $this->articleModel->getAllArticle($data);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
+
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->countArticle();
+			if( (intval($page)+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 
@@ -208,11 +218,21 @@ class Process extends BaseProcess
 	public function getArtsByCid($data)
 	{
 		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
-		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way,$page);
+
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->countArticleByCid($data['cid']);
+			if( (intval($page)+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>false,'data'=>array());
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 

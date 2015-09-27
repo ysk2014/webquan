@@ -7,7 +7,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param way 根据way进行排序
 	     */
 		getAllArticle: function(data, callback) {
-			BaseModel.post('/article/list', data, callback);
+			BaseModel.post('/article/list', {'data':data}, callback);
 		},
 	    /**
 	     * 根据专题id获取文章列表
@@ -54,8 +54,8 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 			BaseModel.post('/article/comments/add', {'data':data}, callback);
 		},
 		// 根据文章ID取得评论的内容
-		getContentsByAid: function(aid,callback) {
-			BaseModel.post('/article/comments', {'aid':aid}, callback);
+		getContentsByAid: function(data,callback) {
+			BaseModel.post('/article/comments', {'data':data}, callback);
 		},
 		// 删除评论
 		delContent: function(cid,callback) {

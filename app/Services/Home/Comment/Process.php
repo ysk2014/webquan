@@ -1,20 +1,21 @@
 <?php namespace App\Services\Home\Comment;
 
 use Lang;
+use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
-use App\Models\Home\CommentValidate;
-use App\Services\Home\BaseProcess;
+use App\Services\Home\Comment\CommentValidate;
+use App\Services\BaseProcess;
 
 /**
  * 评论相关处理
  *
- * @author jiang <mylampblog@163.com>
+ * @author ysk
  */
 class Process extends BaseProcess
 {
 
     /**
-     * 文章模型
+     * 评论模型
      * 
      * @var object
      */
@@ -28,12 +29,20 @@ class Process extends BaseProcess
     private $commentValidate;
 
     /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articelModel;
+
+    /**
      * 初始化
      *
      * @access public
      */
     function __construct()
     {
+        if( ! $this->articelModel) $this->articelModel = new ArticleModel();
         if( ! $this->commentModel) $this->commentModel = new CommentModel();
         if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
     }
@@ -46,10 +55,11 @@ class Process extends BaseProcess
         
         if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
-        $cid = $this->commentModel->addComment($data);
-        if($cid)
+        $result = $this->commentModel->addComment($data);
+        if($result['id'])
         {
-            return array('error'=>false,'data'=>$cid);
+            $this->articelModel->incrementById('comment',$data['aid']);
+            return array('error'=>false,'data'=>$result);
         }
         else
         {
@@ -113,19 +123,27 @@ class Process extends BaseProcess
      * 
      * @return array
      */
-    public function getContentByAid($aid)
+    public function getContentByAid($data)
     {
-        if(!isset($aid)) return array('error'=>true,'msg'=>'没有文章id');
+        if(!isset($data['aid'])) return array('error'=>true,'msg'=>'没有文章id');
 
-        $data = $this->commentModel->getContentByAid($aid);
+        $page = isset($data['page']) ? $data['page'] : 0;
 
-        if($data)
+        $result = $this->commentModel->getContentByAid($data['aid'],$page);
+
+        if($result)
         {
-            return array('error'=>false, 'data'=>$data);
+            $count = $this->commentModel->countContentByAid($data['aid']);
+            if( (intval($page)+1)*8 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false, 'data'=>$result, 'next'=>$next);
         }
         else
         {
-            return array('error'=>true, 'msg'=>'获取文章评论失败');
+            return array('error'=>true, 'msg'=>'没有文章评论了', 'next'=>false);
         }
     }
 

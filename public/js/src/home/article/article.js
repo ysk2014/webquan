@@ -5,13 +5,9 @@ define([
 	'home/model/articleModel',
 	'home/common/leftNav',
 	'home/common/userDropMenu',
+	'home/common/tooltip',
     'editormd',
-    'plugins/image-dialog/image-dialog',
-    'plugins/code-block-dialog/code-block-dialog',
-    'plugins/link-dialog/link-dialog',
-    'plugins/table-dialog/table-dialog',
-    'plugins/test-plugin/test-plugin',
-	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, editormd) {
+	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, Tooltip, editormd) {
 
 
 	var mixin = {
@@ -21,11 +17,11 @@ define([
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data.data);
 						_this.setState({
 							info: data.data,
 						});
 						_this.showEditor(data.data.content);
+						_this.showComment(data.data.id,0,true);
 					}
 				}
 			});
@@ -38,31 +34,86 @@ define([
                 tocm            : true,
 	        });
 		},
-		showComment: function() {
-	        var commentEditor = editormd("editormd-comment", {
-                width   : "100%",
-                height  : 200,
-                // markdown : content,
-                imageUpload: 'true',
-                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "/upload",
-                path    : "/js/lib/editor/lib/",
-                toolbarIcons: function() {
-                    return [
-                        "clear", "bold", "italic", "quote", "h4", "|", 
-                        "list-ul", "list-ol","|",
-                        "link", "image", "code", "code-block", "table", "|",
-                        "watch", "preview", "fullscreen"
-                    ];
-                },
-                onchange: function() {
-                	_this.state.commentContent = this.getValue();
-                	_this.setState({
-                		commentContent: _this.state.commentContent
-                	});
-                }
+		// 获取评论
+		showComment: function(aid,page,first) {
+			var _this = this;
+	        ArticleModel.getContentsByAid({aid:aid,page:page},function(success,data) {
+	        	if(success) {
+	        		if(!data.error) {
+	        			if(data.data) {
+	        				if(_this.state.commentList.length>0) {
+	        					Array.prototype.push.apply(_this.state.commentList,data.data);
+	        				} else {
+	        					_this.state.commentList = data.data;
+	        				}
+
+		        			_this.setState({
+		        				commentList: _this.state.commentList,
+		        				page: _this.state.page+1,
+		        				next: data.next
+		        			});
+	        			}
+	        		} else {
+	        			if(!first) Tooltip(data.msg);
+	        			_this.setState({
+	        				next: data.next
+	        			});
+	        		}
+	        	}
 	        });
 		},
+		handleChangeCommnet: function(event) {
+			this.setState({
+				commentContent: event.target.value
+			});
+		},
+		// 提交评论
+		submitComment: function() {
+			var _this = this;
+			var aid = this.state.aid;
+			var content = this.state.commentContent;
+			var uid = WQ.cookie.get('id');
+			var username = WQ.cookie.get('username');
+
+			var data = {aid:aid, uid:uid, content:content};
+
+			ArticleModel.addComment(data,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.state.commentList.push({
+							id: data.data.id,
+							aid: aid,
+							uid: uid,
+							username: username,
+							content: content,
+							addtime: data.data.addtime
+						});
+						_this.state.info.comment = parseInt(_this.state.info.comment)+1;
+						_this.setState({
+							commentList: _this.state.commentList,
+							commentContent: '',
+							info: _this.state.info
+						});
+					} else {
+						Tooltip(data.msg);
+					}
+				}
+			});
+		},
+		handleReplay: function(event) {
+			var nick = $(event.target).data('nick');
+			this.setState({
+				commentContent: '@' + nick + ' '
+			});
+			$('#comment-text').focus();
+		},
+		hamdleMore: function() {
+			var _this = this;
+			var page = _this.state.page;
+			var aid = _this.state.aid;
+
+			_this.showComment(aid,page);
+		}
 	}
 
 	return React.createClass({
@@ -72,7 +123,9 @@ define([
 				name: 'home',
 				aid: this.props.params.id,
 				commentList: [],
-				commentContent: ''
+				commentContent: '',
+				page: 0,
+				next: false,
 			}
 		},
 		componentDidMount: function() {
@@ -86,6 +139,28 @@ define([
 			var cloumn   = _this.state.info ? _this.state.info.cloumnName : null;
 			var view     = _this.state.info ? _this.state.info.view       : null;
 			var comment  = _this.state.info ? _this.state.info.comment    : null;
+
+			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
+				return (
+					<div key={d.id} className="comment-item  clearfix" data-id={d.id}>
+						<a className="user avatar">
+							<img src="/image/user-default.png" />
+						</a>
+						<div className="comment-right">
+							<div className="con">
+								<span className="author">
+									<a href="javascript:void(0)" >{d.username}</a>
+									<div className="hd-time">{WQ.timeFormat(d.addtime)}</div>
+								</span>
+								<div className="html">{d.content}</div>
+							</div>
+							<div className="replay">
+								<a data-nick={d.username} onClick={_this.handleReplay}>回复</a>
+							</div>
+						</div>
+					</div>
+				);
+			}) : null;
 			return (
 				<div>
 					<UserDropMenu />
@@ -114,7 +189,7 @@ define([
 									<span className="name">{username}</span>
 								</a>
 							</span>
-							<span className="tag time">&nbsp;•&nbsp;{time}</span>
+							<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
 							<span className="tag cloumn">&nbsp;发布在:&nbsp;{cloumn}</span>
 							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
 							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
@@ -124,8 +199,18 @@ define([
 							<textarea></textarea>
 						</div>
 
-						<div id="editormd-comment">
-							<textarea></textarea>
+						<div className="comment-box">
+							<div className="hd">评论</div>
+							<div className="bd">
+								<div className="publish">
+									<textarea id="comment-text" placeholder="参与讨论" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
+									<div className="comment-submit" onClick={this.submitComment}>发表评论</div>
+								</div>
+								<div className="comment-list">
+									{commentList}
+									<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} onClick={_this.hamdleMore}>更多评论</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

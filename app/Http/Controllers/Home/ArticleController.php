@@ -40,9 +40,9 @@ class ArticleController extends Controller {
 	 */
 	public function getAllArticle(ArticleProcess $articleProcess)
 	{
-		$way = Request::input('way');
-		$data = $articleProcess->getAllArticle($way);
-		return response()->json($data);
+		$data = Request::input('data');
+		$result = $articleProcess->getAllArticle($data);
+		return response()->json($result);
 	}
 
 	/**

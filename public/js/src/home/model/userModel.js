@@ -25,6 +25,10 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		modifyPassword: function(data, callback) {
 			BaseModel.post('/user/modifyPassword', data, callback);
 		},
+		//修改密码
+		checkUserName: function(data, callback) {
+			BaseModel.post('/user/checkUserName', data, callback);
+		},
 	};
 	return UserModel;
 });

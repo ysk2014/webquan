@@ -114,6 +114,8 @@ class Routes
                 Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
                 //设置
                 Route::get('/settings', 'Home\UserController@settings');
+                //检查用户名是否存在
+                Route::post('/user/checkUserName', 'Home\UserController@checkUserName');
 
 
                 // 编辑文章

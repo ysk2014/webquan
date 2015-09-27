@@ -73,12 +73,13 @@ class Article extends Base
      * 
      * @param intval $cid 专题的ID
      */
-    public function getArtsByCid($cid,$way='addtime')
+    public function getArtsByCid($cid,$way='addtime',$page)
     {
         return $this->select(array('article.*','user.username'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->where('article.cid','=', intval($cid))
                     ->orderBy($way,'desc')
+                    ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }
@@ -88,12 +89,13 @@ class Article extends Base
      * 
      * @param $data 排序
      */
-    public function getAllArticle($data='addtime')
+    public function getAllArticle($data='addtime',$page)
     {
         return $this->select(array('article.*','user.username'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->orderBy('article.'.$data,'desc')
                     ->where('article.is_publish','=',0)
+                    ->skip($page*10)->take(20)
                     ->get()
                     ->toArray();
     }
@@ -132,4 +134,24 @@ class Article extends Base
         return $this->where('id','=', intval($id))
                     ->decrement($data);
     }  
+
+    /**
+     * 获取文章总数
+     * 
+     */
+    public function countArticle()
+    {
+        return $this->count();
+    } 
+
+    /**
+     * 获取根据专题id文章总数
+     * 
+     * @param intval $id 专题的ID
+     */
+    public function countArticleByCid($cid)
+    {
+        return $this->where('cid','=',intval($cid))->count();
+    }
+
 }

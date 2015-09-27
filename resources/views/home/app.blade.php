@@ -15,5 +15,6 @@
 </head>
 <body>
 	<div id='container'></div>
+	<div id="mask"></div>
 </body>
 </html>

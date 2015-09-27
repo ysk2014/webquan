@@ -30,9 +30,14 @@ class Comment extends Model
      * 
      * @return array
      */
-    public function getContentByAid($aid)
+    public function getContentByAid($aid, $page)
     {
-        return $this->where('aid', $aid)->get()->toArray();
+        return $this->select(array('comment.*','user.username'))
+                    ->leftJoin('user','comment.uid','=','user.id')
+                    ->where('aid', $aid)
+                    ->skip($page*8)->take(8)
+                    ->get()
+                    ->toArray();
     }
 
 
@@ -53,7 +58,7 @@ class Comment extends Model
      */
     public function addComment(array $data)
     {
-        return $this->insertGetId($data);
+        return array('id'=>$this->insertGetId($data),'addtime'=>$data['addtime']);
     }
 
     /**
@@ -85,5 +90,16 @@ class Comment extends Model
     {
         return $this->where('aid', $aid)->delete();
     }
+
+    /**
+     * 获取文章id的评论总数
+     * 
+     * @param $aid
+     */
+    public function countContentByAid($aid)
+    {
+        return $this->where('aid', $aid)->count();
+    }
+
 
 }
