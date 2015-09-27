@@ -263,7 +263,6 @@ input:focus{
 .settings{
   width: 480px;
   margin: 0 auto;
-  color: #f00;
 }
 .settings .title{
   text-align: center;
@@ -336,4 +335,69 @@ input:focus{
   color: #fff;
   border: none;
   padding: 5px 0px; 
+}
+.modify-psd{
+  clear: both;
+  width:400px;
+  margin: 0 auto;
+  color: rgb(101, 110, 115);
+  padding-top: 10px;
+  text-align: center;
+}
+.modify-psd p{
+  clear: both;
+  margin-top: 40px;
+  text-align: right;
+}
+.modify-psd input{
+  width: 310px;
+  padding: 5px 0px 5px 10px;
+  border: 1px solid rgb(208, 214, 217);
+}
+.modify-psd label{
+  float: left;
+  display: block;
+  text-align: right;
+  width: 70px;
+  height: 30px;
+  line-height: 30px;
+}
+.modify-psd .sub{
+  width: 322px;
+  background: rgb(51, 166, 70);
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+/*邮箱认证*/
+.email-box{
+  clear: both;
+  text-align: center;
+  padding-top: 40px;
+} 
+.email-box .fir{
+  font-size: 17px;
+}
+.email-box .sec{
+  font-size: 18px;
+  font-weight: bolder;
+  margin-top: 20px;
+}
+.email-box .hook{
+  padding-top: 20px;
+  font-size: 60px;
+}
+.email-box .hook i{
+  color: rgb(46, 167, 224);
+}
+.email-box .hook p{
+  margin-top: 5px;
+  font-size: 14px;
+  color: rgb(46, 167, 224);
+}
+.email-box .change{
+  background: rgb(46, 167, 224);
+  color: #fff;
+  border: none;
+  padding: 8px 35px;
 }
