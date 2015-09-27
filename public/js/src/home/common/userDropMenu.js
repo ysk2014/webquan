@@ -73,9 +73,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 
 		handleClick: function() {
-			if(WQ.cookie.empty()) {
-				window.location.href = "/sign_out"; 
-			}
+			WQ.cookie.empty();
 		},
 		render: function() {
 			return (

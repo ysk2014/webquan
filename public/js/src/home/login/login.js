@@ -1,8 +1,4 @@
-define(['react', 
-        'jquery', 
-        'home/model/userModel',
-        'home/common/tooltip'
-        ],function(React, $, UserModel,Tooltip) {
+define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],function(React, $, UserModel,tooltip) {
 
 
     var mixin = {
@@ -43,7 +39,7 @@ define(['react',
                     if(!data.error) {
                         window.location.href ="/";
                     } else {
-                        Tooltip(data.msg);
+                        tooltip.alert(data.msg);
                     }
                 }
             });
@@ -60,12 +56,12 @@ define(['react',
             UserModel.register(data,function(success,data) {
                 if (success) {
                     if(!data.error) {
-                        Tooltip("注册成功");
+                        tooltip2.alert("注册成功");
                         _this.setState({
                             nav: "sign_in",
                         });
                     } else {
-                        Tooltip(data.msg);
+                        tooltip2.alert(data.msg);
                     }
                 };
             });
@@ -94,7 +90,6 @@ define(['react',
 
         render: function() {
             var _this = this;
-            console.log(_this.props.params.way);
             return (
                 <div className="login-page" id="login-page">
                     <div className="logo"></div>
