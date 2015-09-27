@@ -235,16 +235,15 @@ input:focus{
   border-color: #3dbcf5;
   background-color: #3dbcf5;
 }
-
-#mask{
-  position:fixed; 
+#alertMask{
+  position:absolute; 
   left:0%;
   top: 0%;
   width: 100%;
   height: 100%;
   display: none;
 }
-/*alert弹出框样式*/
+
 .alert-box{
   position:absolute; 
   left:50%;
@@ -260,3 +259,81 @@ input:focus{
   text-align: center;
 }
 
+/*设置*/
+.settings{
+  width: 480px;
+  margin: 0 auto;
+  color: #f00;
+}
+.settings .title{
+  text-align: center;
+  margin-top: 80px;
+  font-size: 24px;
+  color: #555;
+  padding-bottom: 20px;
+}
+.settings .nav li{
+  float: left;
+}
+.settings .nav li a{
+  display: block;
+  text-align: center;
+  width: 119px;
+  padding: 10px 0px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.settings .nav li a.active{
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+/*个人资料*/
+.personal{
+  clear: both;
+  width:380px;
+  margin: 0 auto;
+  color: rgb(101, 110, 115);
+  padding-top: 10px;
+}
+.personal p{
+  margin-top: 40px; 
+}
+.personal .username{
+  width: 310px;
+  padding: 5px 0px 5px 10px;
+  border: 1px solid rgb(208, 214, 217);
+}
+.personal .job{
+  width: 322px;
+  padding: 5px 0px 5px 5px;
+  color: rgb(85, 85, 85);
+}
+.personal .place input{
+  width: 310px;
+  padding: 5px 0px 5px 10px;
+  border: 1px solid rgb(208, 214, 217);
+}
+.personal .place select.province{
+  margin-left: 0px;
+}
+.personal .sex input{
+  margin-left: 8px;
+}
+.personal .sign textarea{
+  width: 365px;
+  height: 60px;
+  resize:none;
+}
+.personal .sub{
+  margin-top: 20px;
+}
+.personal .sub input{
+  width: 365px;
+  background: rgb(51, 166, 70);
+  color: #fff;
+  border: none;
+  padding: 5px 0px; 
+}

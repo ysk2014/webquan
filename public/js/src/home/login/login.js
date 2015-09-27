@@ -94,7 +94,7 @@ define(['react',
 
         render: function() {
             var _this = this;
-            // console.log(_this.props.params.way);
+            console.log(_this.props.params.way);
             return (
                 <div className="login-page" id="login-page">
                     <div className="logo"></div>

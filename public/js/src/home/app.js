@@ -33,8 +33,9 @@ requirejs([
         'home/login/user',
         'home/article/editArticle',
         'home/article/article',
-    ],function(React, ReactRouter, Home, Login, User, EditArticle, Article){
-
+        'home/settings/settings',
+    ],function(React, ReactRouter, Home, Login, User, EditArticle, Article, Settings){
+        
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
 
@@ -58,6 +59,7 @@ requirejs([
             <Route path="/article/add" handler={EditArticle}/>
             <Route path="/article/edit/:id" handler={EditArticle}/>
             <Route path="/article/:id" handler={Article}/>
+            <Route path="/settings" handler={Settings}/>
         </Route>
     );
 
