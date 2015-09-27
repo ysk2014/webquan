@@ -30,9 +30,10 @@ requirejs([
         'reactRouter', 
         'home/home/home', 
         'home/login/login',
+        'home/login/user',
         'home/article/editArticle',
         'home/article/article',
-    ],function(React, ReactRouter, Home, Login, EditArticle, Article){
+    ],function(React, ReactRouter, Home, Login, User, EditArticle, Article){
 
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -50,7 +51,10 @@ requirejs([
     var routes = (
         <Route handler={App}>
             <Route name="home" path="/" handler={Home}/>
+
             <Route path="/login/:way" handler={Login}/>
+            <Route path="/user" handler={User}/>
+            
             <Route path="/article/add" handler={EditArticle}/>
             <Route path="/article/edit/:id" handler={EditArticle}/>
             <Route path="/article/:id" handler={Article}/>
