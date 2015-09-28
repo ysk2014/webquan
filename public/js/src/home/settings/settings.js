@@ -33,13 +33,13 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 	        handleOldPsdChange: function(){
 	            var _this = this;
 	            _this.setState({
-	                newPassword: event.target.value,
+	                oldPassword: event.target.value,
 	            });	        	
 	        },
 	        handleNewPsdChange: function(){
 	            var _this = this;
 	            _this.setState({
-	                oldPassword: event.target.value,
+	                newPassword: event.target.value,
 	            });	        	
 	        },
 	        handleNewPsdRepeatChange: function(){
@@ -178,6 +178,19 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 					newPasswordRepeat: ""
 				}
 			},
+			judge: function(data){
+			  if (data.oldPassword == "") {
+					alert("旧密码不能为空");
+				}else if(data.newPassword == ""){
+					alert("新密码不能为空");
+				}else if (data.newPasswordRepeat == ""){
+					alert("重复密码不能为空");
+				}else if( data.newPassword != data.newPasswordRepeat){
+					alert("新密码输入不一致");
+				}else{
+					return true;
+				}
+			},
 			handleSubmit: function(){
 				var _this = this;
 				var data={
@@ -185,15 +198,18 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 					newPassword: _this.state.newPassword,
 					newPasswordRepeat: _this.state.newPasswordRepeat
 				}
-				UserModel.modifyPassword(data,function(success,data){
-                    if(success){
-                    	if(!data.error){
-                    		alert("修改成功");
-                    	}else{
-                    		alert(data.msg);
-                    	}
-                    }
-        		})
+				if(_this.judge(data) == true){
+				
+					UserModel.modifyPassword(data,function(success,data){
+	                    if(success){
+	                    	if(!data.error){
+	                    		alert("修改成功");
+	                    	}else{
+	                    		alert(data.msg);
+	                    	}
+	                    }
+	        		})
+				}
 			},
 			render: function(){
 				return(
