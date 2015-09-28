@@ -19,6 +19,12 @@ class UserSave extends AbstractParam
 
     protected $job;
 
+    protected $sex;
+
+    protected $city;
+
+    protected $description;
+
     protected $password;
 
     protected $addtime;
@@ -58,6 +64,24 @@ class UserSave extends AbstractParam
     public function setJob($job)
     {
         $this->job = $this->attributes['job'] = $job;
+        return $this;
+    }
+
+    public function setSex($sex)
+    {
+        $this->sex = $this->attributes['sex'] = $sex;
+        return $this;
+    }
+
+    public function setCity($city)
+    {
+        $this->city = $this->attributes['city'] = $city;
+        return $this;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $this->attributes['description'] = $description;
         return $this;
     }
 
