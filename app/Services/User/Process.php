@@ -121,14 +121,13 @@ class Process extends BaseProcess
     	// 进行用户表单验证
     	if( !$this->userValidate->pwd($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
 
-    	$userInfo = \App\Services\SC::getLoginSession();
-
-    	if( $userInfo->password != md5($params->oldPassword)) return array('error'=>true, 'msg'=>'旧密码错误');
+    	if( $this->userModel->getUserById($params->id)['password'] != md5($params->oldPassword)) return array('error'=>true, 'msg'=>'旧密码错误');
 
     	$updateData = ['password' => md5($params->newPassword)];
 
     	if($this->userModel->editUser($updateData,$params->id) !== false)  {
             $resultArr = array('error'=>false, 'msg'=>'修改成功');
+            \App\Services\SC::delLoginSession();
         } else {
             $resultArr = array('error'=>true, 'msg'=>'修改失败');
         }
