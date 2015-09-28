@@ -1,4 +1,4 @@
-define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],function(React, $, UserModel,tooltip) {
+define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],function(React, $, UserModel,Tooltip) {
 
 
     var mixin = {
@@ -39,7 +39,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                     if(!data.error) {
                         window.location.href ="/";
                     } else {
-                        tooltip.alert(data.msg);
+                        Tooltip(data.msg);
                     }
                 }
             });
@@ -56,12 +56,12 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
             UserModel.register(data,function(success,data) {
                 if (success) {
                     if(!data.error) {
-                        tooltip2.alert("注册成功");
+                        Tooltip("注册成功");
                         _this.setState({
                             nav: "sign_in",
                         });
                     } else {
-                        tooltip2.alert(data.msg);
+                        Tooltip(data.msg);
                     }
                 };
             });
