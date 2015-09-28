@@ -16,6 +16,8 @@ class UserModifyPassword extends AbstractParam
 
     protected $newPasswordRepeat;
 
+    protected $id;
+
     /**
      * setOldPassword
      * @param string $oldPassword 旧的密码
@@ -43,6 +45,12 @@ class UserModifyPassword extends AbstractParam
     public function setNewPasswordRepeat($newPasswordRepeat)
     {
         $this->newPasswordRepeat = $this->attributes['newPasswordRepeat'] = $newPasswordRepeat;
+        return $this;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $this->attributes['id'] = $id;
         return $this;
     }
 

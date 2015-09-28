@@ -49,7 +49,7 @@ class UserValidate extends BaseValidate
 	*
 	* @access public
 	*/
-	public function password(\App\Services\User\Param\UserSave $data)
+	public function pwd(\App\Services\User\Param\UserModifyPassword $data)
 	{
         // 创建验证规则
         $rules = array(
