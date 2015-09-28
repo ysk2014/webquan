@@ -119,7 +119,7 @@ class Process extends BaseProcess
     {
         $resultArr = [];
     	// 进行用户表单验证
-    	if( !$this->userValidate->password($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
+    	if( !$this->userValidate->pwd($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
 
     	$userInfo = \App\Services\SC::getLoginSession();
 
