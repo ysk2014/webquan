@@ -19,11 +19,11 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		//更新用户信息
 		editUser: function(data, callback) {
-			BaseModel.post('/user/edit', data, callback);
+			BaseModel.post('/user/edit', {'data':data}, callback);
 		},
 		//修改密码
 		modifyPassword: function(data, callback) {
-			BaseModel.post('/user/modifyPassword', data, callback);
+			BaseModel.post('/user/modifyPassword', {'data':data}, callback);
 		},
 	};
 	return UserModel;
