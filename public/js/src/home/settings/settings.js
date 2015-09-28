@@ -46,24 +46,8 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 	            var _this = this;
 	            _this.setState({
 	                newPasswordRepeat: event.target.value,
-	            });	        	
-	        },		        
-		}
-
-// 个人信息设置
-        var Personal = React.createClass({
-        	mixins: [mixin],
-        	getInitialState: function() {
-        		var _this = this;
-				return {
-	            		  id: "",
-	            	username: "",
-	            		 job: "",
-	            	    city: "",
-	            	     sex: "",
-	             description: ""
-	            }
-	        },
+	            });
+	        },		
 	        componentDidMount: function(){
 	        	var _this = this;
 	        	UserModel.getUserInfoById({id:WQ.cookie.get('id')},function(success,data){
@@ -77,7 +61,8 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 						               job: data.job,
 						              city: data.city,
 						               sex: data.sex,
-						       description: data.description
+						       description: data.description,
+						       		 email: data.email
 
 	            			});
 						}else{
@@ -85,6 +70,23 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 						}
 					}
 				});	
+	        },        
+		}
+
+// 个人信息设置
+        var Personal = React.createClass({
+        	mixins: [mixin],
+        	getInitialState: function() {
+        		// var aa = "defaultChecked";
+        		var _this = this;
+				return {
+	            		  id: "",
+	            	username: "",
+	            		 job: "",
+	            	    city: "",
+	            	     sex: "",
+	             description: ""
+	            }
 	        },
         	handleSubmit: function(event){
         		var _this = this;
@@ -138,7 +140,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 	        				<p className="sex">
 		        				性别：&nbsp;   
 		        				  		<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  />&nbsp;&nbsp;男&nbsp;&nbsp;
-		        				      	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  />&nbsp;&nbsp;女
+		        				      	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}   />&nbsp;&nbsp;女
 		        				      
 	        				</p>
 	        				<p className="sign">
@@ -153,12 +155,28 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
         		)
         	}
         })
-		var Email = React.createClass({
+		var Head = React.createClass({
 			render: function(){
+				var _this = this;
+				return(
+					<div className="head">fsadf222</div>
+				)
+			}
+		})
+		var Email = React.createClass({
+			mixins: [mixin],
+			getInitialState: function() {
+        		var _this = this;
+				return {
+	            		  email: "",
+	            }
+	        },
+			render: function(){
+				var _this = this;
 				return(
 					<div className="email">
 						<p className="fir">当前邮箱</p>
-						<p className="sec">2409551912@.com</p>
+						<p className="sec">{_this.state.email}</p>
 						<div className="hook">
 							<i className="fa fa-check-square"></i>
 							<p>邮箱已认证</p>
@@ -199,12 +217,13 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 					newPasswordRepeat: _this.state.newPasswordRepeat
 				}
 				if(_this.judge(data) == true){
-				
+				console.log(data);
 					UserModel.modifyPassword(data,function(success,data){
 	                    if(success){
 	                    	if(!data.error){
 	                    		alert("修改成功");
 	                    	}else{
+	                    		console.log(data);
 	                    		alert(data.msg);
 	                    	}
 	                    }
@@ -262,6 +281,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 		                </ul>
 		                <div className="con">
 		                	<Personal />
+		                	<Head />
 		                	<Email />
 		                	<ModifyPassword />
 		                </div>

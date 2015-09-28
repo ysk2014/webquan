@@ -333,6 +333,9 @@ input:focus{
   border: none;
   padding: 5px 0px; 
 }
+.head{
+  display: none;
+}
 /*修改密码*/
 .modify{
   display: none;
