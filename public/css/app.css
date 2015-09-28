@@ -315,9 +315,6 @@ input:focus{
   padding: 5px 0px 5px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
-.personal .place select.province{
-  margin-left: 0px;
-}
 .personal .sex input{
   margin-left: 8px;
 }
@@ -336,7 +333,9 @@ input:focus{
   border: none;
   padding: 5px 0px; 
 }
-.modify-psd{
+/*修改密码*/
+.modify{
+  display: none;
   clear: both;
   width:400px;
   margin: 0 auto;
@@ -344,17 +343,17 @@ input:focus{
   padding-top: 10px;
   text-align: center;
 }
-.modify-psd p{
+.modify p{
   clear: both;
   margin-top: 40px;
   text-align: right;
 }
-.modify-psd input{
+.modify input{
   width: 310px;
   padding: 5px 0px 5px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
-.modify-psd label{
+.modify label{
   float: left;
   display: block;
   text-align: right;
@@ -362,7 +361,7 @@ input:focus{
   height: 30px;
   line-height: 30px;
 }
-.modify-psd .sub{
+.modify .sub{
   width: 322px;
   background: rgb(51, 166, 70);
   color: #fff;
@@ -370,33 +369,34 @@ input:focus{
   text-align: center;
 }
 /*邮箱认证*/
-.email-box{
+.email{
   clear: both;
   text-align: center;
   padding-top: 40px;
+  display: none;
 } 
-.email-box .fir{
+.email .fir{
   font-size: 17px;
 }
-.email-box .sec{
+.email .sec{
   font-size: 18px;
   font-weight: bolder;
   margin-top: 20px;
 }
-.email-box .hook{
+.email .hook{
   padding-top: 20px;
   font-size: 60px;
 }
-.email-box .hook i{
-  color: rgb(46, 167, 224);
+.email .hook i{
+  color: rgb(51, 166, 70);;
 }
-.email-box .hook p{
+.email .hook p{
   margin-top: 5px;
   font-size: 14px;
-  color: rgb(46, 167, 224);
+  color: rgb(51, 166, 70);;
 }
-.email-box .change{
-  background: rgb(46, 167, 224);
+.email .change{
+  background: rgb(51, 166, 70);;
   color: #fff;
   border: none;
   padding: 8px 35px;
