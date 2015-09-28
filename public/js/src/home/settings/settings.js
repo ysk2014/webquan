@@ -1,4 +1,4 @@
-define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],function(React, $, UserModel,tooltip,wq) {
+define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],function(React, $, UserModel,Tooltip,wq) {
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;
@@ -194,6 +194,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 			handleSubmit: function(){
 				var _this = this;
 				var data={
+					id: WQ.cookie.get('id'),
 					oldPassword: _this.state.oldPassword,
 					newPassword: _this.state.newPassword,
 					newPasswordRepeat: _this.state.newPasswordRepeat
@@ -203,7 +204,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 					UserModel.modifyPassword(data,function(success,data){
 	                    if(success){
 	                    	if(!data.error){
-	                    		alert("修改成功");
+	                    		window.location.href="/login/sign_in";
 	                    	}else{
 	                    		alert(data.msg);
 	                    	}

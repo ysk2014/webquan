@@ -35,6 +35,7 @@ class User extends Base
         return $this->where('username', $username)->first();
     }
 
+
     /**
      * 取得所有的用户
      *
