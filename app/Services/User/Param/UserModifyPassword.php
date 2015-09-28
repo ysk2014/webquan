@@ -1,7 +1,7 @@
 <?php
 namespace App\Services\User\Param;
 
-use App\Services\AbtractParam;
+use App\Services\AbstractParam;
 
 /**
  * 用户操作有关的参数容器，固定参数，方便分离处理。
