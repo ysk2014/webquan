@@ -160,10 +160,11 @@ class Process extends BaseProcess
      * @return  void
      */
 
-    private function message($message, $success = 0)
+    private function message($message, $success = 0, $status=0)
     {
         $array = array(
-            'success' => $success
+            'success' => $success,
+            'status' => $status
         );
 
         if ($success == 1)
@@ -227,10 +228,12 @@ class Process extends BaseProcess
         //保存的文件名
         $saveFileName = $this->getSaveFileName().'.'.$this->file->getClientOriginalExtension();
 
+        $status = 0;
         //文件是否存在
         $realFile = $savePath.'/'.$saveFileName;
         if(file_exists($realFile)) {
             @unlink($realFile);
+            $status = 1;
         }
         //保存
         $this->file->move($savePath, $saveFileName);
@@ -255,7 +258,7 @@ class Process extends BaseProcess
         $returnFileUrl = implode('|', array_merge($realFileUrl, $thumbRealFileUrl));
 
 
-        return $this->message($returnFileUrl,1);
+        return $this->message($returnFileUrl,1,$status);
     }
 
 
