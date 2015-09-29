@@ -172,9 +172,10 @@ class UserController extends Controller {
     public function updateLogo(UserActionProcess $manager)
     {
 		$file = Request::file('logo-image-file');
-		$id = Request::input('id')
-		$result = $manager->uploadLogo($file,$id);
-		return response()->json($result);
+		// echo $file;exit();
+		$id = Request::input('id');
+		// $result = $manager->uploadLogo($file,$id);
+		return response()->json($file);
     }
 
     /**

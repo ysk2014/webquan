@@ -336,12 +336,9 @@ input:focus{
   border: none;
   padding: 5px 0px; 
 }
-.head{
-  display: none;
-}
+
 /*修改密码*/
 .modify{
-  display: none;
   clear: both;
   width:400px;
   margin: 0 auto;
@@ -379,7 +376,6 @@ input:focus{
   clear: both;
   text-align: center;
   padding-top: 40px;
-  display: none;
 } 
 .email .fir{
   font-size: 17px;
@@ -406,4 +402,40 @@ input:focus{
   color: #fff;
   border: none;
   padding: 8px 35px;
+}
+
+.head {
+  clear: both;
+  text-align: center;
+  padding-top: 40px;
+}
+.head .user {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 auto;
+}
+.head .submit-button {
+  float: right;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  padding: 6px 12px;
+  margin: 8px 100px 8px 0;
+  font-size: 18px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  color: #555;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+}
+.head .submit-button:hover,
+.head .submit-button:focus {
+  background-color: #049cdb;
+  color: #fff;
 }

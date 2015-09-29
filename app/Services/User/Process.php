@@ -203,12 +203,12 @@ class Process extends BaseProcess
             $data = array('logo_dir'=>$result['url']);
             $resultData = $this->userModel->editUser($data,$id);
             if($resultData) {
-                $resultArr = array('error'=>false,'data'=$result['url']);
+                $resultArr = array('error'=>false,'data'=>$result['url']);
             } else {
-                $resultArr = array('error'=>true,'msg'='更新头像失败');
+                $resultArr = array('error'=>true,'msg'=>'更新头像失败');
             }
         } else {
-            $resultArr = array('error'=>true,'msg'='上传头像失败');
+            $resultArr = array('error'=>true,'msg'=>'上传头像失败');
         }
 
         return $resultArr;
