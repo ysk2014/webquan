@@ -1,4 +1,11 @@
-define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],function(React, $, UserModel,Tooltip,wq) {
+define([
+	'react', 
+	'jquery',
+    'home/model/userModel',
+    'home/common/tooltip',
+    'WQ',
+    'home/common/leftNav',
+    ],function(React, $, UserModel,Tooltip,	Wq,LeftNav) {
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;
@@ -248,6 +255,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 	        getInitialState: function() {
 	            return {
 	            	nav: "personal",
+	            	name: "home"
 	            }
 	        },
 	        handleClick: function(set){
@@ -264,27 +272,32 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip','WQ'],fu
 	        render: function() {
 	        	var _this = this;
 	            return (
-	            	<div className="settings clearfix" >
-		                <h3 className="title"><i className="fa fa-asterisk"></i>设置</h3>
-		                <ul className="nav">
-		                	<li>
-		                		<a href="#" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
-		                	</li>
-		                	<li>
-		                		<a href="#" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
-		                	</li>
-		                	<li>
-		                		<a href="#" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
-		                	</li>
-		                	<li>
-		                		<a href="#" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
-		                	</li>
-		                </ul>
-		                <div className="con">
-		                	<Personal />
-		                	<Head />
-		                	<Email />
-		                	<ModifyPassword />
+	            	<div>
+	            		<LeftNav />
+
+		            	<div className="settings clearfix" >
+		            	
+			                <h3 className="title"><i className="fa fa-asterisk"></i>设置</h3>
+			                <ul className="nav">
+			                	<li>
+			                		<a href="#" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
+			                	</li>
+			                	<li>
+			                		<a href="#" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
+			                	</li>
+			                	<li>
+			                		<a href="#" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
+			                	</li>
+			                	<li>
+			                		<a href="#" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
+			                	</li>
+			                </ul>
+			                <div className="con">
+			                	<Personal />
+			                	<Head />
+			                	<Email />
+			                	<ModifyPassword />
+			                </div>
 		                </div>
 	                </div>
 

@@ -302,17 +302,17 @@ input:focus{
 }
 .personal .username{
   width: 310px;
-  padding: 5px 0px 5px 10px;
+  padding: 8px 0px 8px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
 .personal .job{
   width: 322px;
-  padding: 5px 0px 5px 5px;
+  padding: 8px 0px 8px 5px;
   color: rgb(85, 85, 85);
 }
 .personal .place input{
   width: 310px;
-  padding: 5px 0px 5px 10px;
+  padding: 8px 0px 8px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
 .personal .sex input{
@@ -353,7 +353,7 @@ input:focus{
 }
 .modify input{
   width: 310px;
-  padding: 5px 0px 5px 10px;
+  padding: 8px 0px 8px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
 .modify label{
@@ -361,8 +361,8 @@ input:focus{
   display: block;
   text-align: right;
   width: 70px;
-  height: 30px;
-  line-height: 30px;
+  height: 35px;
+  line-height: 35px;
 }
 .modify .sub{
   width: 322px;
