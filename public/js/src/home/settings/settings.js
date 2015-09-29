@@ -5,7 +5,8 @@ define([
     'home/common/tooltip',
     'WQ',
     'home/common/leftNav',
-    ],function(React, $, UserModel,Tooltip,	Wq,LeftNav) {
+    'home/common/userDropMenu',
+    ],function(React, $, UserModel, Tooltip, WQ, LeftNav, UserDropMenu) {
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;
@@ -82,7 +83,7 @@ define([
 
 
 
-// 个人信息设置
+		// 个人信息设置
         var Personal = React.createClass({
         	mixins: [mixin],
         	getInitialState: function() {
@@ -163,26 +164,78 @@ define([
         			</div>
         		)
         	}
-        })
+        });
 
 
 
-// 上传头像
+		// 上传头像
 		var Head = React.createClass({
+			getInitialState: function() {
+				return {
+					logoDir: '/image/user-default.png',
+					url: ''
+				}
+			},
+			handleSubmit: function(event) {
+				$(event.target).siblings('input[type=file]').trigger("click");
+			},
+			handleFileChange: function(event) {
+				var fileName = event.target.value;
+				this.setState({
+					url: fileName
+				});
+				if(fileName === '') {
+					Tooltip('头像不能为空');
+				}
+
+				$(event.target).siblings('input[type=submit]').trigger("click");
+			},
+			handleUpload: function() {
+				var _this = this;
+                var uploadIframe = document.getElementById('uploadIframe');
+
+                uploadIframe.onload = function() {
+                    
+
+                    var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
+                    var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
+
+                    json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+                    console.log(json);
+                    // if (!json.error) {
+                    //     _this.setState({
+                    //     	logoDir: json.data,
+                    //     });
+                    // } else {
+                    //     Tooltip(json.msg);
+                    // }
+
+                    return false;
+                };
+			},
 			render: function(){
 				var _this = this;
 				return(
-					// <div className="head">
-					// 	<img src="/image/logo1.png" />
-					// </div>
-					<p className="head">fsd</p>
+					<div className='head'>
+						<form action="/user/updateLogo" method="post" target="uploadIframe" enctype="multipart/form-data" >
+							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}></div>
+
+							<iframe name="uploadIframe" id="uploadIframe" style={{display:'none'}}></iframe>
+
+							<input type="text" name="id" style={{display:'none'}} value={WQ.cookie.get('id')} />
+							<input type="file" name="logo-image-file" id="logo-image-file" style={{display:'none'}} value={_this.state.url} onChange={_this.handleFileChange} />
+							<input type="submit"  style={{display:'none'}} onClick={_this.handleUpload} />
+							<a className="submit-button" onClick={_this.handleSubmit}>上传头像</a>
+						</form>
+						
+					</div>
 				)
 			}
-		})
+		});
 
 
 
-// 邮箱验证
+		// 邮箱验证
 		var Email = React.createClass({
 			mixins: [mixin],
 			getInitialState: function() {
@@ -205,11 +258,11 @@ define([
 					</div>
 				)
 			}
-		})
+		});
 
 
 		
-// 密码修改
+		// 密码修改
 		var ModifyPassword = React.createClass({
 			mixins: [mixin],
 			getInitialState: function() {
@@ -264,7 +317,7 @@ define([
 					</form>
 				)
 			}
-		})
+		});
 
 
         return React.createClass({
@@ -281,14 +334,14 @@ define([
 	        },
 	        componentDidUpdate: function(){
 	        	var _this = this;
-	        	$(".con").children().css({"display":"none"});
-	        	$("."+_this.state.nav).css({"display":"block"});
 	        },
 	        render: function() {
 	        	var _this = this;
 	            return (
 	            	<div>
 	            		<LeftNav />
+
+	            		<UserDropMenu />
 
 		            	<div className="settings clearfix" >
 		            	
@@ -308,10 +361,18 @@ define([
 			                	</li>
 			                </ul>
 			                <div className="con">
-			                	<Personal />
-			                	<Head />
-			                	<Email />
-			                	<ModifyPassword />
+			                	<div  style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
+			                		<Personal />
+			                	</div>
+			                	<div  style={_this.state.nav=='head' ? {display:'block'} : {display:'none'}} >
+			                		<Head />
+			                	</div>
+			                	<div  style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
+			                		<Email />
+			                	</div>
+			                	<div  style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
+			                		<ModifyPassword />
+			                	</div>
 			                </div>
 		                </div>
 	                </div>
