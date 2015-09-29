@@ -81,6 +81,10 @@ class Process extends BaseProcess
     public function setParam($params)
     {
         $this->params = $params;
+        
+        if(isset($this->params['fileName'])) {
+            $this->fileName = $this->params['fileName'];
+        }
         return $this;
     }
 
@@ -112,7 +116,12 @@ class Process extends BaseProcess
      */
     private function setSavePath()
     {
-        $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
+        if(isset($this->params['path'])) {
+            $savePath = \Config::get('sys.sys_upload_path'). '/' . $this->params['path'];
+        } else {
+            $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
+        }
+        
         if( ! is_dir($savePath))
         {
             //如果保存路径不存在，那么建立它

@@ -167,6 +167,17 @@ class UserController extends Controller {
     }
 
     /**
+     * 更新头像
+     */
+    public function updateLogo(UserActionProcess $manager)
+    {
+		$file = Request::file('logo-image-file');
+		$id = Request::input('id')
+		$result = $manager->uploadLogo($file,$id);
+		return response()->json($result);
+    }
+
+    /**
      * 登录退出
      */
     public function getOut(LoginProcess $loginProcess)

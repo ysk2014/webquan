@@ -61,6 +61,9 @@ class Routes
             // 主页
             Route::get('/', 'Home\HomeController@index');
 
+            // 邮件
+            Route::get('/email', 'Email\EmailController@index');
+
             // 登录页
             Route::get('/login/{way}', 'Home\UserController@login');
             // 登录处理
@@ -116,6 +119,8 @@ class Routes
                 Route::get('/settings', 'Home\UserController@settings');
                 //检查用户名是否存在
                 Route::post('/user/checkUserName', 'Home\UserController@checkUserName');
+                // 上传头像
+                Route::post('/user/updateLogo', 'Home\UserController@updateLogo');
 
 
                 // 编辑文章

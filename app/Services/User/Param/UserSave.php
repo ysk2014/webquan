@@ -15,6 +15,8 @@ class UserSave extends AbstractParam
 
     protected $realname;
 
+    protected $logo_dir;
+
     protected $email;
 
     protected $job;
@@ -52,6 +54,12 @@ class UserSave extends AbstractParam
     public function setId($id)
     {
         $this->id = $this->attributes['id'] = $id;
+        return $this;
+    }
+
+    public function setLogoDir($logo_dir)
+    {
+        $this->logo_dir = $this->attributes['logo_dir'] = $logo_dir;
         return $this;
     }
 

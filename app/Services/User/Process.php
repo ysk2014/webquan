@@ -4,6 +4,7 @@ namespace App\Services\User;
 use App\Models\User as UserModel;
 use App\Services\User\UserValidate;
 use App\Services\BaseProcess;
+use App\Services\Home\Upload\Process as UploadManager;
 use Lang;
 
 /**
@@ -29,6 +30,13 @@ class Process extends BaseProcess
     private $userValidate;
 
     /**
+     * 上传处理对象
+     * 
+     * @var object
+     */
+    private $uploadManager;
+
+    /**
      * 初始化
      *
      * @access public
@@ -37,6 +45,7 @@ class Process extends BaseProcess
 	{
         if( ! $this->userModel) $this->userModel = new UserModel();
         if( ! $this->userValidate) $this->userValidate = new UserValidate();
+        if( ! $this->uploadManager) $this->uploadManager = new UploadManager();
 	}
 
 	/**
@@ -170,6 +179,38 @@ class Process extends BaseProcess
         } else {
             $resultArr = array('error'=>false, 'msg'=>'用户名未占用');
         }
+        return $resultArr;
+    }
+
+    /**
+     * 上传用户头像
+     * 
+     * @param string $username
+     * @access public
+     * @return array
+     */
+    public function uploadLogo($file,$id)
+    {
+        if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
+
+        $config = array('path'=>'logo','fileName'=>'web'+$id);
+
+        $this->uploadManager->setParam($config);
+
+        $result = $this->uploadManager->setFile($file)->upload();
+
+        if($result['success']) {
+            $data = array('logo_dir'=>$result['url']);
+            $resultData = $this->userModel->editUser($data,$id);
+            if($resultData) {
+                $resultArr = array('error'=>false,'data'=$result['url']);
+            } else {
+                $resultArr = array('error'=>true,'msg'='更新头像失败');
+            }
+        } else {
+            $resultArr = array('error'=>true,'msg'='上传头像失败');
+        }
+
         return $resultArr;
     }
 
