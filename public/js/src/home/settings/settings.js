@@ -172,7 +172,7 @@ define([
 		var Head = React.createClass({
 			getInitialState: function() {
 				return {
-					logoDir: '/image/user-default.png',
+					logoDir: WQ.cookie.get('userUrl') ? WQ.cookie.get('userUrl') : '/image/user-default.png',
 					// url: ''
 				}
 			},
@@ -181,9 +181,7 @@ define([
 			},
 			handleFileChange: function(event) {
 				var fileName = event.target.value;
-				// this.setState({
-				// 	url: fileName
-				// });
+				
 				if(fileName === '') {
 					Tooltip('头像不能为空');
 				}
@@ -193,10 +191,11 @@ define([
 			handleUpload: function() {
 				var _this = this;
                 var uploadIframe = document.getElementById('uploadIframe');
+                var loading = $('.head .user>div');
 
+                loading.show();
                 uploadIframe.onload = function() {
-                    
-
+                	loading.hide();
                     var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
                     var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
 
@@ -205,6 +204,7 @@ define([
                         _this.setState({
                         	logoDir: json.data,
                         });
+                        WQ.cookie.set('userUrl',json.data,1);
                     } else {
                         Tooltip(json.msg);
                     }
@@ -224,7 +224,9 @@ define([
 					<div className='head'>
 						<form className="uploadForm" enctype="multipart/form-data" action="/user/updateLogo" method="post" target="uploadIframe" >
 
-							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}></div>	
+							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}>
+								<div><img src="/image/loading.gif" /></div>
+							</div>	
 
 							<iframe name="uploadIframe" id="uploadIframe" style={{display:"none"}}></iframe>
 

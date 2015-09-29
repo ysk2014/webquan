@@ -123,7 +123,7 @@ define([
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
 								<a href="javascript:void(0)">
-									<img className="avatar" src="/image/user-default.png" />
+									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>
 								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
