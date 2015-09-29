@@ -80,6 +80,8 @@ define([
 	        },        
 		}
 
+
+
 // 个人信息设置
         var Personal = React.createClass({
         	mixins: [mixin],
@@ -146,8 +148,8 @@ define([
 	        				</p>
 	        				<p className="sex">
 		        				性别：&nbsp;   
-		        				  		<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  />&nbsp;&nbsp;男&nbsp;&nbsp;
-		        				      	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}   />&nbsp;&nbsp;女
+		        				  		<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={_this.state.sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
+		        				      	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={_this.state.sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
 		        				      
 	        				</p>
 	        				<p className="sign">
@@ -162,14 +164,25 @@ define([
         		)
         	}
         })
+
+
+
+// 上传头像
 		var Head = React.createClass({
 			render: function(){
 				var _this = this;
 				return(
-					<div className="head">fsadf222</div>
+					// <div className="head">
+					// 	<img src="/image/logo1.png" />
+					// </div>
+					<p className="head">fsd</p>
 				)
 			}
 		})
+
+
+
+// 邮箱验证
 		var Email = React.createClass({
 			mixins: [mixin],
 			getInitialState: function() {
@@ -193,6 +206,9 @@ define([
 				)
 			}
 		})
+
+
+		
 // 密码修改
 		var ModifyPassword = React.createClass({
 			mixins: [mixin],
@@ -255,7 +271,6 @@ define([
 	        getInitialState: function() {
 	            return {
 	            	nav: "personal",
-	            	name: "home"
 	            }
 	        },
 	        handleClick: function(set){
@@ -280,16 +295,16 @@ define([
 			                <h3 className="title"><i className="fa fa-asterisk"></i>设置</h3>
 			                <ul className="nav">
 			                	<li>
-			                		<a href="#" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
+			                		<a href="javascript:void(0)" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
 			                	</li>
 			                	<li>
-			                		<a href="#" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
+			                		<a href="javascript:void(0)" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
 			                	</li>
 			                	<li>
-			                		<a href="#" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
+			                		<a href="javascript:void(0)" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
 			                	</li>
 			                	<li>
-			                		<a href="#" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
+			                		<a href="javascript:void(0)" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
 			                	</li>
 			                </ul>
 			                <div className="con">
