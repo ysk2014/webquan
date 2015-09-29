@@ -173,7 +173,7 @@ define([
 			getInitialState: function() {
 				return {
 					logoDir: '/image/user-default.png',
-					url: ''
+					// url: ''
 				}
 			},
 			handleSubmit: function(event) {
@@ -181,14 +181,14 @@ define([
 			},
 			handleFileChange: function(event) {
 				var fileName = event.target.value;
-				this.setState({
-					url: fileName
-				});
+				// this.setState({
+				// 	url: fileName
+				// });
 				if(fileName === '') {
 					Tooltip('头像不能为空');
 				}
-
-				$(event.target).siblings('input[type=submit]').trigger("click");
+				var submit = $(event.target).siblings('input[type=submit]');
+				submit.trigger("click");
 			},
 			handleUpload: function() {
 				var _this = this;
@@ -201,33 +201,38 @@ define([
                     var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
 
                     json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
-                    console.log(json);
-                    // if (!json.error) {
-                    //     _this.setState({
-                    //     	logoDir: json.data,
-                    //     });
-                    // } else {
-                    //     Tooltip(json.msg);
-                    // }
+                    if (!json.error) {
+                        _this.setState({
+                        	logoDir: json.data,
+                        });
+                    } else {
+                        Tooltip(json.msg);
+                    }
 
                     return false;
                 };
+			},
+			componentDidUpdate: function() {
+				var _this = this;
+				
+				$('.head .uploadForm').attr('enctype','multipart/form-data');
+				
 			},
 			render: function(){
 				var _this = this;
 				return(
 					<div className='head'>
-						<form action="/user/updateLogo" method="post" target="uploadIframe" enctype="multipart/form-data" >
-							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}></div>
+						<form className="uploadForm" enctype="multipart/form-data" action="/user/updateLogo" method="post" target="uploadIframe" >
 
-							<iframe name="uploadIframe" id="uploadIframe" style={{display:'none'}}></iframe>
+							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}></div>	
 
-							<input type="text" name="id" style={{display:'none'}} value={WQ.cookie.get('id')} />
-							<input type="file" name="logo-image-file" id="logo-image-file" style={{display:'none'}} value={_this.state.url} onChange={_this.handleFileChange} />
-							<input type="submit"  style={{display:'none'}} onClick={_this.handleUpload} />
-							<a className="submit-button" onClick={_this.handleSubmit}>上传头像</a>
+							<iframe name="uploadIframe" id="uploadIframe" style={{display:"none"}}></iframe>
+
+							<input type="text" name="id" style={{display:"none"}} value={WQ.cookie.get('id')}  />
+							<input type="file" name="file" id="file" style={{display:"none"}} onChange={_this.handleFileChange} />
+							<input type="submit"  style={{display:"none"}}  onClick={_this.handleUpload} />
+							<a className="submit-button" onClick={_this.handleSubmit} >上传头像</a>
 						</form>
-						
 					</div>
 				)
 			}
