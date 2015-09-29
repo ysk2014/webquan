@@ -75,8 +75,9 @@ class Article extends Base
      */
     public function getArtsByCid($cid,$way='addtime',$page)
     {
-        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','cloumn.title as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.cid','=', intval($cid))
                     ->orderBy($way,'desc')
                     ->skip($page*20)->take(20)
@@ -91,8 +92,9 @@ class Article extends Base
      */
     public function getAllArticle($data='addtime',$page)
     {
-        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','cloumn.title as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
                     ->where('article.is_publish','=',0)
                     ->skip($page*10)->take(20)

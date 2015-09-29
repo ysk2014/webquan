@@ -118,6 +118,7 @@ define([
 				return (
 					<article key={d.id}>
 						<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+							<span>{d.cloumn}</span>
 						</a>
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
@@ -127,6 +128,8 @@ define([
 									<span className="name">{d.username}</span>
 								</a>
 								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
+								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
+								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
 							</div>
 							<div className="description">{d.description}</div>
 						</div>
