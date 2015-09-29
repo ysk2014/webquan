@@ -417,6 +417,11 @@ input:focus{
   margin: 0 auto;
   position: relative;
 }
+.head .user>img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
 .head .user div{
   position: absolute;
   top: 0;
