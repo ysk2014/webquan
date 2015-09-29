@@ -11,16 +11,16 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			if(userInfo) {
 				this.setState({
 					userInfo : userInfo,
-					len: 2,
+					len: 3,
 				})
 			} else {
 	            UserModel.getUserInfoByLogin(function(success, data) {
 	                if(success) {
 	                	if(data.userInfo) {
-	                		var userInfo = {username: data.userInfo.username, id: data.userInfo.id};
+	                		var userInfo = {username: data.userInfo.username, id: data.userInfo.id, userUrl: data.userInfo.logo_dir!=null ? data.userInfo.logo_dir : ''};
 							_this.setState({
 								userInfo : userInfo,
-								len: 2,
+								len: 3,
 							});
 							WQ.cookie.set(userInfo,1);
 	                	} else {
@@ -76,10 +76,11 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			WQ.cookie.empty();
 		},
 		render: function() {
+			var _this = this;
 			return (
 				<div>
 					<a className="user avatar dropdown" data-toggle="dropdown" href="javascript:void(0);">
-						<img src="/image/user-default.png" />
+						<img src={(_this.state.userInfo.userUrl!='') ? _this.state.userInfo.userUrl : "/image/user-default.png"} />
 						<b className="caret"></b>
 					</a>
 					<ul className="dropdown-menu arrow-top">
