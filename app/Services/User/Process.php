@@ -201,7 +201,7 @@ class Process extends BaseProcess
 
         if($result['success']) {
             $data = array('logo_dir'=>$result['url']);
-            if(!$status) {
+            if(!$result['status']) {
                 $resultData = $this->userModel->editUser($data,$id);
                 if($resultData) {
                     $resultArr = array('error'=>false,'data'=>$result['url']);
