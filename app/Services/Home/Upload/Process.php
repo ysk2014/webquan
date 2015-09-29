@@ -226,10 +226,14 @@ class Process extends BaseProcess
         $savePath = $this->setSavePath();
         //保存的文件名
         $saveFileName = $this->getSaveFileName().'.'.$this->file->getClientOriginalExtension();
-        //保存
-        $this->file->move($savePath, $saveFileName);
+
         //文件是否存在
         $realFile = $savePath.'/'.$saveFileName;
+        if(file_exists($realFile)) {
+            @unlink($realFile);
+        }
+        //保存
+        $this->file->move($savePath, $saveFileName);
 
         if( ! file_exists($realFile)) 
         {
