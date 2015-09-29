@@ -83,7 +83,7 @@ class Process extends BaseProcess
         $this->params = $params;
         
         if(isset($this->params['fileName'])) {
-            $this->fileName = $this->params['fileName'];
+            $this->saveFileName = $this->params['fileName'];
         }
         return $this;
     }
