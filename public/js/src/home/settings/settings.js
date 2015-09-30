@@ -70,11 +70,12 @@
 						              city: data.city,
 						               sex: data.sex,
 						       description: data.description,
-						       		 email: data.email
+						       		 email: data.email,
+						       		 logoDir: data.logo_dir
 
 	            			});
 						}else{
-							alert("失败");
+							Tooltip(data.msg);
 						}
 					}
 				});	
@@ -199,9 +200,10 @@
 
 		// 上传头像
 		var Head = React.createClass({
+			mixins: [mixin],
 			getInitialState: function() {
 				return {
-					logoDir: WQ.cookie.get('userUrl') ? WQ.cookie.get('userUrl') : '/image/user-default.png',
+					logoDir: '/image/user-default.png',
 					// url: ''
 				}
 			},
@@ -253,7 +255,8 @@
 					<div className='head'>
 						<form className="uploadForm" enctype="multipart/form-data" action="/user/updateLogo" method="post" target="uploadIframe" >
 
-							<div className="user" style={{background:'url("'+_this.state.logoDir+'") no-repeat center'}}>
+							<div className="user">
+								<img src={_this.state.logoDir+'?'+Math.random()*1000} />
 								<div><img src="/image/loading.gif" /></div>
 							</div>	
 
