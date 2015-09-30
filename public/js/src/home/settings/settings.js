@@ -96,20 +96,29 @@
 	            		 job: "",
 	            	    city: "",
 	            	     sex: "",
-	             description: ""
+	             description: "",
+	             	  select: "0"
 	            }
 	        },
 	        contentClick: function(){
+	        	var data = {
+	        		1:"请选择职位",
+	        		2:"js工程师",
+	        		3:"php工程师"
+	        	}
+	        	for(var i in data){
+	        		alert(data[i]);
+	        	}
 	        	var _this = this;
-	        	$(".select-box ul").toggleClass("dis");
-	        	$(".select-box li").hover(
-	        		function(){
-	        			$(this).addClass("active");
-	        		},
-	        		function(){
-	        			$(this).removeClass("active");
-	        		}
-	        	)
+	        	if (_this.state.select == 0) {
+	        		_this.setState({
+	        			select: 1
+	        		})
+	        	}else{
+	        		_this.setState({
+	        			select: 0
+	        		})
+	        	}
 	        	$(".select-box li").click(function(){
 	        		_this.setState({
 	               	 	job: $(this).text(),
@@ -117,9 +126,6 @@
 	            	$("option").text($(this).text());
 	            	$(".select-box ul").addClass("dis");
 	        	})
-	        },
-	        contentMouseover: function(){
-	        	$(".select-box .content").css({"cursor":"pointer"});
 	        },
         	handleSubmit: function(event){
         		var _this = this;
@@ -152,10 +158,10 @@
 	        				<div className="select-box">
 	        					<label>职位：</label>
 					        	<div className="select-copy clearfix">
-						           	<div className="content arrow-bottom-btn" onClick={_this.contentClick} onMouseOver={_this.contentMouseover}>
+						           	<div className="content arrow-bottom-btn" onClick={_this.contentClick}>
 						           		{_this.state.job == "" ? "请选择职位" : _this.state.job}
 						           	</div>
-						          		<ul className="dis">
+						          		<ul className={_this.state.select == 0 ? "dis" : null}>
 						          			<li><span>请选择职位</span></li>
 							    			<li><span>页面重构设计</span></li>
 							        		<li><span>web前端工程师</span></li>
