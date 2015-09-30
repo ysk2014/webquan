@@ -101,14 +101,6 @@
 	            }
 	        },
 	        contentClick: function(){
-	        	var data = {
-	        		1:"请选择职位",
-	        		2:"js工程师",
-	        		3:"php工程师"
-	        	}
-	        	for(var i in data){
-	        		alert(data[i]);
-	        	}
 	        	var _this = this;
 	        	if (_this.state.select == 0) {
 	        		_this.setState({
@@ -119,6 +111,7 @@
 	        			select: 0
 	        		})
 	        	}
+	        	$(".select-box ul").toggleClass("dis");
 	        	$(".select-box li").click(function(){
 	        		_this.setState({
 	               	 	job: $(this).text(),
