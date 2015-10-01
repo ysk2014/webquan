@@ -111,13 +111,12 @@
 	        			select: 0
 	        		})
 	        	}
-	        	$(".select-box ul").toggleClass("dis");
-	        	$(".select-box li").click(function(){
-	        		_this.setState({
-	               	 	job: $(this).text(),
-	            	});
-	            	$("option").text($(this).text());
-	            	$(".select-box ul").addClass("dis");
+	        },
+	        liClick: function(i){
+	        	var _this = this;
+	        	_this.contentClick();
+	        	_this.setState({
+	        		job:i
 	        	})
 	        },
         	handleSubmit: function(event){
@@ -142,6 +141,7 @@
         	},
         	render: function(){
         		var _this = this;
+        		var data = ["assd","dsf","ss"];
         		return(
         			<div className="personal">
         				<form>
@@ -155,20 +155,11 @@
 						           		{_this.state.job == "" ? "请选择职位" : _this.state.job}
 						           	</div>
 						          		<ul className={_this.state.select == 0 ? "dis" : null}>
-						          			<li><span>请选择职位</span></li>
-							    			<li><span>页面重构设计</span></li>
-							        		<li><span>web前端工程师</span></li>
-							        		<li><span>js工程师</span></li>
-							        		<li><span>PHP开发工程师</span></li>
-							        		<li><span>JAVA开发工程师</span></li>
-							        		<li><span>移动开发工程师</span></li>
-							        		<li><span>软件测试工程师</span></li>
-							        		<li><span>Linux系统工程师</span></li>
-							        		<li><span>交互设计师</span></li>
-							        		<li><span>产品经理</span></li>
-							        		<li><span>UI设计师</span></li>
-							        		<li><span>学生</span></li>
-							        		<li><span>其他</span></li>
+						        			{
+						        				data.map(function(i){
+						        					return <li onClick={_this.liClick.bind(this,i)}><span>{i}</span></li>
+						        				})
+						        			}
 						        		</ul>
 					        	</div>
 					        </div>
