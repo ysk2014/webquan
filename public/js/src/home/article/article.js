@@ -190,7 +190,7 @@ define([
 								</a>
 							</span>
 							<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
-							<span className="tag cloumn">&nbsp;发布在:&nbsp;{cloumn}</span>
+							<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
 							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
 							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
 						</div>

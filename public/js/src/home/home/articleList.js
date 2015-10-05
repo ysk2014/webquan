@@ -138,7 +138,7 @@ define([
 			}) : null;
 			var cloumns = this.state.cloumns.length>0 ? this.state.cloumns.map(function(c,i) {
 				return (
-					<a key={c.id} data-cid={c.id} onClick={_this.hamdleTabChange} className="tab" href="javascript:void(0)">{c.title}</a>
+					<a key={c.id} data-cid={c.id} onClick={_this.hamdleTabChange} className="tab" href="javascript:void(0)">{c.name}</a>
 				);
 			}) : null;
 			return (

@@ -451,6 +451,12 @@
 	background-color: #fff;
 	border: 1px solid #cccccc;
 }
+.edit-article .input-prepend select{
+	width: 100px;
+}
+.edit-article .input-prepend select:focus{
+	outline: none;
+}
 .edit-article .input-prepend textarea{
 	height: 108px;
 	line-height: 24px;
@@ -461,6 +467,7 @@
 }
 
 .edit-article .tags-list {
+	position: relative;
 	border: 1px solid #ddd;
 	width: 100%;
 	height: 48px;
@@ -468,6 +475,7 @@
 	line-height: 40px;
 	padding: 4px 12px;
 	color: #555;
+	cursor: text;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -476,6 +484,61 @@
 .edit-article .tags-list i,
 .edit-article .tags-list i+span{
 	margin-right: 6px;
+}
+.edit-article .tags-list span.selected .remove{
+	margin-left: 10px;
+	position: relative;
+	top: -1px;
+}
+.edit-article .tags-list span.selected .remove:hover{
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+.edit-article .tags-list input{
+	width: 8em !important;
+	text-transform: lowercase;
+	border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    max-width: inherit;
+}
+.edit-article .tags-list input+ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 3px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    background-clip: padding-box;
+}
+.edit-article .tags-list input+ul li a{
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.5;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.edit-article .tags-list input+ul li.active a,
+.edit-article .tags-list input+ul li a:hover{
+	background-color: #3da9f7;
+	color: #fff;
 }
 .edit-article .tags-list .tag{
 	display: inline-block;
@@ -544,7 +607,7 @@
 }
 .article-page .author a:hover .avatar,
 .article-list .author a:hover .avatar{
-	border: 2px solid #2c79b0;
+	border: 2px solid #3da9f7;
 }
 .article-page .tag{
 	margin-right: 6px;
@@ -644,19 +707,24 @@
 	color: #666666;
 }
 .more{
-	border-radius: 2px;
-    margin-top: 20px;
+	width: 200px;
+	border-radius: 4px;
+	margin: 20px auto;
     height: 36px;
     line-height: 36px;
     text-align: center;
-    background: #cdd8e3;
+    background: #fff;
     display: block;
     box-shadow: none;
-    color: #6483a2;
+    color: #3da9f7;
     cursor: pointer;
+    border: 1px solid #3da9f7;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
 }
 .more:hover{
-    background: #bccbd9;
+    background: #3da9f7;
     color: #fff;
 }
 
@@ -819,6 +887,286 @@
 	color: #3da9f7;
 }
 
+
+
+/*专题列表*/
+.cloumn-list{
+	min-width: 320px;
+	height: 100%;
+	margin: 0 auto;
+	margin-left: 200px;
+	padding-top: 70px;
+}
+
+.btn-success{
+    padding: 5px 10px;
+    border: 1px solid #3da9f7;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    cursor: pointer;
+    background-color: #3da9f7;
+    color: #fff;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.btn-success:hover{
+	color: #fff;
+	background-color: #2c79b0;
+	border: 1px solid #2c79b0;
+}
+.pull-right{
+	float: right;
+	margin: 10px 100px 0 0;
+}
+
+.orderBy-nav{
+	list-style: none;
+	margin-left: 35px;
+}
+.orderBy-nav li {
+	float: left;
+	margin: 10px 15px 5px 0;
+	line-height: 20px;
+}
+.orderBy-nav li a{
+    padding: 5px 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    cursor: pointer;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.orderBy-nav li.active a,
+.orderBy-nav li a:hover{
+	color: #fff;
+	background-color: #3da9f7;
+	border: 1px solid #3da9f7;
+}
+
+.sequence-nav{
+	line-height: 1.5;
+	font-size: 12px;
+}
+.sequence-nav li {
+	display: inline-block;
+	line-height: 20px;
+}
+.sequence-nav li a{
+	color: #999;
+}
+.sequence-nav li.active a,
+.sequence-nav li a:hover{
+	color: #555;
+}
+
+
+/*专题创建*/
+.cloumn-edit {
+	/*width: 600px;*/
+	margin: 20px 0 20px 200px;
+	text-align: center;
+}
+.cloumn-edit form:first-child{
+	width: 600px;
+	margin: 140px auto 0;
+}
+.cloumn-edit form:last-child{
+	width: 600px;
+	margin: 0px auto;
+}
+.cloumn-edit h3{
+	font-size: 30px;
+	color: #555;
+	margin-bottom: 30px;
+}
+.cloumn-edit form .upload{
+	width: 220px;
+	margin: 20px auto;
+	position: relative;
+}
+.cloumn-edit form .upload .fa{
+	width: 100%;
+	height: 100%;
+	font-size: 150px;
+	cursor: pointer;
+	color: #555555;
+}
+.cloumn-edit form .upload .fa:hover{
+	color: #000;
+}
+.cloumn-edit form .upload .title{
+	display: block;
+	margin: 2px auto 6px;
+	font-size: 12px;
+}
+.cloumn-edit form .upload .preview{
+	cursor: pointer;
+	width: 100%;
+	height: 140px;
+}
+.cloumn-edit form .upload>div{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.6);
+  display: none;
+}
+.cloumn-edit form .upload>div>img{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 32px;
+	height: 32px;
+	margin-left: -16px;
+	margin-top: -40px;
+}
+.cloumn-edit form .input-prepend{
+	width: 100%;
+	margin-bottom: 20px;
+	white-space: nowrap;
+}
+.cloumn-edit .input-prepend input,
+.cloumn-edit .input-prepend select,
+.cloumn-edit .input-prepend textarea {
+	width: 100%;
+	height: 40px;
+	padding: 4px 12px;
+	font-size: 14px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	background-color: #fff;
+	border: 1px solid #cccccc;
+}
+.cloumn-edit .input-prepend textarea{
+	height: 108px;
+	line-height: 24px;
+	resize: none;
+}
+.cloumn-edit .input-prepend textarea:focus{
+	outline: none;
+}
+.cloumn-edit .btn-success.btn-large{
+	width: 350px;
+	padding: 10px 18px;
+	font-size: 16px;
+}
+
+/*专题详情页*/
+.cloumn-page{
+	margin-left: 200px;
+}
+.cloumn-header{
+	padding: 30px 0 30px 50px;
+	background-color: #fbfbfb;
+	border-bottom: 1px solid #eee;
+}
+.cloumn-header .info{
+	max-width: 700px;
+	position: relative;
+}
+.cloumn-header .cname h3{
+	font-size: 24px;
+	color: #555;
+	margin-bottom: 12px
+}
+.cloumn-header .anthor,
+.cloumn-header .cdesc{
+	margin-bottom: 14px
+}
+.cloumn-right{
+	position: absolute;
+	top: 10px;
+	right: -100px;
+}
+.cloumn-right a{
+	font-size: 14px;
+	line-height: 22px;
+}
+.cloumn-content{
+	margin-left: 50px;
+	margin-top: 20px;
+}
+.cloumn-content .article-list {
+	padding-top: 10px;
+}
+
+
+.cloumn{
+	float: left;
+	width: 260px;
+    padding: 20px;
+    background: #fff;
+    margin: 20px 0 0px 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    border-radius: 2px;
+    position: relative;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.cloumn:after{
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+.cloumn:hover{
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.cloumn .logo{
+   	width: 100%;
+    height: 140px;
+}
+
+
+.cloumn h4{
+	margin: 10px 0;
+	font-size: 18px;
+	line-height: 20px;
+}
+.cloumn .desc {
+    margin-bottom: 3px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #999;
+}
+
+.cloumn  p{
+    margin-bottom: 0;
+    color: #999999;
+    font-size: 12px;
+}
+.cloumn  p a{
+	color: #3da9f7;
+}
+.cloumn  p a:hover{
+	color: #2c79b0;
+}
+.cloumn a.btn-success{
+	float: right;
+	padding: 2px 10px 2px;
+	color: #fff;
+}
+.cloumn a.btn-success:hover{
+	color: #fff;
+}
 
 
 /*个人首页*/

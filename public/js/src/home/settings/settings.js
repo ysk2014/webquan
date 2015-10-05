@@ -175,7 +175,6 @@ define([
 			getInitialState: function() {
 				return {
 					logoDir: '/image/user-default.png',
-					// url: ''
 				}
 			},
 			handleSubmit: function(event) {
@@ -216,7 +215,6 @@ define([
 			},
 			componentDidUpdate: function() {
 				var _this = this;
-				
 				$('.head .uploadForm').attr('enctype','multipart/form-data');
 				
 			},
@@ -355,7 +353,7 @@ define([
 
 		            	<div className="settings clearfix" >
 		            	
-			                <h3 className="title"><i className="fa fa-asterisk"></i>设置</h3>
+			                <h3 className="title"><i className="fa fa-cogs"></i>设置</h3>
 			                <ul className="nav">
 			                	<li>
 			                		<a href="javascript:void(0)" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>

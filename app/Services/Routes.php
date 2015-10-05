@@ -103,7 +103,7 @@ class Routes
             // 专题列表页
             Route::get('/cloumns', 'Home\CloumnController@cloumnListPage');
             // 专题详情页
-            Route::get('/cloumn/{id}', 'Home\CloumnController@cloumnPage');
+            Route::get('/cloumn/{id}', 'Home\CloumnController@cloumnPage')->where('id', '[0-9]+');
             // 专题列表
             Route::post('/cloumn/list', 'Home\CloumnController@getAllCloumns');
             // 获取单个专题的信息
@@ -136,18 +136,36 @@ class Routes
                 
 
                 //编辑专题页面
-                Route::get('/cloumn/add', 'Home\CloumnController@cloumnPage');
+                Route::get('/cloumn/add', 'Home\CloumnController@index');
+                Route::get('/cloumn/edit/{id}', 'Home\CloumnController@index');
                 //编辑专题
                 Route::post('/cloumn/edit', 'Home\CloumnController@editCloumn');
+                // 根据用户获取专题
+                Route::post('/cloumn/myCloumn', 'Home\CloumnController@getCloumnsByUid');
+                // 获取用户关注的专题
+                Route::post('/cloumn/myCare', 'Home\CloumnController@getCareCloumnsByUid');
                 //创建专题
                 Route::post('/cloumn/add', 'Home\CloumnController@addCloumn');
                 // 删除专题
                 Route::post('/cloumn/del', 'Home\CloumnController@delCloumn');
+                // 上传头像
+                Route::post('/cloumn/updateLogo', 'Home\CloumnController@updateLogo');
+                // 添加关注
+                Route::post('/cloumn/addCare', 'Home\CloumnController@addCare');
+                // 取消关注
+                Route::post('/cloumn/delCare', 'Home\CloumnController@delCare');
+
 
                 //图片上传upload
                 Route::post('/upload', 'Home\UploadController@upload');
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
+
+
+                // 标签
+                Route::post('/tags/all', 'Home\TagController@getTagsByName');
+                //创建标签
+                Route::post('/tags/add', 'Home\TagController@addTag');
 
             });
         });

@@ -110,7 +110,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 						</li>
 						<li>
 							<a href="/settings">
-								<i className="fa fa-asterisk"></i>
+								<i className="fa fa-cogs"></i>
 								<span>设置</span>
 							</a>
 						</li>

@@ -21,6 +21,12 @@ define(['react','jquery'],function(React, $) {
 								<span>首页</span>
 							</a>
 						</li>
+						<li className={this.state.active == 'cloumn' ? "active" : null}>
+							<a href="/cloumns">
+								<i className="fa fa-bell-o"></i>
+								<span>专题</span>
+							</a>
+						</li>
 						<li className={this.state.active == 'talk' ? "active" : null}>
 							<a href="/">
 								<i className="fa fa-bell-o"></i>

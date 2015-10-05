@@ -60,7 +60,17 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		// 删除评论
 		delContent: function(cid,callback) {
 			BaseModel.del('/article/comments', {'cid':cid}, callback);
-		}
+		},
+
+
+		// 标签
+		getAllTags: function(name,callback) {
+			BaseModel.post('/tags/all', {'name':name}, callback);
+		},
+		// 添加标签
+		addTag: function(data,callback) {
+			BaseModel.post('/tags/add', {'data':data}, callback);
+		},
 	};
 	return ArticleModel;
 });

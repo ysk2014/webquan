@@ -185,7 +185,8 @@ class Process extends BaseProcess
     /**
      * 上传用户头像
      * 
-     * @param string $username
+     * @param object $file
+     * @param intval $id
      * @access public
      * @return array
      */
@@ -193,7 +194,7 @@ class Process extends BaseProcess
     {
         if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
 
-        $config = array('path'=>'logo','fileName'=>'web'+$id);
+        $config = array('path'=>'logo','fileName'=>'web'.$id);
 
         $this->uploadManager->setParam($config);
 
