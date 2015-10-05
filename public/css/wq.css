@@ -42,12 +42,13 @@
 .arrow-bottom::before, .arrow-bottom::after {
 	position: absolute;
 	bottom: -10px;
-	left: 50%;
 	content: '';
 	display: inline-block;
 	border-left: 9px solid transparent;
 	border-right: 9px solid transparent;
 	border-top: 9px solid #d9d9d9;
+	color: #f0f;
+	background: #f00;
 }
 .arrow-bottom::after{
 	bottom: -9px;

@@ -1,4 +1,4 @@
-define([
+﻿define([
 	'react', 
 	'jquery',
     'home/model/userModel',
@@ -96,8 +96,28 @@ define([
 	            		 job: "",
 	            	    city: "",
 	            	     sex: "",
-	             description: ""
+	             description: "",
+	             	  select: "0"
 	            }
+	        },
+	        contentClick: function(){
+	        	var _this = this;
+	        	if (_this.state.select == 0) {
+	        		_this.setState({
+	        			select: 1
+	        		})
+	        	}else{
+	        		_this.setState({
+	        			select: 0
+	        		})
+	        	}
+	        },
+	        liClick: function(i){
+	        	var _this = this;
+	        	_this.contentClick();
+	        	_this.setState({
+	        		job:i
+	        	})
 	        },
         	handleSubmit: function(event){
         		var _this = this;
@@ -121,41 +141,40 @@ define([
         	},
         	render: function(){
         		var _this = this;
+        		var data = ["assd","dsf","ss"];
         		return(
         			<div className="personal">
         				<form>
-	        				<p>
-	        					昵称：  <input type="text" name="username" className="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={_this.state.username}/>
+	        				<p className="username">
+	        					<label>昵称：</label><input type="text" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={_this.state.username}/>
 	        				</p>
-	        				<p>
-	        					职位： 	<select name="job" className="job" onChange={this.handlePositionChange} value={_this.state.job}>
-	        								<option>请选择职位</option>
-	        								<option>页面重构设计</option>
-	        								<option>web前端工程师</option>
-	        								<option>js工程师</option>
-	        								<option>PHP开发工程师</option>
-	        								<option>JAVA开发工程师</option>
-	        								<option>移动开发工程师</option>
-	        								<option>软件测试工程师</option>
-	        								<option>Linux系统工程师</option>
-	        								<option>交互设计师</option>
-	        								<option>产品经理</option>
-	        								<option>UI设计师</option>
-	        								<option>学生</option>
-	        								<option>其他</option>
-	        					  	  	</select>
-	        				</p>
+	        				<div className="select-box">
+	        					<label>职位：</label>
+					        	<div className="select-copy clearfix">
+						           	<div className="content arrow-bottom-btn" onClick={_this.contentClick}>
+						           		{_this.state.job == "" ? "请选择职位" : _this.state.job}
+						           	</div>
+						          		<ul className={_this.state.select == 0 ? "dis" : null}>
+						        			{
+						        				data.map(function(i){
+						        					return <li onClick={_this.liClick.bind(this,i)}><span>{i}</span></li>
+						        				})
+						        			}
+						        		</ul>
+					        	</div>
+					        </div>
 	        				<p className="place" value={_this.state.place}>
-	        					地址： 	<input type="text" name="city" className="city" placeholder="请输入地址" onChange={this.handleAddressChange} value={_this.state.city}/>	
+	        					<label>地址：</label>	<input type="text" name="city" className="city" placeholder="请输入地址" onChange={this.handleAddressChange} value={_this.state.city}/>	
 	        				</p>
-	        				<p className="sex">
-		        				性别：&nbsp;   
-		        				  		<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={_this.state.sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
-		        				      	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={_this.state.sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
-		        				      
-	        				</p>
+	        				<div className="sex clearfix">
+		        				<label>性别：</label>&nbsp;
+		        				<div className="sex-input">  
+		        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={_this.state.sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
+		        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={_this.state.sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
+		        				</div>  
+	        				</div>
 	        				<p className="sign">
-			        			个性签名
+			        			<label>个性签名：</label>
 			        			<textarea resize="none" name="description" onChange={this.handleSignChange} value={_this.state.description}></textarea><br />
 	        			 	</p>
 	        			 	<p className="sub">

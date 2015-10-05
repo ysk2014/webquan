@@ -300,44 +300,110 @@ input:focus{
   padding-top: 10px;
 }
 .personal p{
+  clear: both;
   margin-top: 40px; 
 }
-.personal .username{
+.personal label{
+  float: left;
+  display: block;
+  height: 38px;
+  line-height: 38px;
+}
+.personal .username input{
   width: 310px;
   padding: 8px 0px 8px 10px;
   border: 1px solid rgb(208, 214, 217);
-}
-.personal .job{
-  width: 322px;
-  padding: 8px 0px 8px 5px;
-  color: rgb(85, 85, 85);
 }
 .personal .place input{
   width: 310px;
   padding: 8px 0px 8px 10px;
   border: 1px solid rgb(208, 214, 217);
 }
+.personal .sex{
+  clear: both;
+  margin-top: 30px;
+}
+.personal .sex-input{
+  float: left;
+  height: 38px;
+  line-height: 38px;
+}
 .personal .sex input{
   margin-left: 8px;
   cursor: pointer;
 }
+.personal .sign{
+  margin-top: 20px;
+}
+.personal .sign label{
+  height: 30px;
+}
 .personal .sign textarea{
-  margin-top: 5px;
-  width: 365px;
+  width: 362px;
   height: 60px;
   resize:none;
+}
+.personal .select-box{
+  margin-top: 40px;
+  border: none;
+  height: 38px;
+}
+.personal .select-box .select-copy{
+  width: 320px;
+  height: 38px;
+  float: left;
+  position: relative;
+  z-index: 999;
+}
+.personal .select-box .content{
+  position: relative;
+  width: 315px;
+  height: 38px;
+  line-height: 38px;
+  border: 1px solid rgb(208, 214, 217);
+  padding-left: 5px;
+}
+.personal .select-box .content:hover{
+  cursor: pointer;
+}
+.personal .select-box ul{
+  clear: both;
+  background: #fff;
+  border: 1px solid rgb(208, 214, 217);
+  border-top: none;
+  width: 320px;
+}
+.personal .select-box ul li:hover{
+    background: #6ca5fc;
+    color: #fff;
+    cursor: pointer;
+}
+.personal .select-box ul span{
+  margin-left: 5px;
+}
+.personal .arrow-bottom-btn::after{
+  position: absolute;
+  left: 305px;
+  top:16px;
+  content: '';
+  display: inline-block;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
 }
 .personal .sub{
   margin-top: 20px;
 }
 .personal .sub input{
   width: 365px;
-  background: rgb(51, 166, 70);
+  background-color: #049cdb;
   color: #fff;
   border: none;
   padding: 5px 0px; 
 }
-
+.personal .sub input:hover{
+  cursor: pointer;
+}
 /*修改密码*/
 .modify{
   clear: both;
@@ -367,10 +433,13 @@ input:focus{
 }
 .modify .sub{
   width: 322px;
-  background: rgb(51, 166, 70);
+  background-color: #049cdb;
   color: #fff;
   border: none;
   text-align: center;
+}
+.modify .sub:hover{
+  cursor: pointer;
 }
 /*邮箱认证*/
 .email{
@@ -461,7 +530,14 @@ input:focus{
   -moz-transition: all 0.2s;
 }
 .head .submit-button:hover,
-.head .submit-button:focus {
+.head .submit-button:focus{
   background-color: #049cdb;
   color: #fff;
+}
+.dis{
+      display: none;
+}
+
+select{
+  color: #f00;
 }
