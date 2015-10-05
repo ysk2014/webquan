@@ -199,7 +199,11 @@ WQ.cookie = {
 
             return result;
         } else {
-            return _this.utils.retrieve(cookies[keys], fallback);
+            if(cookies && cookies[keys]) {
+                return _this.utils.retrieve(cookies[keys], fallback);
+            } else {
+                return false;
+            }
         }
 
     },

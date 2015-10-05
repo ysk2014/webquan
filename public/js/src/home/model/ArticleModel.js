@@ -20,6 +20,16 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 
 	    /**
+	     * 获取用户关注专题的文章列表
+	     * 
+	     * @param uid 用户id
+	     * @param page 
+	     */
+		getAllArtsByUidCare: function(data, callback) {
+			BaseModel.post('/cloumn/care/article',{'data':data}, callback);
+		},
+
+	    /**
 	     * 根据文章id获取文章详情
 	     * 
 	     * @param id 文章id

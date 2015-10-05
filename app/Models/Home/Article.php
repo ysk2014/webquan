@@ -86,6 +86,23 @@ class Article extends Base
     }
 
     /**
+     * 根据专题id数组获取文章信息
+     * 
+     * @param array $cids 专题的ID
+     */
+    public function getArtsByCids($cids,$page)
+    {
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->whereIn('article.cid', $cids)
+                    ->orderBy('addtime','desc')
+                    ->skip($page*20)->take(20)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
      * 获取已公布的所有文章信息
      * 
      * @param $data 排序

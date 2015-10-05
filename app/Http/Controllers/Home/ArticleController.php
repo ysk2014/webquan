@@ -59,6 +59,18 @@ class ArticleController extends Controller {
 
 
 	/**
+	 * 获取用户关注专题的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCare(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtOfCareByUid($data);
+		return response()->json($data);
+	}
+
+	/**
 	 * 获取文章详情
 	 *
 	 * @return Response

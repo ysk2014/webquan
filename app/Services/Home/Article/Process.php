@@ -3,6 +3,7 @@ namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
+use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Services\BaseProcess;
 use Lang, Cache;
 
@@ -29,6 +30,13 @@ class Process extends BaseProcess
     private $articleValidate;
 
     /**
+     * 关注专题数据模型
+     * 
+     * @var object
+     */
+    private $careModel;
+
+    /**
      * 初始化
      *
      * @access public
@@ -37,6 +45,7 @@ class Process extends BaseProcess
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
+        if( !$this->careModel) $this->careModel = new UCCModel();
 	}
 
 	/**
@@ -254,6 +263,27 @@ class Process extends BaseProcess
 		}
 	}
 
+	/**
+	* 获取关注的专题的所有文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtOfCareByUid($data)
+	{
+		$cloumnIds = $this->careModel->getCidsByUid($data['uid']);
+		if($cloumnIds) {
+			$cids = [];
+			foreach ($cloumnIds as $key => $value) {
+				array_push($cids,$value['cid']);
+			}
+			$articleInfo = $this->articleModel->getArtsByCids($cids, $data['page']);
+			return array('error'=>false,'data'=>$articleInfo);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
 
 }
 

@@ -88,6 +88,8 @@ class Routes
             Route::post('/article/list', 'Home\ArticleController@getAllArticle');
             // 根据专题id获取文章列表
             Route::post('/cloumn/article/list', 'Home\ArticleController@getArtsByCid');
+            // 获取用户关注专题的文章列表
+            Route::post('/cloumn/care/article', 'Home\ArticleController@getArtsByCare');
             // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
 
@@ -133,6 +135,7 @@ class Routes
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
                 // 删除文章
                 Route::post('/article/del', 'Home\ArticleController@delArticle');
+                
                 
 
                 //编辑专题页面
