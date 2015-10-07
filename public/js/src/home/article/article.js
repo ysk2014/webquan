@@ -13,6 +13,10 @@ define([
 		init: function() {
 			var _this = this;
 			var aid = _this.state.aid;
+			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
+			_this.setState({
+				uid: uid
+			});
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
@@ -165,6 +169,7 @@ define([
 				commentContent: '',
 				page: 0,
 				next: false,
+				uid: null,
 			}
 		},
 		componentDidMount: function() {
@@ -175,6 +180,7 @@ define([
 			var _this = this;
 			var title        = _this.state.info ? _this.state.info.title        : null;
 			var username     = _this.state.info ? _this.state.info.username     : null;
+			var uid          = _this.state.info ? _this.state.info.uid          : null;
 			var time         = _this.state.info ? _this.state.info.addtime      : null;
 			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;
 			var view         = _this.state.info ? _this.state.info.view         : null;
@@ -225,10 +231,13 @@ define([
 							<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tags}</span>
 						</div>
 						<div className="tool" style={{marginBottom:'10px'}}>
-							<a className="btn-success" href={"/article/edit/"+this.state.aid}>
-								<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
-								<span>编辑</span>
-							</a>
+							{_this.state.uid==uid ? (
+								<a className="btn-success" href={"/article/edit/"+this.state.aid}>
+									<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
+									<span>编辑</span>
+								</a>
+							): null}
+							
 							<a className={praiseStatus ? "btn-error" : "btn-success"} href="javascript:void(0)" onClick={_this.handlePraise}>
 								<i className="fa fa-thumbs-up" style={{marginRight:'4px'}}></i>
 								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
