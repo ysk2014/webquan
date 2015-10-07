@@ -23,7 +23,7 @@ a{
   text-decoration: none;
 }
 a:hover{
-  color: #555;
+  color: #000;
 }
 ul{
   list-style: none;
@@ -235,13 +235,14 @@ input:focus{
   border-color: #3dbcf5;
   background-color: #3dbcf5;
 }
-#alertMask{
-  position:absolute; 
+#mask{
+  position:fixed; 
   left:0%;
   top: 0%;
   width: 100%;
   height: 100%;
   display: none;
+  z-index: 1000;
 }
 
 .alert-box{
@@ -537,6 +538,3 @@ input:focus{
       display: none;
 }
 
-select{
-  color: #f00;
-}

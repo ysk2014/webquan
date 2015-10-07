@@ -57,6 +57,10 @@ WQ.timeFormat = function(time) {
     }
 }
 
+// 清除字符串两边的空格
+WQ.trim = function(str) {
+    return (!String.prototype.trim) ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") : str.trim();
+};
 
 WQ.isIE    = (navigator.appName == "Microsoft Internet Explorer");
 WQ.isIE8   = (WQ.isIE && navigator.appVersion.match(/8./i) == "8.");
@@ -107,6 +111,16 @@ WQ.isArray = Array.isArray || function(value) {
 // 转化为数组
 WQ.toArray = function(value) {
     return Array.prototype.slice.call(value);
+};
+WQ.inArray = function(value,arr) {
+    var status = false;
+
+    for(var i=0;i<arr.length;i++) {
+        if(arr[i] == WQ.trim(value)) {
+            var status = true;
+        }
+    }
+    return status;
 };
 
 // 本地存储cookie
@@ -185,7 +199,11 @@ WQ.cookie = {
 
             return result;
         } else {
-            return _this.utils.retrieve(cookies[keys], fallback);
+            if(cookies && cookies[keys]) {
+                return _this.utils.retrieve(cookies[keys], fallback);
+            } else {
+                return false;
+            }
         }
 
     },

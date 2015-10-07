@@ -2,9 +2,8 @@ define(['react',
         'jquery', 
         'home/model/userModel',
         'home/common/leftNav',
-        'home/common/userDropMenu',
         'home/common/tooltip',
-        ],function(React, $, UserModel, LeftNav, UserDropMenu, Tooltip) {
+        ],function(React, $, UserModel, LeftNav, Tooltip) {
 
 
     var mixin = {
@@ -41,7 +40,6 @@ define(['react',
             return (
                 <div>
                     <LeftNav />
-                    <UserDropMenu />
                     {this.state.info ? 
                         (<div className="user-page">
                             <div className="user-info">

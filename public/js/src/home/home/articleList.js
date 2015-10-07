@@ -11,46 +11,47 @@ define([
 	var mixin = {
 		init: function() {
 			var _this = this;
-			_this.getAllArticle(0);
-			CloumnModel.getAllCloumns({way:'addtime'},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							cloumns: data.data,
-						});
-					} else {
-						Tooltip(data.msg);
-					}
-				}
+			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
+			_this.setState({
+				uid: uid
 			});
+			_this.getAllArticle('praise',0);
 		},
 		hamdleTabChange: function(event) {
 			var _this = this;
-			var cid = $(event.target).data('cid');
+			var index = $(event.target).index();
+			var way = _this.state.cacheNav[index];
+			
 
 			if($(event.target).hasClass('active')) return;
 			_this.setState({
-				nav: cid,
+				nav: way,
 			});
 
-			if(!_this.state.list[cid]) {
-				_this.getAllArticleByCid(cid,0);
+			if(!_this.state.list[way]) {
+				if(way=='care') {
+					_this.getAllArtsByUidCare(0);
+				} else {
+					_this.getAllArticle(way,0);
+				}
+				
 			}
+			
 			$(event.target).addClass('active').siblings().removeClass('active');
 		},
 		// 获取全部文章
-		getAllArticle: function(page) {
+		getAllArticle: function(way,page) {
 			var _this = this;
-			ArticleModel.getAllArticle({way:'addtime',page:page},function(success,data) {
+			ArticleModel.getAllArticle({way:way,page:page},function(success,data) {
 				if(success) {
 					if(!data.error) {
-						if(_this.state.list['0']) {
-							Array.prototype.push.apply(_this.state.list['0'],data.data);
+						if(_this.state.list[way]) {
+							Array.prototype.push.apply(_this.state.list[way],data.data);
 						} else {
-							_this.state.list['0'] = data.data;
+							_this.state.list[way] = data.data;
 						}
 						
-						_this.state.more['0'] = parseInt(page)+1;
+						_this.state.more[way] = parseInt(page)+1;
 						_this.setState({
 							list: _this.state.list,
 							more: _this.state.more,
@@ -63,17 +64,18 @@ define([
 			});
 		},
 		// 获取专题文章
-		getAllArticleByCid: function(cid,page) {
+		getAllArtsByUidCare: function(page) {
 			var _this = this;
-			ArticleModel.getAllArticleByCid({cid:cid,way:'addtime',page:page},function(success,data) {
+			var uid = WQ.cookie.get('id');
+			ArticleModel.getAllArtsByUidCare({uid:uid,page:page},function(success,data) {
 				if(success) {
 					if(!data.error) {
-						if(_this.state.list[cid]) {
-							Array.prototype.push.apply(_this.state.list[cid],data.data);
+						if(_this.state.list['care']) {
+							Array.prototype.push.apply(_this.state.list['care'],data.data);
 						} else {
-							_this.state.list[cid] = data.data;
+							_this.state.list['care'] = data.data;
 						}
-						_this.state.more[cid] = parseInt(page)+1;
+						_this.state.more['care'] = parseInt(page)+1;
 						_this.setState({
 							list: _this.state.list,
 							more: _this.state.more,
@@ -89,10 +91,10 @@ define([
 			var page = $(event.target).data('page');
 			var _this = this;
 			var nav = _this.state.nav;
-			if(nav=='0') {
-				_this.getAllArticle(page)
+			if(nav!='care') {
+				_this.getAllArticle(nav,page)
 			} else {
-				_this.getAllArticleByCid(nav,page);
+				_this.getAllArtsByUidCare(page);
 			}
 		}
 	}
@@ -102,10 +104,11 @@ define([
 		getInitialState: function() {
 			return {
 				list: [],        //文章列表
-				cloumns: [],	 //专题列表
-				nav: '0',		 //标记当前的专题
+				nav: 'praise',	
 				more:[],         //记录每个专题进入到了第几页
-				next: false,      //判断是否还有数据
+				next: false,     //判断是否还有数据
+				cacheNav: ['praise','addtime','view','care'],
+				uid: null,
 			}
 		},
 		componentDidMount: function() {
@@ -129,24 +132,26 @@ define([
 								</a>
 								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
 								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
+								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
 								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
+								<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{d.tags}</span>
 							</div>
 							<div className="description">{d.description}</div>
 						</div>
 					</article>
 				);
 			}) : null;
-			var cloumns = this.state.cloumns.length>0 ? this.state.cloumns.map(function(c,i) {
-				return (
-					<a key={c.id} data-cid={c.id} onClick={_this.hamdleTabChange} className="tab" href="javascript:void(0)">{c.title}</a>
-				);
-			}) : null;
+			
 			return (
 				<div>
 					<div className="header">
 						<div className="nav">
-							<a className="tab active" data-cid="0" onClick={this.hamdleTabChange} href="javascript:void(0)">全部</a>
-							{cloumns}
+							<a className="tab active" onClick={this.hamdleTabChange} href="javascript:void(0)">推荐</a>
+							<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">最新</a>
+							<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">热门</a>
+							{
+								_this.state.uid ? (<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">关注</a>) : null
+							}
 						</div>
 					</div>
 					<div className="article-list">

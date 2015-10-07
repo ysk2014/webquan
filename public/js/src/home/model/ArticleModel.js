@@ -20,6 +20,16 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 
 	    /**
+	     * 获取用户关注专题的文章列表
+	     * 
+	     * @param uid 用户id
+	     * @param page 
+	     */
+		getAllArtsByUidCare: function(data, callback) {
+			BaseModel.post('/cloumn/care/article',{'data':data}, callback);
+		},
+
+	    /**
 	     * 根据文章id获取文章详情
 	     * 
 	     * @param id 文章id
@@ -60,7 +70,27 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		// 删除评论
 		delContent: function(cid,callback) {
 			BaseModel.del('/article/comments', {'cid':cid}, callback);
-		}
+		},
+
+
+		// 标签
+		getAllTags: function(name,callback) {
+			BaseModel.post('/tags/all', {'name':name}, callback);
+		},
+		// 添加标签
+		addTag: function(data,callback) {
+			BaseModel.post('/tags/add', {'data':data}, callback);
+		},
+
+		// 添加推荐
+		addPraise: function(data,callback) {
+			BaseModel.post('/article/addPraise', {'data':data}, callback);
+		},
+		// 取消推荐
+		delPraise: function(data,callback) {
+			BaseModel.post('/article/delPraise', {'data':data}, callback);
+		},
+
 	};
 	return ArticleModel;
 });

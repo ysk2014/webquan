@@ -27,7 +27,9 @@ class ArticleSave extends AbstractParam
 
     protected $comment;
 
-    protected $care;
+    protected $tags;
+
+    protected $praise;
 
     protected $is_publish;
 
@@ -89,9 +91,15 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function setCare($care)
+    public function setTags($tags)
     {
-        $this->care = $this->attributes['care'] = $care;
+        $this->tags = $this->attributes['tags'] = $tags;
+        return $this;
+    }
+
+    public function setPraise($praise)
+    {
+        $this->praise = $this->attributes['praise'] = $praise;
         return $this;
     }
 

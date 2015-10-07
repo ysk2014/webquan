@@ -59,6 +59,18 @@ class ArticleController extends Controller {
 
 
 	/**
+	 * 获取用户关注专题的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCare(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtOfCareByUid($data);
+		return response()->json($data);
+	}
+
+	/**
 	 * 获取文章详情
 	 *
 	 * @return Response
@@ -116,6 +128,33 @@ class ArticleController extends Controller {
 		$id = Request::input('id');
 		$ids = [$id];
 		$result = $articleProcess->delArticle($ids);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 添加推荐
+	 *
+	 * @return Response
+	 */
+	public function addPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['addtime'] = time();
+		$result = $articleProcess->addPraise($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 取消推荐
+	 *
+	 * @return Response
+	 */
+	public function delPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$result = $articleProcess->delPraise($data);
 		
 		return response()->json($result);
 	}

@@ -22,7 +22,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'care', 'comment', 'is_publish', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'comment', 'is_publish', 'addtime');
 
     /**
      * 增加文章
@@ -61,7 +61,7 @@ class Article extends Base
      */
     public function getArtById($id)
     {
-        return $this->select(array('article.*','user.username','cloumn.title as cloumnName'))
+        return $this->select(array('article.*','user.username','cloumn.name as cloumnName'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.id','=', intval($id))
@@ -75,11 +75,28 @@ class Article extends Base
      */
     public function getArtsByCid($cid,$way='addtime',$page)
     {
-        return $this->select(array('article.*','cloumn.title as cloumn','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.cid','=', intval($cid))
                     ->orderBy($way,'desc')
+                    ->skip($page*20)->take(20)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 根据专题id数组获取文章信息
+     * 
+     * @param array $cids 专题的ID
+     */
+    public function getArtsByCids($cids,$page)
+    {
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->whereIn('article.cid', $cids)
+                    ->orderBy('addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
@@ -92,12 +109,12 @@ class Article extends Base
      */
     public function getAllArticle($data='addtime',$page)
     {
-        return $this->select(array('article.*','cloumn.title as cloumn','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
                     ->where('article.is_publish','=',0)
-                    ->skip($page*10)->take(20)
+                    ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }

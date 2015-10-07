@@ -66,6 +66,7 @@ class CloumnController extends Controller {
 	public function editCloumn(CloumnProcess $manager)
 	{
 		$data = (array) Request::input('data');
+		$data['update_time'] = time();
 		
 		$param = new \App\Services\Home\Cloumn\CloumnSave();
 		$param->setAttributes($data);
@@ -109,6 +110,22 @@ class CloumnController extends Controller {
 	}
 
     /**
+     * 根据用户id获取专题信息
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function getCloumnsByUid(CloumnProcess $manager)
+	{
+		$data = Request::input('data');
+		
+		$result = $manager->getCloumnsByUid($data);
+
+		return response()->json($result);
+		
+	}
+
+    /**
      * 获取所有专题信息
      *
      * @param App\Services\Cloumn\Process $process 专题处理
@@ -116,7 +133,7 @@ class CloumnController extends Controller {
      */
 	public function getAllCloumns(CloumnProcess $manager)
 	{
-		$data = Request::input('way');
+		$data = Request::input('data');
 		
 		$result = $manager->getCloumns($data);
 
@@ -124,4 +141,58 @@ class CloumnController extends Controller {
 		
 	}
 
+    /**
+     * 获取用户关注的专题信息
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function getCareCloumnsByUid(CloumnProcess $manager)
+	{
+		$data = Request::input('data');
+		
+		$result = $manager->getCareCloumnsByUid($data);
+
+		return response()->json($result);
+		
+	}
+
+    /**
+     * 更新头像
+     */
+    public function updateLogo(CloumnProcess $manager)
+    {
+		$file = Request::file('cloumn-image');
+		$id = Request::input('id');
+		$logoDir = Request::input('logo');
+
+		$result = $manager->uploadLogo($file,$id,$logoDir);
+		
+		return response()->json($result);
+    }
+
+    /**
+     * 添加关注
+     */
+    public function addCare(CloumnProcess $manager)
+    {
+		$data = Request::input('data');
+		$data['addtime'] = time();
+
+		$result = $manager->addCare($data);
+		
+		return response()->json($result);
+    }
+
+    /**
+     * 取消关注
+     */
+    public function delCare(CloumnProcess $manager)
+    {
+		$data = Request::input('data');
+
+		$result = $manager->delCare($data);
+		
+		return response()->json($result);
+    }
 }
