@@ -119,6 +119,17 @@
 	        		job:i
 	        	})
 	        },
+	        transformArr: function(){
+	        	jobData = [];
+        		aa = {
+        			"1":"sf",
+        			"2":"ssss"
+        		}
+        		for( i in aa){
+        			jobData[i] =aa[i]
+        		}
+        		console.log(jobData);
+	        },
         	handleSubmit: function(event){
         		var _this = this;
         		var data = {
@@ -141,7 +152,7 @@
         	},
         	render: function(){
         		var _this = this;
-        		var data = ["assd","dsf","ss"];
+        		_this.transformArr();
         		return(
         			<div className="personal">
         				<form>
@@ -156,7 +167,7 @@
 						           	</div>
 						          		<ul className={_this.state.select == 0 ? "dis" : null}>
 						        			{
-						        				data.map(function(i){
+						        				jobData.map(function(i){
 						        					return <li onClick={_this.liClick.bind(this,i)}><span>{i}</span></li>
 						        				})
 						        			}
