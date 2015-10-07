@@ -5,8 +5,7 @@
     'home/common/tooltip',
     'WQ',
     'home/common/leftNav',
-    'home/common/userDropMenu',
-    ],function(React, $, UserModel, Tooltip, WQ, LeftNav, UserDropMenu) {
+    ],function(React, $, UserModel, Tooltip, WQ, LeftNav) {
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;

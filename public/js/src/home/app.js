@@ -28,6 +28,7 @@ requirejs.config({
 requirejs([
         'react', 
         'reactRouter', 
+        'home/common/userDropMenu',
         'home/home/home', 
         'home/login/login',
         'home/login/user',
@@ -37,7 +38,7 @@ requirejs([
         'home/cloumn/cloumnList',
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
-    ],function(React, ReactRouter, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn){
+    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn){
         
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -46,6 +47,7 @@ requirejs([
         render: function() {
             return (
                 <div>
+                    <UserDropMenu />
                     <RouteHandler/>
                 </div>
             )

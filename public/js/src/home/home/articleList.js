@@ -134,7 +134,7 @@ define([
 								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
 								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
 								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
-								<span className="tag">{d.tags}</span>
+								<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{d.tags}</span>
 							</div>
 							<div className="description">{d.description}</div>
 						</div>

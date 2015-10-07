@@ -4,10 +4,9 @@ define([
 	'WQ',
 	'home/model/articleModel',
 	'home/common/leftNav',
-	'home/common/userDropMenu',
 	'home/common/tooltip',
     'editormd',
-	],function( React, $, WQ, ArticleModel, LeftNav, UserDropMenu, Tooltip, editormd) {
+	],function( React, $, WQ, ArticleModel, LeftNav, Tooltip, editormd) {
 
 
 	var mixin = {
@@ -113,7 +112,47 @@ define([
 			var aid = _this.state.aid;
 
 			_this.showComment(aid,page);
-		}
+		},
+		// 推荐处理
+		handlePraise: function(event) {
+			var _this = this;
+			if(event.target.tagName.toLowerCase()=='a') {
+				var ele = $(event.target);
+			} else {
+				var ele = $(event.target).parent();
+			}
+			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id')};
+			if(ele.hasClass('btn-success')) {
+				ArticleModel.addPraise(params,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.info.praise = parseInt(_this.state.info.praise)+1;
+							_this.setState({
+								info: _this.state.info
+							}); 
+							ele.addClass('btn-error').removeClass('btn-success');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			} else if(ele.hasClass('btn-error')) {
+				ArticleModel.delPraise(params,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.info.praise = parseInt(_this.state.info.praise)-1;
+							_this.setState({
+								info: _this.state.info
+							});
+							ele.addClass('btn-success').removeClass('btn-error');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			}
+			
+		},
 	}
 
 	return React.createClass({
@@ -130,15 +169,19 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+			$('.header .btn').tooltip();
 		},
 		render: function() {
 			var _this = this;
-			var title    = _this.state.info ? _this.state.info.title      : null;
-			var username = _this.state.info ? _this.state.info.username   : null;
-			var time     = _this.state.info ? _this.state.info.addtime    : null;
-			var cloumn   = _this.state.info ? _this.state.info.cloumnName : null;
-			var view     = _this.state.info ? _this.state.info.view       : null;
-			var comment  = _this.state.info ? _this.state.info.comment    : null;
+			var title        = _this.state.info ? _this.state.info.title        : null;
+			var username     = _this.state.info ? _this.state.info.username     : null;
+			var time         = _this.state.info ? _this.state.info.addtime      : null;
+			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;
+			var view         = _this.state.info ? _this.state.info.view         : null;
+			var comment      = _this.state.info ? _this.state.info.comment      : null;
+			var praise       = _this.state.info ? _this.state.info.praise       : null;
+			var praiseStatus = _this.state.info ? _this.state.info.praiseStatus : null;
+			var tags         = _this.state.info ? _this.state.info.tags         : null;
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
@@ -163,26 +206,12 @@ define([
 			}) : null;
 			return (
 				<div>
-					<UserDropMenu />
 					<LeftNav active={this.state.name} />
 
-					<div className="header">
-						<div className="btn-list">
-							<a className="btn" href={"/article/edit/"+this.state.aid}>
-								<i className="fa fa-pencil-square-o"></i>
-							</a>
-							<a className="btn">
-								<i className="fa fa-bookmark-o"></i>
-							</a>
-							<a className="btn">
-								<i className="fa fa-share-square-o"></i>
-							</a>
-						</div>
-					</div>
 
 					<div className="article-page" style={_this.state.info ? {display:'block'} : {display: 'none'}}>
 						<h3 className="title">{title}</h3>
-						<div>
+						<div style={{marginBottom:'10px'}}>
 							<span className="author">
 								<a href="javascript:void(0)">
 									<img className="avatar" src="/image/user-default.png" />
@@ -193,6 +222,27 @@ define([
 							<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
 							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
 							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
+							<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tags}</span>
+						</div>
+						<div className="tool" style={{marginBottom:'10px'}}>
+							<a className="btn-success" href={"/article/edit/"+this.state.aid}>
+								<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
+								<span>编辑</span>
+							</a>
+							<a className={praiseStatus ? "btn-error" : "btn-success"} href="javascript:void(0)" onClick={_this.handlePraise}>
+								<i className="fa fa-thumbs-up" style={{marginRight:'4px'}}></i>
+								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
+								<span>{praise}</span>
+							</a>
+							<a className="btn-success" href="javascript:void(0)">
+								<i className="fa fa-bookmark-o" style={{marginRight:'4px'}}></i>
+								<span style={{marginRight:'4px'}}>收藏</span>
+								<span>0</span>
+							</a>
+							<a className="btn-success" href="javascript:void(0)">
+								<i className="fa fa-share-square-o" style={{marginRight:'4px'}}></i>
+								<span>分享</span>
+							</a>
 						</div>
 						
 						<div id="editormd-view">

@@ -135,6 +135,10 @@ class Routes
                 Route::post('/article/add', 'Home\ArticleController@addArticle');
                 // 删除文章
                 Route::post('/article/del', 'Home\ArticleController@delArticle');
+                //添加推荐
+                Route::post('/article/addPraise', 'Home\ArticleController@addPraise');
+                //取消推荐
+                Route::post('/article/delPraise', 'Home\ArticleController@delPraise');
                 
                 
 

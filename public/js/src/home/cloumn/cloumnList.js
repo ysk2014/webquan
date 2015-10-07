@@ -4,9 +4,8 @@ define([
 	'WQ',
 	'home/model/cloumnModel',
 	'home/common/leftNav',
-	'home/common/userDropMenu',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, UserDropMenu, Tooltip) {
+	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
 
 
 	var mixin = {
@@ -296,7 +295,6 @@ define([
 			});
 			return (
 				<div>
-					<UserDropMenu />
 					<LeftNav active={this.state.name} />
 
 					<div className="header">

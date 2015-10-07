@@ -5,7 +5,6 @@ define([
 	'home/model/cloumnModel',
 	'home/model/articleModel',
 	'home/common/leftNav',
-	'home/common/userDropMenu',
 	'home/common/tooltip',
 	'home/common/dialog',
     'editormd',
@@ -18,7 +17,7 @@ define([
     'plugins/reference-link-dialog/reference-link-dialog',
     'plugins/html-entities-dialog/html-entities-dialog',
     'plugins/preformatted-text-dialog/preformatted-text-dialog',
-	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, UserDropMenu, Tooltip, Dialog, editormd) {
+	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, Tooltip, Dialog, editormd) {
 
 
 	var mixin = {
@@ -303,7 +302,6 @@ define([
 
 			return (
 				<div>
-					<UserDropMenu />
 					<LeftNav active={this.state.name} />
 					<div className="header">
 						<span className="desc">写文章</span>

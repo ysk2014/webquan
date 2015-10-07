@@ -81,6 +81,16 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		addTag: function(data,callback) {
 			BaseModel.post('/tags/add', {'data':data}, callback);
 		},
+
+		// 添加推荐
+		addPraise: function(data,callback) {
+			BaseModel.post('/article/addPraise', {'data':data}, callback);
+		},
+		// 取消推荐
+		delPraise: function(data,callback) {
+			BaseModel.post('/article/delPraise', {'data':data}, callback);
+		},
+
 	};
 	return ArticleModel;
 });

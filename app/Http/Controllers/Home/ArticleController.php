@@ -132,4 +132,31 @@ class ArticleController extends Controller {
 		return response()->json($result);
 	}
 
+	/**
+	 * 添加推荐
+	 *
+	 * @return Response
+	 */
+	public function addPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['addtime'] = time();
+		$result = $articleProcess->addPraise($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 取消推荐
+	 *
+	 * @return Response
+	 */
+	public function delPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$result = $articleProcess->delPraise($data);
+		
+		return response()->json($result);
+	}
+
 }

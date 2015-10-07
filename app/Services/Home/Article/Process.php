@@ -4,7 +4,9 @@ namespace App\Services\Home\Article;
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\UserCareCloumn as UCCModel;
+use App\Models\Home\UserPraiseArticle as PraiseModel;
 use App\Services\BaseProcess;
+use App\Services\SC;
 use Lang, Cache;
 
 
@@ -37,6 +39,13 @@ class Process extends BaseProcess
     private $careModel;
 
     /**
+     * 推荐文章数据模型
+     * 
+     * @var object
+     */
+    private $praiseModel;
+
+    /**
      * 初始化
      *
      * @access public
@@ -46,6 +55,7 @@ class Process extends BaseProcess
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->careModel) $this->careModel = new UCCModel();
+        if( !$this->praiseModel) $this->praiseModel = new PraiseModel();
 	}
 
 	/**
@@ -253,10 +263,18 @@ class Process extends BaseProcess
 	* @return array
 	*/
 	public function getArticleById($id)
-	{
+	{	
+		$this->articleModel->incrementById('view', $id);
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
-			$this->articleModel->incrementById('view', $id);
+			$uid = SC::getLoginSession()['id'];
+			$pid = $this->praiseModel->getPraiseId($id,$uid);
+			if($pid) {
+				$articleInfo['praiseStatus'] = true;
+			} else {
+				$articleInfo['praiseStatus'] = false;
+			}
+
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
@@ -283,6 +301,48 @@ class Process extends BaseProcess
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
+	}
+
+	/**
+	* 添加推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function addPraise($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->praiseModel->add($data);
+		if($sqlData != false) {
+			$this->articleModel->incrementById('praise',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'推荐成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'推荐失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 取消推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delPraise($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->praiseModel->del($data);
+		if($sqlData != false) {
+			$this->articleModel->decrementById('praise',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'取消失败');
+		}
+		return $resultArr;
 	}
 
 }
