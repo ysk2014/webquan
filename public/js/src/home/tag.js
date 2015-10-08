@@ -63,9 +63,61 @@ define([
 			this.init();
 		},
 		render: function() {
+			var _this = this;
+			var list = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
+				if(d.tags) {
+					if(d.tags.indexOf('|')) {
+						var tagsList = d.tags.split('|').map(function(t,k) {
+							return (<a style={{marginRight:'6px'}} href={"/t/"+t}>{t}</a>);
+						});
+					} else {
+						var tagsList = (<a href={"/t/"+d.tags}>d.tags</a>);
+					}
+					tagsList = (<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tagsList}</span>);
+				} else {
+					var tagsList = null;
+				}
+				return (
+					<article key={d.id}>
+						{
+							d.logo_dir ? 
+							(<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+								<span>{d.cloumn}</span>
+							</a>) : null
+						}
+						
+						<div className="desc">
+							<a className="title" href={"/article/"+d.id}>{d.title}</a>
+							<div className="author">
+								<a href="javascript:void(0)">
+									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
+									<span className="name">{d.username}</span>
+								</a>
+								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
+								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
+								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
+								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
+								{tagsList}
+							</div>
+							<div className="description">{d.description}</div>
+						</div>
+					</article>
+				);
+			}) : null;
 			return (
 				<div>
 					<LeftNav active={this.state.navName} />
+					<div className="tag-page">
+						<div className="page">
+							<div className="top">
+								<i className="fa fa-tags"></i>{_this.state.name}
+							</div>
+							<div className="article-list">
+								{list}
+								<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}}  onClick={_this.hamdleMore}>更多</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			);
 		}

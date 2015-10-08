@@ -195,7 +195,7 @@ define([
 			if(tags) {
 				if(tags.indexOf('|')) {
 					var tagsList = tags.split('|').map(function(t,i) {
-						return (<a href={'/t/'+t}>{t}</a>);
+						return (<a style={{marginRight:'6px',color:'#3da9f7'}} href={'/t/'+t}>{t}</a>);
 					});
 				} else {
 					var tagsList = (<a href={'/t/'+tags}>{tags}</a>);

@@ -1168,6 +1168,33 @@
 	color: #fff;
 }
 
+/*标签页面*/
+.tag-page{
+	margin-left: 200px;
+	padding-top: 10px;
+}
+.tag-page .page{
+	max-width: 980px;
+	margin: 0 auto;
+}
+.tag-page .page .top{
+	padding: 40px 0;
+	text-align: center;
+	font-size: 22px;
+	border-bottom: 1px solid #d9d9d9;
+}
+.tag-page .page .top .fa{
+	margin-right: 10px;
+	color: #999999;
+	position: relative;
+	top: 4px;
+}
+.tag-page .page .article-list {
+	margin-left: 0px;
+	width: 100%;
+	padding: 0px;
+}
+
 
 /*个人首页*/
 .user-page{
