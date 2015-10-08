@@ -59,6 +59,18 @@ class ArticleController extends Controller {
 
 
 	/**
+	 * 模糊查询标签名称的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsLikeTagName(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsLikeTagName($data);
+		return response()->json($data);
+	}
+
+	/**
 	 * 获取用户关注专题的文章列表
 	 *
 	 * @return Response

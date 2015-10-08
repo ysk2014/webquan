@@ -85,6 +85,10 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		tagInfo: function(name,callback) {
 			BaseModel.post('/t/info', {'name':name}, callback);
 		},
+		// 获取标签下的文章列表
+		getArtsLikeTag: function(data,callback) {
+			BaseModel.post('/article/tags', {'data':data}, callback);
+		},
 
 		// 添加推荐
 		addPraise: function(data,callback) {

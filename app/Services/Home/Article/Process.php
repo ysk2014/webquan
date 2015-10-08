@@ -299,11 +299,44 @@ class Process extends BaseProcess
 				array_push($cids,$value['cid']);
 			}
 			$articleInfo = $this->articleModel->getArtsByCids($cids, $data['page']);
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->getArtsCountByCids($cids);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
 	}
+
+	/**
+	* 模糊查询标签名称的文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtsLikeTagName($data)
+	{
+		$articleInfo = $this->articleModel->getArtsLikeTagName($data);
+		if($articleInfo) {
+
+			$count = $this->articleModel->getArtsCountLikeTagName($data['name']);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
 
 	/**
 	* 添加推荐

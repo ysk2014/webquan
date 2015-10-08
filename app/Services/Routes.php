@@ -100,6 +100,8 @@ class Routes
             Route::post('/article/comments/add', 'Home\CommentController@addComment');
             //删除评论
             Route::delete('/article/comments', 'Home\CommentController@delContent');
+            //模糊查询标签名称的文章列表
+            Route::post('/article/tags', 'Home\CommentController@getArtsLikeTagName');
 
 
             // 专题列表页
