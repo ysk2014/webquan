@@ -30,9 +30,14 @@ define([
 			ArticleModel.getArtsLikeTag(params,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
+						if(_this.state.articles.length>0) {
+							Array.prototype.push.apply(_this.state.articles,data.data);
+						} else {
+							_this.state.articles = data.data;
+						}
+						
 						_this.setState({
-							articles: data.data,
+							articles: _this.state.articles,
 							next: data.next,
 							page: _this.state.page+1,
 						});
