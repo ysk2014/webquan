@@ -23,7 +23,7 @@ define(['react','jquery'],function(React, $) {
 						</li>
 						<li className={this.state.active == 'cloumn' ? "active" : null}>
 							<a href="/cloumns">
-								<i className="fa fa-bell-o"></i>
+								<i className="fa fa-th-list"></i>
 								<span>专题</span>
 							</a>
 						</li>
