@@ -29,7 +29,7 @@ requirejs([
         'react', 
         'reactRouter', 
         'home/common/userDropMenu',
-        'home/home/home', 
+        'home/home', 
         'home/login/login',
         'home/login/user',
         'home/article/editArticle',
@@ -38,7 +38,8 @@ requirejs([
         'home/cloumn/cloumnList',
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
-    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn){
+        'home/tag',
+    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn, Tag){
         
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
@@ -70,6 +71,8 @@ requirejs([
             <Route path="/article/add" handler={EditArticle}/>
             <Route path="/article/edit/:id" handler={EditArticle}/>
             <Route path="/article/:id" handler={Article}/>
+
+            <Route path="/t/:name" handler={Tag}/>
             
         </Route>
     );

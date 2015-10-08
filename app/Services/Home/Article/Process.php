@@ -94,11 +94,13 @@ class Process extends BaseProcess
 
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
-
-		$logo_dir = $imgArr[0][0];
-		$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
-		$logo_dir = preg_replace('/\)/', '', $logo_dir);
-		$data->setLogoDir($logo_dir);
+		
+		if(count($imgArr[0])) {
+			$logo_dir = $imgArr[0][0];
+			$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
+			$logo_dir = preg_replace('/\)/', '', $logo_dir);
+			$data->setLogoDir($logo_dir);
+		}
 
 		if(Cache::has('uploadImg'))
 		{

@@ -81,6 +81,10 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		addTag: function(data,callback) {
 			BaseModel.post('/tags/add', {'data':data}, callback);
 		},
+		//单个标签信息
+		tagInfo: function(name,callback) {
+			BaseModel.post('/t/info', {'name':name}, callback);
+		},
 
 		// 添加推荐
 		addPraise: function(data,callback) {

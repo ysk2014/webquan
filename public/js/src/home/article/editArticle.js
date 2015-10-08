@@ -24,6 +24,7 @@ define([
 		init: function() {
 			var _this = this;
 			var uid = WQ.cookie.get('id');
+			//获取专题列表
 			CloumnModel.getCloumnsByUid({uid:uid},function(success,data) {
 				if(success) {
 					if(!data.error) {
@@ -38,7 +39,7 @@ define([
 					}
 				}
 			});
-
+			//判断是添加文章，还是编辑文章，如果是编辑文章，获取文章数据并把文章内容赋值到markdown编辑器里
 			var aid = this.state.aid;
 			if(aid>0) {
 				ArticleModel.getArticleById(aid,function(success,data) {
@@ -65,6 +66,7 @@ define([
 			}
 			return this;
 		},
+		// 展示文章内容
 		showEditor: function(){
 			var _this = this;
 			var content = _this.state.info.content ? _this.state.info.content : null;
@@ -95,14 +97,7 @@ define([
 	        });
 	        return this;
 		},
-		handleSelect: function(event) {
-			var cid = $('.edit-article .tag').eq(event).data('cid');
-			this.state.info.cid = cid;
-			this.setState({
-				selected: cid,
-				info: this.state.info
-			});
-		},
+		// 获取选择的专题
 		handleSelectCloumn: function(event) {
 			var _this = this;
 			_this.state.info.cid = event.target.value;
@@ -110,19 +105,21 @@ define([
 				info: _this.state.info
 			});
 		},
+		// 编辑文章标题
 		handleChangeTitle: function(event) {
-			// if(event.target.value == '') return false;
 			this.state.info.title = event.target.value;
 			this.setState({
 				info: this.state.info
 			});
 		},
+		// 编辑文章描述
 		handleChangeDesc: function(event) {
 			this.state.info.description = event.target.value;
 			this.setState({
 				info: this.state.info
 			});
 		},
+		// 发布文章
 		handlePublic: function() {
 			var _this = this;
 			
@@ -164,20 +161,20 @@ define([
 			var uid = WQ.cookie.get('id');
 			return {
 				name: 'editArticle',
-				aid: this.props.params.id ? this.props.params.id : 0,
+				aid: this.props.params.id ? this.props.params.id : 0,  //文章id，如果是添加则为0
 				info: {uid:uid}, //发布文章的数据
-				selected: -1,
-				cloumns: [],
+				selected: -1,    
+				cloumns: [],     //专题列表
 				tags: [],        //已选择的标签
 				cacheTags: [],   //从数据库里调出的标签数据
-				inputTag: '',    //标签输入框
+				inputTag: '',    //标签输入框的数据
 				timer: null,     //定时调用数据库的标签数据
 			}
 		},
 		componentDidMount: function() {
 			this.init();
 		},
-		// 标签
+		// 编辑标签
 		tagChange: function(event) {
 			var _this = this;
 			_this.setState({

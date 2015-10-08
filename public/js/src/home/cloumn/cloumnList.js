@@ -224,12 +224,14 @@ define([
 				});
 			}
 		},
+		// 关注按钮鼠标移动事件
 		handleOver: function(event) {
 			var span = $(event.target);
 			if(span.html() =='正在关注') {
 				span.html('取消关注');
 			}
 		},
+		// 关注按钮鼠标移动事件
 		handleOut: function(event) {
 			var span = $(event.target);
 			if(span.html() =='取消关注') {
@@ -243,12 +245,12 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'cloumn',
-				nav: 0,
-				navChild: 0,
-				cloumns: {},
-				order: ['view','update_time','care','addtime'],
-				next:{},
-				page:{},
+				nav: 0,               //一级导航，0:专题广场, 1:我关注的, 2:我的专题
+				navChild: 0,          //二级导航，0：view，1：update_time，2：care，3：addtime
+				cloumns: {},          //专题数据列表
+				order: ['view','update_time','care','addtime'], //二级导航对应的key值
+				next:{},   //根据导航状态进行分页
+				page:{},   //记录导航状态下的页面
 			}
 		},
 		componentDidMount: function() {

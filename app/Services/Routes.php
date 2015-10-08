@@ -111,6 +111,11 @@ class Routes
             // 获取单个专题的信息
             Route::post('/cloumn/info', 'Home\CloumnController@getCloumnById');
 
+            //标签页面
+            Route::get('/t/{name}', 'Home\TagController@index');
+            // 获取标签页面信息
+            Route::post('/t/info', 'Home\TagController@getTagByName');
+
             
             Route::group(['middleware' =>  'auth'], function() {
                 // 编辑用户信息
@@ -173,6 +178,7 @@ class Routes
                 Route::post('/tags/all', 'Home\TagController@getTagsByName');
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
+
 
             });
         });

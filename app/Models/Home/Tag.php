@@ -60,7 +60,7 @@ class Tag extends Base
      */
     public function getTagByName($name)
     {
-        return $this->select(array('*'))->where('name','=', $name)->first();
+        return $this->where('name','=', $name)->first();
     }
 
     /**
