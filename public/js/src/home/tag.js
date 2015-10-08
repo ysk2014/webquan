@@ -22,7 +22,29 @@ define([
 					}
 				}
 			});
+			_this.getArts(_this.state.name,_this.state.page);
 		},
+		getArts: function(name,page) {
+			var _this = this;
+			var params = {name:_this.state.name,page:page};
+			ArticleModel.getArtsLikeTag(params,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						console.log(data);
+						_this.setState({
+							articles: data.data,
+							next: data.next,
+							page: _this.state.page+1,
+						});
+					} else {
+						Tooltip(data.msg)
+					}
+				}
+			});
+		},
+		handleMore: function() {
+			_this.getArts(_this.state.name,_this.state.page);
+		}
 	}
 
 	return React.createClass({
@@ -32,6 +54,9 @@ define([
 				navName: 'home',
 				name: this.props.params.name ? this.props.params.name : null,
 				tagInfo: null,
+				articles: [],
+				next: false,
+				page: 0,
 			}
 		},
 		componentDidMount: function() {

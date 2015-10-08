@@ -330,7 +330,6 @@ class Process extends BaseProcess
 			} else {
 				$next = false;
 			}
-
 			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');

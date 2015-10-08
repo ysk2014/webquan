@@ -92,6 +92,8 @@ class Routes
             Route::post('/cloumn/care/article', 'Home\ArticleController@getArtsByCare');
             // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
+            //模糊查询标签名称的文章列表
+            Route::post('/article/tags', 'Home\ArticleController@getArtsLikeTagName');
 
 
             //根据文章ID取得评论的内容
@@ -100,8 +102,7 @@ class Routes
             Route::post('/article/comments/add', 'Home\CommentController@addComment');
             //删除评论
             Route::delete('/article/comments', 'Home\CommentController@delContent');
-            //模糊查询标签名称的文章列表
-            Route::post('/article/tags', 'Home\CommentController@getArtsLikeTagName');
+
 
 
             // 专题列表页

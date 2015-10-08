@@ -135,7 +135,7 @@ class Article extends Base
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.addtime','desc')
                     ->where('article.is_publish','=',0)
-                    ->where('article.tags','like',$data['name'])
+                    ->where('article.tags','like','%'.$data['name'].'%')
                     ->skip($data['page']*20)->take(20)
                     ->get()
                     ->toArray();
@@ -212,7 +212,7 @@ class Article extends Base
      */
     public function getArtsCountLikeTagName($name)
     {
-        return $this->where('tags','like',$name)->count();
+        return $this->where('tags','like','%'.$name.'%')->count();
     }
 
 }
