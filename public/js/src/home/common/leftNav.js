@@ -12,7 +12,7 @@ define(['react','jquery'],function(React, $) {
 			return (
 				<div className="left-bar">
 					<div className="logo">
-						<a href="/">logo</a>
+						<a href="/"><img src="/image/logo1.png" /></a>
 					</div>
 					<ul className="left-nav">
 						<li className={this.state.active == 'home' ? "active" : null}>
@@ -22,8 +22,8 @@ define(['react','jquery'],function(React, $) {
 							</a>
 						</li>
 						<li className={this.state.active == 'cloumn' ? "active" : null}>
-							<a href="/cloumn/edit">
-								<i className="fa fa-th"></i>
+							<a href="/cloumns">
+								<i className="fa fa-th-list"></i>
 								<span>专题</span>
 							</a>
 						</li>
@@ -34,7 +34,7 @@ define(['react','jquery'],function(React, $) {
 							</a>
 						</li>
 						<li className={this.state.active == 'editArticle' ? "active" : null}>
-							<a href="/article/edit">
+							<a href="/article/add">
 								<i className="fa fa-pencil"></i>
 								<span>写文章</span>
 							</a>

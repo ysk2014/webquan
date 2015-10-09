@@ -3,7 +3,10 @@ namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
+use App\Models\Home\UserCareCloumn as UCCModel;
+use App\Models\Home\UserArticle as UserArticleModel;
 use App\Services\BaseProcess;
+use App\Services\SC;
 use Lang, Cache;
 
 
@@ -22,11 +25,25 @@ class Process extends BaseProcess
     private $articleModel;
 
     /**
-     * 用户表单验证对象
+     * 文章表单验证对象
      * 
      * @var object
      */
     private $articleValidate;
+
+    /**
+     * 关注专题数据模型
+     * 
+     * @var object
+     */
+    private $careModel;
+
+    /**
+     * 推荐文章数据模型
+     * 
+     * @var object
+     */
+    private $userArticleModel;
 
     /**
      * 初始化
@@ -37,6 +54,8 @@ class Process extends BaseProcess
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
+        if( !$this->careModel) $this->careModel = new UCCModel();
+        if( !$this->userArticleModel) $this->userArticleModel = new UserArticleModel();
 	}
 
 	/**
@@ -75,18 +94,21 @@ class Process extends BaseProcess
 
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
-
-		$logo_dir = preg_replace('/!\[\]\(/', '', $imgArr[0][0]);
-		$logo_dir = preg_replace('/\)/', '', $logo_dir);
-		$data->setLogoDir($logo_dir);
+		
+		if(count($imgArr[0])) {
+			$logo_dir = $imgArr[0][0];
+			$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
+			$logo_dir = preg_replace('/\)/', '', $logo_dir);
+			$data->setLogoDir($logo_dir);
+		}
 
 		if(Cache::has('uploadImg'))
 		{
 			$uploadImg = Cache::get('uploadImg');
-
 			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
 
 			foreach ($uploadImg as $key => $value) {
+				$value = '![]('.$value.')';
 				if(!in_array($value, $imgArr[0]))
 				{
 					@unlink(dirname(dirname($savePath)).$value);
@@ -100,7 +122,6 @@ class Process extends BaseProcess
 
 			Cache::forget('uploadImg');
 		}
-
 
 		return $data;
 	}
@@ -190,11 +211,21 @@ class Process extends BaseProcess
 	*/
 	public function getAllArticle($data)
 	{
-		$articleInfo = $this->articleModel->getAllArticle($data);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
+
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->countArticle();
+			if( (intval($page)+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 
@@ -208,11 +239,21 @@ class Process extends BaseProcess
 	public function getArtsByCid($data)
 	{
 		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
-		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getArtsByCid($data['cid'],$way,$page);
+
 		if($articleInfo) {
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->countArticleByCid($data['cid']);
+			if( (intval($page)+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+
+			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
 	}
 
@@ -224,16 +265,168 @@ class Process extends BaseProcess
 	* @return array
 	*/
 	public function getArticleById($id)
-	{
+	{	
+		$this->articleModel->incrementById('view', $id);
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
-			$this->articleModel->incrementById('view', $id);
+			$uid = SC::getLoginSession()['id'];
+			//判断用户是否已推荐和收藏
+			$articleInfo['praiseStatus'] = false;
+			$articleInfo['storeStatus'] = false;
+			$ids = $this->userArticleModel->getIds($id,$uid);
+			if($ids) {
+				foreach ($ids as $key => $value) {
+					if($value['type']==0) {
+						$articleInfo['praiseStatus'] = true;
+					} else if($value['type']==1) {
+						$articleInfo['storeStatus'] = true;
+					}
+				}	
+			}
+
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
 	}
 
+	/**
+	* 获取关注的专题的所有文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtOfCareByUid($data)
+	{
+		$cloumnIds = $this->careModel->getCidsByUid($data['uid']);
+		if($cloumnIds) {
+			$cids = [];
+			foreach ($cloumnIds as $key => $value) {
+				array_push($cids,$value['cid']);
+			}
+			$articleInfo = $this->articleModel->getArtsByCids($cids, $data['page']);
+
+			$count = $this->articleModel->getArtsCountByCids($cids);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
+	/**
+	* 模糊查询标签名称的文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtsLikeTagName($data)
+	{
+		$articleInfo = $this->articleModel->getArtsLikeTagName($data);
+		if($articleInfo) {
+
+			$count = $this->articleModel->getArtsCountLikeTagName($data['name']);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
+
+	/**
+	* 添加推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function addPraise($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->add($data);
+		if($sqlData != false) {
+			$this->articleModel->incrementById('praise',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'推荐成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'推荐失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 取消推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delPraise($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->del($data);
+		if($sqlData != false) {
+			$this->articleModel->decrementById('praise',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'取消失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 添加收藏
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function addStore($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->add($data);
+		if($sqlData != false) {
+			$this->articleModel->incrementById('store',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'收藏成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'收藏失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 取消推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delStore($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->del($data);
+		if($sqlData != false) {
+			$this->articleModel->decrementById('store',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'取消失败');
+		}
+		return $resultArr;
+	}
 
 }
 

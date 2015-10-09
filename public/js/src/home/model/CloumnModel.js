@@ -7,16 +7,36 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param id 专题id
 	     */
 		getCloumnById: function(data, callback) {
-			BaseModel.post('/cloumn/info', data, callback);
+			BaseModel.post('/cloumn/info', {'id':data}, callback);
 		},
 
 	    /**
 	     *获取所有专题信息
 	     * 
 	     * @param way 根据way进行排序，默认为addtime添加时间
+	     * @param page 分页
 	     */
 		getAllCloumns: function(data, callback) {
-			BaseModel.post('/cloumn/list', data, callback);
+			BaseModel.post('/cloumn/list',{'data':data}, callback);
+		},
+	    /**
+	     *获取所有专题信息
+	     * 
+	     * @param uid 用户id
+	     * @param page 分页
+	     */
+		getCloumnsByUid: function(data,callback) {
+			BaseModel.post('/cloumn/myCloumn', {'data':data}, callback);
+		},
+
+	    /**
+	     *获取用户关注的所有专题信息
+	     * 
+	     * @param uid 用户id
+	     * @param page 分页
+	     */
+		getCareCloumnsByUid: function(data,callback) {
+			BaseModel.post('/cloumn/myCare', {'data':data}, callback);
 		},
 
 		//添加专题
@@ -34,6 +54,18 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     */
 		delCloumn: function(data, callback) {
 			BaseModel.post('/cloumn/del', data, callback);
+		},
+	    /**
+	     * 添加关注
+	     */
+		addCare: function(data, callback) {
+			BaseModel.post('/cloumn/addCare', {'data':data}, callback);
+		},
+	    /**
+	     * 添加关注
+	     */
+		delCare: function(data, callback) {
+			BaseModel.post('/cloumn/delCare', {'data':data}, callback);
 		},
 	};
 	return CloumnModel;

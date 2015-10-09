@@ -42,6 +42,7 @@ class UploadController extends Controller {
         $uploadObject->setParam($config);
         //开始处理上传
         $file = Request::file('editormd-image-file');
+        
         $result = $uploadObject->setFile($file)->upload();
 
         if(Cache::has('uploadImg')) 

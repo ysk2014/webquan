@@ -1,68 +1,50 @@
 <?php namespace App\Services\Home\Comment;
 
 use Lang;
+use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
-use App\Libraries\Js;
-use App\Services\Home\BaseProcess;
+use App\Services\Home\Comment\CommentValidate;
+use App\Services\BaseProcess;
 
 /**
  * 评论相关处理
  *
- * @author jiang <mylampblog@163.com>
+ * @author ysk
  */
 class Process extends BaseProcess
 {
-    /**
-     * 整理相关的评论Id，用于查询相关评论信息
-     */
-    public function prepareReplyIds($commentList)
-    {
-        if( ! is_array($commentList)) return [];
-        $replyIds = [];
-        foreach($commentList as $key => $value)
-        {
-            if( ! isset($value['reply_ids']) or empty($value['reply_ids'])) continue;
-            $ids = explode(',', $value['reply_ids']);
-            $replyIds = array_merge($replyIds, $ids);
-        }
-        return array_values(array_unique($replyIds));
-    }
 
     /**
-     * 附加相关的数据到评论中
+     * 评论模型
+     * 
+     * @var object
      */
-    public function joinReplyComments($commentList, $replyComments)
-    {
-        if( ! is_array($commentList)) return [];
-        foreach($commentList as $key => $value)
-        {
-            $commentList[$key]['reply_content'] = $this->findReplyContents($value['reply_ids'], $replyComments);
-        }
-        return $commentList;
-    }
+    private $commentModel;
 
     /**
-     * 从相关评论中根据key拿回详细的信息
+     * 评论表单验证对象
+     * 
+     * @var object
      */
-    private function findReplyContents($replyIdsString, $replyComments)
+    private $commentValidate;
+
+    /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articelModel;
+
+    /**
+     * 初始化
+     *
+     * @access public
+     */
+    function __construct()
     {
-        if( ! is_array($replyComments) or empty($replyIdsString)) return [];
-        $replyIds = explode(',', $replyIdsString);
-        $result = [];
-        foreach($replyIds as $replyIdKey => $replyIdValue)
-        {
-            $find = [];
-            foreach($replyComments as $replyCommentsKey => $replyCommentsValue)
-            {
-                if($replyIdValue == $replyCommentsValue['id'])
-                {
-                    $find = $replyCommentsValue;
-                    break;
-                }
-            }
-            $result[] = $find;
-        }
-        return $result;
+        if( ! $this->articelModel) $this->articelModel = new ArticleModel();
+        if( ! $this->commentModel) $this->commentModel = new CommentModel();
+        if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
     }
 
     /**
@@ -70,22 +52,99 @@ class Process extends BaseProcess
      */
     public function addComment($data)
     {
-        $validate = new \App\Services\Home\Comment\Validate\Comment();
-        if( ! $validate->add($data)) return $this->setErrorMsg($validate->getErrorMessage());
+        
+        if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
-        $commentObject = new CommentModel();
-
-        if( ! empty($data['replyid']))
+        $result = $this->commentModel->addComment($data);
+        if($result['id'])
         {
-            $replyInfo = $commentObject->getOneContentById($data['replyid']);
-            if(empty($replyInfo)) return $this->setErrorMsg(Lang::get('home.reply_comment_not_exist'));
-            $data['reply_ids'] = ! empty($replyInfo['reply_ids']) ? $data['replyid'].','.$replyInfo['reply_ids'] : $data['replyid'];
-            unset($data['replyid']);
+            $this->articelModel->incrementById('comment',$data['aid']);
+            return array('error'=>false,'data'=>$result);
         }
+        else
+        {
+            return array('error'=>true, 'msg'=>'添加失败');
+        }
+    }
 
-        $data['time'] = time();
-        if($commentObject->addComment($data) !== false) return true;
-        return $this->setErrorMsg(Lang::get('home.action_error'));
+    /**
+     * 删除评论
+     */
+    public function delContent($id)
+    {
+        $cid = array($id);
+        
+        if($this->commentModel->delContent($cid) != false)
+        {
+            return array('error'=>false,'msg'=>'删除成功');
+        }
+        else
+        {
+            return array('error'=>true, 'msg'=>'删除失败');
+        }
+    }
+
+    /**
+     * 根据用户id删除评论
+     */
+    public function delContentByUid($aid,$uid)
+    {
+        
+        
+        if($this->commentModel->delContentByUid($aid,$uid) != false)
+        {
+            return array('error'=>false,'msg'=>'删除成功');
+        }
+        else
+        {
+            return array('error'=>true, 'msg'=>'删除失败');
+        }
+    }
+
+    /**
+     * 删除文章id的所有评论
+     */
+    public function delContentByAid($aid)
+    {
+        
+        
+        if($this->commentModel->delContentByAid($aid) != false)
+        {
+            return array('error'=>false,'msg'=>'删除成功');
+        }
+        else
+        {
+            return array('error'=>true, 'msg'=>'删除失败');
+        }
+    }
+
+    /**
+     * 根据文章ID取得评论的内容
+     * 
+     * @return array
+     */
+    public function getContentByAid($data)
+    {
+        if(!isset($data['aid'])) return array('error'=>true,'msg'=>'没有文章id');
+
+        $page = isset($data['page']) ? $data['page'] : 0;
+
+        $result = $this->commentModel->getContentByAid($data['aid'],$page);
+
+        if($result)
+        {
+            $count = $this->commentModel->countContentByAid($data['aid']);
+            if( (intval($page)+1)*8 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false, 'data'=>$result, 'next'=>$next);
+        }
+        else
+        {
+            return array('error'=>true, 'msg'=>'没有文章评论了', 'next'=>false);
+        }
     }
 
 }

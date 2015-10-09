@@ -40,9 +40,9 @@ class ArticleController extends Controller {
 	 */
 	public function getAllArticle(ArticleProcess $articleProcess)
 	{
-		$way = Request::input('way');
-		$data = $articleProcess->getAllArticle($way);
-		return response()->json($data);
+		$data = Request::input('data');
+		$result = $articleProcess->getAllArticle($data);
+		return response()->json($result);
 	}
 
 	/**
@@ -57,6 +57,30 @@ class ArticleController extends Controller {
 		return response()->json($data);
 	}
 
+
+	/**
+	 * 模糊查询标签名称的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsLikeTagName(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsLikeTagName($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 获取用户关注专题的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCare(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtOfCareByUid($data);
+		return response()->json($data);
+	}
 
 	/**
 	 * 获取文章详情
@@ -97,7 +121,6 @@ class ArticleController extends Controller {
 	public function editArticle(ArticleProcess $articleProcess)
 	{
 		$data = Request::input('data');
-		// $data['addtime'] = time();
 		$param = new \App\Services\Home\Article\ArticleSave();
 		$param->setAttributes($data);
 
@@ -116,6 +139,64 @@ class ArticleController extends Controller {
 		$id = Request::input('id');
 		$ids = [$id];
 		$result = $articleProcess->delArticle($ids);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 添加推荐
+	 *
+	 * @return Response
+	 */
+	public function addPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=0;
+		$data['addtime'] = time();
+		$result = $articleProcess->addPraise($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 取消推荐
+	 *
+	 * @return Response
+	 */
+	public function delPraise(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=0;
+		$result = $articleProcess->delPraise($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 添加收藏
+	 *
+	 * @return Response
+	 */
+	public function addStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=1;
+		$data['addtime'] = time();
+		$result = $articleProcess->addStore($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 取消收藏
+	 *
+	 * @return Response
+	 */
+	public function delStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=1;
+		$result = $articleProcess->delStore($data);
 		
 		return response()->json($result);
 	}

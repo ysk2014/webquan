@@ -23,7 +23,7 @@ a{
   text-decoration: none;
 }
 a:hover{
-  color: #555;
+  color: #000;
 }
 ul{
   list-style: none;
@@ -235,56 +235,306 @@ input:focus{
   border-color: #3dbcf5;
   background-color: #3dbcf5;
 }
-
-
-/*alert弹出框样式*/
-.alert-mask{
-  position: absolute;
-  left: 0px;
-  top: 0px;
+#mask{
+  position:fixed; 
+  left:0%;
+  top: 0%;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.6)
-
+  display: none;
+  z-index: 1000;
 }
+
 .alert-box{
   position:absolute; 
   left:50%;
   top: 50%;
-  height: 105px;
-  margin-left: -100px;
-  margin-top: -80px;
-  background: rgb(61,188,245);
-  padding:5px;
-  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  margin-top: -180px;
+  background: #666;
+  padding:0 30px;
+  z-index: 999;
+  color: #fff;
+  border-radius: 3px;
+  text-align: center;
+}
+
+/*设置*/
+.settings{
+  width: 480px;
+  margin: 0 auto;
+}
+.settings .title{
+  text-align: center;
+  margin-top: 80px;
+  font-size: 24px;
+  color: #555;
+  padding-bottom: 20px;
+}
+.settings .nav li{
+  float: left;
+}
+.settings .nav li a{
+  display: block;
+  text-align: center;
+  width: 118px;
+  padding: 10px 0px;
+  border: 1px solid #fff;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.settings .nav li a.active{
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+/*个人资料*/
+.personal{
+  clear: both;
+  width:380px;
+  margin: 0 auto;
+  color: rgb(101, 110, 115);
+  padding-top: 10px;
+}
+.personal p{
+  clear: both;
+  margin-top: 40px; 
+}
+.personal label{
+  float: left;
+  display: block;
+  height: 38px;
+  line-height: 38px;
+}
+.personal .username input{
+  width: 310px;
+  padding: 8px 0px 8px 10px;
+  border: 1px solid rgb(208, 214, 217);
+}
+.personal .place input{
+  width: 310px;
+  padding: 8px 0px 8px 10px;
+  border: 1px solid rgb(208, 214, 217);
+}
+.personal .sex{
+  clear: both;
+  margin-top: 30px;
+}
+.personal .sex-input{
+  float: left;
+  height: 38px;
+  line-height: 38px;
+}
+.personal .sex input{
+  margin-left: 8px;
+  cursor: pointer;
+}
+.personal .sign{
+  margin-top: 20px;
+}
+.personal .sign label{
+  height: 30px;
+}
+.personal .sign textarea{
+  width: 362px;
+  height: 60px;
+  resize:none;
+}
+.personal .select-box{
+  margin-top: 40px;
+  border: none;
+  height: 38px;
+}
+.personal .select-box .select-copy{
+  width: 320px;
+  height: 38px;
+  float: left;
+  position: relative;
   z-index: 999;
 }
-.alert-box .top{
-  height: 80px;
-  color: #000;
-  text-align: center;
-  background: #fff;
-  border-radius: 5px;
-}
-.alert-box .top h4{
-  margin: 0px;
-  padding: 0px;
+.personal .select-box .content{
+  position: relative;
+  width: 315px;
+  height: 38px;
+  line-height: 38px;
+  border: 1px solid rgb(208, 214, 217);
   padding-left: 5px;
-  padding-top: 5px;
-  text-align: left;
-  height: 20px;
 }
-.alert-box .top p{
+.personal .select-box .content:hover{
+  cursor: pointer;
+}
+.personal .select-box ul{
+  clear: both;
+  background: #fff;
+  border: 1px solid rgb(208, 214, 217);
+  border-top: none;
+  width: 320px;
+}
+.personal .select-box ul li:hover{
+    background: #6ca5fc;
+    color: #fff;
+    cursor: pointer;
+}
+.personal .select-box ul span{
+  margin-left: 5px;
+}
+.personal .arrow-bottom-btn::after{
+  position: absolute;
+  left: 305px;
+  top:16px;
+  content: '';
+  display: inline-block;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+}
+.personal .sub{
+  margin-top: 20px;
+}
+.personal .sub input{
+  width: 365px;
+  background-color: #049cdb;
+  color: #fff;
+  border: none;
+  padding: 5px 0px; 
+}
+.personal .sub input:hover{
+  cursor: pointer;
+}
+/*修改密码*/
+.modify{
+  clear: both;
+  width:400px;
   margin: 0 auto;
-  margin-top: 10px;
-  padding: 0px 50px;
-  height: 20px;
-  line-height: 20px;
+  color: rgb(101, 110, 115);
+  padding-top: 10px;
+  text-align: center;
 }
-.alert-box .bottom{
+.modify p{
+  clear: both;
+  margin-top: 40px;
   text-align: right;
 }
-.alert-box .bottom input{
-  background: none;
-  margin-top: 2px;
+.modify input{
+  width: 310px;
+  padding: 8px 0px 8px 10px;
+  border: 1px solid rgb(208, 214, 217);
 }
+.modify label{
+  float: left;
+  display: block;
+  text-align: right;
+  width: 70px;
+  height: 35px;
+  line-height: 35px;
+}
+.modify .sub{
+  width: 322px;
+  background-color: #049cdb;
+  color: #fff;
+  border: none;
+  text-align: center;
+}
+.modify .sub:hover{
+  cursor: pointer;
+}
+/*邮箱认证*/
+.email{
+  clear: both;
+  text-align: center;
+  padding-top: 40px;
+} 
+.email .fir{
+  font-size: 17px;
+}
+.email .sec{
+  font-size: 18px;
+  font-weight: bolder;
+  margin-top: 20px;
+}
+.email .hook{
+  padding-top: 20px;
+  font-size: 60px;
+}
+.email .hook i{
+  color: rgb(51, 166, 70);;
+}
+.email .hook p{
+  margin-top: 5px;
+  font-size: 14px;
+  color: rgb(51, 166, 70);;
+}
+.email .change{
+  background: rgb(51, 166, 70);;
+  color: #fff;
+  border: none;
+  padding: 8px 35px;
+}
+
+.head {
+  clear: both;
+  text-align: center;
+  padding-top: 40px;
+}
+.head .user {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 auto;
+  position: relative;
+}
+.head .user>img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.head .user div{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.6);
+  display: none;
+}
+.head .user div>img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+.head .uploadForm{
+  text-align: center;
+}
+.head .submit-button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  padding: 6px 12px;
+  margin: 20px auto;
+  font-size: 18px;
+  height: 20px;
+  line-height: 20px;
+  cursor: pointer;
+  color: #555;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+}
+.head .submit-button:hover,
+.head .submit-button:focus{
+  background-color: #049cdb;
+  color: #fff;
+}
+.dis{
+      display: none;
+}
+
