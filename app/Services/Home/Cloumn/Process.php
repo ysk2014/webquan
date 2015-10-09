@@ -2,8 +2,10 @@
 
 use Lang;
 use App\Models\Home\Cloumn as CloumnModel;
-// use App\Models\Home\UserCareCloumn as UCCModel;
-// use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
+use App\Models\Home\UserCareCloumn as UCCModel;
+use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
+use App\Services\Home\Upload\Process as UploadManager;
+use App\Services\SC;
 use App\Services\BaseProcess;
 
 /**
@@ -18,7 +20,28 @@ class Process extends BaseProcess
      *
      * @var object
      */
-    public $cloumnModel;
+    private $cloumnModel;
+
+    /**
+     * 专题表单验证对象
+     * 
+     * @var object
+     */
+    private $cloumnValidate;
+
+    /**
+     * 上传处理对象
+     * 
+     * @var object
+     */
+    private $uploadManager;
+
+    /**
+     * 关注专题数据模型
+     * 
+     * @var object
+     */
+    private $careModel;
 
     /**
      * 初始化
@@ -26,6 +49,9 @@ class Process extends BaseProcess
     public function __construct()
     {
         if( !$this->cloumnModel ) $this->cloumnModel = new CloumnModel();
+        if( !$this->cloumnValidate ) $this->cloumnValidate = new CloumnValidate();
+        if( !$this->uploadManager) $this->uploadManager = new UploadManager();
+        if( !$this->careModel) $this->careModel = new UCCModel();
     }
 
     /**
@@ -37,6 +63,8 @@ class Process extends BaseProcess
     */
     public function addCloumn(\App\Services\Home\Cloumn\CloumnSave $data)
     {
+        if( !$this->cloumnValidate->add($data) ) 
+            return array('error'=>true,'msg'=>$this->cloumnValidate->getErrorMessage());
         // 保存到数据库
         $id=$this->cloumnModel->add($data->toArray());
         if($id) return array('error'=>false, 'msg'=>'创建成功', 'data'=>$id);
@@ -55,11 +83,15 @@ class Process extends BaseProcess
     {
         if( !isset($data->id) ) return array('error'=>true, 'msg'=>'参数没有设置');
         // 表单验证
+        if( !$this->cloumnValidate->edit($data)) return array('error'=>true, 'msg'=>$this->cloumnValidate->getErrorMessage());
+
         $id = intval($data->id); unset($data->id);
         // 更新数据库
-        if( $this->cloumnModel->edit($data,$id) !== false) return array('error'=>false, 'msg'=>'更新成功');
-        // 更新失败
-        return array('error'=>true, 'msg'=>'更新失败');
+        $this->cloumnModel->edit($data->toArray(),$id);
+        return array('error'=>false, 'msg'=>'更新成功');
+        // if( $this->cloumnModel->edit($data->toArray(),$id) !== false) return array('error'=>false, 'msg'=>'更新成功');
+        // // 更新失败
+        // return array('error'=>true, 'msg'=>'更新失败');
     }
 
     /**
@@ -91,11 +123,57 @@ class Process extends BaseProcess
         $result = $this->cloumnModel->getCloumnById($data);
         if($result) 
         {
+            $this->cloumnModel->incrementData('view', $data);
             return array('error'=>false, 'data'=>$result);
         } 
         else 
         {
             return array('error'=>true, 'msg'=>'查询失败');
+        }
+
+    }
+
+    /**
+     * 获取用户创建的专题
+     *
+     * @param intval $uid
+     * @access public
+     * @return boolean true|false
+     */
+    public function getCloumnsByUid($data)
+    {
+        if(!isset($data['uid'])) return array('error'=>true, 'msg'=>'参数没有设置');
+
+        $page = isset($data['page']) ? $data['page'] : 0;
+
+        $result = $this->cloumnModel->getCloumnsByUid($data['uid'],$page);
+        if($result) 
+        {
+            $careArr = $this->careModel->getCidsByUid($data['uid']);
+            $cids = [];
+            foreach ($careArr as $key => $value) {
+                array_push($cids, $value['cid']);
+            }
+
+            foreach ($result as $key => $val) {
+                if(in_array($val['id'], $cids)) {
+                    $result[$key]['myCare'] = true;
+                } else {
+                    $result[$key]['myCare'] = false;
+                }
+            }
+
+            $count = $this->cloumnModel->countCloumnByUid($data['uid']);
+            if( (intval($page)+1)*20 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false, 'data'=>$result, 'next'=>$next);
+        } 
+        else 
+        {
+            return array('error'=>true, 'msg'=>'没有专题');
         }
 
     }
@@ -109,17 +187,146 @@ class Process extends BaseProcess
      */
     public function getCloumns($data)
     {
-        $way = isset($data) ? $data : 'addtime';
-        $cloumns = $this->cloumnModel->getCloumns($data);
+        $way = isset($data['way']) ? $data['way'] : 'addtime';
+        $page = isset($data['page']) ? $data['page'] : 0;
+
+        $cloumns = $this->cloumnModel->getCloumns($way,$page);
         if($cloumns) 
         {
-            return array('error'=>false, 'data'=>$cloumns);
+            $uid = SC::getLoginSession()['id'];
+            $careArr = $this->careModel->getCidsByUid($uid);
+            $cids = [];
+            foreach ($careArr as $key => $value) {
+                array_push($cids, $value['cid']);
+            }
+
+            foreach ($cloumns as $key => $val) {
+                if(in_array($val['id'], $cids)) {
+                    $cloumns[$key]['myCare'] = true;
+                } else {
+                    $cloumns[$key]['myCare'] = false;
+                }
+            }
+
+            $count = $this->cloumnModel->countCloumn();
+            if( (intval($page)+1)*20 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false, 'data'=>$cloumns, 'next'=>$next);
         }
         else 
         {
-            return array('error'=>true, 'msg'=>'查询失败');
+            return array('error'=>true, 'msg'=>'没有专题');
         }
 
     }
 
+    /**
+     * 获取用户关注的专题
+     *
+     * @param intval $uid
+     * @access public
+     * @return boolean true|false
+     */
+    public function getCareCloumnsByUid($data)
+    {
+        if(!isset($data['uid'])) return array('error'=>true, 'msg'=>'参数没有设置');
+
+        $page = isset($data['page']) ? $data['page'] : 0;
+
+        $result = $this->careModel->getCloumnsByUid($data['uid'],$page);
+        if($result) 
+        {
+            foreach ($result as $key => $val) {
+                $result[$key]['myCare'] = true;
+            }
+
+            $count = $this->careModel->countCaresByUid($data['uid']);
+            if( (intval($page)+1)*20 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false, 'data'=>$result, 'next'=>$next);
+        } 
+        else 
+        {
+            return array('error'=>true, 'msg'=>'没有关注的专题');
+        }
+
+    }
+
+    /**
+     * 上传专题头像
+     * 
+     * @param object $file
+     * @param object $id
+     * @access public
+     * @return array
+     */
+    public function uploadLogo($file,$id,$logoDir) 
+    {
+        if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
+
+        if(empty($logoDir)) {
+            $config = array('path'=>'cloumn-logo');
+        } else {
+            $status = preg_match('/\/upload_path\/cloumn-logo\/(.{1,})?\./', $logoDir,$fileName);
+            if($status) {
+                $config = array('path'=>'cloumn-logo','fileName'=>$fileName[1]);
+            } else {
+                $config = array('path'=>'cloumn-logo');
+            }
+        }
+
+        $this->uploadManager->setParam($config);
+
+        $result = $this->uploadManager->setFile($file)->upload();
+
+        if($result['success']) {
+            $resultArr = array('error'=>false,'data'=>$result['url']);
+        } else {
+            $resultArr = array('error'=>true,'msg'=>'上传logo失败');
+        }
+
+        return $resultArr;
+    }
+
+    /**
+     * 添加关注
+     * 
+     * @param  $data
+     */
+    public function addCare($data) 
+    {
+        if(!isset($data)) return array('error'=>true,'msg'=>'没有数据');
+
+        $id=$this->careModel->add($data);
+        if($id) {
+            $this->cloumnModel->incrementData('care',$data['cid']);
+            return array('error'=>false, 'msg'=>'关注成功');
+        } else {
+            return array('error'=>true, 'msg'=>'关注失败');
+        }
+    }
+
+    /**
+     * 取消关注
+     * 
+     * @param  $data
+     */
+    public function delCare($data) 
+    {
+        if(!isset($data)) return array('error'=>true,'msg'=>'没有数据');
+
+        $id=$this->careModel->del($data);
+        if($id) {
+            $this->cloumnModel->decrementData('care',$data['cid']);
+            return array('error'=>false, 'msg'=>'取消成功');
+        } else {
+            return array('error'=>true, 'msg'=>'取消失败');
+        }
+    }
 }

@@ -39,6 +39,13 @@ class UserController extends Controller {
 		return view('home.app');
 	}
 
+	/**
+	* 设置
+	*/
+	public function settings()
+	{
+		return view('home.app');
+	}
 
     /**
      * 开始登录处理
@@ -134,6 +141,7 @@ class UserController extends Controller {
     public function getUserInfoByLogin(LoginProcess $loginProcess)
     {
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		unset($isLogin->password);
 		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
 		return response()->json($data);
     }
@@ -148,6 +156,28 @@ class UserController extends Controller {
 		return response()->json($result);
     }
 
+    /**
+     * 检查用户名是否占用
+     */
+    public function checkUserName(UserActionProcess $manager)
+    {
+		$username = intval(Request::input('username'));
+		$result = $manager->checkUserName($username);
+		return response()->json($result);
+    }
+
+    /**
+     * 更新头像
+     */
+    public function updateLogo(UserActionProcess $manager)
+    {
+		$file = Request::file('file');
+		$id = Request::input('id');
+
+		$result = $manager->uploadLogo($file,$id);
+		
+		return response()->json($result);
+    }
 
     /**
      * 登录退出

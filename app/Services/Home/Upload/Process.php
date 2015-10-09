@@ -81,6 +81,10 @@ class Process extends BaseProcess
     public function setParam($params)
     {
         $this->params = $params;
+        
+        if(isset($this->params['fileName'])) {
+            $this->saveFileName = $this->params['fileName'];
+        }
         return $this;
     }
 
@@ -112,7 +116,12 @@ class Process extends BaseProcess
      */
     private function setSavePath()
     {
-        $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
+        if(isset($this->params['path'])) {
+            $savePath = \Config::get('sys.sys_upload_path'). '/' . $this->params['path'];
+        } else {
+            $savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
+        }
+        
         if( ! is_dir($savePath))
         {
             //如果保存路径不存在，那么建立它
@@ -151,10 +160,11 @@ class Process extends BaseProcess
      * @return  void
      */
 
-    private function message($message, $success = 0)
+    private function message($message, $success = 0, $status=0)
     {
         $array = array(
-            'success' => $success
+            'success' => $success,
+            'status' => $status
         );
 
         if ($success == 1)
@@ -217,10 +227,16 @@ class Process extends BaseProcess
         $savePath = $this->setSavePath();
         //保存的文件名
         $saveFileName = $this->getSaveFileName().'.'.$this->file->getClientOriginalExtension();
-        //保存
-        $this->file->move($savePath, $saveFileName);
+
+        $status = 0;
         //文件是否存在
         $realFile = $savePath.'/'.$saveFileName;
+        if(file_exists($realFile)) {
+            @unlink($realFile);
+            $status = 1;
+        }
+        //保存
+        $this->file->move($savePath, $saveFileName);
 
         if( ! file_exists($realFile)) 
         {
@@ -242,7 +258,7 @@ class Process extends BaseProcess
         $returnFileUrl = implode('|', array_merge($realFileUrl, $thumbRealFileUrl));
 
 
-        return $this->message($returnFileUrl,1);
+        return $this->message($returnFileUrl,1,$status);
     }
 
 

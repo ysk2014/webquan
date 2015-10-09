@@ -4,6 +4,7 @@ namespace App\Services\User;
 use App\Models\User as UserModel;
 use App\Services\User\UserValidate;
 use App\Services\BaseProcess;
+use App\Services\Home\Upload\Process as UploadManager;
 use Lang;
 
 /**
@@ -29,6 +30,13 @@ class Process extends BaseProcess
     private $userValidate;
 
     /**
+     * 上传处理对象
+     * 
+     * @var object
+     */
+    private $uploadManager;
+
+    /**
      * 初始化
      *
      * @access public
@@ -37,6 +45,7 @@ class Process extends BaseProcess
 	{
         if( ! $this->userModel) $this->userModel = new UserModel();
         if( ! $this->userValidate) $this->userValidate = new UserValidate();
+        if( ! $this->uploadManager) $this->uploadManager = new UploadManager();
 	}
 
 	/**
@@ -119,16 +128,15 @@ class Process extends BaseProcess
     {
         $resultArr = [];
     	// 进行用户表单验证
-    	if( !$this->userValidate->password($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
+    	if( !$this->userValidate->pwd($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
 
-    	$userInfo = \App\Services\SC::getLoginSession();
-
-    	if( $userInfo->password != md5($params->oldPassword)) return array('error'=>true, 'msg'=>'旧密码错误');
+    	if( $this->userModel->getUserById($params->id)['password'] != md5($params->oldPassword)) return array('error'=>true, 'msg'=>'旧密码错误');
 
     	$updateData = ['password' => md5($params->newPassword)];
 
     	if($this->userModel->editUser($updateData,$params->id) !== false)  {
             $resultArr = array('error'=>false, 'msg'=>'修改成功');
+            \App\Services\SC::delLoginSession();
         } else {
             $resultArr = array('error'=>true, 'msg'=>'修改失败');
         }
@@ -153,6 +161,62 @@ class Process extends BaseProcess
         } else {
             $resultArr = array('error'=>true, 'msg'=>'删除失败');
         }
+        return $resultArr;
+    }
+
+    /**
+     * 检查用户是否存在
+     * 
+     * @param string $username
+     * @access public
+     * @return array
+     */
+    public function checkUserName($username)
+    {
+        $userInfo = $this->userModel->InfoByName($username);
+        if($userInfo !== false) {
+            $resultArr = array('error'=>true, 'msg'=>'用户名已占用');
+        } else {
+            $resultArr = array('error'=>false, 'msg'=>'用户名未占用');
+        }
+        return $resultArr;
+    }
+
+    /**
+     * 上传用户头像
+     * 
+     * @param object $file
+     * @param intval $id
+     * @access public
+     * @return array
+     */
+    public function uploadLogo($file,$id)
+    {
+        if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
+
+        $config = array('path'=>'logo','fileName'=>'web'.$id);
+
+        $this->uploadManager->setParam($config);
+
+        $result = $this->uploadManager->setFile($file)->upload();
+
+        if($result['success']) {
+            $data = array('logo_dir'=>$result['url']);
+            if(!$result['status']) {
+                $resultData = $this->userModel->editUser($data,$id);
+                if($resultData) {
+                    $resultArr = array('error'=>false,'data'=>$result['url']);
+                } else {
+                    $resultArr = array('error'=>true,'msg'=>'更新头像失败');
+                }
+            } else {
+                $resultArr = array('error'=>false,'data'=>$result['url']);
+            }
+            
+        } else {
+            $resultArr = array('error'=>true,'msg'=>'上传头像失败');
+        }
+
         return $resultArr;
     }
 
