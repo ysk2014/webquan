@@ -3,7 +3,7 @@ requirejs.config({
     paths: {
         jquery          : "jquery-1.11.3.min",
         jqueryextend    : "jquery.extend", 
-        WQ              : "WQ",
+        WQ              : "wq",
         react           : "react-with-addons.min",
         reactRouter     : 'react-router.min',
         editormd        : 'editor/editormd',
