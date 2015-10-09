@@ -643,3 +643,21 @@ input:focus{
 .home-page .host-content .details .right a:hover{
   background: #2c79b0;
 }
+.home-page .host-content .articles .details{
+  border-bottom: 1px solid #f1f2f3;
+}
+.home-page .host-content .articles p.top{
+  font-size: 12px;
+}
+.home-page .host-content .articles p.middle{
+  font-size: 18px;
+  font-weight: bolder;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.home-page .host-content .articles p.bottom{
+  font-size: 12px;
+}
+.home-page .host-content .articles p.bottom a{
+  margin-right: 5px;
+}

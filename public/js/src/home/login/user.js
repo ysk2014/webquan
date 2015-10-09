@@ -27,7 +27,7 @@ define(['react',
     var FocusUser = React.createClass({
         render: function(){
             return(
-                <div>
+                <div className="focus-user">
                     <div className="details clearfix">
                         <img src="/upload_path/logo/web5.jpg" />
                         <div className="center">
@@ -80,7 +80,7 @@ define(['react',
     var Fans = React.createClass({
         render: function(){
             return(
-                    <div>
+                    <div className="fans">
                         <div className="details clearfix">
                             <img src="/upload_path/logo/web5.jpg" />
                             <div className="center">
@@ -149,10 +149,79 @@ define(['react',
     var LatestArticles = React.createClass({
         render: function(){
             return(
-                <div>fsdafsda</div>
+                <div className="articles">
+                    <div className="details">
+                        <p className="top">22天之前</p>
+                        <p className="middle">
+                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                        </p>
+                        <p className="bottom">
+                            <a href="#">阅读&nbsp;56</a>
+                            <a href="#">评论&nbsp;55</a>
+                            <a href="#">喜欢&nbsp;0</a>
+                        </p>
+                    </div>
+                    <div className="details">
+                        <p className="top">22天之前</p>
+                        <p className="middle">
+                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                        </p>
+                        <p className="bottom">
+                            <a href="#">阅读&nbsp;56</a>
+                            <a href="#">评论&nbsp;55</a>
+                            <a href="#">喜欢&nbsp;0</a>
+                        </p>
+                    </div>
+
+                </div>
             )
         }
     })
+    var HotArticles = React.createClass({
+        render: function(){
+            return(
+                <div className="articles">
+                    <div className="details">
+                        <p className="top">22天之前</p>
+                        <p className="middle">
+                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                        </p>
+                        <p className="bottom">
+                            <a href="#">阅读&nbsp;56</a>
+                            <a href="#">评论&nbsp;55</a>
+                            <a href="#">喜欢&nbsp;0</a>
+                        </p>
+                    </div>
+                    <div className="details">
+                        <p className="top">22天之前</p>
+                        <p className="middle">
+                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                        </p>
+                        <p className="bottom">
+                            <a href="#">阅读&nbsp;56</a>
+                            <a href="#">评论&nbsp;55</a>
+                            <a href="#">喜欢&nbsp;0</a>
+                        </p>
+                    </div>
+
+                    <div className="details">
+                        <p className="top">22天之前</p>
+                        <p className="middle">
+                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                        </p>
+                        <p className="bottom">
+                            <a href="#">阅读&nbsp;56</a>
+                            <a href="#">评论&nbsp;55</a>
+                            <a href="#">喜欢&nbsp;0</a>
+                        </p>
+                    </div>
+
+
+                </div>
+            )
+        }
+    })
+
     return React.createClass({
         mixins: [mixin],
         getInitialState: function() {
@@ -222,6 +291,7 @@ define(['react',
                                 </div>
 
                                 <div  style={_this.state.litNav=='hotArticles' ? {display:'block'} : {display:'none'}} >
+                                    <HotArticles />
                                 </div>
 
                             </div>
