@@ -2622,7 +2622,837 @@ define('editormd',
             this.search("replaceAll");
             
             return this;
-        }
+        },
+
+        helpDialog : function() {
+            var _this       = this;
+            var lang        = this.lang;
+            var editor      = this.editor;console.log(settings);
+            var settings    = this.settings;
+            var path        = settings.pluginPath + "help-dialog/";
+            var classPrefix = this.classPrefix;
+            var dialogName  = classPrefix + 'help-dialog', dialog;
+            var dialogLang  = lang.dialog.help;
+
+            if (editor.find("." + dialogName).length < 1)
+            {           
+                var dialogContent = "<div class=\"markdown-body\" style=\"font-family:微软雅黑, Helvetica, Tahoma, STXihei,Arial;height:390px;overflow:auto;font-size:14px;border-bottom:1px solid #ddd;padding:0 20px 20px 0;\"></div>";
+
+                dialog = this.createDialog({
+                    name       : dialogName,
+                    title      : dialogLang.title,
+                    width      : 840,
+                    height     : 540,
+                    mask       : settings.dialogShowMask,
+                    drag       : settings.dialogDraggable,
+                    content    : dialogContent,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons    : {
+                        close : [lang.buttons.close, function() {      
+                            this.hide().lockScreen(false).hideMask();
+                            
+                            return false;
+                        }]
+                    }
+                });
+            }
+
+            dialog = editor.find("." + dialogName);
+
+            this.dialogShowMask(dialog);
+            this.dialogLockScreen();
+            dialog.show();
+
+            var helpContent = dialog.find(".markdown-body");
+
+            if (helpContent.html() === "") 
+            {
+                $.get(settings.pluginPath + "../help.md", function(text) {
+                    var md = editormd.$marked(text);
+                    helpContent.html(md);
+                    
+                    helpContent.find("a").attr("target", "_blank");
+                });
+            }
+        },
+        tableDialog: function() {
+            var _this       = this;
+            var cm          = this.cm;
+            var editor      = this.editor;
+            var settings    = this.settings;
+            var classPrefix = this.classPrefix;
+            var dialogName  = classPrefix + 'table-dialog', dialog;
+
+            var langs = {
+                "zh-cn" : {
+                    toolbar : {
+                        table : "表格"
+                    },
+                    dialog : {
+                        table : {
+                            title      : "添加表格",
+                            cellsLabel : "单元格数",
+                            alignLabel : "对齐方式",
+                            rows       : "行数",
+                            cols       : "列数",
+                            aligns     : ["默认", "左对齐", "居中对齐", "右对齐"]
+                        }
+                    }
+                },
+                "zh-tw" : {
+                    toolbar : {
+                        table : "添加表格"
+                    },
+                    dialog : {
+                        table : {
+                            title      : "添加表格",
+                            cellsLabel : "單元格數",
+                            alignLabel : "對齊方式",
+                            rows       : "行數",
+                            cols       : "列數",
+                            aligns     : ["默認", "左對齊", "居中對齊", "右對齊"]
+                        }
+                    }
+                },
+                "en" : {
+                    toolbar : {
+                        table : "Tables"
+                    },
+                    dialog : {
+                        table : {
+                            title      : "Tables",
+                            cellsLabel : "Cells",
+                            alignLabel : "Align",
+                            rows       : "Rows",
+                            cols       : "Cols",
+                            aligns     : ["Default", "Left align", "Center align", "Right align"]
+                        }
+                    }
+                }
+            };
+
+            $.extend(true, this.lang, langs[this.lang.name]);
+            this.setToolbar();
+
+            var lang        = this.lang;
+            var dialogLang  = lang.dialog.table;
+            
+            var dialogContent = [
+                "<div class=\"editormd-form\" style=\"padding: 13px 0;\">",
+                "<label>" + dialogLang.cellsLabel + "</label>",
+                dialogLang.rows + " <input type=\"number\" value=\"3\" class=\"number-input\" style=\"width:40px;\" max=\"100\" min=\"2\" data-rows />&nbsp;&nbsp;",
+                dialogLang.cols + " <input type=\"number\" value=\"2\" class=\"number-input\" style=\"width:40px;\" max=\"100\" min=\"1\" data-cols /><br/>",
+                "<label>" + dialogLang.alignLabel + "</label>",
+                "<div class=\"fa-btns\"></div>",
+                "</div>"
+            ].join("\n");
+
+            if (editor.find("." + dialogName).length > 0) 
+            {
+                dialog = editor.find("." + dialogName);
+
+                this.dialogShowMask(dialog);
+                this.dialogLockScreen();
+                dialog.show();
+            } 
+            else
+            {
+                dialog = this.createDialog({
+                    name       : dialogName,
+                    title      : dialogLang.title,
+                    width      : 360,
+                    height     : 226,
+                    mask       : settings.dialogShowMask,
+                    drag       : settings.dialogDraggable,
+                    content    : dialogContent,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons    : {
+                        enter : [lang.buttons.enter, function() {
+                            var rows   = parseInt(this.find("[data-rows]").val());
+                            var cols   = parseInt(this.find("[data-cols]").val());
+                            var align  = this.find("[name=\"table-align\"]:checked").val();
+                            var table  = "";
+                            var hrLine = "------------";
+
+                            var alignSign = {
+                                _default : hrLine,
+                                left     : ":" + hrLine,
+                                center   : ":" + hrLine + ":",
+                                right    : hrLine + ":"
+                            };
+
+                            if ( rows > 1 && cols > 0) 
+                            {
+                                for (var r = 0, len = rows; r < len; r++) 
+                                {
+                                    var row = [];
+                                    var head = [];
+
+                                    for (var c = 0, len2 = cols; c < len2; c++) 
+                                    {
+                                        if (r === 1) {
+                                            head.push(alignSign[align]);
+                                        }
+
+                                        row.push(" ");
+                                    }
+
+                                    if (r === 1) {
+                                        table += "| " + head.join(" | ") + " |" + "\n";
+                                    }
+                                    
+                                    table += "| " + row.join( (cols === 1) ? "" : " | " ) + " |" + "\n";
+                                }
+                            }
+
+                            cm.replaceSelection(table);
+
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }],
+
+                        cancel : [lang.buttons.cancel, function() {                                   
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }]
+                    }
+                });
+            }
+
+            var faBtns = dialog.find(".fa-btns");
+
+            if (faBtns.html() === "")
+            {
+                var icons  = ["align-justify", "align-left", "align-center", "align-right"];
+                var _lang  = dialogLang.aligns;
+                var values = ["_default", "left", "center", "right"];
+
+                for (var i = 0, len = icons.length; i < len; i++) 
+                {
+                    var checked = (i === 0) ? " checked=\"checked\"" : "";
+                    var btn = "<a href=\"javascript:;\"><label for=\"editormd-table-dialog-radio"+i+"\" title=\"" + _lang[i] + "\">";
+                    btn += "<input type=\"radio\" name=\"table-align\" id=\"editormd-table-dialog-radio"+i+"\" value=\"" + values[i] + "\"" +checked + " />&nbsp;";
+                    btn += "<i class=\"fa fa-" + icons[i] + "\"></i>";
+                    btn += "</label></a>";
+
+                    faBtns.append(btn);
+                }
+            }
+        },
+        linkDialog: function() {
+
+            var _this       = this;
+            var cm          = this.cm;
+            var editor      = this.editor;
+            var settings    = this.settings;
+            var selection   = cm.getSelection();
+            var lang        = this.lang;
+            var linkLang    = lang.dialog.link;
+            var classPrefix = this.classPrefix;
+            var dialogName  = classPrefix + 'link-dialog', dialog;
+
+            cm.focus();
+
+            if (editor.find("." + dialogName).length > 0)
+            {
+                dialog = editor.find("." + dialogName);
+                dialog.find("[data-url]").val("http://");
+                dialog.find("[data-title]").val(selection);
+
+                this.dialogShowMask(dialog);
+                this.dialogLockScreen();
+                dialog.show();
+            }
+            else
+            {
+                var dialogHTML = "<div class=\"" + classPrefix + "form\">" + 
+                                        "<label>" + linkLang.url + "</label>" + 
+                                        "<input type=\"text\" value=\"http://\" data-url />" +
+                                        "<br/>" + 
+                                        "<label>" + linkLang.urlTitle + "</label>" + 
+                                        "<input type=\"text\" value=\"" + selection + "\" data-title />" + 
+                                        "<br/>" +
+                                    "</div>";
+
+                dialog = this.createDialog({
+                    title      : linkLang.title,
+                    width      : 380,
+                    height     : 211,
+                    content    : dialogHTML,
+                    mask       : settings.dialogShowMask,
+                    drag       : settings.dialogDraggable,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons    : {
+                        enter  : [lang.buttons.enter, function() {
+                            var url   = this.find("[data-url]").val();
+                            var title = this.find("[data-title]").val();
+
+                            if (url === "http://" || url === "")
+                            {
+                                alert(linkLang.urlEmpty);
+                                return false;
+                            }
+
+                            /*if (title === "")
+                            {
+                                alert(linkLang.titleEmpty);
+                                return false;
+                            }*/
+                            
+                            var str = "[" + title + "](" + url + " \"" + title + "\")";
+                            
+                            if (title == "")
+                            {
+                                str = "[" + url + "](" + url + ")";
+                            }                                
+
+                            cm.replaceSelection(str);
+
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }],
+
+                        cancel : [lang.buttons.cancel, function() {                                   
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }]
+                    }
+                });
+            }
+        },
+        imageDialog: function() {
+
+            var _this       = this;
+            var cm          = this.cm;
+            var lang        = this.lang;
+            var editor      = this.editor;
+            var settings    = this.settings;
+            var cursor      = cm.getCursor();
+            var selection   = cm.getSelection();
+            var imageLang   = lang.dialog.image;
+            var classPrefix = this.classPrefix;
+            var iframeName  = classPrefix + "image-iframe";
+            var dialogName  = classPrefix + 'image-dialog', dialog;
+
+            cm.focus();
+
+            var loading = function(show) {
+                var _loading = dialog.find("." + classPrefix + "dialog-mask");
+                _loading[(show) ? "show" : "hide"]();
+            };
+
+            if (editor.find("." + dialogName).length < 1)
+            {
+                var guid   = (new Date).getTime();
+                var action = settings.imageUploadURL;
+
+                if (settings.crossDomainUpload)
+                {
+                    action += "&callback=" + settings.uploadCallbackURL + "&dialog_id=editormd-image-dialog-" + guid;
+                }
+
+                var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
+                                        ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
+                                        "<label>" + imageLang.url + "</label>" +
+                                        "<input type=\"text\" data-url />" + (function(){
+                                            return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
+                                                                                "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                                                                                "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
+                                                                            "</div>" : "";
+                                        })() +
+                                        "<br/>" +
+                                        "<label>" + imageLang.alt + "</label>" +
+                                        "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
+                                        "<br/>" +
+                                        "<label>" + imageLang.link + "</label>" +
+                                        "<input type=\"text\" value=\"http://\" data-link />" +
+                                        "<br/>" +
+                                    ( (settings.imageUpload) ? "</form>" : "</div>");
+
+                //var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";
+
+                dialog = this.createDialog({
+                    title      : imageLang.title,
+                    width      : (settings.imageUpload) ? 465 : 380,
+                    height     : 254,
+                    name       : dialogName,
+                    content    : dialogContent,
+                    mask       : settings.dialogShowMask,
+                    drag       : settings.dialogDraggable,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons : {
+                        enter : [lang.buttons.enter, function() {
+                            var url  = this.find("[data-url]").val();
+                            var alt  = this.find("[data-alt]").val();
+                            var link = this.find("[data-link]").val();
+
+                            if (url === "")
+                            {
+                                alert(imageLang.imageURLEmpty);
+                                return false;
+                            }
+
+                            var altAttr = (alt !== "") ? " \"" + alt + "\"" : "";
+
+                            if (link === "" || link === "http://")
+                            {
+                                cm.replaceSelection("![" + alt + "](" + url + altAttr + ")");
+                            }
+                            else
+                            {
+                                cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
+                            }
+
+                            if (alt === "") {
+                                cm.setCursor(cursor.line, cursor.ch + 2);
+                            }
+
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }],
+
+                        cancel : [lang.buttons.cancel, function() {
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }]
+                    }
+                });
+
+                dialog.attr("id", classPrefix + "image-dialog-" + guid);
+
+                if (!settings.imageUpload) {
+                    return ;
+                }
+
+                var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
+
+                fileInput.bind("change", function() {
+                    var fileName  = fileInput.val();
+                    var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+
+                    if (fileName === "")
+                    {
+                        alert(imageLang.uploadFileEmpty);
+                        
+                        return false;
+                    }
+                    
+                    if (!isImage.test(fileName))
+                    {
+                        alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
+                        
+                        return false;
+                    }
+
+                    loading(true);
+
+                    var submitHandler = function() {
+
+                        var uploadIframe = document.getElementById(iframeName);
+
+                        uploadIframe.onload = function() {
+                            
+                            loading(false);
+
+                            var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
+                            var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
+
+                            json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+
+                            if (json.success == 1)
+                            {
+                                dialog.find("[data-url]").val(json.url);
+                            }
+                            else
+                            {
+                                alert(json.msg);
+                            }
+
+                            return false;
+                        };
+                    };
+
+                    dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");
+                });
+
+                dialog.find("[data-url]").on('paste',function() {
+                    setTimeout(function(){
+                        var patt = new RegExp('webquan.com');
+                        var val = dialog.find("[data-url]").val();
+                        if(patt.test(val)) return false;
+
+                        loading('show');
+                        $.post('/download_image',{url:val},function(data) {
+                            loading();
+                            if(data.success==1) {
+                                dialog.find("[data-url]").val(data.url);
+                            } else {
+                                alert(data.msg);
+                            }
+                            
+                        },'json');
+                    },100);
+                });
+            }
+
+            dialog = editor.find("." + dialogName);
+            dialog.find("[type=\"text\"]").val("");
+            dialog.find("[type=\"file\"]").val("");
+            dialog.find("[data-link]").val("http://");
+
+            this.dialogShowMask(dialog);
+            this.dialogLockScreen();
+            dialog.show();
+        },
+        preformattedTextDialog: function() {
+
+            var _this       = this;
+            var cm          = this.cm;
+            var lang        = this.lang;
+            var editor      = this.editor;
+            var settings    = this.settings;
+            var cursor      = cm.getCursor();
+            var selection   = cm.getSelection();
+            var classPrefix = this.classPrefix;
+            var dialogLang  = lang.dialog.preformattedText;
+            var dialogName  = classPrefix + 'preformatted-text-dialog', dialog;
+
+            cm.focus();
+
+            if (editor.find("." + dialogName).length > 0)
+            {
+                dialog = editor.find("." + dialogName);
+                dialog.find("textarea").val(selection);
+
+                this.dialogShowMask(dialog);
+                this.dialogLockScreen();
+                dialog.show();
+            }
+            else 
+            {      
+                var dialogContent = "<textarea placeholder=\"coding now....\" style=\"display:none;\">" + selection + "</textarea>";
+
+                dialog = this.createDialog({
+                    name   : dialogName,
+                    title  : dialogLang.title,
+                    width  : 780,
+                    height : 540,
+                    mask   : settings.dialogShowMask,
+                    drag   : settings.dialogDraggable,
+                    content : dialogContent,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons : {
+                        enter  : [lang.buttons.enter, function() {
+                            var codeTexts  = this.find("textarea").val();
+
+                            if (codeTexts === "")
+                            {
+                                alert(dialogLang.emptyAlert);
+                                return false;
+                            }
+
+                            codeTexts = codeTexts.split("\n");
+
+                            for (var i in codeTexts)
+                            {
+                                codeTexts[i] = "    " + codeTexts[i];
+                            }
+                            
+                            codeTexts = codeTexts.join("\n");
+                            
+                            if (cursor.ch !== 0) {
+                                codeTexts = "\r\n\r\n" + codeTexts;
+                            }
+
+                            cm.replaceSelection(codeTexts);
+
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }],
+                        cancel : [lang.buttons.cancel, function() {                                  
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }]
+                    }
+                });
+            }
+        
+            var cmConfig = {
+                mode                      : "text/html",
+                theme                     : settings.theme,
+                tabSize                   : 4,
+                autofocus                 : true,
+                autoCloseTags             : true,
+                indentUnit                : 4,
+                lineNumbers               : true,
+                lineWrapping              : true,
+                extraKeys                 : {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+                foldGutter                : true,
+                gutters                   : ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                matchBrackets             : true,
+                indentWithTabs            : true,
+                styleActiveLine           : true,
+                styleSelectedText         : true,
+                autoCloseBrackets         : true,
+                showTrailingSpace         : true,
+                highlightSelectionMatches : true
+            };
+            
+            var textarea = dialog.find("textarea");
+            var cmObj    = dialog.find(".CodeMirror");
+
+
+            if (dialog.find(".CodeMirror").length < 1) 
+            {
+                var cmEditor = editormd.$CodeMirror.fromTextArea(textarea[0], cmConfig);   
+                cmObj    = dialog.find(".CodeMirror");
+                textarea.data('cmEditor',cmEditor);
+
+                cmObj.css({
+                    "float"   : "none", 
+                    margin    : "0 0 5px",
+                    border    : "1px solid #ddd",
+                    fontSize  : settings.fontSize,
+                    width     : "100%",
+                    height    : "410px"
+                });
+
+                cmEditor.on("change", function(cm) {
+                    textarea.val(cm.getValue());
+                });
+            } 
+            else 
+            {
+                var cmEditor = textarea.data('cmEditor');
+                cmEditor.setValue(cm.getSelection());
+            }
+        },
+        codeBlockDialog: function() {
+
+            var _this       = this;
+            var cm          = this.cm;
+            var lang        = this.lang;
+            var editor      = this.editor;
+            var settings    = this.settings;
+            var cursor      = cm.getCursor();
+            var selection   = cm.getSelection();
+            var classPrefix = this.classPrefix;
+            var dialogName  = classPrefix + 'code-block-dialog', dialog;
+            var dialogLang  = lang.dialog.codeBlock;
+            var codeLanguages = editormd.codeLanguages = {
+                html          : ["HTML", "text/html"],
+                css           : ["CSS", "css"],
+                less          : ["LESS", "css"],
+                sass          : ["SASS/SCSS", "sass"],
+                javascript    : ["Javascript", "javascript"],
+                php           : ["PHP", "php"],
+                json          : ["JSON", "text/json"],
+                sql           : ["SQL", "sql"],
+                shell         : ["Shell", "shell"],
+                markdown      : ["Markdown", "gfm"],
+                python        : ["Python", "python"],
+                java          : ["Java", "clike"],
+                // asp           : ["ASP", "vbscript"],
+                // actionscript  : ["ActionScript(3.0)/Flash/Flex", "clike"],
+                // bash          : ["Bash/Bat", "shell"],
+                
+                c             : ["C", "clike"],
+                cpp           : ["C++", "clike"],
+                csharp        : ["C#", "clike"],
+                // coffeescript  : ["CoffeeScript", "coffeescript"],
+                // d             : ["D", "d"],
+                // dart          : ["Dart", "dart"],
+                // delphi        : ["Delphi/Pascal", "pascal"],
+                // erlang        : ["Erlang", "erlang"],
+                // go            : ["Golang", "go"],
+                // groovy        : ["Groovy", "groovy"],
+                
+                
+                
+                
+                // lua           : ["Lua", "lua"],
+                
+                
+                "objective-c" : ["Objective-C", "clike"],
+                
+                // perl          : ["Perl", "perl"],
+                
+                // r             : ["R", "r"],
+                // rst           : ["reStructedText", "rst"],
+                // ruby          : ["Ruby", "ruby"],
+                
+                
+                
+                // scala         : ["Scala", "clike"],
+                // swift         : ["Swift", "clike"],
+                xml           : ["XML", "text/xml"],
+            };
+            cm.focus();
+
+            if (editor.find("." + dialogName).length > 0)
+            {
+                dialog = editor.find("." + dialogName);
+                dialog.find("option:first").attr("selected", "selected");
+                dialog.find("textarea").val(selection);
+
+                this.dialogShowMask(dialog);
+                this.dialogLockScreen();
+                dialog.show();
+            }
+            else 
+            {      
+                var dialogHTML = "<div class=\"" + classPrefix + "code-toolbar\">" +
+                                        dialogLang.selectLabel + "<select><option selected=\"selected\" value=\"\">" + dialogLang.selectDefaultText + "</option></select>" +
+                                    "</div>" +
+                                    "<textarea placeholder=\"coding now....\" style=\"display:none;\">" + selection + "</textarea>";
+
+                dialog = this.createDialog({
+                    name   : dialogName,
+                    title  : dialogLang.title,
+                    width  : 780,
+                    height : 565,
+                    mask   : settings.dialogShowMask,
+                    drag   : settings.dialogDraggable,
+                    content    : dialogHTML,
+                    lockScreen : settings.dialogLockScreen,
+                    maskStyle  : {
+                        opacity         : settings.dialogMaskOpacity,
+                        backgroundColor : settings.dialogMaskBgColor
+                    },
+                    buttons : {
+                        enter  : [lang.buttons.enter, function() {
+                            var codeTexts  = this.find("textarea").val();
+                            var langName   = this.find("select").val();
+
+                            if (langName === "")
+                            {
+                                alert(lang.dialog.codeBlock.unselectedLanguageAlert);
+                                return false;
+                            }
+
+                            if (codeTexts === "")
+                            {
+                                alert(lang.dialog.codeBlock.codeEmptyAlert);
+                                return false;
+                            }
+
+                            langName = (langName === "other") ? "" : langName;
+
+                            cm.replaceSelection(["```" + langName, codeTexts, "```"].join("\n"));
+
+                            if (langName === "") {
+                                cm.setCursor(cursor.line, cursor.ch + 3);
+                            }
+
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }],
+                        cancel : [lang.buttons.cancel, function() {                                   
+                            this.hide().lockScreen(false).hideMask();
+
+                            return false;
+                        }]
+                    }
+                });
+            }
+
+            var langSelect = dialog.find("select");
+
+            if (langSelect.find("option").length === 1) 
+            {
+                for (var key in codeLanguages)
+                {
+                    var codeLang = codeLanguages[key];
+                    langSelect.append("<option value=\"" + key + "\" mode=\"" + codeLang[1] + "\">" + codeLang[0] + "</option>");
+                }
+
+                langSelect.append("<option value=\"other\">" + dialogLang.otherLanguage + "</option>");
+            }
+            
+            var mode   = langSelect.find("option:selected").attr("mode");
+        
+            var cmConfig = {
+                mode                      : (mode) ? mode : "text/html",
+                theme                     : settings.theme,
+                tabSize                   : 4,
+                autofocus                 : true,
+                autoCloseTags             : true,
+                indentUnit                : 4,
+                lineNumbers               : true,
+                lineWrapping              : true,
+                extraKeys                 : {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+                foldGutter                : true,
+                gutters                   : ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                matchBrackets             : true,
+                indentWithTabs            : true,
+                styleActiveLine           : true,
+                styleSelectedText         : true,
+                autoCloseBrackets         : true,
+                showTrailingSpace         : true,
+                highlightSelectionMatches : true
+            };
+            
+            var textarea = dialog.find("textarea");
+            var cmObj    = dialog.find(".CodeMirror");
+
+            if (dialog.find(".CodeMirror").length < 1) 
+            {
+                cmEditor = editormd.$CodeMirror.fromTextArea(textarea[0], cmConfig);
+                cmObj    = dialog.find(".CodeMirror");
+                textarea.data('cmEditor',cmEditor);
+                cmObj.css({
+                    "float"   : "none", 
+                    margin    : "8px 0",
+                    border    : "1px solid #ddd",
+                    fontSize  : settings.fontSize,
+                    width     : "100%",
+                    height    : "390px"
+                });
+
+                cmEditor.on("change", function(cm) {
+                    textarea.val(cm.getValue());
+                });
+            } 
+            else 
+            {
+                var cmEditor = textarea.data('cmEditor');
+                cmEditor.setValue(cm.getSelection());
+            }
+
+            langSelect.change(function(){
+                var _mode = $(this).find("option:selected").attr("mode");
+                cmEditor.setOption("mode", _mode);
+            });
+        },
     };
     
     editormd.fn.init.prototype = editormd.fn; 
@@ -2941,7 +3771,7 @@ define('editormd',
         },
 
         link : function() {
-            this.executePlugin("linkDialog", "link-dialog/link-dialog");
+            this.linkDialog();
         },
 
         "reference-link" : function() {
@@ -2962,7 +3792,7 @@ define('editormd',
         },
 
         image : function() {
-            this.executePlugin("imageDialog", "image-dialog/image-dialog");
+            this.imageDialog();
         },
         
         code : function() {
@@ -2978,15 +3808,15 @@ define('editormd',
         },
 
         "code-block" : function() {
-            this.executePlugin("codeBlockDialog", "code-block-dialog/code-block-dialog");            
+            this.codeBlockDialog();  
         },
 
         "preformatted-text" : function() {
-            this.executePlugin("preformattedTextDialog", "preformatted-text-dialog/preformatted-text-dialog");
+            this.preformattedTextDialog();
         },
         
         table : function() {
-            this.executePlugin("tableDialog", "table-dialog/table-dialog");         
+            this.tableDialog();        
         },
         
         datetime : function() {
@@ -3032,7 +3862,8 @@ define('editormd',
         },
 
         help : function() {
-            this.executePlugin("helpDialog", "help-dialog/help-dialog");
+            // this.executePlugin("helpDialog", "help-dialog/help-dialog");
+            this.helpDialog();
         },
 
         info : function() {

@@ -6,13 +6,13 @@ requirejs.config({
         WQ              : "wq",
         react           : "react-with-addons.min",
         reactRouter     : 'react-router.min',
-        editormd        : 'editor/editormd',
+        
         prettify        : 'editor/lib/prettify.min',
         codemirror      : 'editor/lib/codemirror/codemirror.min',
         marked          : 'editor/lib/marked.min',
-        editormd        : 'editor/editormd',
         plugins         : 'editor/plugins',
         editorlib       : 'editor/lib',
+        editormd        : 'editor/editormd',
         home            : "../build/home",
     },
 
