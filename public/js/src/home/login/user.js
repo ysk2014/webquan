@@ -24,16 +24,159 @@ define(['react',
             });
         }
     };
+    var FocusUser = React.createClass({
+        render: function(){
+            return(
+                <div>
+                    <div className="details clearfix">
+                        <img src="/upload_path/logo/web5.jpg" />
+                        <div className="center">
+                            <p className="top">殷士凯</p>
+                            <div className="middle">
+                                <a href="#">关注&nbsp;0</a>
+                                <a href="#">粉丝&nbsp;0</a>
+                                <a href="#">文章&nbsp;0</a>
+                            </div>
+                            <p className="bottom">获得了360个喜欢</p>
+                        </div>
+                        <div className="right">
+                            <a href="#">正在关注</a>
+                        </div>
+                    </div>
+                    <div className="details clearfix">
+                        <img src="/upload_path/logo/web5.jpg" />
+                        <div className="center">
+                            <p className="top">殷士凯</p>
+                            <div className="middle">
+                                <a href="#">关注&nbsp;0</a>
+                                <a href="#">粉丝&nbsp;0</a>
+                                <a href="#">文章&nbsp;0</a>
+                            </div>
+                            <p className="bottom">获得了360个喜欢</p>
+                        </div>
+                        <div className="right">
+                            <a href="#">正在关注</a>
+                        </div>
+                    </div>
+                    <div className="details clearfix">
+                        <img src="/upload_path/logo/web5.jpg" />
+                        <div className="center">
+                            <p className="top">殷士凯</p>
+                            <div className="middle">
+                                <a href="#">关注&nbsp;0</a>
+                                <a href="#">粉丝&nbsp;0</a>
+                                <a href="#">文章&nbsp;0</a>
+                            </div>
+                            <p className="bottom">获得了360个喜欢</p>
+                        </div>
+                        <div className="right">
+                            <a href="#">正在关注</a>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+    });
+    var Fans = React.createClass({
+        render: function(){
+            return(
+                    <div>
+                        <div className="details clearfix">
+                            <img src="/upload_path/logo/web5.jpg" />
+                            <div className="center">
+                                <p className="top">殷士凯</p>
+                                <div className="middle">
+                                    <a href="#">关注&nbsp;0</a>
+                                    <a href="#">粉丝&nbsp;0</a>
+                                    <a href="#">文章&nbsp;0</a>
+                                </div>
+                                <p className="bottom">获得了360个喜欢</p>
+                            </div>
+                            <div className="right">
+                                <a href="#">添加关注</a>
+                            </div>
+                        </div>
+                        <div className="details clearfix">
+                            <img src="/upload_path/logo/web5.jpg" />
+                            <div className="center">
+                                <p className="top">殷士凯</p>
+                                <div className="middle">
+                                    <a href="#">关注&nbsp;0</a>
+                                    <a href="#">粉丝&nbsp;0</a>
+                                    <a href="#">文章&nbsp;0</a>
+                                </div>
+                                <p className="bottom">获得了360个喜欢</p>
+                            </div>
+                            <div className="right">
+                                <a href="#">添加关注</a>
+                            </div>
+                        </div>
+                        <div className="details clearfix">
+                            <img src="/upload_path/logo/web5.jpg" />
+                            <div className="center">
+                                <p className="top">殷士凯</p>
+                                <div className="middle">
+                                    <a href="#">关注&nbsp;0</a>
+                                    <a href="#">粉丝&nbsp;0</a>
+                                    <a href="#">文章&nbsp;0</a>
+                                </div>
+                                <p className="bottom">获得了360个喜欢</p>
+                            </div>
+                            <div className="right">
+                                <a href="#">添加关注</a>
+                            </div>
+                        </div>
+                        <div className="details clearfix">
+                            <img src="/upload_path/logo/web5.jpg" />
+                            <div className="center">
+                                <p className="top">殷士凯</p>
+                                <div className="middle">
+                                    <a href="#">关注&nbsp;0</a>
+                                    <a href="#">粉丝&nbsp;0</a>
+                                    <a href="#">文章&nbsp;0</a>
+                                </div>
+                                <p className="bottom">获得了360个喜欢</p>
+                            </div>
+                            <div className="right">
+                                <a href="#">添加关注</a>
+                            </div>
+                        </div>
 
+                    </div>
+            )
+        }
+    })
+    var LatestArticles = React.createClass({
+        render: function(){
+            return(
+                <div>fsdafsda</div>
+            )
+        }
+    })
     return React.createClass({
         mixins: [mixin],
         getInitialState: function() {
             return {
-                info: null
+                info: null,
+                nav: "attention",
+                litNav: "focusUser"
             }
         },
         componentDidMount: function() {
             this.init();
+        },
+        handleClick: function(nav,litNav){
+            var _this = this;
+            _this.setState({
+                nav: nav,
+                litNav: litNav
+            })
+        },
+        navHandleClick: function(litNav){
+            var _this = this;
+            _this.setState({
+                litNav: litNav
+            })
         },
         render: function() {
             var _this = this;
@@ -47,12 +190,44 @@ define(['react',
                                     <p>殷士凯</p>
                                 </div>
                                 <div className="nav">
-                                    <a href="#">0<br />关注</a>
-                                    <a href="#">0<br />粉丝</a>
-                                    <a href="#">0<br />文章</a>
-                                    <a href="#">0<br />收获喜欢</a>
+                                    <a href="#" onClick={_this.handleClick.bind(this,"attention","focusUser")}>0<br />关注</a>
+                                    <a href="#" onClick={_this.handleClick.bind(this,"attention","fans")}>0<br />粉丝</a>
+                                    <a href="#" onClick={_this.handleClick.bind(this,"essay","latestArticles")}>0<br />文章</a>
+                                    <a>0<br />收获喜欢</a>
                                 </div>
                             </div>
+                        </div>
+                        <div className="host-content">
+                        {_this.state.nav == "attention" ?
+                            (<div className="nav">
+                                <a href="#" className={_this.state.litNav == 'focusUser' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"focusUser")}>关注用户(5)</a>
+                                <a href="#" className={_this.state.litNav == 'fans' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"fans")}>粉丝(7)</a>
+                            </div>):
+                            (<div className="nav">
+                                <a href="#" className={_this.state.litNav == 'latestArticles' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"latestArticles")}>最新文章(121)</a>
+                                <a href="#" className={_this.state.litNav == 'hotArticles' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"hotArticles")}>热门文章(7)</a>
+                            </div>)
+                        }
+                            <div className="con">
+                                <div  style={_this.state.litNav=='focusUser' ? {display:'block'} : {display:'none'}} >
+                                    <FocusUser />
+                                </div>
+
+                                <div  style={_this.state.litNav=='fans' ? {display:'block'} : {display:'none'}} >
+                                    <Fans />
+                                </div>
+                                        
+                                <div  style={_this.state.litNav=='latestArticles' ? {display:'block'} : {display:'none'}} >
+                                    <LatestArticles />
+                                </div>
+
+                                <div  style={_this.state.litNav=='hotArticles' ? {display:'block'} : {display:'none'}} >
+                                </div>
+
+                            </div>
+
+
+
                         </div>
                 </div>
             );
