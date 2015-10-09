@@ -378,8 +378,6 @@
 	            	<div>
 	            		<LeftNav />
 
-	            		<UserDropMenu />
-
 		            	<div className="settings clearfix" >
 		            	
 			                <h3 className="title"><i className="fa fa-cogs"></i>设置</h3>

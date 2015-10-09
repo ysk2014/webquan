@@ -538,3 +538,45 @@ input:focus{
       display: none;
 }
 
+
+
+/*我的主页*/
+.home-page{
+  position: absolute;
+  left: 50%;
+  top:20px;
+  width: 1000px;
+  margin-left: -400px;
+}
+.home-page .host{
+  border-bottom:1px solid #ddd;
+  padding-bottom: 8px;
+}
+.home-page .host img{
+  display: block;
+  float: left;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+}
+.home-page .host .mes{
+  float: left;
+  margin-top: 70px;
+  margin-left: 10px;
+  color: #666667;
+  font-weight: bolder;
+}
+.home-page .host .nav{
+  float: left;
+  margin-top: 50px;
+  margin-left: 400px;
+}
+.home-page .host .nav a{
+  float: left;
+  display: block;
+  border-right: 1px solid #ddd;
+  width: 90px;
+  height: 40px;
+  padding-right: 5px;
+  text-align: right;
+}

@@ -38,21 +38,22 @@ define(['react',
         render: function() {
             var _this = this;
             return (
-                <div>
+                <div className="home-page">
                     <LeftNav />
-                    {this.state.info ? 
-                        (<div className="user-page">
-                            <div className="user-info">
-                                <div className="hd">
-                                    <span>{_this.state.info.username}</span>
-                                    <span>{_this.state.info.description}</span>
+                        <div className="host-box">
+                            <div className="host clearfix">
+                                <img src="/upload_path/logo/web5.jpg" />
+                                <div className="mes">
+                                    <p>殷士凯</p>
                                 </div>
-                                <div className="main-info">
-                                    
+                                <div className="nav">
+                                    <a href="#">0<br />关注</a>
+                                    <a href="#">0<br />粉丝</a>
+                                    <a href="#">0<br />文章</a>
+                                    <a href="#">0<br />收获喜欢</a>
                                 </div>
                             </div>
-                        </div>) : null
-                    }
+                        </div>
                 </div>
             );
         }
