@@ -4,7 +4,7 @@ namespace App\Services\Home\Article;
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\UserCareCloumn as UCCModel;
-use App\Models\Home\UserPraiseArticle as PraiseModel;
+use App\Models\Home\UserArticle as UserArticleModel;
 use App\Services\BaseProcess;
 use App\Services\SC;
 use Lang, Cache;
@@ -43,7 +43,7 @@ class Process extends BaseProcess
      * 
      * @var object
      */
-    private $praiseModel;
+    private $userArticleModel;
 
     /**
      * 初始化
@@ -55,7 +55,7 @@ class Process extends BaseProcess
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->careModel) $this->careModel = new UCCModel();
-        if( !$this->praiseModel) $this->praiseModel = new PraiseModel();
+        if( !$this->userArticleModel) $this->userArticleModel = new UserArticleModel();
 	}
 
 	/**
@@ -270,11 +270,18 @@ class Process extends BaseProcess
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
 			$uid = SC::getLoginSession()['id'];
-			$pid = $this->praiseModel->getPraiseId($id,$uid);
-			if($pid) {
-				$articleInfo['praiseStatus'] = true;
-			} else {
-				$articleInfo['praiseStatus'] = false;
+			//判断用户是否已推荐和收藏
+			$articleInfo['praiseStatus'] = false;
+			$articleInfo['storeStatus'] = false;
+			$ids = $this->userArticleModel->getIds($id,$uid);
+			if($ids) {
+				foreach ($ids as $key => $value) {
+					if($value['type']==0) {
+						$articleInfo['praiseStatus'] = true;
+					} else if($value['type']==1) {
+						$articleInfo['storeStatus'] = true;
+					}
+				}	
 			}
 
 			return array('error'=>false,'data'=>$articleInfo);
@@ -348,7 +355,7 @@ class Process extends BaseProcess
 	{
 		$resultArr = [];
 
-		$sqlData = $this->praiseModel->add($data);
+		$sqlData = $this->userArticleModel->add($data);
 		if($sqlData != false) {
 			$this->articleModel->incrementById('praise',$data['aid']);
 			$resultArr = array('error'=>false, 'msg'=>'推荐成功');
@@ -369,9 +376,51 @@ class Process extends BaseProcess
 	{
 		$resultArr = [];
 
-		$sqlData = $this->praiseModel->del($data);
+		$sqlData = $this->userArticleModel->del($data);
 		if($sqlData != false) {
 			$this->articleModel->decrementById('praise',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'取消失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 添加收藏
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function addStore($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->add($data);
+		if($sqlData != false) {
+			$this->articleModel->incrementById('store',$data['aid']);
+			$resultArr = array('error'=>false, 'msg'=>'收藏成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'收藏失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 取消推荐
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delStore($data)
+	{
+		$resultArr = [];
+
+		$sqlData = $this->userArticleModel->del($data);
+		if($sqlData != false) {
+			$this->articleModel->decrementById('store',$data['aid']);
 			$resultArr = array('error'=>false, 'msg'=>'取消成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'取消失败');

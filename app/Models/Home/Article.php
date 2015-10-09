@@ -22,7 +22,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'comment', 'is_publish', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'store', 'comment', 'is_publish', 'addtime');
 
     /**
      * 增加文章
@@ -79,6 +79,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.cid','=', intval($cid))
+                    ->where('article.is_publish','=',1)
                     ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -97,6 +98,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->whereIn('article.cid', $cids)
+                    ->where('article.is_publish','=',1)
                     ->orderBy('article.addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -117,7 +119,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
-                    ->where('article.is_publish','=',0)
+                    ->where('article.is_publish','=',1)
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
@@ -134,7 +136,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.addtime','desc')
-                    ->where('article.is_publish','=',0)
+                    ->where('article.is_publish','=',1)
                     ->where('article.tags','like','%'.$data['name'].'%')
                     ->skip($data['page']*20)->take(20)
                     ->get()

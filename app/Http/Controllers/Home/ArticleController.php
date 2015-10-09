@@ -121,7 +121,6 @@ class ArticleController extends Controller {
 	public function editArticle(ArticleProcess $articleProcess)
 	{
 		$data = Request::input('data');
-		// $data['addtime'] = time();
 		$param = new \App\Services\Home\Article\ArticleSave();
 		$param->setAttributes($data);
 
@@ -152,6 +151,7 @@ class ArticleController extends Controller {
 	public function addPraise(ArticleProcess $articleProcess)
 	{
 		$data = Request::input('data');
+		$data['type']=0;
 		$data['addtime'] = time();
 		$result = $articleProcess->addPraise($data);
 		
@@ -166,7 +166,37 @@ class ArticleController extends Controller {
 	public function delPraise(ArticleProcess $articleProcess)
 	{
 		$data = Request::input('data');
+		$data['type']=0;
 		$result = $articleProcess->delPraise($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 添加收藏
+	 *
+	 * @return Response
+	 */
+	public function addStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=1;
+		$data['addtime'] = time();
+		$result = $articleProcess->addStore($data);
+		
+		return response()->json($result);
+	}
+
+	/**
+	 * 取消收藏
+	 *
+	 * @return Response
+	 */
+	public function delStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data['type']=1;
+		$result = $articleProcess->delStore($data);
 		
 		return response()->json($result);
 	}
