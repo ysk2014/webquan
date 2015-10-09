@@ -147,6 +147,10 @@ class Routes
                 Route::post('/article/addPraise', 'Home\ArticleController@addPraise');
                 //取消推荐
                 Route::post('/article/delPraise', 'Home\ArticleController@delPraise');
+                //添加收藏
+                Route::post('/article/addStore', 'Home\ArticleController@addStore');
+                //取消收藏
+                Route::post('/article/delStore', 'Home\ArticleController@delStore');
                 
                 
 

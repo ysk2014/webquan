@@ -31,6 +31,8 @@ class ArticleSave extends AbstractParam
 
     protected $praise;
 
+    protected $store;
+
     protected $is_publish;
 
     protected $addtime;
@@ -100,6 +102,12 @@ class ArticleSave extends AbstractParam
     public function setPraise($praise)
     {
         $this->praise = $this->attributes['praise'] = $praise;
+        return $this;
+    }
+
+    public function setStore($store)
+    {
+        $this->store = $this->attributes['store'] = $store;
         return $this;
     }
 

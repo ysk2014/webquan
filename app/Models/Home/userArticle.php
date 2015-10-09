@@ -6,22 +6,23 @@ use App\Models\Base;
  *
  * @author ysk
  */
-class UserPraiseArticle extends Base
+class UserArticle extends Base
 {
     /**
      * 表名
      *
      * @var string
      */
-    protected $table = 'user_praise_article';
+    protected $table = 'user_article';
 
 
     /**
      * 可以被集体附值的表的字段
      *
      * @var string
+     * type的值， 0：点赞，1：收藏
      */
-    protected $fillable = array('id', 'aid', 'uid', 'addtime');
+    protected $fillable = array('id', 'aid', 'uid', 'type', 'addtime');
 
     /**
      * 增加推荐
@@ -42,18 +43,33 @@ class UserPraiseArticle extends Base
     {
         return $this->where('uid','=',intval($data['uid']))
                     ->where('aid','=',intval($data['aid']))
+                    ->where('type','=',intval($data['type']))
                     ->delete();
     }
 
     /**
-     * 获取推荐id
+     * 获取ids
      * 
      */
-    public function getPraiseId($aid,$uid)
+    public function getIds($aid,$uid)
+    {
+        return $this->select('id','type')
+                    ->where('uid','=',intval($uid))
+                    ->where('aid','=',intval($aid))
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 获取id
+     * 
+     */
+    public function getId($aid,$uid,$type)
     {
         return $this->select('id')
                     ->where('uid','=',intval($uid))
                     ->where('aid','=',intval($aid))
+                    ->where('type','=',intval($type))
                     ->first();
     }
 
@@ -62,13 +78,14 @@ class UserPraiseArticle extends Base
      * 
      * @param intval $id 用户的ID
      */
-    public function getArticlesByUid($uid,$page)
+    public function getArticlesByUid($uid,$page,$type=0)
     {
         return $this->select(array('article.*'))
-                    ->leftJoin('article','user_praise_article.aid','=','article.id')
-                    ->where('user_praise_article.uid','=', intval($uid))
+                    ->leftJoin('article','user_article.aid','=','article.id')
+                    ->where('user_article.uid','=', intval($uid))
+                    ->where('user_article.type','=', intval($type))
                     ->skip($page*24)->take(24)
-                    ->orderBy('user_praise_article.addtime','desc')
+                    ->orderBy('user_article.addtime','desc')
                     ->get()
                     ->toArray();
     }
@@ -78,10 +95,11 @@ class UserPraiseArticle extends Base
      * 
      * @param intval $id 文章的ID
      */
-    public function getUidsByAid($aid)
+    public function getUidsByAid($aid,$type=0)
     {
         return $this->select('uid')
                     ->where('aid','=', intval($aid))
+                    ->where('type','=', intval($type))
                     ->orderBy('addtime','desc')
                     ->get()
                     ->toArray();

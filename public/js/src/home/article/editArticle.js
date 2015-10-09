@@ -120,10 +120,11 @@ define([
 			});
 		},
 		// 发布文章
-		handlePublic: function() {
+		handlePublic: function(event) {
 			var _this = this;
-			
+			var publish = $(event.target).data('publish');
 			this.state.info.tags = _this.state.tags.join('|');
+			_this.state.info.is_publish = publish;
 			_this.setState({
 				info: _this.state.info
 			});
@@ -162,7 +163,7 @@ define([
 			return {
 				name: 'editArticle',
 				aid: this.props.params.id ? this.props.params.id : 0,  //文章id，如果是添加则为0
-				info: {uid:uid}, //发布文章的数据
+				info: {uid:uid,is_publish:0}, //发布文章的数据
 				selected: -1,    
 				cloumns: [],     //专题列表
 				tags: [],        //已选择的标签
@@ -302,7 +303,8 @@ define([
 					<LeftNav active={this.state.name} />
 					<div className="header">
 						<span className="desc">写文章</span>
-						<a className="submit-button" onClick={this.handlePublic}>发布</a>
+						<a className="submit-button" data-publish="1" onClick={this.handlePublic}>发布</a>
+						<a className="submit-button" style={{marginRight:'10px'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
 					</div>
 					<div className="edit-article">
 						<form>

@@ -161,6 +161,45 @@ define([
 				});
 			}
 		},
+		// 收藏处理
+		handleStore: function(event) {
+			var _this = this;
+			if(event.target.tagName.toLowerCase()=='a') {
+				var ele = $(event.target);
+			} else {
+				var ele = $(event.target).parent();
+			}
+			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id')};
+			if(ele.hasClass('btn-success')) {
+				ArticleModel.addStore(params,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.info.store = parseInt(_this.state.info.store)+1;
+							_this.setState({
+								info: _this.state.info
+							}); 
+							ele.addClass('btn-error').removeClass('btn-success');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			} else if(ele.hasClass('btn-error')) {
+				ArticleModel.delStore(params,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.info.store = parseInt(_this.state.info.store)-1;
+							_this.setState({
+								info: _this.state.info
+							});
+							ele.addClass('btn-success').removeClass('btn-error');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			}
+		},
 	}
 
 	return React.createClass({
@@ -190,6 +229,8 @@ define([
 			var comment      = _this.state.info ? _this.state.info.comment      : null;     //评论数量
 			var praise       = _this.state.info ? _this.state.info.praise       : null;     //推荐数
 			var praiseStatus = _this.state.info ? _this.state.info.praiseStatus : null;     //登录的用户是否已推荐
+			var store        = _this.state.info ? _this.state.info.store        : null;     //收藏数
+			var storeStatus  = _this.state.info ? _this.state.info.storeStatus  : null;     //登录的用户是否已收藏
 			var tags         = _this.state.info ? _this.state.info.tags         : null;     //标签
 
 			if(tags) {
@@ -259,10 +300,10 @@ define([
 								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
 								<span>{praise}</span>
 							</a>
-							<a className="btn-success" href="javascript:void(0)">
+							<a className={storeStatus ? "btn-error" : "btn-success"} href="javascript:void(0)" onClick={_this.handleStore}>
 								<i className="fa fa-bookmark-o" style={{marginRight:'4px'}}></i>
-								<span style={{marginRight:'4px'}}>收藏</span>
-								<span>0</span>
+								<span style={{marginRight:'4px'}}>{storeStatus ? '已收藏' : '收藏'}</span>
+								<span>{store}</span>
 							</a>
 							<a className="btn-success" href="javascript:void(0)">
 								<i className="fa fa-share-square-o" style={{marginRight:'4px'}}></i>

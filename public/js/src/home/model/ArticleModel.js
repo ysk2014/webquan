@@ -99,6 +99,15 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 			BaseModel.post('/article/delPraise', {'data':data}, callback);
 		},
 
+		// 添加收藏
+		addStore: function(data,callback) {
+			BaseModel.post('/article/addStore', {'data':data}, callback);
+		},
+		// 取消收藏
+		delStore: function(data,callback) {
+			BaseModel.post('/article/delStore', {'data':data}, callback);
+		},
+
 	};
 	return ArticleModel;
 });
