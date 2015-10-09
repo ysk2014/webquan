@@ -10,6 +10,7 @@ define([
 
 
 	var mixin = {
+		// 获取专题数据和专题下的所有文章
 		init: function() {
 			var _this = this;
 			CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
@@ -27,6 +28,7 @@ define([
 			_this.getArticlesByCid();
 			return this;
 		},
+		// 根据专题id获取文章数据
 		getArticlesByCid: function() {
 			var _this = this;
 			var dataObj = {cid:_this.state.cid,way:'addtime',page:0};
@@ -47,9 +49,9 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0,
-				cloumn: {},
-				articles: [],
+				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				cloumn: {},      //专题数据
+				articles: [],    //文章数据列表
 			}
 		},
 		componentDidMount: function() {

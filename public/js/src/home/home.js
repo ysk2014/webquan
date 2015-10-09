@@ -2,7 +2,7 @@ define([
 	'react',
 	'jquery',
 	'home/common/leftNav',
-	'home/home/articleList',
+	'home/article/articleList',
 	],function(React, $, LeftNav, ArticleList) {
 
 

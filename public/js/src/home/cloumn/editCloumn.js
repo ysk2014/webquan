@@ -11,6 +11,7 @@ define([
 	var mixin = {
 		init: function() {
 			var _this = this;
+			// 如果是编辑页面则获取专题数据
 			if(_this.state.cid > 0) {
 				CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
 					if(success) {
@@ -29,16 +30,19 @@ define([
 			}
 			return this;
 		},
+		// 编辑专题名称
 		handleNameChange: function(event) {
 			this.setState({
 				name: event.target.value
 			});
 		},
+		// 编辑专题描述
 		handleDescChange: function(event) {
 			this.setState({
 				description: event.target.value
 			});
 		},
+		// 创建或者更新专题
 		handleSubmit: function() {
 			var _this = this;
 			if(_this.state.cid > 0) {
@@ -65,9 +69,11 @@ define([
 				});
 			}
 		},
+		// 点击上传按钮
 		handleUploadClick: function(event) {
 			$(event.target).siblings('input[type=file]').trigger("click");
 		},
+		// 上传专题图像绑定change事件
 		handleFileChange: function(event) {
 			var fileName = event.target.value;
 			
@@ -77,6 +83,7 @@ define([
 			var submit = $(event.target).siblings('input[type=submit]');
 			submit.trigger("click");
 		},
+		// 上传处理
 		handleUpload: function() {
 			var _this = this;
             var uploadIframe = document.getElementById('uploadIframe');
@@ -107,11 +114,11 @@ define([
 		getInitialState: function() {
 			return {
 				nav: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0,
-				name: '',
-				description: '',
-				uid: WQ.cookie.get('id'),
-				logo_dir: ''
+				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				name: '',                  //专题名称
+				description: '',           //专题描述
+				uid: WQ.cookie.get('id'),  //用户id
+				logo_dir: ''               //专题logo
 			}
 		},
 		componentDidMount: function() {

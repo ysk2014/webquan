@@ -94,11 +94,13 @@ class Process extends BaseProcess
 
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
-
-		$logo_dir = $imgArr[0][0];
-		$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
-		$logo_dir = preg_replace('/\)/', '', $logo_dir);
-		$data->setLogoDir($logo_dir);
+		
+		if(count($imgArr[0])) {
+			$logo_dir = $imgArr[0][0];
+			$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
+			$logo_dir = preg_replace('/\)/', '', $logo_dir);
+			$data->setLogoDir($logo_dir);
+		}
 
 		if(Cache::has('uploadImg'))
 		{
@@ -297,11 +299,43 @@ class Process extends BaseProcess
 				array_push($cids,$value['cid']);
 			}
 			$articleInfo = $this->articleModel->getArtsByCids($cids, $data['page']);
-			return array('error'=>false,'data'=>$articleInfo);
+
+			$count = $this->articleModel->getArtsCountByCids($cids);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
 	}
+
+	/**
+	* 模糊查询标签名称的文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtsLikeTagName($data)
+	{
+		$articleInfo = $this->articleModel->getArtsLikeTagName($data);
+		if($articleInfo) {
+
+			$count = $this->articleModel->getArtsCountLikeTagName($data['name']);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
 
 	/**
 	* 添加推荐

@@ -21,10 +21,11 @@ class TagController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($name)
 	{
 		return view('home.app');
 	}
+
 
     /**
      * 添加标签
@@ -82,7 +83,23 @@ class TagController extends Controller {
 	}
 
     /**
-     * 删除专题
+     * 根据标签name获取所有相关数据
+     *
+     * @param App\Services\Tag\Process $process 标签处理
+     * @access public
+     */
+	public function getTagByName(TagProcess $manager)
+	{
+		$name = Request::input('name');
+		
+		$result = $manager->getTagByName($name);
+
+		return response()->json($result);
+		
+	}
+
+    /**
+     * 根据标签name进行模糊查询所有相关标签信息
      *
      * @param App\Services\Tag\Process $process 标签处理
      * @access public

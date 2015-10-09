@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/articleModel',
-	'home/model/cloumnModel',
 	'home/common/tooltip',
-	],function(React, $, WQ, ArticleModel, CloumnModel, Tooltip) {
+	],function(React, $, WQ, ArticleModel, Tooltip) {
 
 
 	var mixin = {
@@ -17,6 +16,7 @@ define([
 			});
 			_this.getAllArticle('praise',0);
 		},
+		// 导航切换事件
 		hamdleTabChange: function(event) {
 			var _this = this;
 			var index = $(event.target).index();
@@ -87,6 +87,7 @@ define([
 				} 
 			});
 		},
+		// 分页
 		hamdleMore: function(event){
 			var page = $(event.target).data('page');
 			var _this = this;
@@ -104,7 +105,7 @@ define([
 		getInitialState: function() {
 			return {
 				list: [],        //文章列表
-				nav: 'praise',	
+				nav: 'praise',	 //导航记录
 				more:[],         //记录每个专题进入到了第几页
 				next: false,     //判断是否还有数据
 				cacheNav: ['praise','addtime','view','care'],
@@ -118,11 +119,28 @@ define([
 			var _this = this;
 			var nav = this.state.nav;
 			var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
+
+				if(d.tags) {
+					if(d.tags.indexOf('|')) {
+						var tagsList = d.tags.split('|').map(function(t,k) {
+							return (<a style={{marginRight:'6px'}} href={"/t/"+t}>{t}</a>);
+						});
+					} else {
+						var tagsList = (<a href={"/t/"+d.tags}>d.tags</a>);
+					}
+					tagsList = (<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tagsList}</span>);
+				} else {
+					var tagsList = null;
+				}
 				return (
 					<article key={d.id}>
-						<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
-							<span>{d.cloumn}</span>
-						</a>
+						{
+							d.logo_dir ? 
+							(<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+								<span>{d.cloumn}</span>
+							</a>) : null
+						}
+						
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
@@ -134,7 +152,7 @@ define([
 								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
 								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
 								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
-								<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{d.tags}</span>
+								{tagsList}
 							</div>
 							<div className="description">{d.description}</div>
 						</div>

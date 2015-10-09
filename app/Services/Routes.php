@@ -92,6 +92,8 @@ class Routes
             Route::post('/cloumn/care/article', 'Home\ArticleController@getArtsByCare');
             // 获取单个文章信息
             Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
+            //模糊查询标签名称的文章列表
+            Route::post('/article/tags', 'Home\ArticleController@getArtsLikeTagName');
 
 
             //根据文章ID取得评论的内容
@@ -102,6 +104,7 @@ class Routes
             Route::delete('/article/comments', 'Home\CommentController@delContent');
 
 
+
             // 专题列表页
             Route::get('/cloumns', 'Home\CloumnController@cloumnListPage');
             // 专题详情页
@@ -110,6 +113,11 @@ class Routes
             Route::post('/cloumn/list', 'Home\CloumnController@getAllCloumns');
             // 获取单个专题的信息
             Route::post('/cloumn/info', 'Home\CloumnController@getCloumnById');
+
+            //标签页面
+            Route::get('/t/{name}', 'Home\TagController@index');
+            // 获取标签页面信息
+            Route::post('/t/info', 'Home\TagController@getTagByName');
 
             
             Route::group(['middleware' =>  'auth'], function() {
@@ -173,6 +181,7 @@ class Routes
                 Route::post('/tags/all', 'Home\TagController@getTagsByName');
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
+
 
             });
         });

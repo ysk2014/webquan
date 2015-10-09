@@ -69,7 +69,7 @@ class Article extends Base
     }
 
     /**
-     * 根据专题id获取文章信息
+     * 根据单个专题id获取文章信息
      * 
      * @param intval $cid 专题的ID
      */
@@ -79,7 +79,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.cid','=', intval($cid))
-                    ->orderBy($way,'desc')
+                    ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
@@ -89,6 +89,7 @@ class Article extends Base
      * 根据专题id数组获取文章信息
      * 
      * @param array $cids 专题的ID
+     * @param $page 分页
      */
     public function getArtsByCids($cids,$page)
     {
@@ -96,16 +97,19 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->whereIn('article.cid', $cids)
-                    ->orderBy('addtime','desc')
+                    ->orderBy('article.addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }
 
+
+
     /**
      * 获取已公布的所有文章信息
      * 
      * @param $data 排序
+     * @param $page 分页
      */
     public function getAllArticle($data='addtime',$page)
     {
@@ -115,6 +119,24 @@ class Article extends Base
                     ->orderBy('article.'.$data,'desc')
                     ->where('article.is_publish','=',0)
                     ->skip($page*20)->take(20)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 模糊查询标签名称的文章列表
+     * 
+     * @param $data 便签关键字name和分页page
+     */
+    public function getArtsLikeTagName($data)
+    {
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->orderBy('article.addtime','desc')
+                    ->where('article.is_publish','=',0)
+                    ->where('article.tags','like','%'.$data['name'].'%')
+                    ->skip($data['page']*20)->take(20)
                     ->get()
                     ->toArray();
     }
@@ -171,6 +193,26 @@ class Article extends Base
     public function countArticleByCid($cid)
     {
         return $this->where('cid','=',intval($cid))->count();
+    }
+
+    /**
+     * 根据专题id数组获取文章总数
+     * 
+     * @param array $cids 专题的ID
+     */
+    public function getArtsCountByCids($cids)
+    {
+        return $this->whereIn('cid', $cids)->count();
+    }
+
+    /**
+     * 模糊查询标签名称的文章总数
+     * 
+     * @param $name 标签名称
+     */
+    public function getArtsCountLikeTagName($name)
+    {
+        return $this->where('tags','like','%'.$name.'%')->count();
     }
 
 }

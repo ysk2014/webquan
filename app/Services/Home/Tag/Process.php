@@ -83,6 +83,22 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
+    public function getTagByName($data)
+    {
+        if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
+        
+        $result = $this->tagModel->getTagByName($data);
+        
+        return array('error'=>false, 'data'=>$result);
+    }
+
+    /**
+     * 获取专题
+     *
+     * @param intval $data
+     * @access public
+     * @return boolean true|false
+     */
     public function getTagsByName($data)
     {
         if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');

@@ -17,6 +17,7 @@ define([
 			_this.setState({
 				uid: uid
 			});
+			//获取文章数据
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
@@ -30,6 +31,7 @@ define([
 			});
 			return this;
 		},
+		// 把文章内容markdown数据转化成html
 		showEditor: function(markdown){
 			var _this = this;
 	        var testEditor = editormd.markdownToHTML("editormd-view", {
@@ -65,6 +67,7 @@ define([
 	        	}
 	        });
 		},
+		// 写评论
 		handleChangeCommnet: function(event) {
 			this.setState({
 				commentContent: event.target.value
@@ -103,6 +106,7 @@ define([
 				}
 			});
 		},
+		// 回复评论
 		handleReplay: function(event) {
 			var nick = $(event.target).data('nick');
 			this.setState({
@@ -110,6 +114,7 @@ define([
 			});
 			$('#comment-text').focus();
 		},
+		// 获取更多评论
 		hamdleMore: function() {
 			var _this = this;
 			var page = _this.state.page;
@@ -155,7 +160,6 @@ define([
 					}
 				});
 			}
-			
 		},
 	}
 
@@ -164,30 +168,42 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'home',
-				aid: this.props.params.id,
-				commentList: [],
-				commentContent: '',
-				page: 0,
-				next: false,
-				uid: null,
+				aid: this.props.params.id,   //文章id
+				commentList: [],             //评论数据
+				commentContent: '',          //要评论的内容
+				page: 0,					 //评论分页
+				next: false,                 //是否还有下一页
+				uid: null,                   //用户id
 			}
 		},
 		componentDidMount: function() {
 			this.init();
-			$('.header .btn').tooltip();
 		},
 		render: function() {
 			var _this = this;
-			var title        = _this.state.info ? _this.state.info.title        : null;
-			var username     = _this.state.info ? _this.state.info.username     : null;
-			var uid          = _this.state.info ? _this.state.info.uid          : null;
-			var time         = _this.state.info ? _this.state.info.addtime      : null;
-			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;
-			var view         = _this.state.info ? _this.state.info.view         : null;
-			var comment      = _this.state.info ? _this.state.info.comment      : null;
-			var praise       = _this.state.info ? _this.state.info.praise       : null;
-			var praiseStatus = _this.state.info ? _this.state.info.praiseStatus : null;
-			var tags         = _this.state.info ? _this.state.info.tags         : null;
+			var title        = _this.state.info ? _this.state.info.title        : null;     //文章标题
+			var username     = _this.state.info ? _this.state.info.username     : null;     //作者
+			var uid          = _this.state.info ? _this.state.info.uid          : null;     //作者id
+			var time         = _this.state.info ? _this.state.info.addtime      : null;     //发布时间
+			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;     //专题
+			var view         = _this.state.info ? _this.state.info.view         : null;     //浏览量
+			var comment      = _this.state.info ? _this.state.info.comment      : null;     //评论数量
+			var praise       = _this.state.info ? _this.state.info.praise       : null;     //推荐数
+			var praiseStatus = _this.state.info ? _this.state.info.praiseStatus : null;     //登录的用户是否已推荐
+			var tags         = _this.state.info ? _this.state.info.tags         : null;     //标签
+
+			if(tags) {
+				if(tags.indexOf('|')) {
+					var tagsList = tags.split('|').map(function(t,i) {
+						return (<a style={{marginRight:'6px',color:'#3da9f7'}} href={'/t/'+t}>{t}</a>);
+					});
+				} else {
+					var tagsList = (<a href={'/t/'+tags}>{tags}</a>);
+				}
+				tagsList = (<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tagsList}</span>);
+			} else {
+				var tagsList = null;
+			}
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
@@ -228,7 +244,7 @@ define([
 							<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
 							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
 							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
-							<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tags}</span>
+							{tagsList}
 						</div>
 						<div className="tool" style={{marginBottom:'10px'}}>
 							{_this.state.uid==uid ? (
