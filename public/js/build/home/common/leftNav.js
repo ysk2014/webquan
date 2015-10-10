@@ -33,6 +33,7 @@ define(['react','jquery'],function(React, $) {
 								React.createElement("span", null, "问答")
 							)
 						)
+						
 					)
 				)
 			);
