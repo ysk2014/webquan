@@ -118,6 +118,17 @@ define([
 	        		job:i
 	        	})
 	        },
+	        transformArr: function(){
+	        	jobData = [];
+        		aa = {
+        			"1":"sf",
+        			"2":"ssss"
+        		}
+        		for( i in aa){
+        			jobData[i] =aa[i]
+        		}
+        		console.log(jobData);
+	        },
         	handleSubmit: function(event){
         		var _this = this;
         		var data = {
@@ -140,7 +151,7 @@ define([
         	},
         	render: function(){
         		var _this = this;
-        		var data = ["assd","dsf","ss"];
+        		_this.transformArr();
         		return(
         			React.createElement("div", {className: "personal"}, 
         				React.createElement("form", null, 
@@ -155,7 +166,7 @@ define([
 						           	), 
 						          		React.createElement("ul", {className: _this.state.select == 0 ? "dis" : null}, 
 						        			
-						        				data.map(function(i){
+						        				jobData.map(function(i){
 						        					return React.createElement("li", {onClick: _this.liClick.bind(this,i)}, React.createElement("span", null, i))
 						        				})
 						        			
@@ -366,8 +377,6 @@ define([
 	            return (
 	            	React.createElement("div", null, 
 	            		React.createElement(LeftNav, null), 
-
-	            		React.createElement(UserDropMenu, null), 
 
 		            	React.createElement("div", {className: "settings clearfix"}, 
 		            	

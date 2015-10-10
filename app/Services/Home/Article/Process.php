@@ -3,6 +3,7 @@ namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
+use App\Models\Home\cloumn as CloumnModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Models\Home\UserArticle as UserArticleModel;
 use App\Services\BaseProcess;
@@ -32,6 +33,13 @@ class Process extends BaseProcess
     private $articleValidate;
 
     /**
+     * 专题数据模型
+     * 
+     * @var object
+     */
+    private $cloumnModel;
+
+    /**
      * 关注专题数据模型
      * 
      * @var object
@@ -54,6 +62,7 @@ class Process extends BaseProcess
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
+        if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
         if( !$this->careModel) $this->careModel = new UCCModel();
         if( !$this->userArticleModel) $this->userArticleModel = new UserArticleModel();
 	}
@@ -145,6 +154,8 @@ class Process extends BaseProcess
 
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if($sqlData != false) {
+			$this->cloumnModel->incrementData('count',$data['cid']);
+			
 			$resultArr = array('error'=>false, 'data'=>$sqlData);
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'创建失败');
