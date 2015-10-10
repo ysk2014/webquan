@@ -13,9 +13,16 @@ define(['react',
             UserModel.getUserInfoById({id:uid},function(success,data) {
                 if(success) {
                     if(!data.error) {
-                        console.log(data.data);
+                        var data = data.data
                         _this.setState({
-                            info: data.data,
+                                        id: data.id,
+                                  username: data.username,
+                                       job: data.job,
+                                      city: data.city,
+                                       sex: data.sex,
+                               description: data.description,
+                                     email: data.email,
+
                         });
                     } else {
                         Tooltip(data.msg);
@@ -24,147 +31,29 @@ define(['react',
             });
         }
     };
-    var FocusUser = React.createClass({
-        render: function(){
-            return(
-                <div className="focus-user">
-                    <div className="details clearfix">
-                        <img src="/upload_path/logo/web5.jpg" />
-                        <div className="center">
-                            <p className="top">殷士凯</p>
-                            <div className="middle">
-                                <a href="#">关注&nbsp;0</a>
-                                <a href="#">粉丝&nbsp;0</a>
-                                <a href="#">文章&nbsp;0</a>
-                            </div>
-                            <p className="bottom">获得了360个喜欢</p>
-                        </div>
-                        <div className="right">
-                            <a href="#">正在关注</a>
-                        </div>
-                    </div>
-                    <div className="details clearfix">
-                        <img src="/upload_path/logo/web5.jpg" />
-                        <div className="center">
-                            <p className="top">殷士凯</p>
-                            <div className="middle">
-                                <a href="#">关注&nbsp;0</a>
-                                <a href="#">粉丝&nbsp;0</a>
-                                <a href="#">文章&nbsp;0</a>
-                            </div>
-                            <p className="bottom">获得了360个喜欢</p>
-                        </div>
-                        <div className="right">
-                            <a href="#">正在关注</a>
-                        </div>
-                    </div>
-                    <div className="details clearfix">
-                        <img src="/upload_path/logo/web5.jpg" />
-                        <div className="center">
-                            <p className="top">殷士凯</p>
-                            <div className="middle">
-                                <a href="#">关注&nbsp;0</a>
-                                <a href="#">粉丝&nbsp;0</a>
-                                <a href="#">文章&nbsp;0</a>
-                            </div>
-                            <p className="bottom">获得了360个喜欢</p>
-                        </div>
-                        <div className="right">
-                            <a href="#">正在关注</a>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-    });
-    var Fans = React.createClass({
-        render: function(){
-            return(
-                    <div className="fans">
-                        <div className="details clearfix">
-                            <img src="/upload_path/logo/web5.jpg" />
-                            <div className="center">
-                                <p className="top">殷士凯</p>
-                                <div className="middle">
-                                    <a href="#">关注&nbsp;0</a>
-                                    <a href="#">粉丝&nbsp;0</a>
-                                    <a href="#">文章&nbsp;0</a>
-                                </div>
-                                <p className="bottom">获得了360个喜欢</p>
-                            </div>
-                            <div className="right">
-                                <a href="#">添加关注</a>
-                            </div>
-                        </div>
-                        <div className="details clearfix">
-                            <img src="/upload_path/logo/web5.jpg" />
-                            <div className="center">
-                                <p className="top">殷士凯</p>
-                                <div className="middle">
-                                    <a href="#">关注&nbsp;0</a>
-                                    <a href="#">粉丝&nbsp;0</a>
-                                    <a href="#">文章&nbsp;0</a>
-                                </div>
-                                <p className="bottom">获得了360个喜欢</p>
-                            </div>
-                            <div className="right">
-                                <a href="#">添加关注</a>
-                            </div>
-                        </div>
-                        <div className="details clearfix">
-                            <img src="/upload_path/logo/web5.jpg" />
-                            <div className="center">
-                                <p className="top">殷士凯</p>
-                                <div className="middle">
-                                    <a href="#">关注&nbsp;0</a>
-                                    <a href="#">粉丝&nbsp;0</a>
-                                    <a href="#">文章&nbsp;0</a>
-                                </div>
-                                <p className="bottom">获得了360个喜欢</p>
-                            </div>
-                            <div className="right">
-                                <a href="#">添加关注</a>
-                            </div>
-                        </div>
-                        <div className="details clearfix">
-                            <img src="/upload_path/logo/web5.jpg" />
-                            <div className="center">
-                                <p className="top">殷士凯</p>
-                                <div className="middle">
-                                    <a href="#">关注&nbsp;0</a>
-                                    <a href="#">粉丝&nbsp;0</a>
-                                    <a href="#">文章&nbsp;0</a>
-                                </div>
-                                <p className="bottom">获得了360个喜欢</p>
-                            </div>
-                            <div className="right">
-                                <a href="#">添加关注</a>
-                            </div>
-                        </div>
-
-                    </div>
-            )
-        }
-    })
+    
     var LatestArticles = React.createClass({
         render: function(){
             return(
                 <div className="articles">
-                    <div className="details">
-                        <p className="top">22天之前</p>
-                        <p className="middle">
-                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
-                        </p>
-                        <p className="bottom">
-                            <a href="#">阅读&nbsp;56</a>
-                            <a href="#">评论&nbsp;55</a>
-                            <a href="#">喜欢&nbsp;0</a>
-                        </p>
+                    <div className="left">
+                        <div className="details">
+                            <p className="top">22天之前</p>
+                            <p className="middle">
+                                <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                            </p>
+                            <p className="bottom">
+                                <a href="#">阅读&nbsp;56</a>
+                                <a href="#">评论&nbsp;55</a>
+                                <a href="#">喜欢&nbsp;0</a>
+                            </p>
                     </div>
+                    </div>
+
                     <div className="details">
                         <p className="top">22天之前</p>
                         <p className="middle">
-                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
+                            <a href="#">踪的工资条可能SD敢达快递费送顾客家第三方开讲啦，发货</a>
                         </p>
                         <p className="bottom">
                             <a href="#">阅读&nbsp;56</a>
@@ -177,6 +66,7 @@ define(['react',
             )
         }
     })
+
     var HotArticles = React.createClass({
         render: function(){
             return(
@@ -227,24 +117,17 @@ define(['react',
         getInitialState: function() {
             return {
                 info: null,
-                nav: "attention",
-                litNav: "focusUser"
+                nav: "latestArticles",
+
             }
         },
         componentDidMount: function() {
             this.init();
         },
-        handleClick: function(nav,litNav){
+        handleClick: function(nav){
             var _this = this;
             _this.setState({
                 nav: nav,
-                litNav: litNav
-            })
-        },
-        navHandleClick: function(litNav){
-            var _this = this;
-            _this.setState({
-                litNav: litNav
             })
         },
         render: function() {
@@ -255,47 +138,40 @@ define(['react',
                         <div className="host-box">
                             <div className="host clearfix">
                                 <img src="/upload_path/logo/web5.jpg" />
+                                <div className="sign">好好学习，天天向上</div>
                                 <div className="mes">
-                                    <p>殷士凯</p>
-                                </div>
-                                <div className="nav">
-                                    <a href="#" onClick={_this.handleClick.bind(this,"attention","focusUser")}>0<br />关注</a>
-                                    <a href="#" onClick={_this.handleClick.bind(this,"attention","fans")}>0<br />粉丝</a>
-                                    <a href="#" onClick={_this.handleClick.bind(this,"essay","latestArticles")}>0<br />文章</a>
-                                    <a>0<br />收获喜欢</a>
+                                    
+                                        <div className="nickname">
+                                            <div>昵称：&nbsp;&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</div>
+                                            <div>性别：&nbsp;&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</div>
+                                            <div>城市：&nbsp;&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</div>
+                                        </div>
+                                        <div className="job">
+                                            <div>职位：&nbsp;&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</div>
+                                            <div>邮箱：&nbsp;&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</div>
+                                        </div>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div className="host-content">
-                        {_this.state.nav == "attention" ?
-                            (<div className="nav">
-                                <a href="#" className={_this.state.litNav == 'focusUser' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"focusUser")}>关注用户(5)</a>
-                                <a href="#" className={_this.state.litNav == 'fans' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"fans")}>粉丝(7)</a>
-                            </div>):
-                            (<div className="nav">
-                                <a href="#" className={_this.state.litNav == 'latestArticles' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"latestArticles")}>最新文章(121)</a>
-                                <a href="#" className={_this.state.litNav == 'hotArticles' ? 'active' : null} onClick={_this.navHandleClick.bind(this,"hotArticles")}>热门文章(7)</a>
-                            </div>)
-                        }
-                            <div className="con">
-                                <div  style={_this.state.litNav=='focusUser' ? {display:'block'} : {display:'none'}} >
-                                    <FocusUser />
-                                </div>
+                        <div className="content">
+                            <div className="nav">
+                                <a href="javascript:void(0)" className={_this.state.nav == "latestArticles" ? "active" : null} onClick={_this.handleClick.bind(this,"latestArticles")}>最新文章</a>
+                                <a href="javascript:void(0)" className={_this.state.nav == "hotArticles" ? "active" : null} onClick={_this.handleClick.bind(this,"hotArticles")}>热门文章</a>
+                                <a href="javascript:void(0)" className={_this.state.nav == "myDraft" ? "active" : null} onClick={_this.handleClick.bind(this,"myDraft")}>我的草稿</a>
+                            </div>
 
-                                <div  style={_this.state.litNav=='fans' ? {display:'block'} : {display:'none'}} >
-                                    <Fans />
-                                </div>
-                                        
-                                <div  style={_this.state.litNav=='latestArticles' ? {display:'block'} : {display:'none'}} >
+                                <div  style={_this.state.nav=='latestArticles' ? {display:'block'} : {display:'none'}} >
                                     <LatestArticles />
                                 </div>
 
-                                <div  style={_this.state.litNav=='hotArticles' ? {display:'block'} : {display:'none'}} >
+                                <div  style={_this.state.nav=='hotArticles' ? {display:'block'} : {display:'none'}} >
                                     <HotArticles />
                                 </div>
 
-                            </div>
-
+                                <div  style={_this.state.nav=='myDraft' ? {display:'block'} : {display:'none'}} >
+                                    
+                                </div>
 
 
                         </div>
