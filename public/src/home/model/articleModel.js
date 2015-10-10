@@ -20,6 +20,16 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 
 	    /**
+	     * 根据用户id获取文章列表
+	     * 
+	     * @param uid 用户id
+	     * @param way 根据way进行排序，可以不传，默认为addtime创建时间排序
+	     */
+		getAllArticleByUid: function(data, callback) {
+			BaseModel.post('/article/user',{'data':data}, callback);
+		},
+
+	    /**
 	     * 获取用户关注专题的文章列表
 	     * 
 	     * @param uid 用户id

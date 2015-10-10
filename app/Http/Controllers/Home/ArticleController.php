@@ -57,6 +57,17 @@ class ArticleController extends Controller {
 		return response()->json($data);
 	}
 
+	/**
+	 * 根据用户id获取文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByUid(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsByUid($data);
+		return response()->json($data);
+	}
 
 	/**
 	 * 模糊查询标签名称的文章列表

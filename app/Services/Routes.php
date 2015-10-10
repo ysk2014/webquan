@@ -133,6 +133,8 @@ class Routes
                 Route::post('/user/updateLogo', 'Home\UserController@updateLogo');
 
 
+                // 用户的文章
+                Route::post('/article/user', 'Home\ArticleController@getArtsByUid');
                 // 编辑文章
                 Route::post('/article/edit', 'Home\ArticleController@editArticle');
                 // 编辑文章页

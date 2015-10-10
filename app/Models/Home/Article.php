@@ -69,6 +69,24 @@ class Article extends Base
     }
 
     /**
+     * 根据用户id获取文章信息列表
+     * 
+     * @param intval $cid 专题的ID
+     */
+    public function getArtsByUid($uid,$way='addtime',$page)
+    {
+        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->where('article.uid','=', intval($uid))
+                    ->where('article.is_publish','=',1)
+                    ->orderBy('article.'.$way,'desc')
+                    ->skip($page*20)->take(20)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
      * 根据单个专题id获取文章信息
      * 
      * @param intval $cid 专题的ID
@@ -205,6 +223,16 @@ class Article extends Base
     public function getArtsCountByCids($cids)
     {
         return $this->whereIn('cid', $cids)->count();
+    }
+
+    /**
+     * 根据专题id数组获取文章总数
+     * 
+     * @param array $cids 专题的ID
+     */
+    public function getArtsCountByUid($uid)
+    {
+        return $this->where('uid', $uid)->count();
     }
 
     /**

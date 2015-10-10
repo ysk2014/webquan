@@ -356,6 +356,32 @@ class Process extends BaseProcess
 
 
 	/**
+	* 获取用户创建的所有文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtsByUid($data)
+	{
+		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->articleModel->getArtsByUid($data['uid'],$way,$page);
+		if($articleInfo) {
+
+			$count = $this->articleModel->getArtsCountByUid($data['uid']);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
+	/**
 	* 添加推荐
 	*
 	* @param object $data;
