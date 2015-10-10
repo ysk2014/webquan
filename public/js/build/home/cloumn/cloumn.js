@@ -36,6 +36,9 @@ define([
 				if(success) {
 					if(!data.error) {
 						console.log(data);
+						_this.setState({
+							articles: data.data
+						});
 					} else {
 						Tooltip(data.msg);
 					}
