@@ -2,6 +2,9 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
 
 
     var mixin = {
+        componentDidMount: function() {
+            $('.drop-menu').hide();
+        },
         // 输入框的值改变
         handleUnameChange: function(event) {
             var _this = this;
