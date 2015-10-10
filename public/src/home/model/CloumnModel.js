@@ -67,6 +67,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		delCare: function(data, callback) {
 			BaseModel.post('/cloumn/delCare', {'data':data}, callback);
 		},
+		
 	};
 	return CloumnModel;
 });
