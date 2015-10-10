@@ -25,6 +25,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		modifyPassword: function(data, callback) {
 			BaseModel.post('/user/modifyPassword', {'data':data}, callback);
 		},
+		
 	};
 	return UserModel;
 });

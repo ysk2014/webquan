@@ -107,6 +107,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		delStore: function(data,callback) {
 			BaseModel.post('/article/delStore', {'data':data}, callback);
 		},
+		
 
 	};
 	return ArticleModel;
