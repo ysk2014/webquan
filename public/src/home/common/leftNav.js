@@ -33,12 +33,6 @@ define(['react','jquery'],function(React, $) {
 								<span>问答</span>
 							</a>
 						</li>
-						<li className={this.state.active == 'editArticle' ? "active" : null}>
-							<a href="/article/add">
-								<i className="fa fa-pencil"></i>
-								<span>写文章</span>
-							</a>
-						</li>
 					</ul>
 				</div>
 			);

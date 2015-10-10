@@ -32,12 +32,6 @@ define(['react','jquery'],function(React, $) {
 								React.createElement("i", {className: "fa fa-bell-o"}), 
 								React.createElement("span", null, "问答")
 							)
-						), 
-						React.createElement("li", {className: this.state.active == 'editArticle' ? "active" : null}, 
-							React.createElement("a", {href: "/article/add"}, 
-								React.createElement("i", {className: "fa fa-pencil"}), 
-								React.createElement("span", null, "写文章")
-							)
 						)
 					)
 				)

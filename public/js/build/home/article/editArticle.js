@@ -8,6 +8,15 @@ define([
 	'home/common/tooltip',
 	'home/common/dialog',
     'editormd',
+    'plugins/image-dialog/image-dialog',
+    'plugins/code-block-dialog/code-block-dialog',
+    'plugins/link-dialog/link-dialog',
+    'plugins/help-dialog/help-dialog',
+    'plugins/table-dialog/table-dialog',
+    'plugins/test-plugin/test-plugin',
+    'plugins/reference-link-dialog/reference-link-dialog',
+    'plugins/html-entities-dialog/html-entities-dialog',
+    'plugins/preformatted-text-dialog/preformatted-text-dialog',
 	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, Tooltip, Dialog, editormd) {
 
 
