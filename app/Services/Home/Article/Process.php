@@ -3,7 +3,7 @@ namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
-use App\Models\Home\cloumn as CloumnModel;
+use App\Models\Home\Cloumn as CloumnModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Models\Home\UserArticle as UserArticleModel;
 use App\Services\BaseProcess;
