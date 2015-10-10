@@ -11,7 +11,7 @@
   	<link rel="stylesheet" href="{{ asset('js/lib/editor/lib/codemirror/codemirror.min.css') }}" />
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/wq.css') }}" rel="stylesheet">
-	<script data-main="{{ asset('js/build/home/app-build.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
+	<script data-main="{{ asset('js/build/home/app.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
 </head>
 <body>
 	<div id='container'></div>
