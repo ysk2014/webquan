@@ -63,11 +63,28 @@ define([
 		render: function() {
 			var _this = this;
 			var articles = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
+
+				if(d.tags) {
+					if(d.tags.indexOf('|')) {
+						var tagsList = d.tags.split('|').map(function(t,k) {
+							return (React.createElement("a", {style: {marginRight:'6px'}, href: "/t/"+t}, t));
+						});
+					} else {
+						var tagsList = (React.createElement("a", {href: "/t/"+d.tags}, "d.tags"));
+					}
+					tagsList = (React.createElement("span", {className: "tag"}, " ", React.createElement("i", {className: "fa fa-tags"}), " ", tagsList));
+				} else {
+					var tagsList = null;
+				}
+				
 				return (
 					React.createElement("article", {key: d.id}, 
-						React.createElement("a", {className: "pic", href: "/article/"+d.id, style: {backgroundImage: 'url('+d.logo_dir+')'}}, 
-							React.createElement("span", null, d.cloumn)
-						), 
+						
+							d.logo_dir ? 
+							(React.createElement("a", {className: "pic", href: "/article/"+d.id, style: {backgroundImage: 'url('+d.logo_dir+')'}}, 
+								React.createElement("span", null, d.cloumn)
+							)) : null, 
+						
 						React.createElement("div", {className: "desc"}, 
 							React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
 							React.createElement("div", {className: "author"}, 
@@ -77,7 +94,9 @@ define([
 								), 
 								React.createElement("span", {className: "time"}, " • ", WQ.timeFormat(d.addtime)), 
 								React.createElement("span", {className: "tag"}, " 阅读: ", d.view), 
-								React.createElement("span", {className: "tag"}, " 评论: ", d.comment)
+								React.createElement("span", {className: "tag"}, " 推荐: ", d.praise), 
+								React.createElement("span", {className: "tag"}, " 评论: ", d.comment), 
+								tagsList
 							), 
 							React.createElement("div", {className: "description"}, d.description)
 						)
