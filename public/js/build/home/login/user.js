@@ -34,14 +34,12 @@ define(['react',
         }
     };
     
-    var LatestArticles = React.createClass({displayName: "LatestArticles",
+    var Articles = React.createClass({displayName: "Articles",
         getInitialState: function() {
             return {
                 list: [],        //文章列表
-                nav: 'praise',   //导航记录
                 more:[],         //记录每个专题进入到了第几页
                 next: false,     //判断是否还有数据
-                cacheNav: ['praise','addtime','view','care'],
                 uid: null,
             }
         },
@@ -51,8 +49,10 @@ define(['react',
             _this.setState({
                 uid: uid
             });
-            _this.getAllArticleByUid(uid,"praise",0);
+            _this.getAllArticleByUid(uid,"addtime",0);
+
         },
+
         componentDidMount: function() {
             this.init();
         },
@@ -62,6 +62,7 @@ define(['react',
             ArticleModel.getAllArticleByUid({uid:uid,way:way,page:page},function(success,data) {
                 if(success) {
                     if(!data.error) {
+                        console.log(data);
                         if(_this.state.list[way]) {
                             Array.prototype.push.apply(_this.state.list[way],data.data);
                         } else {
@@ -74,14 +75,14 @@ define(['react',
                             more: _this.state.more,
                             next: data.next
                         });
-                    } 
+                    }
                 }
             });
         },
 
         render: function() {
             var _this = this;
-            var nav = this.state.nav;
+            var nav = this.props.nav;
             var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 
                 if(d.tags) {
@@ -136,32 +137,12 @@ define(['react',
         }
     })
 
-    var HotArticles = React.createClass({displayName: "HotArticles",
-        render: function(){
-            return(
-                React.createElement("div", {className: "articles"}, 
-                    React.createElement("div", {className: "details"}, 
-                        React.createElement("p", {className: "top"}, "22天之前"), 
-                        React.createElement("p", {className: "middle"}, 
-                            React.createElement("a", {href: "#"}, "踪的工资条可能让你的孩子上不了学（薪人薪事百科）")
-                        ), 
-                        React.createElement("p", {className: "bottom"}, 
-                            React.createElement("a", {href: "#"}, "阅读 56"), 
-                            React.createElement("a", {href: "#"}, "评论 55"), 
-                            React.createElement("a", {href: "#"}, "喜欢 0")
-                        )
-                    )
-                )
-            )
-        }
-    })
-
     return React.createClass({
         mixins: [mixin],
         getInitialState: function() {
             return {
                 info: null,
-                nav: "latestArticles",
+                nav: "addtime",
             }
         },
         componentDidMount: function() {
@@ -193,22 +174,15 @@ define(['react',
                         ), 
                         React.createElement("div", {className: "content"}, 
                             React.createElement("div", {className: "nav"}, 
-                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "latestArticles" ? "active" : null, onClick: _this.handleClick.bind(this,"latestArticles")}, "最新文章"), 
-                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "hotArticles" ? "active" : null, onClick: _this.handleClick.bind(this,"hotArticles")}, "热门文章"), 
+                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "addtime" ? "active" : null, onClick: _this.handleClick.bind(this,"addtime")}, "最新文章"), 
+                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "view" ? "active" : null, onClick: _this.handleClick.bind(this,"view")}, "热门文章"), 
                                 React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "myDraft" ? "active" : null, onClick: _this.handleClick.bind(this,"myDraft")}, "我的草稿")
                             ), 
 
-                                React.createElement("div", {style: _this.state.nav=='latestArticles' ? {display:'block'} : {display:'none'}}, 
-                                    React.createElement(LatestArticles, null)
-                                ), 
+                            React.createElement("div", null, 
+                                React.createElement(Articles, {nav: _this.state.nav})
+                            )
 
-                                React.createElement("div", {style: _this.state.nav=='hotArticles' ? {display:'block'} : {display:'none'}}, 
-                                    React.createElement(HotArticles, null)
-                                ), 
-
-                                React.createElement("div", {style: _this.state.nav=='myDraft' ? {display:'block'} : {display:'none'}}
-                                    
-                                )
                         )
                     )
                 )
