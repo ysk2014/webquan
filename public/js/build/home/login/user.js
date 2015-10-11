@@ -38,43 +38,48 @@ define(['react',
         getInitialState: function() {
             return {
                 list: [],        //文章列表
-                more:[],         //记录每个专题进入到了第几页
                 next: false,     //判断是否还有数据
                 uid: null,
+                nav: "addtime"
             }
         },
-        init: function() {
+        init: function(nav) {
             var _this = this;
             var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
             _this.setState({
                 uid: uid
             });
-            _this.getAllArticleByUid(uid,"addtime",0);
-
+            if (nav != "is_publish") {
+                _this.getAllArticleByUid(uid,nav,0,0);
+            }else{
+                _this.getAllArticleByUid(uid,nav,0,1);
+            };
         },
 
         componentDidMount: function() {
-            this.init();
+            this.init(this.state.nav);
+        },
+        handleClick: function(nav){
+            var _this = this;
+            _this.setState({
+                nav: nav,
+            })
+            _this.init(nav);
         },
 
-        getAllArticleByUid: function(uid,way,page) {
+        getAllArticleByUid: function(uid,way,page,is_publish) {
             var _this = this;
-            ArticleModel.getAllArticleByUid({uid:uid,way:way,page:page},function(success,data) {
+            ArticleModel.getAllArticleByUid({uid:5,way:way,page:page,is_publish:is_publish},function(success,data) {
                 if(success) {
                     if(!data.error) {
                         console.log(data);
-                        if(_this.state.list[way]) {
-                            Array.prototype.push.apply(_this.state.list[way],data.data);
-                        } else {
+                        if(!data.error) {
                             _this.state.list[way] = data.data;
-                        }
-                        
-                        _this.state.more[way] = parseInt(page)+1;
                         _this.setState({
                             list: _this.state.list,
-                            more: _this.state.more,
                             next: data.next
                         });
+                    }
                     }
                 }
             });
@@ -82,7 +87,7 @@ define(['react',
 
         render: function() {
             var _this = this;
-            var nav = this.props.nav;
+            var nav = this.state.nav;
             var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 
                 if(d.tags) {
@@ -98,29 +103,31 @@ define(['react',
                     var tagsList = null;
                 }
                 return (
-                    React.createElement("div", {className: "host-addtime"}, 
-                        React.createElement("article", {key: d.id}, 
-                            
-                                d.logo_dir ? 
-                                (React.createElement("a", {className: "pic", href: "/article/"+d.id, style: {backgroundImage: 'url('+d.logo_dir+')'}}, 
-                                    React.createElement("span", null, d.cloumn)
-                                )) : null, 
-                            
-                            
-                            React.createElement("div", {className: "desc"}, 
-                                React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
-                                React.createElement("div", {className: "author"}, 
-                                    React.createElement("a", {href: "javascript:void(0)"}, 
-                                        React.createElement("img", {className: "avatar", src: d.userUrl ? d.userUrl : "/image/user-default.png"}), 
-                                        React.createElement("span", {className: "name"}, d.username)
+                    React.createElement("div", null, 
+                        React.createElement("div", {className: "host-addtime"}, 
+                            React.createElement("article", {key: d.id}, 
+                                
+                                    d.logo_dir ? 
+                                    (React.createElement("a", {className: "pic", href: "/article/"+d.id, style: {backgroundImage: 'url('+d.logo_dir+')'}}, 
+                                        React.createElement("span", null, d.cloumn)
+                                    )) : null, 
+                                
+                                
+                                React.createElement("div", {className: "desc"}, 
+                                    React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
+                                    React.createElement("div", {className: "author"}, 
+                                        React.createElement("a", {href: "javascript:void(0)"}, 
+                                            React.createElement("img", {className: "avatar", src: d.userUrl ? d.userUrl : "/image/user-default.png"}), 
+                                            React.createElement("span", {className: "name"}, d.username)
+                                        ), 
+                                        React.createElement("span", {className: "time"}, " • ", WQ.timeFormat(d.addtime)), 
+                                        React.createElement("span", {className: "tag"}, " 阅读: ", d.view), 
+                                        React.createElement("span", {className: "tag"}, " 推荐: ", d.praise), 
+                                        React.createElement("span", {className: "tag"}, " 评论: ", d.comment), 
+                                        tagsList
                                     ), 
-                                    React.createElement("span", {className: "time"}, " • ", WQ.timeFormat(d.addtime)), 
-                                    React.createElement("span", {className: "tag"}, " 阅读: ", d.view), 
-                                    React.createElement("span", {className: "tag"}, " 推荐: ", d.praise), 
-                                    React.createElement("span", {className: "tag"}, " 评论: ", d.comment), 
-                                    tagsList
-                                ), 
-                                React.createElement("div", {className: "description"}, d.description)
+                                    React.createElement("div", {className: "description"}, d.description)
+                                )
                             )
                         )
                     )
@@ -130,6 +137,11 @@ define(['react',
             return (
                 React.createElement("div", null, 
                     React.createElement("div", {className: "article-list"}, 
+                        React.createElement("div", {className: "nav"}, 
+                            React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "addtime" ? "active" : null, onClick: _this.handleClick.bind(this,"addtime")}, "最新文章"), 
+                            React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "view" ? "active" : null, onClick: _this.handleClick.bind(this,"view")}, "热门文章"), 
+                            React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "is_publish" ? "active" : null, onClick: _this.handleClick.bind(this,"is_publish")}, "我的草稿")
+                        ), 
                         list
                     )
                 )
@@ -148,12 +160,7 @@ define(['react',
         componentDidMount: function() {
             this.init();
         },
-        handleClick: function(nav){
-            var _this = this;
-            _this.setState({
-                nav: nav,
-            })
-        },
+        
         render: function() {
             var _this = this;
             return (
@@ -173,16 +180,7 @@ define(['react',
                             )
                         ), 
                         React.createElement("div", {className: "content"}, 
-                            React.createElement("div", {className: "nav"}, 
-                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "addtime" ? "active" : null, onClick: _this.handleClick.bind(this,"addtime")}, "最新文章"), 
-                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "view" ? "active" : null, onClick: _this.handleClick.bind(this,"view")}, "热门文章"), 
-                                React.createElement("a", {href: "javascript:void(0)", className: _this.state.nav == "myDraft" ? "active" : null, onClick: _this.handleClick.bind(this,"myDraft")}, "我的草稿")
-                            ), 
-
-                            React.createElement("div", null, 
-                                React.createElement(Articles, {nav: _this.state.nav})
-                            )
-
+                            React.createElement(Articles, null)
                         )
                     )
                 )

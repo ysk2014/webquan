@@ -38,43 +38,48 @@ define(['react',
         getInitialState: function() {
             return {
                 list: [],        //文章列表
-                more:[],         //记录每个专题进入到了第几页
                 next: false,     //判断是否还有数据
                 uid: null,
+                nav: "addtime"
             }
         },
-        init: function() {
+        init: function(nav) {
             var _this = this;
             var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
             _this.setState({
                 uid: uid
             });
-            _this.getAllArticleByUid(uid,"addtime",0);
-
+            if (nav != "is_publish") {
+                _this.getAllArticleByUid(uid,nav,0,0);
+            }else{
+                _this.getAllArticleByUid(uid,nav,0,1);
+            };
         },
 
         componentDidMount: function() {
-            this.init();
+            this.init(this.state.nav);
+        },
+        handleClick: function(nav){
+            var _this = this;
+            _this.setState({
+                nav: nav,
+            })
+            _this.init(nav);
         },
 
-        getAllArticleByUid: function(uid,way,page) {
+        getAllArticleByUid: function(uid,way,page,is_publish) {
             var _this = this;
-            ArticleModel.getAllArticleByUid({uid:uid,way:way,page:page},function(success,data) {
+            ArticleModel.getAllArticleByUid({uid:5,way:way,page:page,is_publish:is_publish},function(success,data) {
                 if(success) {
                     if(!data.error) {
                         console.log(data);
-                        if(_this.state.list[way]) {
-                            Array.prototype.push.apply(_this.state.list[way],data.data);
-                        } else {
+                        if(!data.error) {
                             _this.state.list[way] = data.data;
-                        }
-                        
-                        _this.state.more[way] = parseInt(page)+1;
                         _this.setState({
                             list: _this.state.list,
-                            more: _this.state.more,
                             next: data.next
                         });
+                    }
                     }
                 }
             });
@@ -82,7 +87,7 @@ define(['react',
 
         render: function() {
             var _this = this;
-            var nav = this.props.nav;
+            var nav = this.state.nav;
             var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 
                 if(d.tags) {
@@ -98,31 +103,33 @@ define(['react',
                     var tagsList = null;
                 }
                 return (
-                    <div className="host-addtime">
-                        <article key={d.id}>
-                            {
-                                d.logo_dir ? 
-                                (<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
-                                    <span>{d.cloumn}</span>
-                                </a>) : null
-                            }
-                            
-                            <div className="desc">
-                                <a className="title" href={"/article/"+d.id}>{d.title}</a>
-                                <div className="author">
-                                    <a href="javascript:void(0)">
-                                        <img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
-                                        <span className="name">{d.username}</span>
-                                    </a>
-                                    <span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
-                                    <span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
-                                    <span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
-                                    <span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
-                                    {tagsList}
+                    <div>
+                        <div className="host-addtime">
+                            <article key={d.id}>
+                                {
+                                    d.logo_dir ? 
+                                    (<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+                                        <span>{d.cloumn}</span>
+                                    </a>) : null
+                                }
+                                
+                                <div className="desc">
+                                    <a className="title" href={"/article/"+d.id}>{d.title}</a>
+                                    <div className="author">
+                                        <a href="javascript:void(0)">
+                                            <img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
+                                            <span className="name">{d.username}</span>
+                                        </a>
+                                        <span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
+                                        <span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
+                                        <span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
+                                        <span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
+                                        {tagsList}
+                                    </div>
+                                    <div className="description">{d.description}</div>
                                 </div>
-                                <div className="description">{d.description}</div>
-                            </div>
-                        </article>
+                            </article>
+                        </div>
                     </div>
                 );
             }) : null;
@@ -130,6 +137,11 @@ define(['react',
             return (
                 <div>
                     <div className="article-list">
+                        <div className="nav">
+                            <a href="javascript:void(0)" className={_this.state.nav == "addtime" ? "active" : null} onClick={_this.handleClick.bind(this,"addtime")}>最新文章</a>
+                            <a href="javascript:void(0)" className={_this.state.nav == "view" ? "active" : null} onClick={_this.handleClick.bind(this,"view")}>热门文章</a>
+                            <a href="javascript:void(0)" className={_this.state.nav == "is_publish" ? "active" : null} onClick={_this.handleClick.bind(this,"is_publish")}>我的草稿</a>
+                        </div>
                         {list}
                     </div>
                 </div>
@@ -148,12 +160,7 @@ define(['react',
         componentDidMount: function() {
             this.init();
         },
-        handleClick: function(nav){
-            var _this = this;
-            _this.setState({
-                nav: nav,
-            })
-        },
+        
         render: function() {
             var _this = this;
             return (
@@ -173,16 +180,7 @@ define(['react',
                             </div>
                         </div>
                         <div className="content">
-                            <div className="nav">
-                                <a href="javascript:void(0)" className={_this.state.nav == "addtime" ? "active" : null} onClick={_this.handleClick.bind(this,"addtime")}>最新文章</a>
-                                <a href="javascript:void(0)" className={_this.state.nav == "view" ? "active" : null} onClick={_this.handleClick.bind(this,"view")}>热门文章</a>
-                                <a href="javascript:void(0)" className={_this.state.nav == "myDraft" ? "active" : null} onClick={_this.handleClick.bind(this,"myDraft")}>我的草稿</a>
-                            </div>
-
-                            <div>
-                                <Articles nav={_this.state.nav}/>
-                            </div>
-
+                            <Articles />
                         </div>
                     </div>
                 </div>
