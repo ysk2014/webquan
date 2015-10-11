@@ -3,7 +3,9 @@ define(['react',
         'home/model/userModel',
         'home/common/leftNav',
         'home/common/tooltip',
-        ],function(React, $, UserModel, LeftNav, Tooltip) {
+        'home/model/articleModel',
+        'WQ'
+        ],function(React, $, UserModel, LeftNav, Tooltip, ArticleModel, WQ) {
 
 
     var mixin = {
@@ -33,37 +35,104 @@ define(['react',
     };
     
     var LatestArticles = React.createClass({
-        render: function(){
-            return(
-                <div className="articles">
-                    <div className="left">
-                        <div className="details">
-                            <p className="top">22天之前</p>
-                            <p className="middle">
-                                <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
-                            </p>
-                            <p className="bottom">
-                                <a href="#">阅读&nbsp;56</a>
-                                <a href="#">评论&nbsp;55</a>
-                                <a href="#">喜欢&nbsp;0</a>
-                            </p>
-                    </div>
-                    </div>
+        getInitialState: function() {
+            return {
+                list: [],        //文章列表
+                nav: 'praise',   //导航记录
+                more:[],         //记录每个专题进入到了第几页
+                next: false,     //判断是否还有数据
+                cacheNav: ['praise','addtime','view','care'],
+                uid: null,
+            }
+        },
+        init: function() {
+            var _this = this;
+            var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
+            _this.setState({
+                uid: uid
+            });
+            _this.getAllArticleByUid(uid,"praise",0);
+        },
+        componentDidMount: function() {
+            this.init();
+        },
 
-                    <div className="details">
-                        <p className="top">22天之前</p>
-                        <p className="middle">
-                            <a href="#">踪的工资条可能SD敢达快递费送顾客家第三方开讲啦，发货</a>
-                        </p>
-                        <p className="bottom">
-                            <a href="#">阅读&nbsp;56</a>
-                            <a href="#">评论&nbsp;55</a>
-                            <a href="#">喜欢&nbsp;0</a>
-                        </p>
-                    </div>
+        getAllArticleByUid: function(uid,way,page) {
+            var _this = this;
+            ArticleModel.getAllArticleByUid({uid:uid,way:way,page:page},function(success,data) {
+                if(success) {
+                    if(!data.error) {
+                        if(_this.state.list[way]) {
+                            Array.prototype.push.apply(_this.state.list[way],data.data);
+                        } else {
+                            _this.state.list[way] = data.data;
+                        }
+                        
+                        _this.state.more[way] = parseInt(page)+1;
+                        _this.setState({
+                            list: _this.state.list,
+                            more: _this.state.more,
+                            next: data.next
+                        });
+                    } 
+                }
+            });
+        },
 
+        render: function() {
+            var _this = this;
+            var nav = this.state.nav;
+            var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
+
+                if(d.tags) {
+                    if(d.tags.indexOf('|')) {
+                        var tagsList = d.tags.split('|').map(function(t,k) {
+                            return (<a style={{marginRight:'6px'}} href={"/t/"+t}>{t}</a>);
+                        });
+                    } else {
+                        var tagsList = (<a href={"/t/"+d.tags}>d.tags</a>);
+                    }
+                    tagsList = (<span className="tag">&nbsp;<i className="fa fa-tags"></i>&nbsp;{tagsList}</span>);
+                } else {
+                    var tagsList = null;
+                }
+                return (
+                    <div className="host-addtime">
+                        <article key={d.id}>
+                            {
+                                d.logo_dir ? 
+                                (<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+                                    <span>{d.cloumn}</span>
+                                </a>) : null
+                            }
+                            
+                            <div className="desc">
+                                <a className="title" href={"/article/"+d.id}>{d.title}</a>
+                                <div className="author">
+                                    <a href="javascript:void(0)">
+                                        <img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
+                                        <span className="name">{d.username}</span>
+                                    </a>
+                                    <span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
+                                    <span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
+                                    <span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
+                                    <span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
+                                    {tagsList}
+                                </div>
+                                <div className="description">{d.description}</div>
+                            </div>
+                        </article>
+                    </div>
+                );
+            }) : null;
+            
+            return (
+                <div>
+                    <div className="article-list">
+                        {list}
+                    </div>
                 </div>
-            )
+            );
         }
     })
 
@@ -82,31 +151,6 @@ define(['react',
                             <a href="#">喜欢&nbsp;0</a>
                         </p>
                     </div>
-                    <div className="details">
-                        <p className="top">22天之前</p>
-                        <p className="middle">
-                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
-                        </p>
-                        <p className="bottom">
-                            <a href="#">阅读&nbsp;56</a>
-                            <a href="#">评论&nbsp;55</a>
-                            <a href="#">喜欢&nbsp;0</a>
-                        </p>
-                    </div>
-
-                    <div className="details">
-                        <p className="top">22天之前</p>
-                        <p className="middle">
-                            <a href="#">踪的工资条可能让你的孩子上不了学（薪人薪事百科）</a>
-                        </p>
-                        <p className="bottom">
-                            <a href="#">阅读&nbsp;56</a>
-                            <a href="#">评论&nbsp;55</a>
-                            <a href="#">喜欢&nbsp;0</a>
-                        </p>
-                    </div>
-
-
                 </div>
             )
         }
@@ -135,23 +179,17 @@ define(['react',
             return (
                 <div>
                     <LeftNav />
+                    <div className="home-page">
                         <div className="host-box">
                             <div className="host clearfix">
                                 <img src="/upload_path/logo/web5.jpg" />
-                                <div className="sign">好好学习，天天向上</div>
-                                <div className="mes">
-                                    
-                                        <div className="nickname">
-                                            <div>昵称：&nbsp;&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</div>
-                                            <div>性别：&nbsp;&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</div>
-                                            <div>城市：&nbsp;&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</div>
-                                        </div>
-                                        <div className="job">
-                                            <div>职位：&nbsp;&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</div>
-                                            <div>邮箱：&nbsp;&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</div>
-                                        </div>
-                                    
-                                </div>
+                                    <ul>
+                                        <li>昵称：&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</li>
+                                        <li>性别：&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</li>
+                                        <li>城市：&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</li>
+                                        <li>职位：&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</li>
+                                        <li>邮箱：&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</li>
+                                    </ul>
                             </div>
                         </div>
                         <div className="content">
@@ -173,6 +211,7 @@ define(['react',
                                     
                                 </div>
                         </div>
+                    </div>
                 </div>
             );
         }
