@@ -17,7 +17,7 @@ define([
 			_this.getAllArticle('praise',0);
 		},
 		// 导航切换事件
-		hamdleTabChange: function(event) {
+		handleTabChange: function(event) {
 			var _this = this;
 			var index = $(event.target).index();
 			var way = _this.state.cacheNav[index];
@@ -88,7 +88,7 @@ define([
 			});
 		},
 		// 分页
-		hamdleMore: function(event){
+		handleMore: function(event){
 			var page = $(event.target).data('page');
 			var _this = this;
 			var nav = _this.state.nav;
@@ -164,9 +164,9 @@ define([
 				<div>
 					<div className="header">
 						<div className="nav">
-							<a className="tab active" onClick={this.hamdleTabChange} href="javascript:void(0)">推荐</a>
-							<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">最新</a>
-							<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">热门</a>
+							<a className="tab active" onClick={this.handleTabChange} href="javascript:void(0)">推荐</a>
+							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>
+							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">热门</a>
 							{
 								_this.state.uid ? (<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">关注</a>) : null
 							}
@@ -174,7 +174,7 @@ define([
 					</div>
 					<div className="article-list">
 						{list}
-						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.hamdleMore}>更多</a>
+						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
 					</div>
 				</div>
 			);
