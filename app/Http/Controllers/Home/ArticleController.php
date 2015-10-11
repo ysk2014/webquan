@@ -65,9 +65,13 @@ class ArticleController extends Controller {
 	public function getArtsByUid(ArticleProcess $articleProcess)
 	{
 		$data = Request::input('data');
+		if(!isset($data['is_publish'])) {
+			$data['is_publish'] = 1;
+		}
 		$data = $articleProcess->getArtsByUid($data);
 		return response()->json($data);
 	}
+
 
 	/**
 	 * 模糊查询标签名称的文章列表

@@ -366,7 +366,8 @@ class Process extends BaseProcess
 	{
 		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
 		$page = isset($data['page']) ? $data['page'] : 0;
-		$articleInfo = $this->articleModel->getArtsByUid($data['uid'],$way,$page);
+		$is_publish = isset($data['is_publish']) ? $data['is_publish'] : 1;
+		$articleInfo = $this->articleModel->getArtsByUid($data['uid'],$way,$page,$is_publish);
 		if($articleInfo) {
 
 			$count = $this->articleModel->getArtsCountByUid($data['uid']);

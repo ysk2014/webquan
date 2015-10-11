@@ -25,25 +25,56 @@ define([
 					}
 				}
 			});	
-			_this.getArticlesByCid();
+			_this.getArticlesByCid('view',0);
 			return this;
 		},
 		// 根据专题id获取文章数据
-		getArticlesByCid: function() {
+		getArticlesByCid: function(way,page) {
 			var _this = this;
-			var dataObj = {cid:_this.state.cid,way:'addtime',page:0};
+			var dataObj = {cid:_this.state.cid,way:way,page:page};
 			ArticleModel.getAllArticleByCid(dataObj,function(success,data) {
 				if(success) {
 					if(!data.error) {
 						console.log(data);
+
+						if(_this.state.articles[way]) {
+							Array.prototype.push.apply(_this.state.articles[way],data.data);
+						} else {
+							_this.state.articles[way] = data.data;
+						}
+						_this.state.more[way] = parseInt(page)+1;
 						_this.setState({
-							articles: data.data
+							articles: _this.state.articles,
+							more: _this.state.more,
+							next: data.next,
 						});
 					} else {
 						Tooltip(data.msg);
 					}
 				} 
 			});
+		},
+		handleTabChange: function(event) {
+			var _this = this;
+			if(event.target.tagName.toLowerCase()=='a') {
+				var index = $(event.target).parent().data('nav');
+			} else {
+				var index = $(event.target).data('nav');
+			}
+			_this.setState({
+				nav: index
+			});
+			var way = _this.state.way[index];
+			if(!_this.state.articles[way]) {
+				_this.getArticlesByCid(way,0);
+			}
+		},
+		handleMore: function() {
+			var page = $(event.target).data('page');
+			var _this = this;
+			var way = _this.state.way[_this.state.nav];
+			
+			_this.getArticlesByCid(way,page);
 		},
 	}
 
@@ -54,7 +85,11 @@ define([
 				name: 'cloumn',
 				cid: this.props.params.id ? this.props.params.id : 0, //专题id
 				cloumn: {},      //专题数据
-				articles: [],    //文章数据列表
+				articles: {},    //文章数据列表
+				nav: 0,
+				way:['view','addtime'],
+				next: false,     //判断是否还有数据
+				more:[],         //记录每个专题进入到了第几页
 			}
 		},
 		componentDidMount: function() {
@@ -62,7 +97,8 @@ define([
 		},
 		render: function() {
 			var _this = this;
-			var articles = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
+			var way = _this.state.way[_this.state.nav];
+			var articles = (_this.state.articles[way]&&_this.state.articles[way].length>0) ? _this.state.articles[way].map(function(d,i) {
 
 				if(d.tags) {
 					if(d.tags.indexOf('|')) {
@@ -128,12 +164,12 @@ define([
 						</div>
 						<div className="cloumn-content">
 							<ul className="sequence-nav toolbar">
-								<li className="active"><a href="javascript:void(0)">热门排序</a></li> · 
-								<li className=""><a href="javascript:void(0)">最近更新</a></li> · 
-								<li className=""><a href="javascript:void(0)">关注度排序</a></li>
+								<li className={_this.state.nav==0 ? "active" : ''} data-nav="0" onClick={_this.handleTabChange}><a href="javascript:void(0)">热门排序</a></li> · 
+								<li className={_this.state.nav==1 ? "active" : ''} data-nav="1" onClick={_this.handleTabChange}><a href="javascript:void(0)">最近更新</a></li>
 							</ul>
 							<div className="article-list">
 								{articles}
+								<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[way] ? _this.state.more[way] : 1} onClick={_this.hamdleMore}>更多</a>
 							</div>
 						</div>
 					</div>
