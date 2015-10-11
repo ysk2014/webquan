@@ -44,6 +44,7 @@ define([
 			var _this = this;
 			ArticleModel.getAllArticle({way:way,page:page},function(success,data) {
 				if(success) {
+					console.log(data);
 					if(!data.error) {
 						if(_this.state.list[way]) {
 							Array.prototype.push.apply(_this.state.list[way],data.data);
@@ -168,7 +169,7 @@ define([
 							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>
 							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">热门</a>
 							{
-								_this.state.uid ? (<a className="tab" onClick={this.hamdleTabChange} href="javascript:void(0)">关注</a>) : null
+								_this.state.uid ? (<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">关注</a>) : null
 							}
 						</div>
 					</div>
