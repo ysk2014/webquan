@@ -118,7 +118,6 @@ define(['react',
             return {
                 info: null,
                 nav: "latestArticles",
-
             }
         },
         componentDidMount: function() {

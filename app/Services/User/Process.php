@@ -157,6 +157,7 @@ class Process extends BaseProcess
 
         $userInfo = $this->userModel->getUserById($uid);
         if($userInfo !== false) {
+            unset($userInfo['password']);
             $resultArr = array('error'=>false, 'data'=>$userInfo);
         } else {
             $resultArr = array('error'=>true, 'msg'=>'删除失败');
