@@ -73,18 +73,19 @@ class Article extends Base
      * 
      * @param intval $cid 专题的ID
      */
-    public function getArtsByUid($uid,$way='addtime',$page)
+    public function getArtsByUid($uid,$way='addtime',$page,$is_publish=1)
     {
         return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.uid','=', intval($uid))
-                    ->where('article.is_publish','=',1)
+                    ->where('article.is_publish','=',$is_publish)
                     ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }
+
 
     /**
      * 根据单个专题id获取文章信息
