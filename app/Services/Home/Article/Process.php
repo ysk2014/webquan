@@ -382,6 +382,47 @@ class Process extends BaseProcess
 		}
 	}
 
+
+	/**
+	* 处理文章推荐和收藏
+	*
+	* @param object $data;
+	* @param string $method;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function dealPraiseOrStore($data,$method)
+	{
+		$resultArr = [];
+
+		if($data['type']==0) {
+			$status ='praise';
+			$msg ='推荐';
+		} else {
+			$status ='store';
+			$msg ='收藏';
+		}
+
+		if($method=='POST') {
+			$sqlData = $this->userArticleModel->add($data);
+		} else if($method=='DELETE') {
+			$sqlData = $this->userArticleModel->del($data);
+			$msg='取消';
+		}
+
+		if($sqlData != false) {
+			if($method=='POST') {
+				$this->articleModel->incrementById($status,$data['aid']);
+			} else {
+				$this->articleModel->decrementById($status,$data['aid']);
+			}
+			$resultArr = array('error'=>false, 'msg'=>$msg.'成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>$msg.'失败');
+		}
+		return $resultArr;
+	}
+
 	/**
 	* 添加推荐
 	*

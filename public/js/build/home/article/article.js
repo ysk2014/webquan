@@ -289,7 +289,7 @@ define([
 						), 
 						React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
 							_this.state.uid==uid ? (
-								React.createElement("a", {className: "btn-success", href: "/article/edit/"+this.state.aid}, 
+								React.createElement("a", {className: "btn-success", href: "/article/"+this.state.aid+"/edit"}, 
 									React.createElement("i", {className: "fa fa-pencil-square-o", style: {marginRight:'4px'}}), 
 									React.createElement("span", null, "编辑")
 								)

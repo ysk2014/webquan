@@ -31,39 +31,38 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getContentByAid(CommentProcess $commentProcess)
+	public function getCommentsByAid(CommentProcess $commentProcess,$aid=0)
 	{
 		$data = Request::input('data');
-		$data = $commentProcess->getContentByAid($data);
+		$data = $commentProcess->getCommentsByAid($data);
 		return response()->json($data);
 	}
 
 
 	/**
-	 * 添加文章
+	 * 评论添加与删除处理
 	 *
 	 * @return Response
 	 */
-	public function addComment(CommentProcess $commentProcess)
+	public function dealComment(CommentProcess $commentProcess,$aid=0)
 	{
-		$data = Request::input('data');
-		$data['addtime'] = time();
+		$method = Request::method();
 
-		$result = $commentProcess->addComment($data);
-		
-		return response()->json($result);
-	}
+		if($method=="POST") {
 
+			$data = Request::input('data');
+			$data['addtime'] = time();
 
-	/**
-	 * 删除评论
-	 *
-	 * @return Response
-	 */
-	public function delContent(CommentProcess $commentProcess)
-	{
-		$id = Request::input('cid');
-		$result = $commentProcess->delContent($id);
+			$result = $commentProcess->addComment($data);
+
+		} else if($method=="DELETE") {
+
+			$id = Request::input('cid');
+			$result = $commentProcess->delComment($id);
+
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 		
 		return response()->json($result);
 	}
@@ -74,11 +73,11 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function delContentByUid(CommentProcess $commentProcess)
+	public function delCommentByUid(CommentProcess $commentProcess)
 	{
 		$uid = Request::input('uid');
 		$aid = Request::input('aid');
-		$result = $commentProcess->delContentByUid($aid,$uid);
+		$result = $commentProcess->delCommentByUid($aid,$uid);
 		
 		return response()->json($result);
 	}
@@ -88,10 +87,10 @@ class CommentController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function delContentByAid(CommentProcess $commentProcess)
+	public function delCommentByAid(CommentProcess $commentProcess)
 	{
 		$aid = Request::input('aid');
-		$result = $commentProcess->delContentByAid($aid);
+		$result = $commentProcess->delCommentsByAid($aid);
 		
 		return response()->json($result);
 	}

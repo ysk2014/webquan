@@ -30,7 +30,7 @@ class Comment extends Model
      * 
      * @return array
      */
-    public function getContentByAid($aid, $page)
+    public function getCommentsByAid($aid, $page)
     {
         return $this->select(array('comment.*','user.username'))
                     ->leftJoin('user','comment.uid','=','user.id')
@@ -46,7 +46,7 @@ class Comment extends Model
      * 
      * @return array
      */
-    public function getOneContentById($id)
+    public function getOneCommentById($id)
     {
         return $this->where('id', $id)->first()->toArray();
     }
@@ -76,7 +76,7 @@ class Comment extends Model
      * 
      * @param $aid,$uid
      */
-    public function delContentByUid($aid, $uid)
+    public function delCommentByUid($aid, $uid)
     {
         return $this->where('aid', $aid)->where('uid', $uid)->delete();
     }
@@ -86,7 +86,7 @@ class Comment extends Model
      * 
      * @param $aid
      */
-    public function delContentByAid($aid)
+    public function delCommentsByAid($aid)
     {
         return $this->where('aid', $aid)->delete();
     }
@@ -96,7 +96,7 @@ class Comment extends Model
      * 
      * @param $aid
      */
-    public function countContentByAid($aid)
+    public function countCommentByAid($aid)
     {
         return $this->where('aid', $aid)->count();
     }

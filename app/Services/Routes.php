@@ -54,10 +54,8 @@ class Routes
      *
      * @access public
      */
-    public function www()
-    {
-        Route::group(['domain' =>  $this->wwwDomain], function()
-        {
+    public function www() {
+        Route::group(['domain' =>  $this->wwwDomain], function() {
             // 主页
             Route::get('/', 'Home\HomeController@index');
 
@@ -82,27 +80,8 @@ class Routes
             Route::post('/user/me', 'Home\UserController@getUserInfoByLogin');
 
 
-            // 文章页
-            Route::get('/article/{id}', 'Home\ArticleController@index');
-            // 获取已公布的文章列表
-            Route::post('/article/list', 'Home\ArticleController@getAllArticle');
-            // 根据专题id获取文章列表
-            Route::post('/cloumn/article/list', 'Home\ArticleController@getArtsByCid');
-            // 获取用户关注专题的文章列表
-            Route::post('/cloumn/care/article', 'Home\ArticleController@getArtsByCare');
-            // 获取单个文章信息
-            Route::post('/article/{id}', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
-            //模糊查询标签名称的文章列表
-            Route::post('/article/tags', 'Home\ArticleController@getArtsLikeTagName');
 
-
-            //根据文章ID取得评论的内容
-            Route::post('/article/comments', 'Home\CommentController@getContentByAid');
-            //添加评论
-            Route::post('/article/comments/add', 'Home\CommentController@addComment');
-            //删除评论
-            Route::delete('/article/comments', 'Home\CommentController@delContent');
-
+            $this->article();
 
 
             // 专题列表页
@@ -133,26 +112,7 @@ class Routes
                 Route::post('/user/updateLogo', 'Home\UserController@updateLogo');
 
 
-                // 用户的文章
-                Route::post('/article/user', 'Home\ArticleController@getArtsByUid');
-                // 编辑文章
-                Route::post('/article/edit', 'Home\ArticleController@editArticle');
-                // 编辑文章页
-                Route::get('/article/add', 'Home\ArticleController@editPage');
-                // 编辑文章页
-                Route::get('/article/edit/{id}', 'Home\ArticleController@editPage');
-                // 添加文章
-                Route::post('/article/add', 'Home\ArticleController@addArticle');
-                // 删除文章
-                Route::post('/article/del', 'Home\ArticleController@delArticle');
-                //添加推荐
-                Route::post('/article/addPraise', 'Home\ArticleController@addPraise');
-                //取消推荐
-                Route::post('/article/delPraise', 'Home\ArticleController@delPraise');
-                //添加收藏
-                Route::post('/article/addStore', 'Home\ArticleController@addStore');
-                //取消收藏
-                Route::post('/article/delStore', 'Home\ArticleController@delStore');
+
                 
                 
 
@@ -194,4 +154,71 @@ class Routes
         return $this;
     }
 
+    /**
+     * 文章路由
+     * 
+     *
+     * @access public
+     */
+    public function article() {
+
+
+            Route::group(['prefix' => 'article/{id}'], function() {
+                //文章详情页面
+                Route::get('/', 'Home\ArticleController@index');
+                //获取单个文章数据
+                Route::get('info', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
+                //根据文章ID取得评论的内容
+                Route::get('/comments', 'Home\CommentController@getCommentsByAid');
+                //添加评论
+                Route::post('/comment', 'Home\CommentController@dealComment');
+                //删除评论
+                Route::delete('/comment', 'Home\CommentController@dealComment');
+            });
+
+            Route::group(['middleware' =>  'auth'], function() {
+                // 添加文章页面
+                Route::get('/article/add', 'Home\ArticleController@editPage');
+
+                //添加文章
+                Route::post('/article/add', 'Home\ArticleController@dealArticle');
+
+                Route::group(['prefix' => 'article/{id}'], function() {
+                    // 编辑文章页面
+                    Route::get('edit', 'Home\ArticleController@editPage');
+                    // 更新文章
+                    Route::put('/', 'Home\ArticleController@dealArticle');
+                    // 删除文章
+                    Route::delete('/', 'Home\ArticleController@dealArticle');
+
+                    //添加推荐
+                    Route::post('praise', 'Home\ArticleController@dealPraiseOrStore');
+                    //取消推荐
+                    Route::delete('praise', 'Home\ArticleController@dealPraiseOrStore');
+
+                    //添加收藏
+                    Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
+                    //取消收藏
+                    Route::delete('store', 'Home\ArticleController@dealPraiseOrStore');
+                });
+
+                Route::group(['prefix' => 'articles'], function() {
+                    // 用户的文章
+                    Route::get('user/{id}', 'Home\ArticleController@getArticles');
+                });
+            });
+
+            Route::group(['prefix' => 'articles'], function() {
+                // 获取已公布的文章列表
+                Route::get('/', 'Home\ArticleController@getAllArticle');
+                // 根据专题id获取文章列表
+                Route::get('/cloumn/{cid}', 'Home\ArticleController@getArtsByCid');
+                // 获取用户关注专题的文章列表
+                Route::get('/care/cloumns', 'Home\ArticleController@getArtsByCare');
+                //标签名称的文章列表
+                Route::get('/tag/{name}', 'Home\ArticleController@getArtsLikeTagName');
+            });
+
+        return $this;
+    }
 }

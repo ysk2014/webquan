@@ -70,11 +70,11 @@ class Process extends BaseProcess
     /**
      * 删除评论
      */
-    public function delContent($id)
+    public function delComment($id)
     {
         $cid = array($id);
         
-        if($this->commentModel->delContent($cid) != false)
+        if($this->commentModel->delComment($cid) != false)
         {
             return array('error'=>false,'msg'=>'删除成功');
         }
@@ -87,11 +87,11 @@ class Process extends BaseProcess
     /**
      * 根据用户id删除评论
      */
-    public function delContentByUid($aid,$uid)
+    public function delCommentByUid($aid,$uid)
     {
         
         
-        if($this->commentModel->delContentByUid($aid,$uid) != false)
+        if($this->commentModel->delCommentByUid($aid,$uid) != false)
         {
             return array('error'=>false,'msg'=>'删除成功');
         }
@@ -104,11 +104,11 @@ class Process extends BaseProcess
     /**
      * 删除文章id的所有评论
      */
-    public function delContentByAid($aid)
+    public function delCommentsByAid($aid)
     {
         
         
-        if($this->commentModel->delContentByAid($aid) != false)
+        if($this->commentModel->delCommentsByAid($aid) != false)
         {
             return array('error'=>false,'msg'=>'删除成功');
         }
@@ -123,17 +123,17 @@ class Process extends BaseProcess
      * 
      * @return array
      */
-    public function getContentByAid($data)
+    public function getCommentsByAid($data)
     {
         if(!isset($data['aid'])) return array('error'=>true,'msg'=>'没有文章id');
 
         $page = isset($data['page']) ? $data['page'] : 0;
 
-        $result = $this->commentModel->getContentByAid($data['aid'],$page);
+        $result = $this->commentModel->getCommentsByAid($data['aid'],$page);
 
         if($result)
         {
-            $count = $this->commentModel->countContentByAid($data['aid']);
+            $count = $this->commentModel->countCommentByAid($data['aid']);
             if( (intval($page)+1)*8 < $count ) {
                 $next = true;
             } else {

@@ -35,6 +35,8 @@ class ArticleSave extends AbstractParam
 
     protected $is_publish;
 
+    protected $update_time;
+
     protected $addtime;
 
     protected $id;
@@ -120,6 +122,12 @@ class ArticleSave extends AbstractParam
     public function setAddTime($addtime)
     {
         $this->addtime = $this->attributes['addtime'] = $addtime;
+        return $this;
+    }
+
+    public function setUpdateTime($update_time)
+    {
+        $this->update_time = $this->attributes['update_time'] = $update_time;
         return $this;
     }
 }
