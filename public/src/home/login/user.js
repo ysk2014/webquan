@@ -50,9 +50,9 @@ define(['react',
                 uid: uid
             });
             if (nav != "is_publish") {
-                _this.getAllArticleByUid(uid,nav,0,0);
-            }else{
                 _this.getAllArticleByUid(uid,nav,0,1);
+            }else{
+                _this.getAllArticleByUid(uid,nav,0,0);
             };
         },
 
