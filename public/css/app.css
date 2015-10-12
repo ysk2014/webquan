@@ -550,39 +550,28 @@ input:focus{
 }
 .home-page .host{
   border-bottom:1px solid #ddd;
-  padding-bottom: 8px;
+  padding-bottom: 3px;
+}
+.home-page .article-list{
+  margin-left: 0px;
+  padding-top: 0px;
 }
 .home-page .host img{
   display: block;
   float: left;
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
-.home-page .host .sign{
-  float: left;
-  margin-top: 80px;
-  color: #7f7f7f;
-}
-.home-page .host .mes{
+.home-page .host ul{
   float: right;
-  margin-left: 60px;
-  margin-top: 60px;
-  color: #7f7f7f;
+  margin-top: 30px;
 }
-.home-page .host .mes .nickname div{
+.home-page .host ul li{
   float: left;
-}
-.home-page .host .mes .nickname div span:nth-child(2),
-.home-page .host .mes .job div span:nth-child(2){
-  margin-right: 60px;
-  color: #7f7f7f;
-}
-.home-page .host .mes .job{
-  margin-top: 10px;
-}
-.home-page .host .mes .job div{
-  float: left;
+  font-size: 12px;
+  padding-left: 50px;
+  color: #969696;
 }
 
 .home-page .content .nav{
