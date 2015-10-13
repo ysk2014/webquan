@@ -154,7 +154,7 @@ define([
 								<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
 								<div className="footer">
 									{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(<a href={"/cloumn/edit/"+_this.state.cid}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
+										(<a href={"/cloumn/"+_this.state.cid+'/edit'}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
 									}
 								</div>
 								<div className="cloumn-right">

@@ -6,8 +6,8 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * 
 	     * @param id 专题id
 	     */
-		getCloumnById: function(data, callback) {
-			BaseModel.post('/cloumn/info', {'id':data}, callback);
+		getCloumnById: function(id, callback) {
+			BaseModel.get('/cloumn/'+id+'/info', {}, callback);
 		},
 
 	    /**
@@ -17,7 +17,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param page 分页
 	     */
 		getAllCloumns: function(data, callback) {
-			BaseModel.post('/cloumn/list',{'data':data}, callback);
+			BaseModel.get('/cloumns/info',{'data':data}, callback);
 		},
 	    /**
 	     *获取所有专题信息
@@ -26,7 +26,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param page 分页
 	     */
 		getCloumnsByUid: function(data,callback) {
-			BaseModel.post('/cloumn/myCloumn', {'data':data}, callback);
+			BaseModel.get('/cloumns/user/'+data.uid, {'data':data}, callback);
 		},
 
 	    /**
@@ -36,7 +36,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param page 分页
 	     */
 		getCareCloumnsByUid: function(data,callback) {
-			BaseModel.post('/cloumn/myCare', {'data':data}, callback);
+			BaseModel.get('/cloumns/care/user/'+data.uid, {'data':data}, callback);
 		},
 
 		//添加专题
@@ -45,27 +45,27 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		//编辑专题
 		editCloumn: function(data, callback) {
-			BaseModel.post('/cloumn/edit', {'data':data}, callback);
+			BaseModel.put('/cloumn/'+data.id, {'data':data}, callback);
 		},
 	    /**
 	     * 删除专题
 	     * 
 	     * @param id 专题id
 	     */
-		delCloumn: function(data, callback) {
-			BaseModel.post('/cloumn/del', data, callback);
+		delCloumn: function(id, callback) {
+			BaseModel.del('/cloumn/'+id, {}, callback);
 		},
 	    /**
 	     * 添加关注
 	     */
 		addCare: function(data, callback) {
-			BaseModel.post('/cloumn/addCare', {'data':data}, callback);
+			BaseModel.post('/cloumn/'+data.cid+'/care', {'data':data}, callback);
 		},
 	    /**
 	     * 添加关注
 	     */
 		delCare: function(data, callback) {
-			BaseModel.post('/cloumn/delCare', {'data':data}, callback);
+			BaseModel.del('/cloumn/'+data.cid+'/care', {'data':data}, callback);
 		},
 		
 	};

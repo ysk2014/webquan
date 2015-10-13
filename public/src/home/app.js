@@ -65,7 +65,7 @@ requirejs([
 
             <Route path="/cloumns" handler={CloumnList}/>
             <Route path="/cloumn/add" handler={EditCloumn}/>
-            <Route path="/cloumn/edit/:id" handler={EditCloumn}/>
+            <Route path="/cloumn/:id/edit" handler={EditCloumn}/>
             <Route path="/cloumn/:id" handler={Cloumn}/>
             
             <Route path="/article/add" handler={EditArticle}/>

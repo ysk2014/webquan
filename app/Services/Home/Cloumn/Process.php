@@ -295,38 +295,33 @@ class Process extends BaseProcess
     }
 
     /**
-     * 添加关注
+     * 处理关注
      * 
      * @param  $data
      */
-    public function addCare($data) 
+    public function dealCare($data,$method) 
     {
         if(!isset($data)) return array('error'=>true,'msg'=>'没有数据');
 
-        $id=$this->careModel->add($data);
+        if($method=="POST") {
+            $id=$this->careModel->add($data);
+            $msg='关注';
+        } else if($method=="DELETE") {
+            $id=$this->careModel->del($data);
+            $msg='取消';
+        }
+        
         if($id) {
-            $this->cloumnModel->incrementData('care',$data['cid']);
-            return array('error'=>false, 'msg'=>'关注成功');
+            if($method=="POST") {
+                $this->cloumnModel->incrementData('care',$data['cid']);
+            } else if($method=="DELETE") {
+                $this->cloumnModel->decrementData('care',$data['cid']);
+            }
+            return array('error'=>false, 'msg'=>$msg.'成功');
         } else {
-            return array('error'=>true, 'msg'=>'关注失败');
+            return array('error'=>true, 'msg'=>$msg.'失败');
         }
     }
 
-    /**
-     * 取消关注
-     * 
-     * @param  $data
-     */
-    public function delCare($data) 
-    {
-        if(!isset($data)) return array('error'=>true,'msg'=>'没有数据');
 
-        $id=$this->careModel->del($data);
-        if($id) {
-            $this->cloumnModel->decrementData('care',$data['cid']);
-            return array('error'=>false, 'msg'=>'取消成功');
-        } else {
-            return array('error'=>true, 'msg'=>'取消失败');
-        }
-    }
 }

@@ -154,7 +154,7 @@ define([
 								React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
 								React.createElement("div", {className: "footer"}, 
 										_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(React.createElement("a", {href: "/cloumn/edit/"+_this.state.cid}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑专题"))) : null
+										(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit'}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑专题"))) : null
 									
 								), 
 								React.createElement("div", {className: "cloumn-right"}, 

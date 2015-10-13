@@ -22,73 +22,46 @@ class CloumnController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		return view('home.app');
-	}
-	// 专题详情页
-	public function cloumnPage($id)
-	{
-		return view('home.app');
-	}
-	// 专题列表页
-	public function cloumnListPage()
+	public function index($id=0)
 	{
 		return view('home.app');
 	}
 
+
     /**
-     * 添加专题
+     * 处理专题
      *
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
-	public function addCloumn(CloumnProcess $manager)
+	public function dealCloumn(CloumnProcess $manager,$id=0)
 	{
-		$data = (array) Request::input('data');
-		$data['addtime'] = time();
-
+		$method = Request::method();
 		$param = new \App\Services\Home\Cloumn\CloumnSave();
-		$param->setAttributes($data);
 
-		$result = $manager->addCloumn($param);
+		if($method=='POST') {
 
-		return response()->json($result);
+			$data = (array) Request::input('data');
+			$data['addtime'] = time();
+
+			$param->setAttributes($data);
+			$result = $manager->addCloumn($param);
+
+		} else if($method=='PUT') {
+
+			$data = (array) Request::input('data');
+			$data['update_time'] = time();
+
+			$param->setAttributes($data);
+			$result = $manager->editCloumn($param);
+
+		} else if($method=='DELETE') {
+			$ids = [$id];
+			$result = $manager->delCloumn($ids);
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 		
-	}
-
-    /**
-     * 编辑专题
-     *
-     * @param App\Services\Cloumn\Process $process 专题处理
-     * @access public
-     */
-	public function editCloumn(CloumnProcess $manager)
-	{
-		$data = (array) Request::input('data');
-		$data['update_time'] = time();
-		
-		$param = new \App\Services\Home\Cloumn\CloumnSave();
-		$param->setAttributes($data);
-
-		$result = $manager->editCloumn($param);
-
-		return response()->json($result);
-		
-	}
-
-    /**
-     * 删除专题
-     *
-     * @param App\Services\Cloumn\Process $process 专题处理
-     * @access public
-     */
-	public function delCloumn(CloumnProcess $manager)
-	{
-		$ids = (array) Request::input('id');
-		
-		$result = $manager->delCloumn($ids);
-
 		return response()->json($result);
 		
 	}
@@ -99,27 +72,10 @@ class CloumnController extends Controller {
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
-	public function getCloumnById(CloumnProcess $manager)
+	public function getCloumnById(CloumnProcess $manager,$id=0)
 	{
-		$id = Request::input('id');
 		
 		$result = $manager->getCloumnById($id);
-
-		return response()->json($result);
-		
-	}
-
-    /**
-     * 根据用户id获取专题信息
-     *
-     * @param App\Services\Cloumn\Process $process 专题处理
-     * @access public
-     */
-	public function getCloumnsByUid(CloumnProcess $manager)
-	{
-		$data = Request::input('data');
-		
-		$result = $manager->getCloumnsByUid($data);
 
 		return response()->json($result);
 		
@@ -142,12 +98,29 @@ class CloumnController extends Controller {
 	}
 
     /**
+     * 根据用户id获取专题信息
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function getCloumnsByUid(CloumnProcess $manager,$uid=0)
+	{
+		$data = Request::input('data');
+		
+		$result = $manager->getCloumnsByUid($data);
+
+		return response()->json($result);
+		
+	}
+
+
+    /**
      * 获取用户关注的专题信息
      *
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
-	public function getCareCloumnsByUid(CloumnProcess $manager)
+	public function getCareCloumnsByUid(CloumnProcess $manager,$uid=0)
 	{
 		$data = Request::input('data');
 		
@@ -172,27 +145,24 @@ class CloumnController extends Controller {
     }
 
     /**
-     * 添加关注
+     * 处理关注
      */
-    public function addCare(CloumnProcess $manager)
+    public function dealCare(CloumnProcess $manager)
     {
-		$data = Request::input('data');
-		$data['addtime'] = time();
+    	$method = Request::method();
 
-		$result = $manager->addCare($data);
+    	$data = Request::input('data');
+
+    	if($method=="POST") {
+    		$data['addtime'] = time();
+    		$result = $manager->dealCare($data,$method);
+    	} else if($method=="DELETE") {
+    		$result = $manager->dealCare($data,$method);
+    	} else {
+    		$result = array('error'=>true,'msg'=>'路由匹配失败');
+    	}
 		
 		return response()->json($result);
     }
 
-    /**
-     * 取消关注
-     */
-    public function delCare(CloumnProcess $manager)
-    {
-		$data = Request::input('data');
-
-		$result = $manager->delCare($data);
-		
-		return response()->json($result);
-    }
 }

@@ -65,7 +65,7 @@ requirejs([
 
             React.createElement(Route, {path: "/cloumns", handler: CloumnList}), 
             React.createElement(Route, {path: "/cloumn/add", handler: EditCloumn}), 
-            React.createElement(Route, {path: "/cloumn/edit/:id", handler: EditCloumn}), 
+            React.createElement(Route, {path: "/cloumn/:id/edit", handler: EditCloumn}), 
             React.createElement(Route, {path: "/cloumn/:id", handler: Cloumn}), 
             
             React.createElement(Route, {path: "/article/add", handler: EditArticle}), 
