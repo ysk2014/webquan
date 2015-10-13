@@ -62,24 +62,7 @@ class Routes
             // 邮件
             Route::get('/email', 'Email\EmailController@index');
 
-            // 登录页
-            Route::get('/login/{way}', 'Home\UserController@login');
-            // 登录处理
-            Route::post('/sign_in', 'Home\UserController@getProc');
-            // 注册处理
-            Route::post('/sign_up', 'Home\UserController@addUser');
-            // 退出
-            Route::get('/sign_out', 'Home\UserController@getOut');
-
-
-            // 个人首页
-            Route::get('/user', 'Home\UserController@index');
-            // 根据id获取用户信息 
-            Route::post('/user/info', 'Home\UserController@getUserInfoById'); 
-            // 获取登录用户的信息
-            Route::post('/user/me', 'Home\UserController@getUserInfoByLogin');
-
-
+            $this->user();
 
             $this->article();
 
@@ -92,16 +75,6 @@ class Routes
 
             
             Route::group(['middleware' =>  'auth'], function() {
-                // 编辑用户信息
-                Route::post('/user/edit', 'Home\UserController@editUser');
-                // 修改密码 
-                Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
-                //设置
-                Route::get('/settings', 'Home\UserController@settings');
-                //检查用户名是否存在
-                Route::post('/user/checkUserName', 'Home\UserController@checkUserName');
-                // 上传头像
-                Route::post('/user/updateLogo', 'Home\UserController@updateLogo');
 
                 //图片上传upload
                 Route::post('/upload', 'Home\UploadController@upload');
@@ -252,6 +225,34 @@ class Routes
      * @access public
      */
     public function user() {
-        
+            // 登录页
+            Route::get('/login/{way}', 'Home\UserController@login');
+            // 登录处理
+            Route::post('/sign_in', 'Home\UserController@getProc');
+            // 注册处理
+            Route::post('/sign_up', 'Home\UserController@addUser');
+            // 退出
+            Route::get('/sign_out', 'Home\UserController@getOut');
+
+            
+            // 个人首页
+            Route::get('/user', 'Home\UserController@index');
+            // 根据id获取用户信息 
+            Route::get('/user/{id}', 'Home\UserController@getUserInfoById')->where('id', '[0-9]+'); 
+            // 获取登录用户的信息
+            Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
+
+            Route::group(['middleware' =>  'auth'], function() {
+                // 编辑用户信息
+                Route::post('/user/edit', 'Home\UserController@editUser');
+                // 修改密码 
+                Route::post('/user/modifyPassword', 'Home\UserController@modifyPassword'); 
+                //设置
+                Route::get('/settings', 'Home\UserController@index');
+                //检查用户名是否存在
+                Route::post('/user/checkUserName', 'Home\UserController@checkUserName');
+                // 上传头像
+                Route::post('/user/updateLogo', 'Home\UserController@updateLogo');
+            });
     }
 }

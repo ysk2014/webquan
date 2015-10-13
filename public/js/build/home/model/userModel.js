@@ -11,11 +11,11 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		//获取登录用户信息
 		getUserInfoByLogin: function(callback) {
-			BaseModel.post('/user/me',{}, callback);
+			BaseModel.get('/user/me',{}, callback);
 		},
 		//根据id获取用户信息
-		getUserInfoById: function(data, callback) {
-			BaseModel.post('/user/info', data, callback);
+		getUserInfoById: function(id, callback) {
+			BaseModel.get('/user/'+id, {}, callback);
 		},
 		//更新用户信息
 		editUser: function(data, callback) {

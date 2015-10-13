@@ -12,7 +12,7 @@ define(['react',
         init: function() {
             var _this = this;
             var uid = WQ.cookie.get('id');
-            UserModel.getUserInfoById({id:uid},function(success,data) {
+            UserModel.getUserInfoById(uid,function(success,data) {
                 if(success) {
                     if(!data.error) {
                         var data = data.data

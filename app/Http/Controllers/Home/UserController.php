@@ -39,14 +39,6 @@ class UserController extends Controller {
 		return view('home.app');
 	}
 
-	/**
-	* 设置
-	*/
-	public function settings()
-	{
-		return view('home.app');
-	}
-
     /**
      * 开始登录处理
      *
@@ -149,9 +141,8 @@ class UserController extends Controller {
     /**
      * 根据用户的id获取用户的信息
      */
-    public function getUserInfoById(UserActionProcess $manager)
+    public function getUserInfoById(UserActionProcess $manager,$id=0)
     {
-		$id = intval(Request::input('id'));
 		$result = $manager->getUserInfoById($id);
 		return response()->json($result);
     }

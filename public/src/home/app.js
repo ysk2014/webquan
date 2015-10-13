@@ -30,16 +30,16 @@ requirejs([
         'reactRouter', 
         'home/common/userDropMenu',
         'home/home', 
-        'home/login/login',
-        'home/login/user',
+        'home/user/login',
+        'home/user/user',
+        'home/user/settings',
         'home/article/editArticle',
         'home/article/article',
-        'home/settings/settings',
         'home/cloumn/cloumnList',
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn, Tag){
+    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, Settings, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
         
     var Route = ReactRouter.Route;
     var RouteHandler = ReactRouter.RouteHandler;
