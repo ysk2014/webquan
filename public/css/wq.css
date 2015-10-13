@@ -453,7 +453,7 @@
 	border: 1px solid #cccccc;
 }
 .edit-article .input-prepend select{
-	width: 100px;
+	width: 200px;
 }
 .edit-article .input-prepend select:focus{
 	outline: none;
