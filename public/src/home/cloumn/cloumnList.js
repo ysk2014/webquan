@@ -162,6 +162,11 @@ define([
 			var uid = WQ.cookie.get('id');
 			var dataObj = {cid:cid,uid:uid};
 
+			if(!uid) {
+				window.location.href='login/sign_in';
+				return;
+			}
+
 			var changeCare = function(status) {
 				if(status) {
 					var num = 1;

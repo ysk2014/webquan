@@ -218,7 +218,7 @@ class Routes
                 //创建专题
                 Route::post('/add', 'Home\CloumnController@dealCloumn');
                 // 上传头像
-                Route::post('/updateLogo', 'Home\CloumnController@updateLogo');
+                Route::post('/logo', 'Home\CloumnController@updateLogo');
             });
             
 
