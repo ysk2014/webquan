@@ -61,7 +61,7 @@ requirejs([
 
             React.createElement(Route, {path: "/login/:way", handler: Login}), 
             React.createElement(Route, {path: "/user", handler: User}), 
-            React.createElement(Route, {path: "/settings", handler: Settings}), 
+            React.createElement(Route, {path: "/user/:id/settings", handler: Settings}), 
 
             React.createElement(Route, {path: "/cloumns", handler: CloumnList}), 
             React.createElement(Route, {path: "/cloumn/add", handler: EditCloumn}), 

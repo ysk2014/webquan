@@ -61,7 +61,7 @@ requirejs([
 
             <Route path="/login/:way" handler={Login}/>
             <Route path="/user" handler={User}/>
-            <Route path="/settings" handler={Settings}/>
+            <Route path="/user/:id/settings" handler={Settings}/>
 
             <Route path="/cloumns" handler={CloumnList}/>
             <Route path="/cloumn/add" handler={EditCloumn}/>
