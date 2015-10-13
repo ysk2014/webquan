@@ -135,7 +135,7 @@ define([
 					<LeftNav active={this.state.nav} />
 
 					<div className="cloumn-edit">
-						<form className="uploadForm" action="/cloumn/updateLogo" method="post" target="uploadIframe">
+						<form className="uploadForm" action="/cloumn/logo" method="post" target="uploadIframe">
 							<h3>{_this.state.cid>0 ? '编辑' : '新建'}专题</h3>
 							<div className="upload">
 								<input type="file" name="cloumn-image" style={{display:'none'}} onChange={_this.handleFileChange} />

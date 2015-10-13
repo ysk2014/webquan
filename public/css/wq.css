@@ -324,7 +324,7 @@
 }
 .drop-menu .login{
     position: relative;
-    top: 7px;
+    top: 10px;
     float: right;
     padding: 0 2px;
     margin-right: 8px;
@@ -919,7 +919,7 @@
 }
 .pull-right{
 	float: right;
-	margin: 10px 100px 0 0;
+	margin: 10px 120px 0 0;
 }
 
 .orderBy-nav{

@@ -81,6 +81,11 @@ define([
 			var uid = WQ.cookie.get('id');
 			var username = WQ.cookie.get('username');
 
+			if(!uid) {
+				window.location.href="/login/sign_in";
+				return;
+			}
+
 			var data = {aid:aid, uid:uid, content:content};
 
 			ArticleModel.addComment(data,function(success,data) {
@@ -125,6 +130,12 @@ define([
 		// 推荐处理
 		handlePraise: function(event) {
 			var _this = this;
+
+			if(!WQ.cookie.get('id')) {
+				window.location.href="/login/sign_in";
+				return;
+			}
+
 			if(event.target.tagName.toLowerCase()=='a') {
 				var ele = $(event.target);
 			} else {
@@ -164,6 +175,12 @@ define([
 		// 收藏处理
 		handleStore: function(event) {
 			var _this = this;
+
+			if(!WQ.cookie.get('id')) {
+				window.location.href="/login/sign_in";
+				return;
+			}
+
 			if(event.target.tagName.toLowerCase()=='a') {
 				var ele = $(event.target);
 			} else {
@@ -217,6 +234,12 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+			$('#comment-text').on('focus',function() {
+				if(!WQ.cookie.get('id')) {
+					window.location.href="/login/sign_in";
+					return;
+				};
+			});
 		},
 		render: function() {
 			var _this = this;

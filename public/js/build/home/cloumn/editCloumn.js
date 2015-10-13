@@ -135,7 +135,7 @@ define([
 					React.createElement(LeftNav, {active: this.state.nav}), 
 
 					React.createElement("div", {className: "cloumn-edit"}, 
-						React.createElement("form", {className: "uploadForm", action: "/cloumn/updateLogo", method: "post", target: "uploadIframe"}, 
+						React.createElement("form", {className: "uploadForm", action: "/cloumn/logo", method: "post", target: "uploadIframe"}, 
 							React.createElement("h3", null, _this.state.cid>0 ? '编辑' : '新建', "专题"), 
 							React.createElement("div", {className: "upload"}, 
 								React.createElement("input", {type: "file", name: "cloumn-image", style: {display:'none'}, onChange: _this.handleFileChange}), 
