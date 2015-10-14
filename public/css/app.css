@@ -1,70 +1,4 @@
-*{
-  padding: 0;
-  margin: 0;
-}
-body {
-  margin: 0;
-  font-family: 'Avenir Next',Avenir,'Helvetica Neue',Helvetica,'Lantinghei SC','Hiragino Sans GB','Microsoft YaHei',"微软雅黑",STHeiti,'WenQuanYi Micro Hei',SimSun,sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333333;
-  /*background-color: #efefef;*/
-}
-h1,h2,h3,h4,h5,h6{
-  margin: 10px 0;
-  font-family: inherit;
-  font-weight: bold;
-  line-height: 20px;
-  color: inherit;
-  text-rendering: optimizelegibility;
-}
-a{
-  color: #555;
-  text-decoration: none;
-}
-a:hover{
-  color: #000;
-}
-ul{
-  list-style: none;
-}
-img{
-  max-width: 100%;
-  height: auto;
-  vertical-align: middle;
-  border: 0;
-}
-fieldset{
-  padding: 0px;
-  margin: 0;
-  border: 0;
-}
-legend{
-  display: block;
-  padding: 0;
-  margin-bottom: 20px;
-  font-size: 21px;
-  width: 100%;
-  line-height: 40px;
-  color: #333;
-  border: 0;
-  border-bottom: 1px solid #e5e5e5;
-}
-label, input, button, select, textarea {
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 20px;
-}
 
-/*清楚浮动*/
-.clearfix:before, .clearfix:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.clearfix:after{
-  clear: both;
-}
 
 /*输入框*/
 input.search-query {
@@ -94,24 +28,7 @@ input:focus{
   border: 1px solid #64ba9d;
 }
 
-.btn{
-  display: block;
-  padding: 6px 12px;
-  line-height: 1.4;
-  cursor: pointer;
-  color: #fff;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  -webkit-appearance: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-.btn:hover{
-  color: #fff;
-}
+
 
 /*登陆*/
 .login-page{
@@ -205,36 +122,6 @@ input:focus{
   border-color: rgba(82,168,236,0.8);
 }
 
-.login-page .submit-button{
-  display: block;
-  width: 100%;
-  background: #049cdb;
-  padding: 14px 18px;
-  font-size: 18px;
-  line-height: 20px;
-  text-align: center;
-  cursor: pointer;
-  color: #fff;
-  border-radius: 2px;
-  border: 1px solid #15a7f0;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-appearance: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
-  -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
-  -ms-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
-  -o-transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
-  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) all !important;
-}
-.login-page .submit-button:focus,
-.login-page .submit-button:hover{
-  color: white;
-  border-color: #3dbcf5;
-  background-color: #3dbcf5;
-}
 #mask{
   position:fixed; 
   left:0%;

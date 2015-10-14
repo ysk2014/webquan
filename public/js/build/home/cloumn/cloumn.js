@@ -13,7 +13,8 @@ define([
 		// 获取专题数据和专题下的所有文章
 		init: function() {
 			var _this = this;
-			CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
+			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : 0;
+			CloumnModel.getCloumnById(_this.state.cid,uid,function(success,data) {
 				if(success) {
 					if(!data.error) {
 						console.log(data);
@@ -53,6 +54,50 @@ define([
 					}
 				} 
 			});
+		},
+		handleCare: function(event) {
+			var _this = this;
+			var ele = $(event.target);
+			var myCare = ele.data('care');
+			var cid = _this.state.cid;
+			var uid = WQ.cookie.get('id');
+			var dataObj = {cid:cid,uid:uid};
+
+			if(myCare) {
+				CloumnModel.delCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']-1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+
+							ele.data('care',false);
+							ele.addClass('btn-info').removeClass('btn-default');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			} else {
+				CloumnModel.addCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']+1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+							
+							ele.data('care',true);
+							ele.addClass('btn-default').removeClass('btn-info');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			}
 		},
 		handleTabChange: function(event) {
 			var _this = this;
@@ -94,6 +139,20 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+		},
+		// 关注按钮鼠标移动事件
+		handleOver: function(event) {
+			var span = $(event.target);
+			if(span.html() =='正在关注') {
+				span.html('取消关注');
+			}
+		},
+		// 关注按钮鼠标移动事件
+		handleOut: function(event) {
+			var span = $(event.target);
+			if(span.html() =='取消关注') {
+				span.html('正在关注');
+			}
 		},
 		render: function() {
 			var _this = this;
@@ -158,7 +217,7 @@ define([
 									
 								), 
 								React.createElement("div", {className: "cloumn-right"}, 
-									React.createElement("a", {className: "btn-success"}, "添加关注")
+									React.createElement("a", {onClick: this.handleCare, onMouseEnter: this.handleOver, onMouseLeave: this.handleOut, href: "javascript:void(0)", "data-care": _this.state.cloumn['careStatus'] ? true : false, className: _this.state.cloumn['careStatus'] ? "btn btn-default" : "btn btn-info"}, _this.state.cloumn['careStatus'] ? '正在关注' : '添加关注')
 								)
 							)
 						), 
@@ -169,7 +228,7 @@ define([
 							), 
 							React.createElement("div", {className: "article-list"}, 
 								articles, 
-								React.createElement("a", {className: "more", style: _this.state.next ? {display:'block'} : {display:'none'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
+								React.createElement("a", {className: "btn btn-info btn-large", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
 							)
 						)
 					)

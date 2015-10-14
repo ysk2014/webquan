@@ -77,6 +77,15 @@ class UserCareCloumn extends Base
     }
 
     /**
+     * 判断用户是否关注该专题
+     * 
+     */
+    public function getCareId($cid,$uid)
+    {
+        return $this->where('cid','=',$cid)->where('uid','=',$uid)->first();
+    } 
+
+    /**
      * 获取专题总数
      * 
      */

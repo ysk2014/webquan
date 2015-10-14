@@ -74,8 +74,8 @@ class CloumnController extends Controller {
      */
 	public function getCloumnById(CloumnProcess $manager,$id=0)
 	{
-		
-		$result = $manager->getCloumnById($id);
+		$uid = Request::input('uid');
+		$result = $manager->getCloumnById($id,$uid);
 
 		return response()->json($result);
 		

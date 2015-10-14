@@ -294,8 +294,8 @@ define([
 					<LeftNav active={this.state.name} />
 					<div className="header">
 						<span className="desc">写文章</span>
-						<a className="submit-button" data-publish="1" onClick={this.handlePublic}>发布</a>
-						<a className="submit-button" style={{marginRight:'10px'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
+						<a className="btn btn-info btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 120px 0 0'}} data-publish="1" onClick={this.handlePublic}>发布</a>
+						<a className="btn btn-default btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 10px 0 0'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
 					</div>
 					<div className="edit-article">
 						<form>

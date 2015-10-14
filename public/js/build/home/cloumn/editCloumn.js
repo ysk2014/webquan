@@ -159,7 +159,7 @@ define([
 							React.createElement("div", {className: "input-prepend"}, 
 								React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内为专题添加描述", value: _this.state.description, onChange: _this.handleDescChange})
 							), 
-							React.createElement("input", {type: "button", className: "btn-success btn-large", value: "创建专题", onClick: _this.handleSubmit})
+							React.createElement("input", {type: "button", className: "btn btn-info btn-submit", value: "创建专题", style: {width:"60%",margin:'0 auto',cursor:'pointer'}, onClick: _this.handleSubmit})
 						)
 					)
 				)

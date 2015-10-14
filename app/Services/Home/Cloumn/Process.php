@@ -117,13 +117,19 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function getCloumnById($data)
+    public function getCloumnById($cid,$uid)
     {
-        if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
-        $result = $this->cloumnModel->getCloumnById($data);
+        if(!isset($cid)) return array('error'=>true, 'msg'=>'参数没有设置');
+
+        $result = $this->cloumnModel->getCloumnById($cid);
         if($result) 
         {
-            $this->cloumnModel->incrementData('view', $data);
+            if($uid!=0 && $this->careModel->getCareId($cid,$uid)) {
+                $result['careStatus'] = true;
+            } else {
+                $result['careStatus'] = false;
+            }
+            $this->cloumnModel->incrementData('view', $cid);
             return array('error'=>false, 'data'=>$result);
         } 
         else 

@@ -294,8 +294,8 @@ define([
 					React.createElement(LeftNav, {active: this.state.name}), 
 					React.createElement("div", {className: "header"}, 
 						React.createElement("span", {className: "desc"}, "写文章"), 
-						React.createElement("a", {className: "submit-button", "data-publish": "1", onClick: this.handlePublic}, "发布"), 
-						React.createElement("a", {className: "submit-button", style: {marginRight:'10px'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")
+						React.createElement("a", {className: "btn btn-info btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 120px 0 0'}, "data-publish": "1", onClick: this.handlePublic}, "发布"), 
+						React.createElement("a", {className: "btn btn-default btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 10px 0 0'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")
 					), 
 					React.createElement("div", {className: "edit-article"}, 
 						React.createElement("form", null, 
