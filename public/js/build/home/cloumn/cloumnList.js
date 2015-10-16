@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/cloumnModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel, Tooltip) {
 
 
 	var mixin = {
@@ -308,8 +307,6 @@ define([
 			});
 			return (
 				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.name}), 
-
 					React.createElement("div", {className: "header"}, 
 						React.createElement("div", {className: "nav"}, 
 							React.createElement("a", {className: nav==0 ? "tab active" : "tab", onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "专题广场"), 

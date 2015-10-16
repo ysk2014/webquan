@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/cloumnModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel, Tooltip) {
 
 
 	var mixin = {
@@ -308,8 +307,6 @@ define([
 			});
 			return (
 				<div>
-					<LeftNav active={this.state.name} />
-
 					<div className="header">
 						<div className="nav">
 							<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>

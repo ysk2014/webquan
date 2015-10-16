@@ -3,10 +3,9 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/articleModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
     'editormd',
-	],function( React, $, WQ, ArticleModel, LeftNav, Tooltip, editormd) {
+	],function( React, $, WQ, ArticleModel, Tooltip, editormd) {
 
 
 	var mixin = {
@@ -228,7 +227,7 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'home',
-				aid: this.props.params.id,   //文章id
+				aid: this.props.aid,   //文章id
 				commentList: [],             //评论数据
 				commentContent: '',          //要评论的内容
 				page: 0,					 //评论分页
@@ -295,64 +294,59 @@ define([
 				);
 			}) : null;
 			return (
-				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.name}), 
-
-
-					React.createElement("div", {className: "article-page", style: _this.state.info ? {display:'block'} : {display: 'none'}}, 
-						React.createElement("h3", {className: "title"}, title), 
-						React.createElement("div", {style: {marginBottom:'10px'}}, 
-							React.createElement("span", {className: "author"}, 
-								React.createElement("a", {href: "javascript:void(0)"}, 
-									React.createElement("img", {className: "avatar", src: "/image/user-default.png"}), 
-									React.createElement("span", {className: "name"}, username)
-								)
-							), 
-							React.createElement("span", {className: "tag time"}, " • ", WQ.timeFormat(time)), 
-							React.createElement("span", {className: "tag"}, " 发布在: ", cloumn), 
-							React.createElement("span", {className: "tag view"}, " 阅读: ", view), 
-							React.createElement("span", {className: "tag comment"}, " 评论: ", comment), 
-							tagsList
-						), 
-						React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
-							_this.state.uid==uid ? (
-								React.createElement("a", {className: "btn btn-info", href: "/article/"+this.state.aid+"/edit"}, 
-									React.createElement("i", {className: "fa fa-pencil-square-o", style: {marginRight:'4px'}}), 
-									React.createElement("span", null, "编辑")
-								)
-							): null, 
-							
-							React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
-								React.createElement("i", {className: "fa fa-thumbs-up", style: {marginRight:'4px'}}), 
-								React.createElement("span", {style: {marginRight:'4px'}}, praiseStatus ? '已推荐' : '推荐'), 
-								React.createElement("span", null, praise)
-							), 
-							React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
-								React.createElement("i", {className: "fa fa-bookmark-o", style: {marginRight:'4px'}}), 
-								React.createElement("span", {style: {marginRight:'4px'}}, storeStatus ? '已收藏' : '收藏'), 
-								React.createElement("span", null, store)
-							), 
-							React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
-								React.createElement("i", {className: "fa fa-share-square-o", style: {marginRight:'4px'}}), 
-								React.createElement("span", null, "分享")
+				React.createElement("div", {className: "article-page", style: _this.state.info ? {display:'block'} : {display: 'none'}}, 
+					React.createElement("h3", {className: "title"}, title), 
+					React.createElement("div", {style: {marginBottom:'10px'}}, 
+						React.createElement("span", {className: "author"}, 
+							React.createElement("a", {href: "javascript:void(0)"}, 
+								React.createElement("img", {className: "avatar", src: "/image/user-default.png"}), 
+								React.createElement("span", {className: "name"}, username)
 							)
 						), 
+						React.createElement("span", {className: "tag time"}, " • ", WQ.timeFormat(time)), 
+						React.createElement("span", {className: "tag"}, " 发布在: ", cloumn), 
+						React.createElement("span", {className: "tag view"}, " 阅读: ", view), 
+						React.createElement("span", {className: "tag comment"}, " 评论: ", comment), 
+						tagsList
+					), 
+					React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
+						_this.state.uid==uid ? (
+							React.createElement("a", {className: "btn btn-info", href: "/article/"+this.state.aid+"/edit"}, 
+								React.createElement("i", {className: "fa fa-pencil-square-o", style: {marginRight:'4px'}}), 
+								React.createElement("span", null, "编辑")
+							)
+						): null, 
 						
-						React.createElement("div", {id: "editormd-view"}, 
-							React.createElement("textarea", null)
+						React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
+							React.createElement("i", {className: "fa fa-thumbs-up", style: {marginRight:'4px'}}), 
+							React.createElement("span", {style: {marginRight:'4px'}}, praiseStatus ? '已推荐' : '推荐'), 
+							React.createElement("span", null, praise)
 						), 
+						React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
+							React.createElement("i", {className: "fa fa-bookmark-o", style: {marginRight:'4px'}}), 
+							React.createElement("span", {style: {marginRight:'4px'}}, storeStatus ? '已收藏' : '收藏'), 
+							React.createElement("span", null, store)
+						), 
+						React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
+							React.createElement("i", {className: "fa fa-share-square-o", style: {marginRight:'4px'}}), 
+							React.createElement("span", null, "分享")
+						)
+					), 
+					
+					React.createElement("div", {id: "editormd-view"}, 
+						React.createElement("textarea", null)
+					), 
 
-						React.createElement("div", {className: "comment-box"}, 
-							React.createElement("div", {className: "hd"}, "评论"), 
-							React.createElement("div", {className: "bd"}, 
-								React.createElement("div", {className: "publish"}, 
-									React.createElement("textarea", {id: "comment-text", placeholder: "参与讨论", value: this.state.commentContent, onChange: this.handleChangeCommnet}), 
-									React.createElement("a", {className: "btn btn-default", href: "javascript:void(0)", style: {display:'inline-block',margin:'10px 0'}, onClick: this.submitComment}, "发表评论")
-								), 
-								React.createElement("div", {className: "comment-list"}, 
-									commentList, 
-									React.createElement("a", {className: "btn btn-default btn-large", href: "javascript:void(0)", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, onClick: _this.hamdleMore}, "更多评论")
-								)
+					React.createElement("div", {className: "comment-box"}, 
+						React.createElement("div", {className: "hd"}, "评论"), 
+						React.createElement("div", {className: "bd"}, 
+							React.createElement("div", {className: "publish"}, 
+								React.createElement("textarea", {id: "comment-text", placeholder: "参与讨论", value: this.state.commentContent, onChange: this.handleChangeCommnet}), 
+								React.createElement("a", {className: "btn btn-default", href: "javascript:void(0)", style: {display:'inline-block',margin:'10px 0'}, onClick: this.submitComment}, "发表评论")
+							), 
+							React.createElement("div", {className: "comment-list"}, 
+								commentList, 
+								React.createElement("a", {className: "btn btn-default btn-large", href: "javascript:void(0)", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, onClick: _this.hamdleMore}, "更多评论")
 							)
 						)
 					)

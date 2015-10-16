@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/cloumnModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel,Tooltip) {
 
 
 	var mixin = {
@@ -13,7 +12,7 @@ define([
 			var _this = this;
 			// 如果是编辑页面则获取专题数据
 			if(_this.state.cid > 0) {
-				CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
+				CloumnModel.getCloumnById(_this.state.cid,_this.state.uid,function(success,data) {
 					if(success) {
 						if(!data.error) {
 							console.log(data);
@@ -114,7 +113,7 @@ define([
 		getInitialState: function() {
 			return {
 				nav: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				cid: this.props.cid ? this.props.cid : 0, //专题id
 				name: '',                  //专题名称
 				description: '',           //专题描述
 				uid: WQ.cookie.get('id'),  //用户id
@@ -132,7 +131,6 @@ define([
 			var _this = this;
 			return (
 				<div>
-					<LeftNav active={this.state.nav} />
 
 					<div className="cloumn-edit">
 						<form className="uploadForm" action="/cloumn/logo" method="post" target="uploadIframe">

@@ -1,9 +1,8 @@
 define([
 	'react',
 	'jquery',
-	'home/common/leftNav',
 	'home/article/articleList',
-	],function(React, $, LeftNav, ArticleList) {
+	],function(React, $, ArticleList) {
 
 
 	var mixin = {
@@ -25,7 +24,6 @@ define([
 		render: function() {
 			return (
 				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.name}), 
 					React.createElement(ArticleList, null)
 				)
 			);
