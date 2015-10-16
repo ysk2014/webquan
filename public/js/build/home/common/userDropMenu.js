@@ -109,7 +109,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/settings"}, 
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/settings"}, 
 								React.createElement("i", {className: "fa fa-cogs"}), 
 								React.createElement("span", null, "设置")
 							)

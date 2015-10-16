@@ -83,7 +83,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
         mixins: [mixin],
         getInitialState: function() {
             return {
-                nav: this.props.params.way,
+                nav: this.props.way,
                 username: '',
                 password: '',
                 email: '',
@@ -93,6 +93,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
 
         render: function() {
             var _this = this;
+            console.log(this.state.nav);
             return (
                 <div className="login-page" id="login-page">
                     <div className="logo"></div>
@@ -135,7 +136,7 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                                 </div>) : null
                             }
                             
-                            <a className="submit-button" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
+                            <a className="btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
                         </form>
                     </div>
                 </div>

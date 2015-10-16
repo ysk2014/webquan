@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/cloumnModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel, Tooltip) {
 
 
 	var mixin = {
@@ -205,6 +204,12 @@ define([
 					cloumns: _this.state.cloumns
 				});
 				ele.data('care',status);
+				if(status) {
+					ele.addClass('btn-default').removeClass('btn-info');
+				} else {
+					ele.addClass('btn-info').removeClass('btn-default');
+				}
+				
 			};
 
 			if(myCare) {
@@ -294,7 +299,7 @@ define([
 							<div className="desc">{d.description}</div>
 							<p>
 								<a href={"/cloumn/"+d.id}>{d.count}篇文章</a>·<span>{d.care}人关注</span>
-								<a className="btn-success" data-care={d.myCare ? d.myCare : false} onClick={_this.handleCare} onMouseEnter={_this.handleOver} onMouseLeave={_this.handleOut} >{d.myCare ? '正在关注' : '添加关注'}</a>
+								<a className={d.myCare ? "btn btn-default pull-right" : "btn btn-info pull-right"} href="javascript:void(0)" data-care={d.myCare ? d.myCare : false} onClick={_this.handleCare} onMouseEnter={_this.handleOver} onMouseLeave={_this.handleOut} >{d.myCare ? '正在关注' : '添加关注'}</a>
 							</p>
 						</a>
 					</li>
@@ -302,24 +307,22 @@ define([
 			});
 			return (
 				<div>
-					<LeftNav active={this.state.name} />
-
 					<div className="header">
 						<div className="nav">
 							<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>
 							<a className={nav==1 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">我关注的</a>
 							<a className={nav==2 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">我的专题</a>
 						</div>
-						<a className="btn-success pull-right" href="/cloumn/add">添加专题</a>
+						<a className="btn btn-info pull-right" style={{margin:'10px 120px 0 0'}} href="/cloumn/add">添加专题</a>
 					</div>
 
 					<div className="cloumn-list">
 						<div style={_this.state.nav==0 ? {display:'block'} : {display:'none'}}>
 							<ul className="orderBy-nav clearfix">
-								<li className={_this.state.navChild==0 ? "active" : ""}><a href="javascript:void(0)" onClick={_this.hamdleNavChange}>热门排序</a></li>
-								<li className={_this.state.navChild==1 ? "active" : ""}><a href="javascript:void(0)" onClick={_this.hamdleNavChange}>最近更新</a></li>
-								<li className={_this.state.navChild==2 ? "active" : ""}><a href="javascript:void(0)" onClick={_this.hamdleNavChange}>关注度排序</a></li>
-								<li className={_this.state.navChild==3 ? "active" : ""}><a href="javascript:void(0)" onClick={_this.hamdleNavChange}>最新创建排序</a></li>
+								<li><a className={_this.state.navChild==0 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>热门排序</a></li>
+								<li><a className={_this.state.navChild==1 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最近更新</a></li>
+								<li><a className={_this.state.navChild==2 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>关注度排序</a></li>
+								<li><a className={_this.state.navChild==3 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最新创建排序</a></li>
 							</ul>
 							<ul style={{marginLeft:'30px'}} className="clearfix">{cloumnList}</ul>
 							<a className="more" style={_this.state.next[next] ? {display:'block'} : {display:'none'}} onClick={_this.handleMore}>更多</a>
@@ -329,7 +332,7 @@ define([
 						</div>	
 						<div style={_this.state.nav==2 ? {display:'block'} : {display:'none'}}>
 							<ul style={{marginLeft:'30px'}} className="clearfix">{cloumnList}</ul>
-							<a className="more" style={_this.state.next['me'] ? {display:'block'} : {display:'none'}} onClick={_this.handleMore}>更多</a>
+							<a className="btn btn-default btn-large" style={_this.state.next['me'] ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.handleMore}>更多</a>
 						</div>					
 					</div>
 				</div>

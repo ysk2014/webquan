@@ -57,12 +57,11 @@ define([
 	        },		
 	        componentDidMount: function(){
 	        	var _this = this;
-	        	UserModel.getUserInfoById({id:WQ.cookie.get('id')},function(success,data){
+	        	UserModel.getUserInfoById(WQ.cookie.get('id'),function(success,data){
 					if(success){
 						if(!data.error){
 							data = data.data;
 							_this.setState({
-
 										id: data.id,
 						          username: data.username,
 						               job: data.job,

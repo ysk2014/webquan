@@ -4,16 +4,16 @@ define([
 	'WQ',
 	'home/model/cloumnModel',
 	'home/model/articleModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip) {
 
 
 	var mixin = {
 		// 获取专题数据和专题下的所有文章
 		init: function() {
 			var _this = this;
-			CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
+			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : 0;
+			CloumnModel.getCloumnById(_this.state.cid,uid,function(success,data) {
 				if(success) {
 					if(!data.error) {
 						console.log(data);
@@ -54,6 +54,50 @@ define([
 				} 
 			});
 		},
+		handleCare: function(event) {
+			var _this = this;
+			var ele = $(event.target);
+			var myCare = ele.data('care');
+			var cid = _this.state.cid;
+			var uid = WQ.cookie.get('id');
+			var dataObj = {cid:cid,uid:uid};
+
+			if(myCare) {
+				CloumnModel.delCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']-1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+
+							ele.data('care',false);
+							ele.addClass('btn-info').removeClass('btn-default');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			} else {
+				CloumnModel.addCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']+1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+							
+							ele.data('care',true);
+							ele.addClass('btn-default').removeClass('btn-info');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			}
+		},
 		handleTabChange: function(event) {
 			var _this = this;
 			if(event.target.tagName.toLowerCase()=='a') {
@@ -83,7 +127,7 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				cid: this.props.cid ? this.props.cid : 0, //专题id
 				cloumn: {},      //专题数据
 				articles: {},    //文章数据列表
 				nav: 0,
@@ -94,6 +138,20 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+		},
+		// 关注按钮鼠标移动事件
+		handleOver: function(event) {
+			var span = $(event.target);
+			if(span.html() =='正在关注') {
+				span.html('取消关注');
+			}
+		},
+		// 关注按钮鼠标移动事件
+		handleOut: function(event) {
+			var span = $(event.target);
+			if(span.html() =='取消关注') {
+				span.html('正在关注');
+			}
 		},
 		render: function() {
 			var _this = this;
@@ -140,37 +198,33 @@ define([
 				);
 			}) : null;
 			return (
-				<div>
-					<LeftNav active={this.state.name} />
-					
-					<div className="cloumn-page">
-						<div className="cloumn-header">
-							<div className="info">
-								<div className="cname"><a href={"/cloumn/"+_this.state.cid}><h3>{_this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''}</h3></a></div>
-								<div className="anthor">
-									<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;片文章</a>
-									<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</span>
-								</div>
-								<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
-								<div className="footer">
-									{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(<a href={"/cloumn/"+_this.state.cid+'/edit'}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
-									}
-								</div>
-								<div className="cloumn-right">
-									<a className="btn-success">添加关注</a>
-								</div>
+				<div className="cloumn-page">
+					<div className="cloumn-header">
+						<div className="info">
+							<div className="cname"><a href={"/cloumn/"+_this.state.cid}><h3>{_this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''}</h3></a></div>
+							<div className="anthor">
+								<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;片文章</a>
+								<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</span>
+							</div>
+							<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
+							<div className="footer">
+								{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
+									(<a href={"/cloumn/"+_this.state.cid+'/edit'}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
+								}
+							</div>
+							<div className="cloumn-right">
+								<a onClick={this.handleCare} onMouseEnter={this.handleOver} onMouseLeave={this.handleOut} href="javascript:void(0)" data-care={_this.state.cloumn['careStatus'] ? true : false} className={_this.state.cloumn['careStatus'] ? "btn btn-default" : "btn btn-info"}>{_this.state.cloumn['careStatus'] ? '正在关注' : '添加关注'}</a>
 							</div>
 						</div>
-						<div className="cloumn-content">
-							<ul className="sequence-nav toolbar">
-								<li className={_this.state.nav==0 ? "active" : ''} data-nav="0" onClick={_this.handleTabChange}><a href="javascript:void(0)">热门排序</a></li> · 
-								<li className={_this.state.nav==1 ? "active" : ''} data-nav="1" onClick={_this.handleTabChange}><a href="javascript:void(0)">最近更新</a></li>
-							</ul>
-							<div className="article-list">
-								{articles}
-								<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[way] ? _this.state.more[way] : 1} onClick={_this.hamdleMore}>更多</a>
-							</div>
+					</div>
+					<div className="cloumn-content">
+						<ul className="sequence-nav toolbar">
+							<li className={_this.state.nav==0 ? "active" : ''} data-nav="0" onClick={_this.handleTabChange}><a href="javascript:void(0)">热门排序</a></li> · 
+							<li className={_this.state.nav==1 ? "active" : ''} data-nav="1" onClick={_this.handleTabChange}><a href="javascript:void(0)">最近更新</a></li>
+						</ul>
+						<div className="article-list">
+							{articles}
+							<a className="btn btn-info btn-large" style={_this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} data-page={ _this.state.more[way] ? _this.state.more[way] : 1} onClick={_this.hamdleMore}>更多</a>
 						</div>
 					</div>
 				</div>

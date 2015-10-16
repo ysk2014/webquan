@@ -1,18 +1,17 @@
 define(['react', 
         'jquery', 
         'home/model/userModel',
-        'home/common/leftNav',
         'home/common/tooltip',
         'home/model/articleModel',
         'WQ'
-        ],function(React, $, UserModel, LeftNav, Tooltip, ArticleModel, WQ) {
+        ],function(React, $, UserModel, Tooltip, ArticleModel, WQ) {
 
 
     var mixin = {
         init: function() {
             var _this = this;
             var uid = WQ.cookie.get('id');
-            UserModel.getUserInfoById({id:uid},function(success,data) {
+            UserModel.getUserInfoById(uid,function(success,data) {
                 if(success) {
                     if(!data.error) {
                         var data = data.data
@@ -154,7 +153,6 @@ define(['react',
         getInitialState: function() {
             return {
                 info: null,
-                nav: "addtime",
             }
         },
         componentDidMount: function() {
@@ -165,7 +163,6 @@ define(['react',
             var _this = this;
             return (
                 <div>
-                    <LeftNav />
                     <div className="home-page">
                         <div className="host-box">
                             <div className="host clearfix">

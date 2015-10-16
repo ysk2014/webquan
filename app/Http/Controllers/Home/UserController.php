@@ -39,14 +39,6 @@ class UserController extends Controller {
 		return view('home.app');
 	}
 
-	/**
-	* 设置
-	*/
-	public function settings()
-	{
-		return view('home.app');
-	}
-
     /**
      * 开始登录处理
      *
@@ -68,54 +60,36 @@ class UserController extends Controller {
 	}
 
     /**
-     * 开始注册处理
+     * 处理用户信息
      *
      * @param App\Services\User\Process $process 用户核心处理
      * @access public
      */
-	public function addUser(UserActionProcess $manager)
+	public function dealUser(UserActionProcess $manager,$id=0)
 	{
-		$data = (array) Request::input('data');
-		$data['addtime'] = time();
-
+		$method = Request::method();
 		$param = new \App\Services\User\Param\UserSave();
-		$param->setAttributes($data);
 
-		$result = $manager->addUser($param);
+		if($method=="POST") {
+
+			$data = (array) Request::input('data');
+			$data['addtime'] = time();
+
+			$param->setAttributes($data);
+			$result = $manager->addUser($param);
+
+		} else if($method=="PUT") {
+			$data = (array) Request::input('data');
+
+			$param->setAttributes($data);
+			$result = $manager->editUser($param);
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 
 		return $result;
 	}
 
-    /**
-     * 编辑用户信息
-     *
-     * @param App\Services\User\Process $process 用户核心处理
-     * @access public
-     */
-	public function editUser(UserActionProcess $manager)
-	{
-		$data = (array) Request::input('data');
-		// $data['addtime'] = time();
-		$param = new \App\Services\User\Param\UserSave();
-		$param->setAttributes($data);
-
-		$result = $manager->editUser($param);
-		
-		return response()->json($result);
-	}
-
-    /**
-     * 删除用户
-     *
-     * @access public
-     */
-	public function delUser()
-	{
-		$id = Request::input('id');
-		$ids = [$id];
-		$result = $manager->delUser($ids);
-		return response()->json($result);
-	}
 
     /**
      * 修改密码
@@ -149,9 +123,8 @@ class UserController extends Controller {
     /**
      * 根据用户的id获取用户的信息
      */
-    public function getUserInfoById(UserActionProcess $manager)
+    public function getUserInfoById(UserActionProcess $manager,$id=0)
     {
-		$id = intval(Request::input('id'));
 		$result = $manager->getUserInfoById($id);
 		return response()->json($result);
     }

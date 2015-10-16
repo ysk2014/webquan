@@ -109,7 +109,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href="/settings">
+							<a href={"/user/"+WQ.cookie.get('id')+"/settings"}>
 								<i className="fa fa-cogs"></i>
 								<span>设置</span>
 							</a>

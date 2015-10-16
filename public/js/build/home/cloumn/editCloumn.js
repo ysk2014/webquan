@@ -3,9 +3,8 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/cloumnModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel,Tooltip) {
 
 
 	var mixin = {
@@ -13,7 +12,7 @@ define([
 			var _this = this;
 			// 如果是编辑页面则获取专题数据
 			if(_this.state.cid > 0) {
-				CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
+				CloumnModel.getCloumnById(_this.state.cid,_this.state.uid,function(success,data) {
 					if(success) {
 						if(!data.error) {
 							console.log(data);
@@ -114,7 +113,7 @@ define([
 		getInitialState: function() {
 			return {
 				nav: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				cid: this.props.cid ? this.props.cid : 0, //专题id
 				name: '',                  //专题名称
 				description: '',           //专题描述
 				uid: WQ.cookie.get('id'),  //用户id
@@ -132,7 +131,6 @@ define([
 			var _this = this;
 			return (
 				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.nav}), 
 
 					React.createElement("div", {className: "cloumn-edit"}, 
 						React.createElement("form", {className: "uploadForm", action: "/cloumn/logo", method: "post", target: "uploadIframe"}, 
@@ -159,7 +157,7 @@ define([
 							React.createElement("div", {className: "input-prepend"}, 
 								React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内为专题添加描述", value: _this.state.description, onChange: _this.handleDescChange})
 							), 
-							React.createElement("input", {type: "button", className: "btn-success btn-large", value: "创建专题", onClick: _this.handleSubmit})
+							React.createElement("input", {type: "button", className: "btn btn-info btn-submit", value: "创建专题", style: {width:"60%",margin:'0 auto',cursor:'pointer'}, onClick: _this.handleSubmit})
 						)
 					)
 				)

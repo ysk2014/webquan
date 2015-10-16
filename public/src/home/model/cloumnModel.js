@@ -6,8 +6,8 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * 
 	     * @param id 专题id
 	     */
-		getCloumnById: function(id, callback) {
-			BaseModel.get('/cloumn/'+id+'/info', {}, callback);
+		getCloumnById: function(id, uid, callback) {
+			BaseModel.get('/cloumn/'+id+'/info', {uid:uid}, callback);
 		},
 
 	    /**

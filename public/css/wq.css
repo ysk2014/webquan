@@ -406,30 +406,7 @@
 .header .desc{
 	margin-left: 250px;
 }
-/*提交按钮*/
-.header .submit-button {
-	float: right;
-	display: inline-block;
-	text-align: center;
-	text-decoration: none;
-	padding: 6px 12px;
-	margin: 8px 100px 8px 0;
-	font-size: 18px;
-	height: 20px;
-	line-height: 20px;
-	cursor: pointer;
-	color: #555;
-	border-radius: 4px;
-	border: 1px solid #ddd;
-	transition: all 0.2s;
-	-webkit-transition: all 0.2s;
-	-moz-transition: all 0.2s;
-}
-.header .submit-button:hover,
-.header .submit-button:focus {
-	background-color: #049cdb;
-	color: #fff;
-}
+
 .edit-article > form{
 	margin: 0px auto 20px;
 }
@@ -453,7 +430,7 @@
 	border: 1px solid #cccccc;
 }
 .edit-article .input-prepend select{
-	width: 100px;
+	width: 200px;
 }
 .edit-article .input-prepend select:focus{
 	outline: none;
@@ -620,8 +597,8 @@
 .article-page .tag.time {
 	color: #aaaaaa;
 }
-.article-page .tool .btn-success,
-.article-page .tool .btn-error {
+.article-page .tool .btn-info,
+.article-page .tool .btn-danger {
 	margin-right: 10px;
 }
 
@@ -698,7 +675,7 @@
 .article-list article .description{
 	color: #666666;
 }
-.more{
+/*.more{
 	width: 200px;
 	border-radius: 4px;
 	margin: 20px auto;
@@ -718,7 +695,8 @@
 .more:hover{
     background: #3da9f7;
     color: #fff;
-}
+}*/
+
 
 
 
@@ -917,10 +895,10 @@
 .btn-error:hover {
 	color: #fff;
 }
-.pull-right{
+/*.pull-right{
 	float: right;
 	margin: 10px 120px 0 0;
-}
+}*/
 
 .orderBy-nav{
 	list-style: none;
@@ -931,7 +909,7 @@
 	margin: 10px 15px 5px 0;
 	line-height: 20px;
 }
-.orderBy-nav li a{
+/*.orderBy-nav li a{
     padding: 5px 10px;
     border: 1px solid #d9d9d9;
     border-radius: 14px;
@@ -951,7 +929,7 @@
 	color: #fff;
 	background-color: #3da9f7;
 	border: 1px solid #3da9f7;
-}
+}*/
 
 .sequence-nav{
 	line-height: 1.5;
@@ -1154,20 +1132,7 @@
     color: #999999;
     font-size: 12px;
 }
-.cloumn  p a{
-	color: #3da9f7;
-}
-.cloumn  p a:hover{
-	color: #2c79b0;
-}
-.cloumn a.btn-success{
-	float: right;
-	padding: 2px 10px 2px;
-	color: #fff;
-}
-.cloumn a.btn-success:hover{
-	color: #fff;
-}
+
 
 /*标签页面*/
 .tag-page{

@@ -5,8 +5,6 @@ requirejs.config({
         jqueryextend    : "jquery.extend", 
         WQ              : "wq",
         react           : "react-with-addons.min",
-        reactRouter     : 'react-router.min',
-        editormd        : 'editor/editormd',
         prettify        : 'editor/lib/prettify.min',
         codemirror      : 'editor/lib/codemirror/codemirror.min',
         marked          : 'editor/lib/marked.min',
@@ -27,59 +25,127 @@ requirejs.config({
 
 requirejs([
         'react', 
-        'reactRouter', 
+        'jquery',
+        'home/router-mixin',
         'home/common/userDropMenu',
-        'home/home', 
-        'home/login/login',
-        'home/login/user',
+        'home/user/login',
+        'home/user/user',
+        'home/user/settings',
+        'home/article/articleList',
         'home/article/editArticle',
         'home/article/article',
-        'home/settings/settings',
         'home/cloumn/cloumnList',
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn, Tag){
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
         
-    var Route = ReactRouter.Route;
-    var RouteHandler = ReactRouter.RouteHandler;
 
     var App = React.createClass({
+        mixins: [RouterMixin],
+        routes: {
+            '/': 'articleList',
+            '/article/add': 'addArticle',
+            '/article/:id/edit': 'editArticle',
+            '/article/:id': 'article',
+
+
+            '/cloumns': 'cloumnList',
+            '/cloumn/:id': 'cloumn',
+            '/cloumn/add': 'addCloumn',
+            '/cloumn/:id/edit': 'editCloumn',
+
+            '/user': 'user',
+            '/user/:id/settings': 'settings',
+            '/login/:way': 'login',
+        },
+        articleList: function() {
+            return <ArticleList />;
+        },
+
+        addArticle: function() {
+            return <EditArticle />
+        },
+
+        editArticle: function(aid) {
+            return <EditArticle aid={aid} />
+        },
+
+        article: function(aid) {
+            return <Article aid={aid} />
+        },
+
+        cloumnList: function() {
+            return <CloumnList />;
+        },
+
+        cloumn: function(cid) {
+            return <Cloumn cid={cid} />
+        },
+
+        addCloumn: function() {
+            return <EditCloumn />
+        },
+
+        editCloumn: function(cid) {
+            return <EditCloumn cid={cid} />
+        },
+
+        user: function() {
+            return <User />
+        },
+
+        settings: function(uid) {
+            return <Settings uid={uid} />
+        },
+
+        login: function(way) {
+            return <Login way={way} />
+        },
+
+        notFound: function(path) {
+            return <div className="not-found">Page Not Found: {path}</div>;
+        },
+
         render: function() {
+            var _this = this;
+            var page = this.renderCurrentRoute();
+
             return (
                 <div>
                     <UserDropMenu />
-                    <RouteHandler/>
+
+                    <div className="left-bar">
+                        <div className="logo">
+                            <a href="/"><img src="/image/logo1.png" /></a>
+                        </div>
+                        <ul className="left-nav">
+                            <li className={(this.state.path == '/' || this.state.nav == -1) ? "active" : null}>
+                                <a href="/">
+                                    <i className="fa fa-home"></i>
+                                    <span>首页</span>
+                                </a>
+                            </li>
+                            <li className={this.state.path == '/cloumns' ? "active" : null}>
+                                <a href="/cloumns">
+                                    <i className="fa fa-th-list"></i>
+                                    <span>专题</span>
+                                </a>
+                            </li>
+                            <li className={this.state.path == '/other' ? "active" : null}>
+                                <a href="/">
+                                    <i className="fa fa-bell-o"></i>
+                                    <span>问答</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    {page}
                 </div>
             )
         }
     });
 
-    var routes = (
-        <Route handler={App}>
-            <Route name="home" path="/" handler={Home}/>
-
-            <Route path="/login/:way" handler={Login}/>
-            <Route path="/user" handler={User}/>
-            <Route path="/settings" handler={Settings}/>
-
-            <Route path="/cloumns" handler={CloumnList}/>
-            <Route path="/cloumn/add" handler={EditCloumn}/>
-            <Route path="/cloumn/:id/edit" handler={EditCloumn}/>
-            <Route path="/cloumn/:id" handler={Cloumn}/>
-            
-            <Route path="/article/add" handler={EditArticle}/>
-            <Route path="/article/:id/edit" handler={EditArticle}/>
-            <Route path="/article/:id" handler={Article}/>
-
-            <Route path="/t/:name" handler={Tag}/>
-            
-        </Route>
-    );
-
-
-    ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
-      React.render(<Handler />, document.getElementById('container'));
-    });
-
+    React.render(<App />, document.getElementById('container'));
 })

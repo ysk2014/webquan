@@ -9,26 +9,30 @@
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;
+	            _this.state.info.username = event.target.value;
 	            _this.setState({
-	                username: event.target.value,
+	                info: _this.state.info,
 	            });
 	        },
 	        handlePositionChange: function(event) {
 	            var _this = this;
+	            _this.state.info.job = event.target.value;
 	            _this.setState({
-	                job: event.target.value,
+	                job: _this.state.info,
 	            });
 	        },
-	        handleAddressChange: function(event) {
+	        handleCityChange: function(event) {
 	            var _this = this;
+	            _this.state.info.city = event.target.value;
 	            _this.setState({
-	                city: event.target.value,
+	                city: _this.state.info,
 	            });
 	        },
 	        handleSexChange: function(sexc) {
 	            var _this = this;
+	            _this.state.info.sex = sexc;
 	            _this.setState({
-	                sex: sexc,
+	                info: _this.state.info,
 	            });
 	        },
 	        handleSignChange: function(event) {
@@ -37,155 +41,84 @@
 	                description: event.target.value,
 	            });
 	        },
-	        handleOldPsdChange: function(){
-	            var _this = this;
-	            _this.setState({
-	                oldPassword: event.target.value,
-	            });	        	
-	        },
-	        handleNewPsdChange: function(){
-	            var _this = this;
-	            _this.setState({
-	                newPassword: event.target.value,
-	            });	        	
-	        },
-	        handleNewPsdRepeatChange: function(){
-	            var _this = this;
-	            _this.setState({
-	                newPasswordRepeat: event.target.value,
-	            });
-	        },		
-	        componentDidMount: function(){
-	        	var _this = this;
-	        	UserModel.getUserInfoById({id:WQ.cookie.get('id')},function(success,data){
-					if(success){
-						if(!data.error){
-							data = data.data;
-							_this.setState({
-
-										id: data.id,
-						          username: data.username,
-						               job: data.job,
-						              city: data.city,
-						               sex: data.sex,
-						       description: data.description,
-						       		 email: data.email,
-						       		 logoDir: data.logo_dir
-
-	            			});
-						}else{
-							Tooltip(data.msg);
-						}
-					}
-				});	
-	        },        
+	        		
 		}
-
-
-
+ 
 		// 个人信息设置
         var Personal = React.createClass({
         	mixins: [mixin],
         	getInitialState: function() {
-        		// var aa = "defaultChecked";
         		var _this = this;
 				return {
-	            		  id: "",
-	            	username: "",
-	            		 job: "",
-	            	    city: "",
-	            	     sex: "",
-	             description: "",
-	             	  select: "0"
+	             	info: _this.props.info
 	            }
 	        },
-	        contentClick: function(){
+	        componentWillReceiveProps: function(nextProps) {
+	        	this.setState({
+	        		info: nextProps.info
+	        	});
+	        },
+	        contentClick: function() {
 	        	var _this = this;
 	        	if (_this.state.select == 0) {
 	        		_this.setState({
 	        			select: 1
-	        		})
-	        	}else{
+	        		});
+	        	} else {
 	        		_this.setState({
 	        			select: 0
-	        		})
+	        		});
 	        	}
 	        },
-	        liClick: function(i){
-	        	var _this = this;
-	        	_this.contentClick();
-	        	_this.setState({
-	        		job:i
-	        	})
-	        },
-	        transformArr: function(){
-	        	jobData = [];
-        		aa = {
-        			"1":"sf",
-        			"2":"ssss"
-        		}
-        		for( i in aa){
-        			jobData[i] =aa[i]
-        		}
-        		console.log(jobData);
-	        },
-        	handleSubmit: function(event){
+        	handleSubmit: function(event) {
         		var _this = this;
         		var data = {
-        				  id:WQ.cookie.get('id'),
-        			username: _this.state.username,
-        				 job: _this.state.job,
-        				city: _this.state.city,
-        				 sex: _this.state.sex,
-        		 description: _this.state.description,
-        		}
-        		UserModel.editUser(data,function(success,data){
+        			id:          _this.state.uid,
+        			username:    _this.state.username,
+        			job:         _this.state.job,
+        			city:        _this.state.city,
+        			sex:         _this.state.sex,
+        		 	description: _this.state.description,
+        		};
+        		UserModel.editUser(_this.state.uid,data,function(success,data) {
                     if(success){
                     	if(!data.error){
-                    		alert("修改成功");
+                    		Tooltip("修改成功");
                     	}else{
-                    		alert(data.msg);
+                    		Tooltip(data.msg);
                     	}
                     }
-        		})
+        		});
         	},
-        	render: function(){
+        	render: function() {
         		var _this = this;
-        		_this.transformArr();
+        		var username    = _this.state.info ? _this.state.info.username    : null;
+        		var job         = _this.state.info ? _this.state.info.job         : null;
+        		var city        = _this.state.info ? _this.state.info.city        : null;
+        		var sex         = _this.state.info ? _this.state.info.sex         : null;
+        		var description = _this.state.info ? _this.state.info.description : null;
         		return(
         			<div className="personal">
         				<form>
 	        				<p className="username">
-	        					<label>昵称：</label><input type="text" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={_this.state.username}/>
+	        					<label>昵称：</label><input type="text" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={username}/>
 	        				</p>
-	        				<div className="select-box">
-	        					<label>职位：</label>
-					        	<div className="select-copy clearfix">
-						           	<div className="content arrow-bottom-btn" onClick={_this.contentClick}>
-						           		{_this.state.job == "" ? "请选择职位" : _this.state.job}
-						           	</div>
-						          		<ul className={_this.state.select == 0 ? "dis" : null}>
-						        			{
-						        				jobData.map(function(i){
-						        					return <li onClick={_this.liClick.bind(this,i)}><span>{i}</span></li>
-						        				})
-						        			}
-						        		</ul>
-					        	</div>
-					        </div>
-	        				<p className="place" value={_this.state.place}>
-	        					<label>地址：</label>	<input type="text" name="city" className="city" placeholder="请输入地址" onChange={this.handleAddressChange} value={_this.state.city}/>	
+	        				<div className="input-prepend">
+	        					<label>职位：</label><select><option>{job}</option></select>
+	        				</div>
+	        				<p className="place">
+	        					<label>地址：</label>	<input type="text" name="city" className="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
 	        				</p>
 	        				<div className="sex clearfix">
 		        				<label>性别：</label>&nbsp;
-		        				<div className="sex-input">  
-		        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={_this.state.sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
-		        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={_this.state.sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
-		        				</div>  
+		        				<div className="sex-input">
+		        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
+		        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
+		        				</div>
 	        				</div>
 	        				<p className="sign">
 			        			<label>个性签名：</label>
-			        			<textarea resize="none" name="description" onChange={this.handleSignChange} value={_this.state.description}></textarea><br />
+			        			<textarea resize="none" name="description" onChange={this.handleSignChange} value={description}></textarea><br />
 	        			 	</p>
 	        			 	<p className="sub">
 	        			 		<input type="button" value="保存" onClick={this.handleSubmit}/>
@@ -196,16 +129,18 @@
         	}
         });
 
-
-
 		// 上传头像
 		var Head = React.createClass({
-			mixins: [mixin],
 			getInitialState: function() {
 				return {
-					logoDir: '/image/user-default.png',
+					logo_dir: this.props.info ? this.props.info.logo_dir : '/image/user-default.png',
 				}
 			},
+			componentWillReceiveProps: function(nextProps) {
+	        	this.setState({
+	        		logo_dir: nextProps.info.logo_dir ? nextProps.info.logo_dir : '/image/user-default.png',
+	        	});
+	        },
 			handleSubmit: function(event) {
 				$(event.target).siblings('input[type=file]').trigger("click");
 			},
@@ -232,7 +167,7 @@
                     json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
                     if (!json.error) {
                         _this.setState({
-                        	logoDir: json.data,
+                        	logo_dir: json.data,
                         });
                         WQ.cookie.set('userUrl',json.data,1);
                     } else {
@@ -254,7 +189,7 @@
 						<form className="uploadForm" enctype="multipart/form-data" action="/user/updateLogo" method="post" target="uploadIframe" >
 
 							<div className="user">
-								<img src={_this.state.logoDir+'?'+Math.random()*1000} />
+								<img src={_this.state.logo_dir+'?'+Math.random()*1000} />
 								<div><img src="/image/loading.gif" /></div>
 							</div>	
 
@@ -269,8 +204,6 @@
 				)
 			}
 		});
-
-
 
 		// 邮箱验证
 		var Email = React.createClass({
@@ -301,7 +234,6 @@
 		
 		// 密码修改
 		var ModifyPassword = React.createClass({
-			mixins: [mixin],
 			getInitialState: function() {
 				return{
 					oldPassword: "",
@@ -309,6 +241,24 @@
 					newPasswordRepeat: ""
 				}
 			},
+			handleOldPsdChange: function(){
+	            var _this = this;
+	            _this.setState({
+	                oldPassword: event.target.value,
+	            });	        	
+	        },
+	        handleNewPsdChange: function(){
+	            var _this = this;
+	            _this.setState({
+	                newPassword: event.target.value,
+	            });	        	
+	        },
+	        handleNewPsdRepeatChange: function(){
+	            var _this = this;
+	            _this.setState({
+	                newPasswordRepeat: event.target.value,
+	            });
+	        },
 			judge: function(data){
 			  if (data.oldPassword == "") {
 					alert("旧密码不能为空");
@@ -332,7 +282,7 @@
 				}
 				if(_this.judge(data) == true){
 				console.log(data);
-					UserModel.modifyPassword(data,function(success,data){
+					UserModel.modifyPassword(data['id'],data,function(success,data){
 	                    if(success){
 	                    	if(!data.error){
 	                    		window.location.href="/login/sign_in";
@@ -361,8 +311,24 @@
 	        getInitialState: function() {
 	            return {
 	            	nav: "personal",
+	            	uid: this.props.uid ? this.props.uid : 0,
+	            	info: null
 	            }
 	        },
+	        componentDidMount: function(){
+	        	var _this = this;
+	        	UserModel.getUserInfoById(_this.state.uid,function(success,data) {
+					if(success){
+						if(!data.error){
+							_this.setState({
+								info: data.data
+	            			});
+						}else{
+							Tooltip(data.msg);
+						}
+					}
+				});	
+	        },  
 	        handleClick: function(set){
 	        	var _this = this;
 	        	_this.setState({
@@ -397,13 +363,13 @@
 			                </ul>
 			                <div className="con">
 			                	<div  style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
-			                		<Personal />
+			                		<Personal info={_this.state.info}/>
 			                	</div>
 			                	<div  style={_this.state.nav=='head' ? {display:'block'} : {display:'none'}} >
-			                		<Head />
+			                		<Head info={this.state.info} />
 			                	</div>
 			                	<div  style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
-			                		<Email />
+			                		<Email info={this.state.info} />
 			                	</div>
 			                	<div  style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
 			                		<ModifyPassword />

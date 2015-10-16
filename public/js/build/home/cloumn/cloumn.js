@@ -4,16 +4,16 @@ define([
 	'WQ',
 	'home/model/cloumnModel',
 	'home/model/articleModel',
-	'home/common/leftNav',
 	'home/common/tooltip',
-	],function( React, $, WQ, CloumnModel, ArticleModel, LeftNav, Tooltip) {
+	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip) {
 
 
 	var mixin = {
 		// 获取专题数据和专题下的所有文章
 		init: function() {
 			var _this = this;
-			CloumnModel.getCloumnById(_this.state.cid,function(success,data) {
+			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : 0;
+			CloumnModel.getCloumnById(_this.state.cid,uid,function(success,data) {
 				if(success) {
 					if(!data.error) {
 						console.log(data);
@@ -54,6 +54,50 @@ define([
 				} 
 			});
 		},
+		handleCare: function(event) {
+			var _this = this;
+			var ele = $(event.target);
+			var myCare = ele.data('care');
+			var cid = _this.state.cid;
+			var uid = WQ.cookie.get('id');
+			var dataObj = {cid:cid,uid:uid};
+
+			if(myCare) {
+				CloumnModel.delCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']-1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+
+							ele.data('care',false);
+							ele.addClass('btn-info').removeClass('btn-default');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			} else {
+				CloumnModel.addCare(dataObj,function(success,data) {
+					if(success) {
+						if(!data.error) {
+							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+							_this.state.cloumn['care'] = _this.state.cloumn['care']+1;
+							_this.setState({
+								cloumn: _this.state.cloumn
+							});
+							
+							ele.data('care',true);
+							ele.addClass('btn-default').removeClass('btn-info');
+						} else {
+							Tooltip(data.msg);
+						}
+					}
+				});
+			}
+		},
 		handleTabChange: function(event) {
 			var _this = this;
 			if(event.target.tagName.toLowerCase()=='a') {
@@ -83,7 +127,7 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'cloumn',
-				cid: this.props.params.id ? this.props.params.id : 0, //专题id
+				cid: this.props.cid ? this.props.cid : 0, //专题id
 				cloumn: {},      //专题数据
 				articles: {},    //文章数据列表
 				nav: 0,
@@ -94,6 +138,20 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+		},
+		// 关注按钮鼠标移动事件
+		handleOver: function(event) {
+			var span = $(event.target);
+			if(span.html() =='正在关注') {
+				span.html('取消关注');
+			}
+		},
+		// 关注按钮鼠标移动事件
+		handleOut: function(event) {
+			var span = $(event.target);
+			if(span.html() =='取消关注') {
+				span.html('正在关注');
+			}
 		},
 		render: function() {
 			var _this = this;
@@ -140,37 +198,33 @@ define([
 				);
 			}) : null;
 			return (
-				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.name}), 
-					
-					React.createElement("div", {className: "cloumn-page"}, 
-						React.createElement("div", {className: "cloumn-header"}, 
-							React.createElement("div", {className: "info"}, 
-								React.createElement("div", {className: "cname"}, React.createElement("a", {href: "/cloumn/"+_this.state.cid}, React.createElement("h3", null, _this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''))), 
-								React.createElement("div", {className: "anthor"}, 
-									React.createElement("a", {style: {color:'#3da9f7',marginRight:'10px'}, href: "/cloumn/"+_this.state.cid}, _this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0, " 片文章"), 
-									React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", _this.state.cloumn['username'] ? _this.state.cloumn['username'] : '')
-								), 
-								React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
-								React.createElement("div", {className: "footer"}, 
-										_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit'}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑专题"))) : null
-									
-								), 
-								React.createElement("div", {className: "cloumn-right"}, 
-									React.createElement("a", {className: "btn-success"}, "添加关注")
-								)
-							)
-						), 
-						React.createElement("div", {className: "cloumn-content"}, 
-							React.createElement("ul", {className: "sequence-nav toolbar"}, 
-								React.createElement("li", {className: _this.state.nav==0 ? "active" : '', "data-nav": "0", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "热门排序")), " ·",  
-								React.createElement("li", {className: _this.state.nav==1 ? "active" : '', "data-nav": "1", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "最近更新"))
+				React.createElement("div", {className: "cloumn-page"}, 
+					React.createElement("div", {className: "cloumn-header"}, 
+						React.createElement("div", {className: "info"}, 
+							React.createElement("div", {className: "cname"}, React.createElement("a", {href: "/cloumn/"+_this.state.cid}, React.createElement("h3", null, _this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''))), 
+							React.createElement("div", {className: "anthor"}, 
+								React.createElement("a", {style: {color:'#3da9f7',marginRight:'10px'}, href: "/cloumn/"+_this.state.cid}, _this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0, " 片文章"), 
+								React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", _this.state.cloumn['username'] ? _this.state.cloumn['username'] : '')
 							), 
-							React.createElement("div", {className: "article-list"}, 
-								articles, 
-								React.createElement("a", {className: "more", style: _this.state.next ? {display:'block'} : {display:'none'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
+							React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
+							React.createElement("div", {className: "footer"}, 
+									_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
+									(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit'}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑专题"))) : null
+								
+							), 
+							React.createElement("div", {className: "cloumn-right"}, 
+								React.createElement("a", {onClick: this.handleCare, onMouseEnter: this.handleOver, onMouseLeave: this.handleOut, href: "javascript:void(0)", "data-care": _this.state.cloumn['careStatus'] ? true : false, className: _this.state.cloumn['careStatus'] ? "btn btn-default" : "btn btn-info"}, _this.state.cloumn['careStatus'] ? '正在关注' : '添加关注')
 							)
+						)
+					), 
+					React.createElement("div", {className: "cloumn-content"}, 
+						React.createElement("ul", {className: "sequence-nav toolbar"}, 
+							React.createElement("li", {className: _this.state.nav==0 ? "active" : '', "data-nav": "0", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "热门排序")), " ·",  
+							React.createElement("li", {className: _this.state.nav==1 ? "active" : '', "data-nav": "1", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "最近更新"))
+						), 
+						React.createElement("div", {className: "article-list"}, 
+							articles, 
+							React.createElement("a", {className: "btn btn-info btn-large", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
 						)
 					)
 				)

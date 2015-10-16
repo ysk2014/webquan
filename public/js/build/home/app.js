@@ -5,8 +5,6 @@ requirejs.config({
         jqueryextend    : "jquery.extend", 
         WQ              : "wq",
         react           : "react-with-addons.min",
-        reactRouter     : 'react-router.min',
-        editormd        : 'editor/editormd',
         prettify        : 'editor/lib/prettify.min',
         codemirror      : 'editor/lib/codemirror/codemirror.min',
         marked          : 'editor/lib/marked.min',
@@ -27,59 +25,127 @@ requirejs.config({
 
 requirejs([
         'react', 
-        'reactRouter', 
+        'jquery',
+        'home/router-mixin',
         'home/common/userDropMenu',
-        'home/home', 
-        'home/login/login',
-        'home/login/user',
+        'home/user/login',
+        'home/user/user',
+        'home/user/settings',
+        'home/article/articleList',
         'home/article/editArticle',
         'home/article/article',
-        'home/settings/settings',
         'home/cloumn/cloumnList',
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, ReactRouter, UserDropMenu, Home, Login, User, EditArticle, Article, Settings, CloumnList, EditCloumn, Cloumn, Tag){
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
         
-    var Route = ReactRouter.Route;
-    var RouteHandler = ReactRouter.RouteHandler;
 
     var App = React.createClass({displayName: "App",
+        mixins: [RouterMixin],
+        routes: {
+            '/': 'articleList',
+            '/article/add': 'addArticle',
+            '/article/:id/edit': 'editArticle',
+            '/article/:id': 'article',
+
+
+            '/cloumns': 'cloumnList',
+            '/cloumn/:id': 'cloumn',
+            '/cloumn/add': 'addCloumn',
+            '/cloumn/:id/edit': 'editCloumn',
+
+            '/user': 'user',
+            '/user/:id/settings': 'settings',
+            '/login/:way': 'login',
+        },
+        articleList: function() {
+            return React.createElement(ArticleList, null);
+        },
+
+        addArticle: function() {
+            return React.createElement(EditArticle, null)
+        },
+
+        editArticle: function(aid) {
+            return React.createElement(EditArticle, {aid: aid})
+        },
+
+        article: function(aid) {
+            return React.createElement(Article, {aid: aid})
+        },
+
+        cloumnList: function() {
+            return React.createElement(CloumnList, null);
+        },
+
+        cloumn: function(cid) {
+            return React.createElement(Cloumn, {cid: cid})
+        },
+
+        addCloumn: function() {
+            return React.createElement(EditCloumn, null)
+        },
+
+        editCloumn: function(cid) {
+            return React.createElement(EditCloumn, {cid: cid})
+        },
+
+        user: function() {
+            return React.createElement(User, null)
+        },
+
+        settings: function(uid) {
+            return React.createElement(Settings, {uid: uid})
+        },
+
+        login: function(way) {
+            return React.createElement(Login, {way: way})
+        },
+
+        notFound: function(path) {
+            return React.createElement("div", {className: "not-found"}, "Page Not Found: ", path);
+        },
+
         render: function() {
+            var _this = this;
+            var page = this.renderCurrentRoute();
+
             return (
                 React.createElement("div", null, 
                     React.createElement(UserDropMenu, null), 
-                    React.createElement(RouteHandler, null)
+
+                    React.createElement("div", {className: "left-bar"}, 
+                        React.createElement("div", {className: "logo"}, 
+                            React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
+                        ), 
+                        React.createElement("ul", {className: "left-nav"}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.nav == -1) ? "active" : null}, 
+                                React.createElement("a", {href: "/"}, 
+                                    React.createElement("i", {className: "fa fa-home"}), 
+                                    React.createElement("span", null, "首页")
+                                )
+                            ), 
+                            React.createElement("li", {className: this.state.path == '/cloumns' ? "active" : null}, 
+                                React.createElement("a", {href: "/cloumns"}, 
+                                    React.createElement("i", {className: "fa fa-th-list"}), 
+                                    React.createElement("span", null, "专题")
+                                )
+                            ), 
+                            React.createElement("li", {className: this.state.path == '/other' ? "active" : null}, 
+                                React.createElement("a", {href: "/"}, 
+                                    React.createElement("i", {className: "fa fa-bell-o"}), 
+                                    React.createElement("span", null, "问答")
+                                )
+                            )
+                            
+                        )
+                    ), 
+                    page
                 )
             )
         }
     });
 
-    var routes = (
-        React.createElement(Route, {handler: App}, 
-            React.createElement(Route, {name: "home", path: "/", handler: Home}), 
-
-            React.createElement(Route, {path: "/login/:way", handler: Login}), 
-            React.createElement(Route, {path: "/user", handler: User}), 
-            React.createElement(Route, {path: "/settings", handler: Settings}), 
-
-            React.createElement(Route, {path: "/cloumns", handler: CloumnList}), 
-            React.createElement(Route, {path: "/cloumn/add", handler: EditCloumn}), 
-            React.createElement(Route, {path: "/cloumn/:id/edit", handler: EditCloumn}), 
-            React.createElement(Route, {path: "/cloumn/:id", handler: Cloumn}), 
-            
-            React.createElement(Route, {path: "/article/add", handler: EditArticle}), 
-            React.createElement(Route, {path: "/article/:id/edit", handler: EditArticle}), 
-            React.createElement(Route, {path: "/article/:id", handler: Article}), 
-
-            React.createElement(Route, {path: "/t/:name", handler: Tag})
-            
-        )
-    );
-
-
-    ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
-      React.render(React.createElement(Handler, null), document.getElementById('container'));
-    });
-
+    React.render(React.createElement(App, null), document.getElementById('container'));
 })
