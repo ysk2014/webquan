@@ -160,22 +160,10 @@ define([
 
 
 	function getInitialPath(component) {
-	    var path, hash, url;
-		var canUseDOM = !!(
-		    typeof window !== 'undefined' &&
-		    window.document &&
-		    window.document.createElement
-		);
-	    if (!path && canUseDOM) {
-	        url = urllite(window.location.href);
+	    
+	    url = urllite(window.location.href);
 
-	        if (component.props.history) {
-	            path = url.path + url.search;
-	        } else if (url.hash) {
-	            hash = urllite(url.hash.slice(2));
-	            path = hash.path + hash.search;
-	        }
-	    }
+	    var path = url.path;
 
 	    return path || '/';
 	}

@@ -120,19 +120,19 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.nav == 'home' || this.state.nav == -1) ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.nav == -1) ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i>
                                     <span>首页</span>
                                 </a>
                             </li>
-                            <li className={this.state.nav == 'cloumn' ? "active" : null}>
+                            <li className={this.state.path == '/cloumns' ? "active" : null}>
                                 <a href="/cloumns">
                                     <i className="fa fa-th-list"></i>
                                     <span>专题</span>
                                 </a>
                             </li>
-                            <li className={this.state.nav == 'other' ? "active" : null}>
+                            <li className={this.state.path == '/other' ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-bell-o"></i>
                                     <span>问答</span>

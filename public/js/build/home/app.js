@@ -120,19 +120,19 @@ requirejs([
                             React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
-                            React.createElement("li", {className: (this.state.nav == 'home' || this.state.nav == -1) ? "active" : null}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.nav == -1) ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-home"}), 
                                     React.createElement("span", null, "首页")
                                 )
                             ), 
-                            React.createElement("li", {className: this.state.nav == 'cloumn' ? "active" : null}, 
+                            React.createElement("li", {className: this.state.path == '/cloumns' ? "active" : null}, 
                                 React.createElement("a", {href: "/cloumns"}, 
                                     React.createElement("i", {className: "fa fa-th-list"}), 
                                     React.createElement("span", null, "专题")
                                 )
                             ), 
-                            React.createElement("li", {className: this.state.nav == 'other' ? "active" : null}, 
+                            React.createElement("li", {className: this.state.path == '/other' ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-bell-o"}), 
                                     React.createElement("span", null, "问答")
