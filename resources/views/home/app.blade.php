@@ -13,6 +13,7 @@
 	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
 	<script data-main="{{ asset('js/build/home/app-build.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
 </head>
+
 <body>
 	<div id='container'></div>
 	<div id="mask"></div>
