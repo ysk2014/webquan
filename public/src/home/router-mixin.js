@@ -62,11 +62,7 @@ define([
 	        var matchedRoute = this.matchRoute(parsedPath);
 
 	        if (matchedRoute) {
-	        	if(matchedRoute.params) {
-	        		return matchedRoute.handler.apply(this, matchedRoute.params);
-	        	} else {
-	        		return matchedRoute.handler();
-	        	}
+	        	return matchedRoute.handler.apply(this, matchedRoute.params);
 	        } else if (this.notFound) {
 	            return this.notFound(parsedPath);
 	        } else {
@@ -117,6 +113,7 @@ define([
 	            
 	            return false;
 	        });
+
         	return matchedRoute.handler ? matchedRoute : false;
 	    },
 	};

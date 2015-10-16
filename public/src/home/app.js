@@ -51,9 +51,9 @@ requirejs([
 
 
             '/cloumns': 'cloumnList',
-            '/cloumn/:id': 'cloumn',
             '/cloumn/add': 'addCloumn',
             '/cloumn/:id/edit': 'editCloumn',
+            '/cloumn/:id': 'cloumn',
 
             '/user': 'user',
             '/user/:id/settings': 'settings',
