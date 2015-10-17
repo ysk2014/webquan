@@ -220,7 +220,7 @@ define([
 	            patterns.push({ pattern: pattern, params: keys, handler: handlerFn });
 	        }
 	    }
-console.log(patterns);
+
 	    return patterns;
 	}
 
