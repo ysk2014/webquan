@@ -110,10 +110,13 @@ requirejs([
         render: function() {
             var _this = this;
             var page = this.renderCurrentRoute();
-
+            var loginPattern = eval(/^\/login\/(?:([^\/]+?))\/?$/i);
+            var matches = loginPattern.exec(_this.state.path);
             return (
                 <div>
-                    <UserDropMenu />
+                    {
+                        matches ? null : <UserDropMenu />
+                    }
 
                     <div className="left-bar">
                         <div className="logo">
@@ -122,26 +125,26 @@ requirejs([
                         <ul className="left-nav">
                             <li className={(this.state.path == '/' || this.state.nav == -1) ? "active" : null}>
                                 <a href="/">
-                                    <i className="fa fa-home"></i>
+                                    <i className="fa fa-home"></i><br/>
                                     <span>首页</span>
                                 </a>
                             </li>
                             <li className={this.state.path == '/cloumns' ? "active" : null}>
                                 <a href="/cloumns">
-                                    <i className="fa fa-th-list"></i>
+                                    <i className="fa fa-th-list"></i><br/>
                                     <span>专题</span>
                                 </a>
                             </li>
                             <li className={this.state.path == '/other' ? "active" : null}>
                                 <a href="/">
-                                    <i className="fa fa-bell-o"></i>
+                                    <i className="fa fa-bell-o"></i><br/>
                                     <span>问答</span>
                                 </a>
                             </li>
                             
                         </ul>
                     </div>
-                    {page}
+                    <div className="container">{page}</div>
                 </div>
             )
         }

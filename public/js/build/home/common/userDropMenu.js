@@ -73,7 +73,14 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 
 		handleClick: function() {
-			WQ.cookie.empty();
+			UserModel.signOut(function(success,data){
+				if(success) {
+					if(!data.error) {
+						WQ.cookie.empty();
+						window.location.href="/";
+					}
+				}
+			});
 		},
 		render: function() {
 			var _this = this;
@@ -115,7 +122,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/sign_out", onClick: this.handleClick}, 
+							React.createElement("a", {"data-href": "/sign_out", onClick: this.handleClick}, 
 								React.createElement("i", {className: "fa fa-sign-out"}), 
 								React.createElement("span", null, "退出")
 							)

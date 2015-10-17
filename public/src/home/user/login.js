@@ -2,9 +2,6 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
 
 
     var mixin = {
-        componentDidMount: function() {
-            $('.drop-menu').hide();
-        },
         // 输入框的值改变
         handleUnameChange: function(event) {
             var _this = this;
@@ -90,10 +87,14 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                 job: '',
             }
         },
-
+        componentWillReceiveProps: function(nextProps) {
+            this.setState({
+                nav: nextProps.way
+            });
+        },
         render: function() {
             var _this = this;
-            console.log(this.state.nav);
+
             return (
                 <div className="login-page" id="login-page">
                     <div className="logo"></div>

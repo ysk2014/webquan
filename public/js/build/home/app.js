@@ -110,10 +110,13 @@ requirejs([
         render: function() {
             var _this = this;
             var page = this.renderCurrentRoute();
-
+            var loginPattern = eval(/^\/login\/(?:([^\/]+?))\/?$/i);
+            var matches = loginPattern.exec(_this.state.path);
             return (
                 React.createElement("div", null, 
-                    React.createElement(UserDropMenu, null), 
+                    
+                        matches ? null : React.createElement(UserDropMenu, null), 
+                    
 
                     React.createElement("div", {className: "left-bar"}, 
                         React.createElement("div", {className: "logo"}, 
@@ -122,26 +125,26 @@ requirejs([
                         React.createElement("ul", {className: "left-nav"}, 
                             React.createElement("li", {className: (this.state.path == '/' || this.state.nav == -1) ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
-                                    React.createElement("i", {className: "fa fa-home"}), 
+                                    React.createElement("i", {className: "fa fa-home"}), React.createElement("br", null), 
                                     React.createElement("span", null, "首页")
                                 )
                             ), 
                             React.createElement("li", {className: this.state.path == '/cloumns' ? "active" : null}, 
                                 React.createElement("a", {href: "/cloumns"}, 
-                                    React.createElement("i", {className: "fa fa-th-list"}), 
+                                    React.createElement("i", {className: "fa fa-th-list"}), React.createElement("br", null), 
                                     React.createElement("span", null, "专题")
                                 )
                             ), 
                             React.createElement("li", {className: this.state.path == '/other' ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
-                                    React.createElement("i", {className: "fa fa-bell-o"}), 
+                                    React.createElement("i", {className: "fa fa-bell-o"}), React.createElement("br", null), 
                                     React.createElement("span", null, "问答")
                                 )
                             )
                             
                         )
                     ), 
-                    page
+                    React.createElement("div", {className: "container"}, page)
                 )
             )
         }

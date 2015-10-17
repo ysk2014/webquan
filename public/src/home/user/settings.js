@@ -341,43 +341,38 @@
 	        render: function() {
 	        	var _this = this;
 	            return (
-	            	<div>
-	            		<LeftNav />
-
-		            	<div className="settings clearfix" >
-		            	
-			                <h3 className="title"><i className="fa fa-cogs"></i>设置</h3>
-			                <ul className="nav">
-			                	<li>
-			                		<a href="javascript:void(0)" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
-			                	</li>
-			                	<li>
-			                		<a href="javascript:void(0)" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
-			                	</li>
-			                	<li>
-			                		<a href="javascript:void(0)" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
-			                	</li>
-			                	<li>
-			                		<a href="javascript:void(0)" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
-			                	</li>
-			                </ul>
-			                <div className="con">
-			                	<div  style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
-			                		<Personal info={_this.state.info}/>
-			                	</div>
-			                	<div  style={_this.state.nav=='head' ? {display:'block'} : {display:'none'}} >
-			                		<Head info={this.state.info} />
-			                	</div>
-			                	<div  style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
-			                		<Email info={this.state.info} />
-			                	</div>
-			                	<div  style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
-			                		<ModifyPassword />
-			                	</div>
-			                </div>
+	            	<div className="settings clearfix" >
+	            	
+		                <h3 className="title"><i className="fa fa-cogs"></i>设置</h3>
+		                <ul className="nav">
+		                	<li>
+		                		<a href="javascript:void(0)" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
+		                	</li>
+		                	<li>
+		                		<a href="javascript:void(0)" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
+		                	</li>
+		                	<li>
+		                		<a href="javascript:void(0)" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
+		                	</li>
+		                	<li>
+		                		<a href="javascript:void(0)" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
+		                	</li>
+		                </ul>
+		                <div className="con">
+		                	<div  style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
+		                		<Personal info={_this.state.info}/>
+		                	</div>
+		                	<div  style={_this.state.nav=='head' ? {display:'block'} : {display:'none'}} >
+		                		<Head info={this.state.info} />
+		                	</div>
+		                	<div  style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
+		                		<Email info={this.state.info} />
+		                	</div>
+		                	<div  style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
+		                		<ModifyPassword />
+		                	</div>
 		                </div>
 	                </div>
-
 	            );
 	        }
     	});

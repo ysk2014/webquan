@@ -25,6 +25,10 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		modifyPassword: function(id,data, callback) {
 			BaseModel.put('/user/'+id+'/password', {'data':data}, callback);
 		},
+		//退出
+		signOut: function(callback) {
+			BaseModel.get('/sign_out',{},callback);
+		}
 		
 	};
 	return UserModel;

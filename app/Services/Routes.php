@@ -256,10 +256,7 @@ class Routes
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
                 });
-                
-                
-                
-                
+
             });
     }
 }

@@ -29,6 +29,11 @@ input:focus{
 }
 
 
+/*右边模块*/
+.container{
+  margin-left: 120px;
+}
+
 
 /*登陆*/
 .login-page{

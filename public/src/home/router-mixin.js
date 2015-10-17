@@ -81,7 +81,7 @@ define([
 	            }
 
 	            setTimeout(function() {
-	            	var pathWithSearch = url.path + (url.search || '');
+	            	var pathWithSearch = url.path + (url.query || '');
 	                if (pathWithSearch.length === 0) pathWithSearch = '/';
 
 	                if (self.state.useHistory) {
@@ -169,6 +169,14 @@ define([
 
 		evt = evt || window.event || e;
 
+	    var elt = evt.target || evt.srcElement;
+
+	    while (elt && elt.nodeName !== 'A') {
+	        elt = elt.parentNode;
+	    }
+
+	    if (!elt) return;
+
 		if (evt.defaultPrevented) return;
 
 		if(evt.preventDefault) {
@@ -183,13 +191,7 @@ define([
 	    // 不是点击鼠标左键，返回
 	    if (evt.button !== 0) return;
 
-	    var elt = evt.target || evt.srcElement;
 
-	    while (elt && elt.nodeName !== 'A') {
-	        elt = elt.parentNode;
-	    }
-
-	    if (!elt) return;
 
 	    if (elt.target && elt.target !== '_self') return;
 
@@ -218,6 +220,7 @@ define([
 	            patterns.push({ pattern: pattern, params: keys, handler: handlerFn });
 	        }
 	    }
+console.log(patterns);
 	    return patterns;
 	}
 
