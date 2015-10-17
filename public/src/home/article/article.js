@@ -295,61 +295,61 @@ define([
 			}) : null;
 			return (
 				<div className="article-page" style={_this.state.info ? {display:'block'} : {display: 'none'}}>
-					<h3 className="title">{title}</h3>
-					<div style={{marginBottom:'10px'}}>
-						<span className="author">
-							<a href="javascript:void(0)">
-								<img className="avatar" src="/image/user-default.png" />
-								<span className="name">{username}</span>
+						<h3 className="title">{title}</h3>
+						<div style={{marginBottom:'10px'}}>
+							<span className="author">
+								<a href="javascript:void(0)">
+									<img className="avatar" src="/image/user-default.png" />
+									<span className="name">{username}</span>
+								</a>
+							</span>
+							<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
+							<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
+							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
+							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
+							{tagsList}
+						</div>
+						<div className="tool" style={{marginBottom:'10px'}}>
+							{_this.state.uid==uid ? (
+								<a className="btn btn-info" href={"/article/"+this.state.aid+"/edit"}>
+									<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
+									<span>编辑</span>
+								</a>
+							): null}
+							
+							<a className={praiseStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handlePraise}>
+								<i className="fa fa-thumbs-up" style={{marginRight:'4px'}}></i>
+								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
+								<span>{praise}</span>
 							</a>
-						</span>
-						<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
-						<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
-						<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
-						<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
-						{tagsList}
-					</div>
-					<div className="tool" style={{marginBottom:'10px'}}>
-						{_this.state.uid==uid ? (
-							<a className="btn btn-info" href={"/article/"+this.state.aid+"/edit"}>
-								<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
-								<span>编辑</span>
+							<a className={storeStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handleStore}>
+								<i className="fa fa-bookmark-o" style={{marginRight:'4px'}}></i>
+								<span style={{marginRight:'4px'}}>{storeStatus ? '已收藏' : '收藏'}</span>
+								<span>{store}</span>
 							</a>
-						): null}
+							<a className="btn btn-info" href="javascript:void(0)">
+								<i className="fa fa-share-square-o" style={{marginRight:'4px'}}></i>
+								<span>分享</span>
+							</a>
+						</div>
 						
-						<a className={praiseStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handlePraise}>
-							<i className="fa fa-thumbs-up" style={{marginRight:'4px'}}></i>
-							<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
-							<span>{praise}</span>
-						</a>
-						<a className={storeStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handleStore}>
-							<i className="fa fa-bookmark-o" style={{marginRight:'4px'}}></i>
-							<span style={{marginRight:'4px'}}>{storeStatus ? '已收藏' : '收藏'}</span>
-							<span>{store}</span>
-						</a>
-						<a className="btn btn-info" href="javascript:void(0)">
-							<i className="fa fa-share-square-o" style={{marginRight:'4px'}}></i>
-							<span>分享</span>
-						</a>
-					</div>
-					
-					<div id="editormd-view">
-						<textarea></textarea>
-					</div>
+						<div id="editormd-view">
+							<textarea></textarea>
+						</div>
 
-					<div className="comment-box">
-						<div className="hd">评论</div>
-						<div className="bd">
-							<div className="publish">
-								<textarea id="comment-text" placeholder="参与讨论" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
-								<a className="btn btn-default" href="javascript:void(0)" style={{display:'inline-block',margin:'10px 0'}} onClick={this.submitComment}>发表评论</a>
-							</div>
-							<div className="comment-list">
-								{commentList}
-								<a className="btn btn-default btn-large" href="javascript:void(0)" style={_this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.hamdleMore}>更多评论</a>
+						<div className="comment-box">
+							<div className="hd">评论</div>
+							<div className="bd">
+								<div className="publish">
+									<textarea id="comment-text" placeholder="参与讨论" value={this.state.commentContent} onChange={this.handleChangeCommnet}></textarea>
+									<a className="btn btn-default" href="javascript:void(0)" style={{display:'inline-block',margin:'10px 0'}} onClick={this.submitComment}>发表评论</a>
+								</div>
+								<div className="comment-list">
+									{commentList}
+									<a className="btn btn-default btn-large" href="javascript:void(0)" style={_this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.hamdleMore}>更多评论</a>
+								</div>
 							</div>
 						</div>
-					</div>
 				</div>
 			);
 		}

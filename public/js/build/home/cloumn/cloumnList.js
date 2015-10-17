@@ -45,7 +45,7 @@ define([
 		// 获取我的专题
 		getCloumnsByUid: function(page) {
 			var _this = this;
-			var uid = WQ.cookie.get('id');
+			var uid = _this.state.uid;
 			var params = {uid:uid, page:page};
 			CloumnModel.getCloumnsByUid(params,function(success,data) {
 				if(success) {
@@ -74,7 +74,7 @@ define([
 		// 获取用户关注的专题
 		getCareCloumnsByUid: function(page) {
 			var _this = this;
-			var uid = WQ.cookie.get('id');
+			var uid = _this.state.uid;
 			var params = {uid:uid, page:page};
 			CloumnModel.getCareCloumnsByUid(params,function(success,data) {
 				if(success) {
@@ -158,7 +158,7 @@ define([
 			var index = ele.parents('li').data('key');
 			var myCare = ele.data('care');
 			var cid = ele.parents('li').data('cid');
-			var uid = WQ.cookie.get('id');
+			var uid = _this.state.uid;
 			var dataObj = {cid:cid,uid:uid};
 
 			if(!uid) {
@@ -255,6 +255,7 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'cloumn',
+				uid: WQ.cookie.get('id') ? WQ.cookie.get('id') : 0,
 				nav: 0,               //一级导航，0:专题广场, 1:我关注的, 2:我的专题
 				navChild: 0,          //二级导航，0：view，1：update_time，2：care，3：addtime
 				cloumns: {},          //专题数据列表
@@ -310,8 +311,8 @@ define([
 					React.createElement("div", {className: "header"}, 
 						React.createElement("div", {className: "nav"}, 
 							React.createElement("a", {className: nav==0 ? "tab active" : "tab", onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "专题广场"), 
-							React.createElement("a", {className: nav==1 ? "tab active" : "tab", onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "我关注的"), 
-							React.createElement("a", {className: nav==2 ? "tab active" : "tab", onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "我的专题")
+							React.createElement("a", {className: nav==1 ? "tab active" : "tab", style: _this.state.uid ? {display:'inline-block'} : {display:'none'}, onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "我关注的"), 
+							React.createElement("a", {className: nav==2 ? "tab active" : "tab", style: _this.state.uid ? {display:'inline-block'} : {display:'none'}, onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "我的专题")
 						), 
 						React.createElement("a", {className: "btn btn-info pull-right", style: {margin:'10px 120px 0 0'}, href: "/cloumn/add"}, "添加专题")
 					), 
@@ -324,14 +325,14 @@ define([
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==2 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "关注度排序")), 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==3 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "最新创建排序"))
 							), 
-							React.createElement("ul", {style: {marginLeft:'30px'}, className: "clearfix"}, cloumnList), 
+							React.createElement("ul", {className: "clearfix"}, cloumnList), 
 							React.createElement("a", {className: "more", style: _this.state.next[next] ? {display:'block'} : {display:'none'}, onClick: _this.handleMore}, "更多")
 						), 
 						React.createElement("div", {style: _this.state.nav==1 ? {display:'block'} : {display:'none'}}, 
-							React.createElement("ul", {style: {marginLeft:'30px'}, className: "clearfix"}, cloumnList)
+							React.createElement("ul", {className: "clearfix"}, cloumnList)
 						), 	
 						React.createElement("div", {style: _this.state.nav==2 ? {display:'block'} : {display:'none'}}, 
-							React.createElement("ul", {style: {marginLeft:'30px'}, className: "clearfix"}, cloumnList), 
+							React.createElement("ul", {className: "clearfix"}, cloumnList), 
 							React.createElement("a", {className: "btn btn-default btn-large", style: _this.state.next['me'] ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, onClick: _this.handleMore}, "更多")
 						)					
 					)
