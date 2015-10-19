@@ -162,23 +162,21 @@ define(['react',
         render: function() {
             var _this = this;
             return (
-                <div>
-                    <div className="home-page">
-                        <div className="host-box">
-                            <div className="host clearfix">
-                                <img src="/upload_path/logo/web5.jpg" />
-                                    <ul>
-                                        <li>昵称：&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</li>
-                                        <li>性别：&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</li>
-                                        <li>城市：&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</li>
-                                        <li>职位：&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</li>
-                                        <li>邮箱：&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</li>
-                                    </ul>
-                            </div>
+                <div className="home-page">
+                    <div className="host-box">
+                        <div className="host clearfix">
+                            <img src="/upload_path/logo/web5.jpg" />
+                                <ul>
+                                    <li>昵称：&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</li>
+                                    <li>性别：&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</li>
+                                    <li>城市：&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</li>
+                                    <li>职位：&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</li>
+                                    <li>邮箱：&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</li>
+                                </ul>
                         </div>
-                        <div className="content">
-                            <Articles />
-                        </div>
+                    </div>
+                    <div className="content">
+                        <Articles />
                     </div>
                 </div>
             );

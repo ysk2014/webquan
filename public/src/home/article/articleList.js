@@ -162,8 +162,8 @@ define([
 			}) : null;
 			
 			return (
-				<div>
-					<div className="header">
+				<div className="article-list-page">
+					<div className="top-bar">
 						<div className="nav">
 							<a className="tab active" onClick={this.handleTabChange} href="javascript:void(0)">推荐</a>
 							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>

@@ -312,23 +312,23 @@ define([
 						<div className="tool" style={{marginBottom:'10px'}}>
 							{_this.state.uid==uid ? (
 								<a className="btn btn-info" href={"/article/"+this.state.aid+"/edit"}>
-									<i className="fa fa-pencil-square-o" style={{marginRight:'4px'}}></i>
+									<i className="fa fa-pencil-square-o"></i>
 									<span>编辑</span>
 								</a>
 							): null}
 							
 							<a className={praiseStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handlePraise}>
-								<i className="fa fa-thumbs-up" style={{marginRight:'4px'}}></i>
+								<i className="fa fa-thumbs-up"></i>
 								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
 								<span>{praise}</span>
 							</a>
 							<a className={storeStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handleStore}>
-								<i className="fa fa-bookmark-o" style={{marginRight:'4px'}}></i>
+								<i className="fa fa-bookmark-o"></i>
 								<span style={{marginRight:'4px'}}>{storeStatus ? '已收藏' : '收藏'}</span>
 								<span>{store}</span>
 							</a>
 							<a className="btn btn-info" href="javascript:void(0)">
-								<i className="fa fa-share-square-o" style={{marginRight:'4px'}}></i>
+								<i className="fa fa-share-square-o"></i>
 								<span>分享</span>
 							</a>
 						</div>

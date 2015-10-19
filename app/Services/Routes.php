@@ -230,7 +230,7 @@ class Routes
             // 登录处理
             Route::post('/sign_in', 'Home\UserController@getProc');
             // 注册处理
-            Route::post('/sign_up', 'Home\UserController@addUser');
+            Route::post('/sign_up', 'Home\UserController@dealUser');
             // 退出
             Route::get('/sign_out', 'Home\UserController@getOut');
 
@@ -248,7 +248,7 @@ class Routes
 
                 Route::group(['prefix' => 'user/{id}'], function() {
                     // 编辑用户信息
-                    Route::put('/', 'Home\UserController@editUser');
+                    Route::put('/', 'Home\UserController@dealUser');
                     // 修改密码 
                     Route::put('/password', 'Home\UserController@modifyPassword'); 
                     //设置

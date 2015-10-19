@@ -307,8 +307,8 @@ define([
 				);
 			});
 			return (
-				<div>
-					<div className="header">
+				<div className="cloumn-list-page">
+					<div className="top-bar">
 						<div className="nav">
 							<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>
 							<a className={nav==1 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我关注的</a>
@@ -319,7 +319,7 @@ define([
 
 					<div className="cloumn-list">
 						<div style={_this.state.nav==0 ? {display:'block'} : {display:'none'}}>
-							<ul className="orderBy-nav clearfix">
+							<ul className="nav-orderBy clearfix">
 								<li><a className={_this.state.navChild==0 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>热门排序</a></li>
 								<li><a className={_this.state.navChild==1 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最近更新</a></li>
 								<li><a className={_this.state.navChild==2 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>关注度排序</a></li>

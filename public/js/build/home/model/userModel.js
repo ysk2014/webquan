@@ -28,6 +28,11 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		//退出
 		signOut: function(callback) {
 			BaseModel.get('/sign_out',{},callback);
+		},
+
+		//发送邮件
+		sendEmail: function(email,callback) {
+			BaseModel.get('/email',{email:email},callback);
 		}
 		
 	};

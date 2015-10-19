@@ -209,7 +209,7 @@ define([
 							React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
 							React.createElement("div", {className: "footer"}, 
 									_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-									(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit'}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑专题"))) : null
+									(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit', className: "btn btn-info"}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑"))) : null
 								
 							), 
 							React.createElement("div", {className: "cloumn-right"}, 
@@ -218,7 +218,7 @@ define([
 						)
 					), 
 					React.createElement("div", {className: "cloumn-content"}, 
-						React.createElement("ul", {className: "sequence-nav toolbar"}, 
+						React.createElement("ul", {className: "nav-sequence toolbar"}, 
 							React.createElement("li", {className: _this.state.nav==0 ? "active" : '', "data-nav": "0", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "热门排序")), " ·",  
 							React.createElement("li", {className: _this.state.nav==1 ? "active" : '', "data-nav": "1", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "最近更新"))
 						), 

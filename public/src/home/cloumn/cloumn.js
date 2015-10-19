@@ -209,7 +209,7 @@ define([
 							<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
 							<div className="footer">
 								{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-									(<a href={"/cloumn/"+_this.state.cid+'/edit'}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
+									(<a href={"/cloumn/"+_this.state.cid+'/edit'} className="btn btn-info"><i className="fa fa-edit"></i><span>编辑</span></a>) : null
 								}
 							</div>
 							<div className="cloumn-right">
@@ -218,7 +218,7 @@ define([
 						</div>
 					</div>
 					<div className="cloumn-content">
-						<ul className="sequence-nav toolbar">
+						<ul className="nav-sequence toolbar">
 							<li className={_this.state.nav==0 ? "active" : ''} data-nav="0" onClick={_this.handleTabChange}><a href="javascript:void(0)">热门排序</a></li> · 
 							<li className={_this.state.nav==1 ? "active" : ''} data-nav="1" onClick={_this.handleTabChange}><a href="javascript:void(0)">最近更新</a></li>
 						</ul>

@@ -123,7 +123,7 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.nav == -1) ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i><br/>
                                     <span>首页</span>

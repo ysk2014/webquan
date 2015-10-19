@@ -74,7 +74,7 @@ define([
                         "bold", "italic", "quote", "uppercase", "lowercase", "|", 
                         "h1", "h2", "h3", "h4", "h5", "h6", "|", 
                         "list-ul", "list-ol", "hr", "|",
-                        "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
+                        "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
                         "watch", "preview", "fullscreen", "help"
                     ];
                 },
@@ -290,7 +290,7 @@ define([
 
 			return (
 				React.createElement("div", null, 
-					React.createElement("div", {className: "header"}, 
+					React.createElement("div", {className: "top-bar"}, 
 						React.createElement("span", {className: "desc"}, "写文章"), 
 						React.createElement("a", {className: "btn btn-info btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 120px 0 0'}, "data-publish": "1", onClick: this.handlePublic}, "发布"), 
 						React.createElement("a", {className: "btn btn-default btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 10px 0 0'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")

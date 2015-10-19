@@ -312,23 +312,23 @@ define([
 						React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
 							_this.state.uid==uid ? (
 								React.createElement("a", {className: "btn btn-info", href: "/article/"+this.state.aid+"/edit"}, 
-									React.createElement("i", {className: "fa fa-pencil-square-o", style: {marginRight:'4px'}}), 
+									React.createElement("i", {className: "fa fa-pencil-square-o"}), 
 									React.createElement("span", null, "编辑")
 								)
 							): null, 
 							
 							React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
-								React.createElement("i", {className: "fa fa-thumbs-up", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-thumbs-up"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, praiseStatus ? '已推荐' : '推荐'), 
 								React.createElement("span", null, praise)
 							), 
 							React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
-								React.createElement("i", {className: "fa fa-bookmark-o", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-bookmark-o"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, storeStatus ? '已收藏' : '收藏'), 
 								React.createElement("span", null, store)
 							), 
 							React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
-								React.createElement("i", {className: "fa fa-share-square-o", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-share-square-o"}), 
 								React.createElement("span", null, "分享")
 							)
 						), 

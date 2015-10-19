@@ -307,8 +307,8 @@ define([
 				);
 			});
 			return (
-				React.createElement("div", null, 
-					React.createElement("div", {className: "header"}, 
+				React.createElement("div", {className: "cloumn-list-page"}, 
+					React.createElement("div", {className: "top-bar"}, 
 						React.createElement("div", {className: "nav"}, 
 							React.createElement("a", {className: nav==0 ? "tab active" : "tab", onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "专题广场"), 
 							React.createElement("a", {className: nav==1 ? "tab active" : "tab", style: _this.state.uid ? {display:'inline-block'} : {display:'none'}, onClick: this.hamdleTabChange, href: "javascript:void(0)"}, "我关注的"), 
@@ -319,7 +319,7 @@ define([
 
 					React.createElement("div", {className: "cloumn-list"}, 
 						React.createElement("div", {style: _this.state.nav==0 ? {display:'block'} : {display:'none'}}, 
-							React.createElement("ul", {className: "orderBy-nav clearfix"}, 
+							React.createElement("ul", {className: "nav-orderBy clearfix"}, 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==0 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "热门排序")), 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==1 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "最近更新")), 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==2 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "关注度排序")), 

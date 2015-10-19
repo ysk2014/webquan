@@ -162,8 +162,8 @@ define([
 			}) : null;
 			
 			return (
-				React.createElement("div", null, 
-					React.createElement("div", {className: "header"}, 
+				React.createElement("div", {className: "article-list-page"}, 
+					React.createElement("div", {className: "top-bar"}, 
 						React.createElement("div", {className: "nav"}, 
 							React.createElement("a", {className: "tab active", onClick: this.handleTabChange, href: "javascript:void(0)"}, "推荐"), 
 							React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "最新"), 

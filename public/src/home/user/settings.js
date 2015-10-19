@@ -14,7 +14,7 @@
 	                info: _this.state.info,
 	            });
 	        },
-	        handlePositionChange: function(event) {
+	        handleSelectJob: function(event) {
 	            var _this = this;
 	            _this.state.info.job = event.target.value;
 	            _this.setState({
@@ -25,7 +25,7 @@
 	            var _this = this;
 	            _this.state.info.city = event.target.value;
 	            _this.setState({
-	                city: _this.state.info,
+	                info: _this.state.info,
 	            });
 	        },
 	        handleSexChange: function(sexc) {
@@ -37,108 +37,24 @@
 	        },
 	        handleSignChange: function(event) {
 	            var _this = this;
+	            _this.state.info.description = event.target.value;
 	            _this.setState({
-	                description: event.target.value,
+	                info: _this.state.info,
 	            });
 	        },
 	        		
 		}
  
-		// 个人信息设置
-        var Personal = React.createClass({
-        	mixins: [mixin],
-        	getInitialState: function() {
-        		var _this = this;
-				return {
-	             	info: _this.props.info
-	            }
-	        },
-	        componentWillReceiveProps: function(nextProps) {
-	        	this.setState({
-	        		info: nextProps.info
-	        	});
-	        },
-	        contentClick: function() {
-	        	var _this = this;
-	        	if (_this.state.select == 0) {
-	        		_this.setState({
-	        			select: 1
-	        		});
-	        	} else {
-	        		_this.setState({
-	        			select: 0
-	        		});
-	        	}
-	        },
-        	handleSubmit: function(event) {
-        		var _this = this;
-        		var data = {
-        			id:          _this.state.uid,
-        			username:    _this.state.username,
-        			job:         _this.state.job,
-        			city:        _this.state.city,
-        			sex:         _this.state.sex,
-        		 	description: _this.state.description,
-        		};
-        		UserModel.editUser(_this.state.uid,data,function(success,data) {
-                    if(success){
-                    	if(!data.error){
-                    		Tooltip("修改成功");
-                    	}else{
-                    		Tooltip(data.msg);
-                    	}
-                    }
-        		});
-        	},
-        	render: function() {
-        		var _this = this;
-        		var username    = _this.state.info ? _this.state.info.username    : null;
-        		var job         = _this.state.info ? _this.state.info.job         : null;
-        		var city        = _this.state.info ? _this.state.info.city        : null;
-        		var sex         = _this.state.info ? _this.state.info.sex         : null;
-        		var description = _this.state.info ? _this.state.info.description : null;
-        		return(
-        			<div className="personal">
-        				<form>
-	        				<p className="username">
-	        					<label>昵称：</label><input type="text" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={username}/>
-	        				</p>
-	        				<div className="input-prepend">
-	        					<label>职位：</label><select><option>{job}</option></select>
-	        				</div>
-	        				<p className="place">
-	        					<label>地址：</label>	<input type="text" name="city" className="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
-	        				</p>
-	        				<div className="sex clearfix">
-		        				<label>性别：</label>&nbsp;
-		        				<div className="sex-input">
-		        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={sex == 0 ? "checked" : null }/>&nbsp;&nbsp;男&nbsp;&nbsp;
-		        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={sex == 1 ? "checked" : null }/>&nbsp;&nbsp;女
-		        				</div>
-	        				</div>
-	        				<p className="sign">
-			        			<label>个性签名：</label>
-			        			<textarea resize="none" name="description" onChange={this.handleSignChange} value={description}></textarea><br />
-	        			 	</p>
-	        			 	<p className="sub">
-	        			 		<input type="button" value="保存" onClick={this.handleSubmit}/>
-	        			 	</p>
-        			 	</form>
-        			</div>
-        		)
-        	}
-        });
-
 		// 上传头像
 		var Head = React.createClass({
 			getInitialState: function() {
 				return {
-					logo_dir: this.props.info ? this.props.info.logo_dir : '/image/user-default.png',
+					logo_dir: this.props.logo_dir ? this.props.logo_dir : '/image/user-default.png',
 				}
 			},
 			componentWillReceiveProps: function(nextProps) {
 	        	this.setState({
-	        		logo_dir: nextProps.info.logo_dir ? nextProps.info.logo_dir : '/image/user-default.png',
+	        		logo_dir: nextProps.logo_dir ? nextProps.logo_dir : '/image/user-default.png',
 	        	});
 	        },
 			handleSubmit: function(event) {
@@ -170,6 +86,7 @@
                         	logo_dir: json.data,
                         });
                         WQ.cookie.set('userUrl',json.data,1);
+                        Tooltip('头像更新成功');
                     } else {
                         Tooltip(json.msg);
                     }
@@ -198,33 +115,140 @@
 							<input type="text" name="id" style={{display:"none"}} value={WQ.cookie.get('id')}  />
 							<input type="file" name="file" id="file" style={{display:"none"}} onChange={_this.handleFileChange} />
 							<input type="submit"  style={{display:"none"}}  onClick={_this.handleUpload} />
-							<a className="submit-button" onClick={_this.handleSubmit} >上传头像</a>
+							<a className="btn btn-default btn-md" href="javascript:void(0)" onClick={_this.handleSubmit} >上传头像</a>
 						</form>
 					</div>
 				)
 			}
 		});
 
+		// 个人信息设置
+        var Personal = React.createClass({
+        	mixins: [mixin],
+        	getInitialState: function() {
+        		var _this = this;
+				return {
+	             	info: _this.props.info,
+	             	job: ['页面重构设计','Web前端工程师','JS工程师','PHP开发工程师','JAVA开发工程师','移动开发工程师','软件测试工程师','Linux系统工程师','交互设计师','产品经理','UI设计师','学生','其他']
+	            }
+	        },
+	        componentWillReceiveProps: function(nextProps) {
+	        	this.setState({
+	        		info: nextProps.info,
+	        	});
+	        },
+	        
+	        contentClick: function() {
+	        	var _this = this;
+	        	if (_this.state.select == 0) {
+	        		_this.setState({
+	        			select: 1
+	        		});
+	        	} else {
+	        		_this.setState({
+	        			select: 0
+	        		});
+	        	}
+	        },
+        	handleSubmit: function(event) {
+        		var _this = this;
+        		var data = _this.state.info;
+        		UserModel.editUser(_this.state.info.id,data,function(success,data) {
+                    if(success){
+                    	if(!data.error){
+                    		Tooltip("修改成功");
+                    	}else{
+                    		Tooltip(data.msg);
+                    	}
+                    }
+        		});
+        	},
+        	render: function() {
+        		var _this = this;
+        		var username    = _this.state.info ? _this.state.info.username    : null;
+        		var job         = _this.state.info ? _this.state.info.job         : null;
+        		var city        = _this.state.info ? _this.state.info.city        : null;
+        		var sex         = _this.state.info ? _this.state.info.sex         : null;
+        		var description = _this.state.info ? _this.state.info.description : null;
+        		var logo_dir    = _this.state.info ? _this.state.info.logo_dir    : null;
+
+        		var jobs = _this.state.job.map(function(j,i) {
+        			return (<option key={i} selected={(job && job==j) ? 'selected' : ''}>{j}</option>);
+        		});
+        		return(
+        			<div className="personal">
+    					<div className="input-prepend">
+        					<label className="col col-sm-2">头像：</label>
+        					<div className="col col-sm-10"><Head logo_dir={logo_dir} /></div>
+        				</div>
+        				<div className="input-prepend">
+        					<label className="col col-sm-2">昵称：</label>
+        					<input type="text" className="col col-sm-10" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={username}/>
+        				</div>
+        				<div className="input-prepend">
+        					<label className="col col-sm-2">职位：</label>
+        					<select className="col col-sm-10" onChange={_this.handleSelectJob}><option>{jobs}</option></select>
+        				</div>
+        				<div className="input-prepend">
+        					<label className="col col-sm-2">所在地：</label>
+        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
+        				</div>
+        				<div className="input-prepend">
+	        				<label className="col col-sm-2">性别：</label>
+	        				<div className="col col-sm-10">
+	        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={sex == 0 ? "checked" : null }/>
+	        				  	<span>&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={sex == 1 ? "checked" : null }/>
+	        				    <span>&nbsp;&nbsp;女</span>
+	        				</div>
+        				</div>
+        				<div className="input-prepend">
+		        			<label className="col col-sm-2">个性签名：</label>
+		        			<textarea className="col col-sm-10" name="description" onChange={this.handleSignChange} value={description} placeholder="这位童鞋很懒，什么也没有留下～～！"></textarea>
+        			 	</div>
+        			 	<div className="input-prepend">
+        			 		<label className="col col-sm-2"></label><a href="javascript:void(0);" className="col col-sm-10 btn btn-info btn-submit"  onClick={this.handleSubmit}>保存</a>
+        			 	</div>
+        			</div>
+        		)
+        	}
+        });
+
+
+
 		// 邮箱验证
 		var Email = React.createClass({
-			mixins: [mixin],
 			getInitialState: function() {
         		var _this = this;
 				return {
-	            		  email: "",
+	            	email: this.props.email,
 	            }
+	        },
+	        componentWillReceiveProps: function(nextProps) {
+	        	this.setState({
+	        		email: nextProps.email ? nextProps.email : null,
+	        	});
+	        },
+	        emailChange: function(event) {
+	        	var _this = this;
+	        	_this.setState({
+	        		email: event.target.value,
+	        	});
+	        },
+	        sendEmail: function() {
+	        	var _this = this;
+	        	UserModel.sendEmail(_this.state.email,function(success,data){
+
+	        	});
 	        },
 			render: function(){
 				var _this = this;
 				return(
-					<div className="email">
-						<p className="fir">当前邮箱</p>
-						<p className="sec">{_this.state.email}</p>
-						<div className="hook">
-							<i className="fa fa-check-square"></i>
-							<p>邮箱已认证</p>
-						</div>
-						<input type="button" value="更改邮箱" className="change"/>
+					<div className="email input-prepend">
+						<input type="text" className="col col-sm-10" onChange={this.emailChange} value={this.state.email} />
+						<label className="col col-sm-2">
+							<a href="javascript:void(0)" className="btn btn-info btn-submit" style={{width:'92%'}} onClick={this.sendEmail}>验证</a>
+						</label>
 					</div>
 				)
 			}
@@ -297,10 +321,22 @@
 			render: function(){
 				return(
 					<form className="modify">
-						<p><label>当前密码：</label><input type="password" placeholder="请输入当前密码" onChange={this.handleOldPsdChange}/></p>
-						<p><label>新密码：</label><input type="password" placeholder="请输入密码" onChange={this.handleNewPsdChange}/></p>
-						<p><label>确认密码：</label><input type="password" placeholder="请输入密码" onChange={this.handleNewPsdRepeatChange}/></p>
-						<p><label>&nbsp;</label><input type="button" value="保存" className="sub" onClick={this.handleSubmit}/></p>
+						<div className="input-prepend">
+							<label className="col col-sm-2">当前密码：</label>
+							<input type="password" className="col col-sm-10" placeholder="请输入当前密码" onChange={this.handleOldPsdChange}/>
+						</div>
+						<div className="input-prepend">
+							<label className="col col-sm-2">新密码：</label>
+							<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdChange}/>
+						</div>
+						<div className="input-prepend">
+							<label className="col col-sm-2">确认密码：</label>
+							<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdRepeatChange}/>
+						</div>
+						<div className="input-prepend">
+							<label className="col col-sm-2"></label>
+							<a className="col col-sm-10 btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>保存</a>
+						</div>
 					</form>
 				)
 			}
@@ -343,32 +379,26 @@
 	            return (
 	            	<div className="settings clearfix" >
 	            	
-		                <h3 className="title"><i className="fa fa-cogs"></i>设置</h3>
-		                <ul className="nav">
-		                	<li>
-		                		<a href="javascript:void(0)" className={_this.state.nav=='personal' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
+		                <h3 className="title"><i className="fa fa-cogs" style={{marginRight:'4px'}}></i>设置</h3>
+		                <ul className="nav nav-tabs">
+		                	<li className={_this.state.nav=='personal' ? 'active' : null}>
+		                		<a href="javascript:void(0)" onClick={this.handleClick.bind(this,"personal")}>个人资料</a>
 		                	</li>
-		                	<li>
-		                		<a href="javascript:void(0)" className={_this.state.nav=='head' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"head")}>头像设置</a>
+		                	<li className={_this.state.nav=='email' ? 'active' : null}>
+		                		<a href="javascript:void(0)" onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
 		                	</li>
-		                	<li>
-		                		<a href="javascript:void(0)" className={_this.state.nav=='email' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"email")}>邮箱验证</a>
-		                	</li>
-		                	<li>
-		                		<a href="javascript:void(0)" className={_this.state.nav=='modify' ? 'fir active' : 'fir'} onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
+		                	<li className={_this.state.nav=='modify' ? 'active' : null}>
+		                		<a href="javascript:void(0)" onClick={this.handleClick.bind(this,"modify")}>修改密码</a>
 		                	</li>
 		                </ul>
 		                <div className="con">
-		                	<div  style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
+		                	<div style={_this.state.nav=='personal' ? {display:'block'} : {display:'none'}} >
 		                		<Personal info={_this.state.info}/>
 		                	</div>
-		                	<div  style={_this.state.nav=='head' ? {display:'block'} : {display:'none'}} >
-		                		<Head info={this.state.info} />
+		                	<div style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
+		                		<Email email={this.state.info ? this.state.info.email : null} />
 		                	</div>
-		                	<div  style={_this.state.nav=='email' ? {display:'block'} : {display:'none'}} >
-		                		<Email info={this.state.info} />
-		                	</div>
-		                	<div  style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
+		                	<div style={_this.state.nav=='modify' ? {display:'block'} : {display:'none'}} >
 		                		<ModifyPassword />
 		                	</div>
 		                </div>

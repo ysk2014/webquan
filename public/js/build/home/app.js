@@ -123,7 +123,7 @@ requirejs([
                             React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
-                            React.createElement("li", {className: (this.state.path == '/' || this.state.nav == -1) ? "active" : null}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-home"}), React.createElement("br", null), 
                                     React.createElement("span", null, "首页")
