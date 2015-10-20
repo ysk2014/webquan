@@ -259,6 +259,8 @@ class Routes
                     Route::post('/logo', 'Home\UserController@updateLogo');
                     // 收藏页面
                     Route::get('/store', 'Home\UserController@index');
+                    //草稿箱
+                    Route::get('/draft', 'Home\UserController@index');
 
                 });
 

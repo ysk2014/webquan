@@ -104,8 +104,8 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/"}, 
-								React.createElement("i", {className: "fa fa-heart"}), 
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/draft"}, 
+								React.createElement("i", {className: "fa fa-inbox"}), 
 								React.createElement("span", null, "我的草稿箱")
 							)
 						), 

@@ -104,8 +104,8 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href="/">
-								<i className="fa fa-heart"></i>
+							<a href={"/user/"+WQ.cookie.get('id')+"/draft"}>
+								<i className="fa fa-inbox"></i>
 								<span>我的草稿箱</span>
 							</a>
 						</li>
