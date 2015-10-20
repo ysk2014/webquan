@@ -61,7 +61,7 @@ class Article extends Base
      */
     public function getArtById($id)
     {
-        return $this->select(array('article.*','user.username','cloumn.name as cloumnName'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl','cloumn.name as cloumnName'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.id','=', intval($id))

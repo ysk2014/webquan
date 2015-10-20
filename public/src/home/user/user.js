@@ -10,20 +10,11 @@ define(['react',
     var mixin = {
         init: function() {
             var _this = this;
-            var uid = WQ.cookie.get('id');
-            UserModel.getUserInfoById(uid,function(success,data) {
+            UserModel.getUserInfoById(_this.state.uid,function(success,data) {
                 if(success) {
                     if(!data.error) {
-                        var data = data.data
                         _this.setState({
-                                        id: data.id,
-                                  username: data.username,
-                                       job: data.job,
-                                      city: data.city,
-                                       sex: data.sex,
-                               description: data.description,
-                                     email: data.email,
-
+                            info: data.data
                         });
                     } else {
                         Tooltip(data.msg);
@@ -36,22 +27,20 @@ define(['react',
     var Articles = React.createClass({
         getInitialState: function() {
             return {
-                list: [],        //文章列表
+                list: {},        //文章列表
                 next: false,     //判断是否还有数据
-                uid: null,
-                nav: "addtime"
+                uid: this.props.uid,
+                nav: 'addtime',
+                more:[],         //记录每个专题进入到了第几页
             }
         },
         init: function(nav) {
             var _this = this;
-            var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
-            _this.setState({
-                uid: uid
-            });
+            
             if (nav != "is_publish") {
-                _this.getAllArticleByUid(uid,nav,0,1);
+                _this.getAllArticleByUid(nav,0,1);
             }else{
-                _this.getAllArticleByUid(uid,nav,0,0);
+                _this.getAllArticleByUid(nav,0,0);
             };
         },
 
@@ -63,22 +52,47 @@ define(['react',
             _this.setState({
                 nav: nav,
             })
-            _this.init(nav);
+            if(!_this.state.list[nav]) {
+                if(nav == 'is_publish') {
+                    var is_publish = 0;
+                } else {
+                    var is_publish = 1;
+                }
+                _this.getAllArticleByUid(nav,0,is_publish);
+            }
         },
-
-        getAllArticleByUid: function(uid,way,page,is_publish) {
+        handleMore: function() {
+            var page = $(event.target).data('page');
             var _this = this;
-            ArticleModel.getAllArticleByUid({uid:5,way:way,page:page,is_publish:is_publish},function(success,data) {
+            var nav = _this.state.nav;
+            if(nav!='is_publish') {
+                _this.getAllArticleByUid(nav,page,1);
+            } else {
+                _this.getAllArticleByUid(nav,page,0);
+            }
+        },
+        getAllArticleByUid: function(way,page,is_publish) {
+            var _this = this;
+            var uid = _this.state.uid;
+            var params = {uid:uid,way:way,page:page,is_publish:is_publish};
+
+            ArticleModel.getAllArticleByUid(params,function(success,data) {
                 if(success) {
                     if(!data.error) {
-                        console.log(data);
-                        if(!data.error) {
+                        if(_this.state.list[way]) {
+                            Array.prototype.push.apply(_this.state.list[way],data.data);
+                        } else {
                             _this.state.list[way] = data.data;
+                        }
+                        
+                        _this.state.more[way] = parseInt(page)+1;
                         _this.setState({
                             list: _this.state.list,
-                            next: data.next
+                            next: data.next,
+                            more: _this.state.more
                         });
-                    }
+                    } else {
+                        Tooltip(data.msg);
                     }
                 }
             });
@@ -115,7 +129,7 @@ define(['react',
                                 <div className="desc">
                                     <a className="title" href={"/article/"+d.id}>{d.title}</a>
                                     <div className="author">
-                                        <a href="javascript:void(0)">
+                                        <a href={"/user/"+d.uid}>
                                             <img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
                                             <span className="name">{d.username}</span>
                                         </a>
@@ -135,13 +149,17 @@ define(['react',
             
             return (
                 <div>
+                    <ul className="nav-orderBy clearfix">
+                        <li><a href="javascript:void(0)" className={_this.state.nav == "addtime" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"addtime")}>最新文章</a></li>
+                        <li><a href="javascript:void(0)" className={_this.state.nav == "view" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"view")}>热门文章</a></li>
+                        {
+                            (_this.state.uid == WQ.cookie.get('id')) ? (<li><a href="javascript:void(0)" className={_this.state.nav == "is_publish" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"is_publish")}>我的草稿</a></li>) : null
+                        }
+                        
+                    </ul>
                     <div className="article-list">
-                        <div className="nav">
-                            <a href="javascript:void(0)" className={_this.state.nav == "addtime" ? "active" : null} onClick={_this.handleClick.bind(this,"addtime")}>最新文章</a>
-                            <a href="javascript:void(0)" className={_this.state.nav == "view" ? "active" : null} onClick={_this.handleClick.bind(this,"view")}>热门文章</a>
-                            <a href="javascript:void(0)" className={_this.state.nav == "is_publish" ? "active" : null} onClick={_this.handleClick.bind(this,"is_publish")}>我的草稿</a>
-                        </div>
                         {list}
+                        <a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
                     </div>
                 </div>
             );
@@ -152,6 +170,7 @@ define(['react',
         mixins: [mixin],
         getInitialState: function() {
             return {
+                uid: this.props.uid,
                 info: null,
             }
         },
@@ -161,23 +180,28 @@ define(['react',
         
         render: function() {
             var _this = this;
+            var username    = (_this.state.info && _this.state.info.username && _this.state.info.username!='')       ? _this.state.info.username    : '未填写';
+            var email       = (_this.state.info && _this.state.info.email && _this.state.info.email!='')             ? _this.state.info.email       : '未填写';
+            var job         = (_this.state.info && _this.state.info.job && _this.state.info.job!='')                 ? _this.state.info.job         : '未填写';
+            var description = (_this.state.info && _this.state.info.description && _this.state.info.description!='') ? _this.state.info.description : '未填写';
+            var logo        = (_this.state.info && _this.state.info.logo_dir && _this.state.info.logo_dir!='')       ? _this.state.info.logo_dir    : '未填写';
+            var github      = (_this.state.info && _this.state.info.github && _this.state.info.github!='')           ? _this.state.info.github      : '未填写';
             return (
-                <div className="home-page">
-                    <div className="host-box">
-                        <div className="host clearfix">
-                            <img src="/upload_path/logo/web5.jpg" />
-                                <ul>
-                                    <li>昵称：&nbsp;{_this.state.username == "" ? "未填写" : _this.state.username}</li>
-                                    <li>性别：&nbsp;{_this.state.sex == "" ? "未填写" : _this.state.sex}</li>
-                                    <li>城市：&nbsp;{_this.state.city == "" ? "未填写" : _this.state.city}</li>
-                                    <li>职位：&nbsp;{_this.state.job == "" ? "未填写" : _this.state.job}</li>
-                                    <li>邮箱：&nbsp;{_this.state.email == "" ? "未填写" : _this.state.email}</li>
-                                </ul>
+                <div className="user-page">
+                    <div className="host-box clearfix">
+                        <img src={logo} />
+                        <div className="info">
+                            <div className="username">昵称:&nbsp;{username}</div>
+                            <div className="desc">简介:&nbsp;{description}</div>
+                            <div className="other">
+                                <span>职位:&nbsp;{job}</span>&nbsp;&nbsp;&nbsp;
+                                <span>邮箱:&nbsp;{email}</span>
+                            </div>
+                            <div className="github">github:&nbsp;{github}</div>
                         </div>
                     </div>
-                    <div className="content">
-                        <Articles />
-                    </div>
+                    
+                    <Articles uid={_this.state.uid} />
                 </div>
             );
         }

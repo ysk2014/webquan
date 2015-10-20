@@ -144,6 +144,8 @@ class Routes
             Route::group(['prefix' => 'articles'], function() {
                 // 用户的文章
                 Route::get('user/{id}', 'Home\ArticleController@getArticles');
+                //用户收藏和推荐的文章
+                Route::get('user/{id}/{type}', 'Home\ArticleController@getArtsByPraiseOrStore');
             });
         });
 
@@ -236,9 +238,9 @@ class Routes
 
 
             // 个人首页
-            Route::get('/user', 'Home\UserController@index');
+            Route::get('/user/{id}', 'Home\UserController@index')->where('id', '[0-9]+');
             // 根据id获取用户信息 
-            Route::get('/user/{id}', 'Home\UserController@getUserInfoById')->where('id', '[0-9]+'); 
+            Route::get('/user/{id}/info', 'Home\UserController@getUserInfoById')->where('id', '[0-9]+'); 
             // 获取登录用户的信息
             Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
             //检查用户名是否存在
@@ -255,6 +257,9 @@ class Routes
                     Route::get('/settings', 'Home\UserController@index');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
+                    // 收藏页面
+                    Route::get('/store', 'Home\UserController@index');
+
                 });
 
             });

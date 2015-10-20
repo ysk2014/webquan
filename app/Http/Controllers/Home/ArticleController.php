@@ -128,6 +128,18 @@ class ArticleController extends Controller {
 	}
 
 	/**
+	 * 获取用户收藏或者推荐的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByPraiseOrStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsByPraiseOrStore($data);
+		return response()->json($data);
+	}
+
+	/**
 	 * 处理文章, 添加、更新和删除操作
 	 *
 	 * @return Response

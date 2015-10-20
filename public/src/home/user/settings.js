@@ -35,6 +35,13 @@
 	                info: _this.state.info,
 	            });
 	        },
+	        handleGithubChange: function(event) {
+	        	var _this = this;
+	            _this.state.info.github = event.target.value;
+	            _this.setState({
+	                info: _this.state.info,
+	            });
+	        },
 	        handleSignChange: function(event) {
 	            var _this = this;
 	            _this.state.info.description = event.target.value;
@@ -171,6 +178,7 @@
         		var sex         = _this.state.info ? _this.state.info.sex         : null;
         		var description = _this.state.info ? _this.state.info.description : null;
         		var logo_dir    = _this.state.info ? _this.state.info.logo_dir    : null;
+        		var github      = _this.state.info ? _this.state.info.github      : null;
 
         		var jobs = _this.state.job.map(function(j,i) {
         			return (<option key={i} selected={(job && job==j) ? 'selected' : ''}>{j}</option>);
@@ -192,6 +200,10 @@
         				<div className="input-prepend">
         					<label className="col col-sm-2">所在地：</label>
         					<input type="text" className="col col-sm-10" name="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
+        				</div>
+        				<div className="input-prepend">
+        					<label className="col col-sm-2">github：</label>
+        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入github地址" onChange={this.handleGithubChange} value={github}/>	
         				</div>
         				<div className="input-prepend">
 	        				<label className="col col-sm-2">性别：</label>

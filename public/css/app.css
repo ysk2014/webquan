@@ -155,7 +155,6 @@
   display: block;
   width: 100%;
   height: 100%;
-  /*line-height: 50px;*/
   padding: 10px 0;
   text-align: center;
   font-size: 12px;
@@ -433,26 +432,24 @@
 
 /*标签页面*/
 .tag-page{
-  margin-left: 200px;
-  padding-top: 10px;
-}
-.tag-page .page{
-  max-width: 980px;
   margin: 0 auto;
+  padding-top: 10px;
+  max-width: 880px;
 }
-.tag-page .page .top{
+
+.tag-page .top{
   padding: 40px 0;
   text-align: center;
   font-size: 22px;
   border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 15px;
 }
-.tag-page .page .top .fa{
+.tag-page .top .fa{
   margin-right: 10px;
   color: #999999;
   position: relative;
-  top: 4px;
 }
-.tag-page .page .article-list {
+.tag-page .article-list {
   margin-left: 0px;
   width: 100%;
   padding: 0px;
@@ -540,68 +537,56 @@
 
 
 
-/*我的主页*/
-.home-page{
-  position: absolute;
-  left: 50%;
-  top:20px;
-  width: 1000px;
-  margin-left: -400px;
+/*个人的主页*/
+.user-page{
+  width: 880px;
+  margin: 18px auto 10px;
 }
-.home-page .host{
-  border-bottom:1px solid #ddd;
-  padding-bottom: 3px;
-}
-.home-page .article-list{
-  margin-left: 0px;
-  padding-top: 0px;
-}
-.home-page .host img{
+
+.user-page .host-box img{
   display: block;
   float: left;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
-.home-page .host ul{
+.user-page .host-box .info {
+  float: left;
+  margin-left: 20px;
+}
+.user-page .host-box .info > div {
+  line-height: 16px;
+  margin: 10px 0;
+  font-size: 14px;
+  height: 16px;
+  color: #969696;
+  border-left: 3px solid transparent;
+  padding-left: 8px;
+}
+.user-page .host-box .info .username {
+  font-size: 16px;
+  font-weight: 100;
+  color: #666;
+  border-left: 3px solid #3da9f7;
+  padding-left: 8px;
+}
+.user-page .host ul{
   float: right;
   margin-top: 30px;
 }
-.home-page .host ul li{
+.user-page .host ul li{
   float: left;
   font-size: 12px;
   padding-left: 50px;
   color: #969696;
 }
 
-.home-page .content .nav{
-  margin-top: 10px;
+.user-page .nav-orderBy{
+  margin-top: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+
 }
-.home-page .content .nav a{
-  margin-right: 10px;
-  font-size: 12px;
-}
-.home-page .content .nav a.active{
-  color:#03A9F4;
-}
-.home-page .content .articles{
-  margin-top: 10px;
-}
-.home-page .content .articles .details{
-  border-bottom: 1px dashed rgb(217, 217, 217);;
-  padding: 10px 0px;
-}
-.home-page .content .articles .details .top{
-  font-size: 12px;
-}
-.home-page .content .articles .details .middle{
-  font-size: 17px;
-  font-weight: bolder;
-  margin: 14px 0px;
-}
-.home-page .content .articles .details .bottom{
-  font-size: 13px;
-}
-.home-page .content .articles .details .bottom a{
-  margin-right: 10px;
-}
+
+
+

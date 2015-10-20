@@ -94,7 +94,7 @@ define([
 			var _this = this;
 			var nav = _this.state.nav;
 			if(nav!='care') {
-				_this.getAllArticle(nav,page)
+				_this.getAllArticle(nav,page);
 			} else {
 				_this.getAllArtsByUidCare(page);
 			}
@@ -145,7 +145,7 @@ define([
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
-								<a href="javascript:void(0)">
+								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>

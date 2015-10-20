@@ -79,6 +79,7 @@ define([
 			var content = this.state.commentContent;
 			var uid = WQ.cookie.get('id');
 			var username = WQ.cookie.get('username');
+			var userUrl = WQ.cookie.get('userUrl');
 
 			if(!uid) {
 				window.location.href="/login/sign_in";
@@ -96,6 +97,7 @@ define([
 							uid: uid,
 							username: username,
 							content: content,
+							userUrl: userUrl,
 							addtime: data.data.addtime
 						});
 						_this.state.info.comment = parseInt(_this.state.info.comment)+1;
@@ -249,6 +251,7 @@ define([
 			var title        = _this.state.info ? _this.state.info.title        : null;     //文章标题
 			var username     = _this.state.info ? _this.state.info.username     : null;     //作者
 			var uid          = _this.state.info ? _this.state.info.uid          : null;     //作者id
+			var userUrl      = _this.state.info ? _this.state.info.userUrl      : null;     //作者头像
 			var time         = _this.state.info ? _this.state.info.addtime      : null;     //发布时间
 			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;     //专题
 			var view         = _this.state.info ? _this.state.info.view         : null;     //浏览量
@@ -275,13 +278,13 @@ define([
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
 					<div key={d.id} className="comment-item  clearfix" data-id={d.id}>
-						<a className="user avatar">
-							<img src="/image/user-default.png" />
+						<a className="user avatar" href={"/user/"+d.uid}>
+							<img src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 						</a>
 						<div className="comment-right">
 							<div className="con">
 								<span className="author">
-									<a href="javascript:void(0)" >{d.username}</a>
+									<a href={"/user/"+d.uid} >{d.username}</a>
 									<div className="hd-time">{WQ.timeFormat(d.addtime)}</div>
 								</span>
 								<div className="html">{d.content}</div>
@@ -293,13 +296,14 @@ define([
 					</div>
 				);
 			}) : null;
+
 			return (
 				<div className="article-page" style={_this.state.info ? {display:'block'} : {display: 'none'}}>
 						<h3 className="title">{title}</h3>
 						<div style={{marginBottom:'10px'}}>
 							<span className="author">
-								<a href="javascript:void(0)">
-									<img className="avatar" src="/image/user-default.png" />
+								<a href={"/user/"+uid}>
+									<img className="avatar" src={userUrl ? userUrl : "/image/user-default.png"} />
 									<span className="name">{username}</span>
 								</a>
 							</span>

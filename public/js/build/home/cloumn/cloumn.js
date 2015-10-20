@@ -182,7 +182,7 @@ define([
 						React.createElement("div", {className: "desc"}, 
 							React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
 							React.createElement("div", {className: "author"}, 
-								React.createElement("a", {href: "javascript:void(0)"}, 
+								React.createElement("a", {href: "/user/"+d.uid}, 
 									React.createElement("img", {className: "avatar", src: d.userUrl ? d.userUrl : "/image/user-default.png"}), 
 									React.createElement("span", {className: "name"}, d.username)
 								), 
@@ -204,7 +204,7 @@ define([
 							React.createElement("div", {className: "cname"}, React.createElement("a", {href: "/cloumn/"+_this.state.cid}, React.createElement("h3", null, _this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''))), 
 							React.createElement("div", {className: "anthor"}, 
 								React.createElement("a", {style: {color:'#3da9f7',marginRight:'10px'}, href: "/cloumn/"+_this.state.cid}, _this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0, " 片文章"), 
-								React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", _this.state.cloumn['username'] ? _this.state.cloumn['username'] : '')
+								React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", React.createElement("a", {href: _this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}, _this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''))
 							), 
 							React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
 							React.createElement("div", {className: "footer"}, 

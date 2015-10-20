@@ -98,7 +98,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href="/user">
+							<a href={"/user/"+WQ.cookie.get('id')}>
 								<i className="fa fa-user"></i>
 								<span>我的主页</span>
 							</a>
@@ -106,11 +106,11 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 						<li>
 							<a href="/">
 								<i className="fa fa-heart"></i>
-								<span>我喜欢的</span>
+								<span>我的草稿箱</span>
 							</a>
 						</li>
 						<li>
-							<a href="/">
+							<a href={"/user/"+WQ.cookie.get('id')+"/store"}>
 								<i className="fa fa-bookmark"></i>
 								<span>我的收藏</span>
 							</a>

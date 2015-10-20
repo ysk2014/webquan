@@ -439,7 +439,6 @@ textarea:focus {
 
 .nav-orderBy{
   list-style: none;
-  margin-left: 35px;
 }
 .nav-orderBy > li {
   float: left;
@@ -714,7 +713,7 @@ textarea:focus {
 }
 
 .top-bar .desc{
-  margin-left: 250px;
+  margin-left: 140px;
 }
 /*头部导航模块*/
 .top-bar .nav {
@@ -898,12 +897,13 @@ textarea:focus {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 1px solid transparent;
   vertical-align: middle;
   margin-right: 6px;
 }
 .comment-list .comment-item .user:hover img{
-  border: 2px solid #2c79b0;
+  border: 1px solid #3da9f7;
+  cursor: pointer;
 }
 .comment-list .comment-item .comment-right{
   float: left;
@@ -920,7 +920,8 @@ textarea:focus {
   color: #3da9f7;
 }
 .comment-item .comment-right .author a:hover{
-  color: #2c79b0;
+  color: #3da9f7;
+  text-decoration: underline;
 }
 .comment-item .comment-right .author .hd-time{
   color: #aaa;

@@ -2,10 +2,9 @@ define([
 	'react',
 	'jquery',
 	'WQ',
-	'home/common/leftNav',
 	'home/common/tooltip',
 	'home/model/articleModel',
-	],function(React, $, WQ, LeftNav, Tooltip, ArticleModel) {
+	],function(React, $, WQ, Tooltip, ArticleModel) {
 
 
 	var mixin = {
@@ -56,8 +55,7 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				navName: 'home',
-				name: this.props.params.name ? this.props.params.name : null,
+				name: this.props.name ? this.props.name : null,
 				tagInfo: null,
 				articles: [],
 				next: false,
@@ -94,7 +92,7 @@ define([
 						React.createElement("div", {className: "desc"}, 
 							React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
 							React.createElement("div", {className: "author"}, 
-								React.createElement("a", {href: "javascript:void(0)"}, 
+								React.createElement("a", {href: "/user/"+d.uid}, 
 									React.createElement("img", {className: "avatar", src: d.userUrl ? d.userUrl : "/image/user-default.png"}), 
 									React.createElement("span", {className: "name"}, d.username)
 								), 
@@ -110,18 +108,13 @@ define([
 				);
 			}) : null;
 			return (
-				React.createElement("div", null, 
-					React.createElement(LeftNav, {active: this.state.navName}), 
-					React.createElement("div", {className: "tag-page"}, 
-						React.createElement("div", {className: "page"}, 
-							React.createElement("div", {className: "top"}, 
-								React.createElement("i", {className: "fa fa-tags"}), _this.state.name
-							), 
-							React.createElement("div", {className: "article-list"}, 
-								list, 
-								React.createElement("a", {className: "more", style: _this.state.next ? {display:'block'} : {display:'none'}, onClick: _this.hamdleMore}, "更多")
-							)
-						)
+				React.createElement("div", {className: "tag-page"}, 
+					React.createElement("div", {className: "top"}, 
+						React.createElement("i", {className: "fa fa-tags"}), _this.state.name
+					), 
+					React.createElement("div", {className: "article-list"}, 
+						list, 
+						React.createElement("a", {className: "more", style: _this.state.next ? {display:'block'} : {display:'none'}, onClick: _this.hamdleMore}, "更多")
 					)
 				)
 			);

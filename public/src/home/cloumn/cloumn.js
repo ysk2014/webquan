@@ -182,7 +182,7 @@ define([
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
-								<a href="javascript:void(0)">
+								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>
@@ -204,7 +204,7 @@ define([
 							<div className="cname"><a href={"/cloumn/"+_this.state.cid}><h3>{_this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''}</h3></a></div>
 							<div className="anthor">
 								<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;片文章</a>
-								<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</span>
+								<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：<a href={_this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}>{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</a></span>
 							</div>
 							<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
 							<div className="footer">

@@ -319,7 +319,7 @@ define([
 
 					React.createElement("div", {className: "cloumn-list"}, 
 						React.createElement("div", {style: _this.state.nav==0 ? {display:'block'} : {display:'none'}}, 
-							React.createElement("ul", {className: "nav-orderBy clearfix"}, 
+							React.createElement("ul", {className: "nav-orderBy clearfix", style: {marginLeft: '35px'}}, 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==0 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "热门排序")), 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==1 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "最近更新")), 
 								React.createElement("li", null, React.createElement("a", {className: _this.state.navChild==2 ? "btn btn-info" : "btn btn-default", href: "javascript:void(0)", onClick: _this.hamdleNavChange}, "关注度排序")), 
