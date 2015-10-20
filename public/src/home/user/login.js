@@ -111,13 +111,13 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                                 <span className="add-on">
                                     <i className="fa fa-user"></i>
                                 </span>
-                                <input type="text" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} />
+                                <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} />
                             </div>
                             <div className="input-prepend">
                                 <span className="add-on">
                                     <i className="fa fa-unlock-alt"></i>
                                 </span>
-                                <input type="password" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} />
+                                <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} />
                             </div>
                             {
                                 (_this.state.nav =='sign_up') ? 
@@ -126,13 +126,13 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                                         <span className="add-on">
                                             <i className="fa fa-envelope-o"></i>
                                         </span>
-                                        <input type="text" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
+                                        <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
                                     </div>
                                     <div className="input-prepend">
                                         <span className="add-on">
                                             <i className="fa fa-leaf"></i>
                                         </span>
-                                        <input type="text" name="job" value={_this.state.job} placeholder="职位" onChange={_this.handleJobChange} />
+                                        <input type="text" className="input-login" name="job" value={_this.state.job} placeholder="职位" onChange={_this.handleJobChange} />
                                     </div>
                                 </div>) : null
                             }

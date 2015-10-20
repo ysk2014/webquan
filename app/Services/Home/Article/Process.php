@@ -384,6 +384,34 @@ class Process extends BaseProcess
 
 
 	/**
+	* 获取用户收藏或者推荐的所有文章列表
+	*
+	* @param array $data;
+	* @access public
+	* @return array
+	*/
+	public function getArtsByPraiseOrStore($data)
+	{
+		$type = isset($data['type']) ? $data['type'] : 0; 
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$articleInfo = $this->userArticleModel->getArticlesByUid($data['uid'],$page,$type);
+		if($articleInfo) {
+
+			$count = $this->userArticleModel->getCount($data['uid'],$type);
+			if( (intval($data['page'])+1)*20 < $count ) {
+				$next = true;
+			} else {
+				$next = false;
+			}
+			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+		} else {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
+	}
+
+
+
+	/**
 	* 处理文章推荐和收藏
 	*
 	* @param object $data;

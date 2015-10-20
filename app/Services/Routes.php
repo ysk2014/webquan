@@ -144,6 +144,8 @@ class Routes
             Route::group(['prefix' => 'articles'], function() {
                 // 用户的文章
                 Route::get('user/{id}', 'Home\ArticleController@getArticles');
+                //用户收藏和推荐的文章
+                Route::get('user/{id}/{type}', 'Home\ArticleController@getArtsByPraiseOrStore');
             });
         });
 
@@ -230,15 +232,15 @@ class Routes
             // 登录处理
             Route::post('/sign_in', 'Home\UserController@getProc');
             // 注册处理
-            Route::post('/sign_up', 'Home\UserController@addUser');
+            Route::post('/sign_up', 'Home\UserController@dealUser');
             // 退出
             Route::get('/sign_out', 'Home\UserController@getOut');
 
 
             // 个人首页
-            Route::get('/user', 'Home\UserController@index');
+            Route::get('/user/{id}', 'Home\UserController@index')->where('id', '[0-9]+');
             // 根据id获取用户信息 
-            Route::get('/user/{id}', 'Home\UserController@getUserInfoById')->where('id', '[0-9]+'); 
+            Route::get('/user/{id}/info', 'Home\UserController@getUserInfoById')->where('id', '[0-9]+'); 
             // 获取登录用户的信息
             Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
             //检查用户名是否存在
@@ -248,13 +250,18 @@ class Routes
 
                 Route::group(['prefix' => 'user/{id}'], function() {
                     // 编辑用户信息
-                    Route::put('/', 'Home\UserController@editUser');
+                    Route::put('/', 'Home\UserController@dealUser');
                     // 修改密码 
                     Route::put('/password', 'Home\UserController@modifyPassword'); 
                     //设置
                     Route::get('/settings', 'Home\UserController@index');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
+                    // 收藏页面
+                    Route::get('/store', 'Home\UserController@index');
+                    //草稿箱
+                    Route::get('/draft', 'Home\UserController@index');
+
                 });
 
             });

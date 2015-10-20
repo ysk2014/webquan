@@ -24,7 +24,7 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($id=0)
 	{
 		return view('home.app');
 	}

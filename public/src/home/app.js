@@ -31,6 +31,7 @@ requirejs([
         'home/user/login',
         'home/user/user',
         'home/user/settings',
+        'home/user/myPage',
         'home/article/articleList',
         'home/article/editArticle',
         'home/article/article',
@@ -38,26 +39,29 @@ requirejs([
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
         
 
     var App = React.createClass({
         mixins: [RouterMixin],
         routes: {
-            '/': 'articleList',
-            '/article/add': 'addArticle',
+            '/'                : 'articleList',
+            '/article/add'     : 'addArticle',
             '/article/:id/edit': 'editArticle',
-            '/article/:id': 'article',
+            '/article/:id'     : 'article',
 
 
-            '/cloumns': 'cloumnList',
-            '/cloumn/add': 'addCloumn',
-            '/cloumn/:id/edit': 'editCloumn',
-            '/cloumn/:id': 'cloumn',
+            '/cloumns'         : 'cloumnList',
+            '/cloumn/add'      : 'addCloumn',
+            '/cloumn/:id/edit' : 'editCloumn',
+            '/cloumn/:id'      : 'cloumn',
 
-            '/user': 'user',
+            '/user/:id'         : 'user',
             '/user/:id/settings': 'settings',
-            '/login/:way': 'login',
+            '/login/:way'       : 'login',
+            '/user/:id/:type'   : 'store',
+
+            '/t/:name': 'tag',
         },
         articleList: function() {
             return <ArticleList />;
@@ -91,16 +95,24 @@ requirejs([
             return <EditCloumn cid={cid} />
         },
 
-        user: function() {
-            return <User />
+        user: function(id) {
+            return <User uid={id} />
         },
 
         settings: function(uid) {
             return <Settings uid={uid} />
         },
 
+        store: function(uid,type) {
+            return <MyPage uid={uid} type={type} />
+        },
+
         login: function(way) {
             return <Login way={way} />
+        },
+
+        tag: function(name) {
+            return <Tag name={name} />
         },
 
         notFound: function(path) {
@@ -123,7 +135,7 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.nav == -1) ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i><br/>
                                     <span>首页</span>

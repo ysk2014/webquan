@@ -182,7 +182,7 @@ define([
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
-								<a href="javascript:void(0)">
+								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>
@@ -204,12 +204,12 @@ define([
 							<div className="cname"><a href={"/cloumn/"+_this.state.cid}><h3>{_this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''}</h3></a></div>
 							<div className="anthor">
 								<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;片文章</a>
-								<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</span>
+								<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：<a href={_this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}>{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</a></span>
 							</div>
 							<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
 							<div className="footer">
 								{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-									(<a href={"/cloumn/"+_this.state.cid+'/edit'}><i className="fa fa-edit"></i><span>编辑专题</span></a>) : null
+									(<a href={"/cloumn/"+_this.state.cid+'/edit'} className="btn btn-info"><i className="fa fa-edit"></i><span>编辑</span></a>) : null
 								}
 							</div>
 							<div className="cloumn-right">
@@ -218,7 +218,7 @@ define([
 						</div>
 					</div>
 					<div className="cloumn-content">
-						<ul className="sequence-nav toolbar">
+						<ul className="nav-sequence toolbar">
 							<li className={_this.state.nav==0 ? "active" : ''} data-nav="0" onClick={_this.handleTabChange}><a href="javascript:void(0)">热门排序</a></li> · 
 							<li className={_this.state.nav==1 ? "active" : ''} data-nav="1" onClick={_this.handleTabChange}><a href="javascript:void(0)">最近更新</a></li>
 						</ul>

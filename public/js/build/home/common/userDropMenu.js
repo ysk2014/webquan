@@ -98,19 +98,19 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user"}, 
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')}, 
 								React.createElement("i", {className: "fa fa-user"}), 
 								React.createElement("span", null, "我的主页")
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/"}, 
-								React.createElement("i", {className: "fa fa-heart"}), 
-								React.createElement("span", null, "我喜欢的")
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/draft"}, 
+								React.createElement("i", {className: "fa fa-inbox"}), 
+								React.createElement("span", null, "我的草稿箱")
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/"}, 
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/store"}, 
 								React.createElement("i", {className: "fa fa-bookmark"}), 
 								React.createElement("span", null, "我的收藏")
 							)

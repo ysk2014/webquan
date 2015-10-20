@@ -2,7 +2,7 @@
 use App\Models\Base;
 
 /**
- * 用户推荐文章表模型
+ * 用户和文章关系表模型
  *
  * @author ysk
  */
@@ -20,12 +20,12 @@ class UserArticle extends Base
      * 可以被集体附值的表的字段
      *
      * @var string
-     * type的值， 0：点赞，1：收藏
+     * type的值， 0：推荐，1：收藏
      */
     protected $fillable = array('id', 'aid', 'uid', 'type', 'addtime');
 
     /**
-     * 增加推荐
+     * 增加
      * 
      * @param array $data 所需要插入的信息
      */
@@ -36,7 +36,7 @@ class UserArticle extends Base
 
 
     /**
-     * 取消推荐
+     * 取消
      * 
      */
     public function del($data)
@@ -80,11 +80,12 @@ class UserArticle extends Base
      */
     public function getArticlesByUid($uid,$page,$type=0)
     {
-        return $this->select(array('article.*'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('article','user_article.aid','=','article.id')
+                    ->leftJoin('user','user_article.uid','=','user.id')
                     ->where('user_article.uid','=', intval($uid))
                     ->where('user_article.type','=', intval($type))
-                    ->skip($page*24)->take(24)
+                    ->skip($page*20)->take(20)
                     ->orderBy('user_article.addtime','desc')
                     ->get()
                     ->toArray();
@@ -103,6 +104,15 @@ class UserArticle extends Base
                     ->orderBy('addtime','desc')
                     ->get()
                     ->toArray();
+    }
+
+    /**
+     * 根据用户id和类型获取文章总数
+     * 
+     */
+    public function getCount($uid, $type)
+    {
+        return $this->where('uid', $uid)->where('type', $type)->count();
     }
 
 }

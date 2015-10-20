@@ -74,7 +74,7 @@ define([
                         "bold", "italic", "quote", "uppercase", "lowercase", "|", 
                         "h1", "h2", "h3", "h4", "h5", "h6", "|", 
                         "list-ul", "list-ol", "hr", "|",
-                        "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
+                        "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
                         "watch", "preview", "fullscreen", "help"
                     ];
                 },
@@ -234,7 +234,11 @@ define([
 				name: _this.state.inputTag,
 				ok: function(data){
 					if(!data) {
-						_this.handleSelectTag();
+						_this.state.tags.push(WQ.trim(_this.state.inputTag));
+						_this.setState({
+							tags: _this.state.tags,
+							inputTag: ''
+						});
 					}
 				}
 			});
@@ -249,11 +253,21 @@ define([
 
 			var name = ele.find('a').length>0 ? ele.find('a').text() : ele.text();
 
-			_this.state.tags.push(WQ.trim(name));
-			_this.setState({
-				tags: _this.state.tags,
-				inputTag: ''
+			var status = true;
+			_this.state.tags.forEach(function(v,i) {
+				if(v==WQ.trim(name)) {
+					status = false;
+				}
 			});
+
+			if(status) {
+				_this.state.tags.push(WQ.trim(name));
+				_this.setState({
+					tags: _this.state.tags,
+					inputTag: ''
+				});
+			}
+			ele.parents('ul').hide();
 		},
 		// 删除标签
 		handleDelTag: function(event) {
@@ -261,7 +275,7 @@ define([
 			var index = $(event.target).parent('.tag.selected').index();
 			_this.state.tags.splice(index,1);
 			_this.setState({
-				tags: _this.state.tags
+				tags: _this.state.tags,
 			});
 		},
 		render: function() {
@@ -276,12 +290,7 @@ define([
 			}
 
 			var tagsLi = _this.state.cacheTags.length>0 ? _this.state.cacheTags.map(function(tag,i) {
-				if(i==0) {
-					return (React.createElement("li", {className: "active", onClick: _this.handleSelectTag}, React.createElement("a", null, tag.name)));
-				} else {
-					return (React.createElement("li", {onClick: _this.handleSelectTag}, React.createElement("a", null, tag.name)));
-				}
-				
+				return (React.createElement("li", {onClick: _this.handleSelectTag}, React.createElement("a", null, tag.name)));
 			}) : null;
 
 			var tagsSpan = _this.state.tags.length>0 ? _this.state.tags.map(function(tag,i) {
@@ -290,7 +299,7 @@ define([
 
 			return (
 				React.createElement("div", null, 
-					React.createElement("div", {className: "header"}, 
+					React.createElement("div", {className: "top-bar"}, 
 						React.createElement("span", {className: "desc"}, "写文章"), 
 						React.createElement("a", {className: "btn btn-info btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 120px 0 0'}, "data-publish": "1", onClick: this.handlePublic}, "发布"), 
 						React.createElement("a", {className: "btn btn-default btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 10px 0 0'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")
@@ -309,7 +318,9 @@ define([
 				            React.createElement("div", {className: "tags-list", onClick: _this.getFocus}, 
 				            	React.createElement("i", {className: "fa fa-tag"}), React.createElement("span", null, "增加标签"), 
 				            	React.createElement("span", null, tagsSpan), 
-				            	React.createElement("input", {type: "text", placeholder: "如：php", onKeyDown: _this.dealTags, value: _this.state.inputTag, onChange: _this.tagChange}), 
+				            	
+				            		_this.state.tags.length<3 ? React.createElement("input", {type: "text", placeholder: "如：php", onKeyDown: _this.dealTags, value: _this.state.inputTag, onChange: _this.tagChange}) : null, 
+				            	
 				            	React.createElement("ul", null, tagsLi, React.createElement("li", {style: _this.state.cacheTags.length>4 ? {display:'none'} : {display:'block'}, onClick: _this.dialogShow}, React.createElement("a", {href: "javascript:void(0)"}, "创建标签 ", React.createElement("strong", null, _this.state.inputTag))))
 				            ), 
 							React.createElement("div", {id: "article-editormd"}, 

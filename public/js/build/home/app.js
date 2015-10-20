@@ -31,6 +31,7 @@ requirejs([
         'home/user/login',
         'home/user/user',
         'home/user/settings',
+        'home/user/myPage',
         'home/article/articleList',
         'home/article/editArticle',
         'home/article/article',
@@ -38,26 +39,29 @@ requirejs([
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
         
 
     var App = React.createClass({displayName: "App",
         mixins: [RouterMixin],
         routes: {
-            '/': 'articleList',
-            '/article/add': 'addArticle',
+            '/'                : 'articleList',
+            '/article/add'     : 'addArticle',
             '/article/:id/edit': 'editArticle',
-            '/article/:id': 'article',
+            '/article/:id'     : 'article',
 
 
-            '/cloumns': 'cloumnList',
-            '/cloumn/add': 'addCloumn',
-            '/cloumn/:id/edit': 'editCloumn',
-            '/cloumn/:id': 'cloumn',
+            '/cloumns'         : 'cloumnList',
+            '/cloumn/add'      : 'addCloumn',
+            '/cloumn/:id/edit' : 'editCloumn',
+            '/cloumn/:id'      : 'cloumn',
 
-            '/user': 'user',
+            '/user/:id'         : 'user',
             '/user/:id/settings': 'settings',
-            '/login/:way': 'login',
+            '/login/:way'       : 'login',
+            '/user/:id/:type'   : 'store',
+
+            '/t/:name': 'tag',
         },
         articleList: function() {
             return React.createElement(ArticleList, null);
@@ -91,16 +95,24 @@ requirejs([
             return React.createElement(EditCloumn, {cid: cid})
         },
 
-        user: function() {
-            return React.createElement(User, null)
+        user: function(id) {
+            return React.createElement(User, {uid: id})
         },
 
         settings: function(uid) {
             return React.createElement(Settings, {uid: uid})
         },
 
+        store: function(uid,type) {
+            return React.createElement(MyPage, {uid: uid, type: type})
+        },
+
         login: function(way) {
             return React.createElement(Login, {way: way})
+        },
+
+        tag: function(name) {
+            return React.createElement(Tag, {name: name})
         },
 
         notFound: function(path) {
@@ -123,7 +135,7 @@ requirejs([
                             React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
-                            React.createElement("li", {className: (this.state.path == '/' || this.state.nav == -1) ? "active" : null}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-home"}), React.createElement("br", null), 
                                     React.createElement("span", null, "首页")

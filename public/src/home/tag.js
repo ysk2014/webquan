@@ -2,10 +2,9 @@ define([
 	'react',
 	'jquery',
 	'WQ',
-	'home/common/leftNav',
 	'home/common/tooltip',
 	'home/model/articleModel',
-	],function(React, $, WQ, LeftNav, Tooltip, ArticleModel) {
+	],function(React, $, WQ, Tooltip, ArticleModel) {
 
 
 	var mixin = {
@@ -56,8 +55,7 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				navName: 'home',
-				name: this.props.params.name ? this.props.params.name : null,
+				name: this.props.name ? this.props.name : null,
 				tagInfo: null,
 				articles: [],
 				next: false,
@@ -94,7 +92,7 @@ define([
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
 							<div className="author">
-								<a href="javascript:void(0)">
+								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>
@@ -110,18 +108,13 @@ define([
 				);
 			}) : null;
 			return (
-				<div>
-					<LeftNav active={this.state.navName} />
-					<div className="tag-page">
-						<div className="page">
-							<div className="top">
-								<i className="fa fa-tags"></i>{_this.state.name}
-							</div>
-							<div className="article-list">
-								{list}
-								<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}}  onClick={_this.hamdleMore}>更多</a>
-							</div>
-						</div>
+				<div className="tag-page">
+					<div className="top">
+						<i className="fa fa-tags"></i>{_this.state.name}
+					</div>
+					<div className="article-list">
+						{list}
+						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}}  onClick={_this.hamdleMore}>更多</a>
 					</div>
 				</div>
 			);

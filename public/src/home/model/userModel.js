@@ -15,7 +15,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		//根据id获取用户信息
 		getUserInfoById: function(id, callback) {
-			BaseModel.get('/user/'+id, {}, callback);
+			BaseModel.get('/user/'+id+'/info', {}, callback);
 		},
 		//更新用户信息
 		editUser: function(id,data, callback) {
@@ -28,6 +28,11 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		//退出
 		signOut: function(callback) {
 			BaseModel.get('/sign_out',{},callback);
+		},
+
+		//发送邮件
+		sendEmail: function(email,callback) {
+			BaseModel.get('/email',{email:email},callback);
 		}
 		
 	};

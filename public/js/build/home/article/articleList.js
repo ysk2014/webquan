@@ -94,7 +94,7 @@ define([
 			var _this = this;
 			var nav = _this.state.nav;
 			if(nav!='care') {
-				_this.getAllArticle(nav,page)
+				_this.getAllArticle(nav,page);
 			} else {
 				_this.getAllArtsByUidCare(page);
 			}
@@ -145,7 +145,7 @@ define([
 						React.createElement("div", {className: "desc"}, 
 							React.createElement("a", {className: "title", href: "/article/"+d.id}, d.title), 
 							React.createElement("div", {className: "author"}, 
-								React.createElement("a", {href: "javascript:void(0)"}, 
+								React.createElement("a", {href: "/user/"+d.uid}, 
 									React.createElement("img", {className: "avatar", src: d.userUrl ? d.userUrl : "/image/user-default.png"}), 
 									React.createElement("span", {className: "name"}, d.username)
 								), 
@@ -162,8 +162,8 @@ define([
 			}) : null;
 			
 			return (
-				React.createElement("div", null, 
-					React.createElement("div", {className: "header"}, 
+				React.createElement("div", {className: "article-list-page"}, 
+					React.createElement("div", {className: "top-bar"}, 
 						React.createElement("div", {className: "nav"}, 
 							React.createElement("a", {className: "tab active", onClick: this.handleTabChange, href: "javascript:void(0)"}, "推荐"), 
 							React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "最新"), 

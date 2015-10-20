@@ -32,7 +32,7 @@ class Comment extends Model
      */
     public function getCommentsByAid($aid, $page)
     {
-        return $this->select(array('comment.*','user.username'))
+        return $this->select(array('comment.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','comment.uid','=','user.id')
                     ->where('aid', $aid)
                     ->skip($page*8)->take(8)

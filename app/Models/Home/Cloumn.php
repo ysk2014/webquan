@@ -62,7 +62,7 @@ class Cloumn extends Base
      */
     public function getCloumnById($id)
     {
-        return $this->select(array('cloumn.*','user.username'))
+        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','cloumn.uid','=','user.id')
                     ->where('cloumn.id','=', intval($id))
                     ->first();
@@ -88,7 +88,7 @@ class Cloumn extends Base
      */
     public function getCloumns($data,$page)
     {
-        return $this->select(array('cloumn.*','user.username'))
+        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','cloumn.uid','=','user.id')
                     ->skip($page*24)->take(24)
                     ->orderBy($data,'desc')

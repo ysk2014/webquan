@@ -79,6 +79,7 @@ define([
 			var content = this.state.commentContent;
 			var uid = WQ.cookie.get('id');
 			var username = WQ.cookie.get('username');
+			var userUrl = WQ.cookie.get('userUrl');
 
 			if(!uid) {
 				window.location.href="/login/sign_in";
@@ -96,6 +97,7 @@ define([
 							uid: uid,
 							username: username,
 							content: content,
+							userUrl: userUrl,
 							addtime: data.data.addtime
 						});
 						_this.state.info.comment = parseInt(_this.state.info.comment)+1;
@@ -249,6 +251,7 @@ define([
 			var title        = _this.state.info ? _this.state.info.title        : null;     //文章标题
 			var username     = _this.state.info ? _this.state.info.username     : null;     //作者
 			var uid          = _this.state.info ? _this.state.info.uid          : null;     //作者id
+			var userUrl      = _this.state.info ? _this.state.info.userUrl      : null;     //作者头像
 			var time         = _this.state.info ? _this.state.info.addtime      : null;     //发布时间
 			var cloumn       = _this.state.info ? _this.state.info.cloumnName   : null;     //专题
 			var view         = _this.state.info ? _this.state.info.view         : null;     //浏览量
@@ -275,13 +278,13 @@ define([
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
 					React.createElement("div", {key: d.id, className: "comment-item  clearfix", "data-id": d.id}, 
-						React.createElement("a", {className: "user avatar"}, 
-							React.createElement("img", {src: "/image/user-default.png"})
+						React.createElement("a", {className: "user avatar", href: "/user/"+d.uid}, 
+							React.createElement("img", {src: d.userUrl ? d.userUrl : "/image/user-default.png"})
 						), 
 						React.createElement("div", {className: "comment-right"}, 
 							React.createElement("div", {className: "con"}, 
 								React.createElement("span", {className: "author"}, 
-									React.createElement("a", {href: "javascript:void(0)"}, d.username), 
+									React.createElement("a", {href: "/user/"+d.uid}, d.username), 
 									React.createElement("div", {className: "hd-time"}, WQ.timeFormat(d.addtime))
 								), 
 								React.createElement("div", {className: "html"}, d.content)
@@ -293,13 +296,14 @@ define([
 					)
 				);
 			}) : null;
+
 			return (
 				React.createElement("div", {className: "article-page", style: _this.state.info ? {display:'block'} : {display: 'none'}}, 
 						React.createElement("h3", {className: "title"}, title), 
 						React.createElement("div", {style: {marginBottom:'10px'}}, 
 							React.createElement("span", {className: "author"}, 
-								React.createElement("a", {href: "javascript:void(0)"}, 
-									React.createElement("img", {className: "avatar", src: "/image/user-default.png"}), 
+								React.createElement("a", {href: "/user/"+uid}, 
+									React.createElement("img", {className: "avatar", src: userUrl ? userUrl : "/image/user-default.png"}), 
 									React.createElement("span", {className: "name"}, username)
 								)
 							), 
@@ -312,23 +316,23 @@ define([
 						React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
 							_this.state.uid==uid ? (
 								React.createElement("a", {className: "btn btn-info", href: "/article/"+this.state.aid+"/edit"}, 
-									React.createElement("i", {className: "fa fa-pencil-square-o", style: {marginRight:'4px'}}), 
+									React.createElement("i", {className: "fa fa-pencil-square-o"}), 
 									React.createElement("span", null, "编辑")
 								)
 							): null, 
 							
 							React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
-								React.createElement("i", {className: "fa fa-thumbs-up", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-thumbs-up"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, praiseStatus ? '已推荐' : '推荐'), 
 								React.createElement("span", null, praise)
 							), 
 							React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
-								React.createElement("i", {className: "fa fa-bookmark-o", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-bookmark-o"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, storeStatus ? '已收藏' : '收藏'), 
 								React.createElement("span", null, store)
 							), 
 							React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
-								React.createElement("i", {className: "fa fa-share-square-o", style: {marginRight:'4px'}}), 
+								React.createElement("i", {className: "fa fa-share-square-o"}), 
 								React.createElement("span", null, "分享")
 							)
 						), 

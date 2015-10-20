@@ -170,7 +170,7 @@ class Process extends BaseProcess
             }
 
             $count = $this->cloumnModel->countCloumnByUid($data['uid']);
-            if( (intval($page)+1)*20 < $count ) {
+            if( (intval($page)+1)*24 < $count ) {
                 $next = true;
             } else {
                 $next = false;
@@ -215,7 +215,7 @@ class Process extends BaseProcess
             }
 
             $count = $this->cloumnModel->countCloumn();
-            if( (intval($page)+1)*20 < $count ) {
+            if( (intval($page)+1)*24 < $count ) {
                 $next = true;
             } else {
                 $next = false;
@@ -250,7 +250,7 @@ class Process extends BaseProcess
             }
 
             $count = $this->careModel->countCaresByUid($data['uid']);
-            if( (intval($page)+1)*20 < $count ) {
+            if( (intval($page)+1)*24 < $count ) {
                 $next = true;
             } else {
                 $next = false;

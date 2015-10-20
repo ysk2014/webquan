@@ -32,6 +32,17 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 
 	    /**
+	     * 根据用户id获取推荐或者收藏的文章列表
+	     * 
+	     * @param uid 用户id
+	     * @param type 0为推荐，1为收藏
+	     * @param page 分页页数
+	     */
+		getArticlesByPS: function(data, callback) {
+			BaseModel.get('/articles/user/'+data.uid+'/'+data.type,{'data':data}, callback);
+		},
+
+	    /**
 	     * 获取用户关注专题的文章列表
 	     * 
 	     * @param uid 用户id

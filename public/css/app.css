@@ -1,41 +1,49 @@
 
-
-/*输入框*/
-input.search-query {
-  padding: 4px 14px;
-  margin-bottom: 0;
-  display: inline-block;
-  height: 20px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #555555;
-  vertical-align: middle;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-  background-color: white;
-  border: 1px solid #cccccc;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
-  transition: border linear 0.2s, box-shadow linear 0.2s;
-}
-input:focus{
-  outline: none;
-  border: 1px solid #64ba9d;
+#article-editormd > textarea,
+#editormd-view > textarea,
+#editormd-comment > textarea{
+  display: none;
 }
 
 
-/*右边模块*/
-.container{
-  margin-left: 120px;
+#editormd-view{
+  padding-left: 0px;
+  padding-right: 0px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 
-/*登陆*/
+/*弹出层*/
+#mask{
+  position:fixed; 
+  left:0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 1000;
+}
+
+.alert-box{
+  position:absolute; 
+  left:50%;
+  top: 50%;
+  height: 40px;
+  line-height: 40px;
+  margin-top: -180px;
+  background: #666;
+  padding:0 30px;
+  z-index: 999;
+  color: #fff;
+  border-radius: 3px;
+  text-align: center;
+}
+
+
+
+/*登陆和注册*/
 .login-page{
   width: 940px;
   margin: 50px auto 0px;
@@ -73,318 +81,326 @@ input:focus{
   padding-bottom: 40px;
   margin: 0 auto;
 }
-.login-page .input-prepend{
-  width: 100%;
-  margin-bottom: 15px;
-  white-space: nowrap;
-}
-.login-page .input-prepend .add-on{
-  display: inline-block;
-  width: 34px;
-  height: 34px;
-  padding: 4px 5px;
-  background: none;
-  font-size: 12px;
-  font-weight: normal;
-  line-height: 34px;
-  margin-right: -1px;
-  vertical-align: top;
-  text-align: center;
-  text-shadow: 0 1px 0 #fff;
-  border: 1px solid #ccc;
-}
-.login-page .input-prepend .add-on:first-child {
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  border-radius: 4px 0 0 4px;
-}
-.login-page .input-prepend input {
+.login-page input.input-login{
   width: 228px;
   width: calc(100% - 44px);
   height: 44px;
-  padding: 4px 12px;
-  font-size: 14px;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  border-radius: 0 4px 4px 0;
+}
+
+
+/*编辑文章页*/
+.edit-article,
+.article-page{
+  max-width: 1000px;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  padding-top: 70px;
+}
+
+.edit-article > form{
+  margin: 0px auto 20px;
+}
+
+.edit-article .input-prepend select{
+  width: 200px;
+}
+
+.edit-article .input-prepend textarea{
+  height: 108px;
+  line-height: 24px;
+  resize: none;
+}
+
+
+
+/*左导航*/
+.left-bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 100%;
+  bottom: 0;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  z-index: 1001;
+}
+
+.left-bar .logo{
+  width: 90px;
+  height: 90px;
+  margin: 10px auto 30px;
+}
+
+.left-nav{
+  list-style: none;
+}
+.left-nav li{
+  width: 100%;
+  height: 70px;
+  position: relative;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+.left-nav li.active:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  height: 100%;
+  border-right: 1px solid #fff;
+}
+.left-nav li a{
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 12px;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
-  background-color: #fff;
-  border: 1px solid #cccccc;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
-  transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-.login-page .input-prepend input:focus{
-  outline: none;
-  box-shadow: none;
-  border-color: rgba(82,168,236,0.8);
+.left-nav li a:hover{
+  color: #03a9f4;
+}
+.left-nav li.active {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.left-nav li.active a{
+  font-weight: bold;
+  color: #03a9f4;
+}
+.left-nav li a i{
+  font-size: 30px;
 }
 
-#mask{
-  position:fixed; 
-  left:0%;
-  top: 0%;
+
+/*用户下拉菜单*/
+.drop-menu {
+  position: fixed;
+  top: 6px;
+  right: 0;
+  margin-bottom: 0;
+  z-index: 1010;
+}
+.drop-menu .login{
+  position: relative;
+  top: 10px;
+  float: right;
+  padding: 0 2px;
+  margin-right: 8px;
+}
+.drop-menu a.login:hover{
+  color: #000;
+}
+.drop-menu .login i{
+  margin-right: 4px;
+}
+.drop-menu .user.avatar{
+  position: relative;
+  float: right;
+  width: 38px;
+  height: 38px;
+  display: inline-block;
+  padding-right: 10px;
+  margin-right: 10px;
+  border: none;
+}
+/**
+* 如果显示下拉菜单功能的按钮有图片，就让它圆角显示
+*/
+.avatar {
+  border-radius: 50%;
+}
+.avatar img{
   width: 100%;
   height: 100%;
-  display: none;
-  z-index: 1000;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  vertical-align: middle;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.avatar:hover img{
+  border-color: #03a9f4;
+}
+.user.avatar .caret{
+  position: absolute;
+  top: 20px;
+  right: 0;
+  border-top: 4px solid #000;
+}
+.drop-menu .dropdown-menu{
+  right: 2px;
+  left: auto;
+  margin-top: 10px;
+  border: 1px solid #d9d9d9;
+}
+.drop-menu .dropdown-menu::before,
+.drop-menu .dropdown-menu::after{
+  left: 115px;
 }
 
-.alert-box{
-  position:absolute; 
-  left:50%;
-  top: 50%;
-  height: 40px;
-  line-height: 40px;
-  margin-top: -180px;
-  background: #666;
-  padding:0 30px;
-  z-index: 999;
-  color: #fff;
-  border-radius: 3px;
-  text-align: center;
+
+
+/*右边模块*/
+.container{
+  margin-left: 120px;
 }
 
-/*设置*/
-.settings{
-  width: 480px;
-  margin: 0 auto;
+/*文章列表页面*/
+.article-list-page .article-list {
+  margin-left: 40px;
+  padding-top: 70px;
 }
-.settings .title{
-  text-align: center;
-  margin-top: 80px;
+
+/*文章详情页*/
+.article-page {
+  padding-top: 20px;
+}
+.article-page > h3.title{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: left;
+}
+.article-page.author{
+  margin: 0px 0 8px;
+  color: #aaaaaa;
+  display: inline-block;
+}
+.article-page .author a{
+  color: #3da9f7;
+}
+.article-page .author .avatar,
+.article-list .author .avatar{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.article-page .author a:hover,
+.article-list .author a:hover{
+  color: #2c79b0;
+  text-decoration: none;
+}
+.article-page .author a:hover .avatar,
+.article-list .author a:hover .avatar{
+  border: 1px solid #3da9f7;
+}
+.article-page .tag{
+  margin-right: 6px;
+  color: #555;
+}
+.article-page .tag.time {
+  color: #aaaaaa;
+}
+.article-page .tool .btn-info,
+.article-page .tool .btn-danger {
+  margin-right: 10px;
+}
+
+
+/*专题列表页面*/
+.cloumn-list-page .cloumn-list {
+  margin-left: 10px;
+  padding-top: 70px;
+}
+
+/*专题详情页*/
+.cloumn-page{
+  /*margin-left: 120px;*/
+}
+.cloumn-page .cloumn-header{
+  padding: 30px 0 30px 50px;
+  background-color: #fbfbfb;
+  border-bottom: 1px solid #eee;
+}
+.cloumn-page .cloumn-header .info{
+  max-width: 700px;
+  position: relative;
+}
+.cloumn-page .cloumn-header .cname h3{
   font-size: 24px;
   color: #555;
-  padding-bottom: 20px;
+  margin-bottom: 12px
 }
-.settings .nav li{
-  float: left;
+.cloumn-page .cloumn-header .anthor,
+.cloumn-page .cloumn-header .cdesc{
+  margin-bottom: 14px
 }
-.settings .nav li a{
-  display: block;
-  text-align: center;
-  width: 118px;
-  padding: 10px 0px;
-  border: 1px solid #fff;
-  border-bottom: 1px solid #ddd;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.settings .nav li a.active{
-  border: 1px solid #ddd;
-  border-bottom: none;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-/*个人资料*/
-.personal{
-  clear: both;
-  width:380px;
-  margin: 0 auto;
-  color: rgb(101, 110, 115);
-  padding-top: 10px;
-}
-.personal p{
-  clear: both;
-  margin-top: 40px; 
-}
-.personal label{
-  float: left;
-  display: block;
-  height: 38px;
-  line-height: 38px;
-}
-.personal .username input{
-  width: 310px;
-  padding: 8px 0px 8px 10px;
-  border: 1px solid rgb(208, 214, 217);
-}
-.personal .place input{
-  width: 310px;
-  padding: 8px 0px 8px 10px;
-  border: 1px solid rgb(208, 214, 217);
-}
-.personal .sex{
-  clear: both;
-  margin-top: 30px;
-}
-.personal .sex-input{
-  float: left;
-  height: 38px;
-  line-height: 38px;
-}
-.personal .sex input{
-  margin-left: 8px;
-  cursor: pointer;
-}
-.personal .sign{
-  margin-top: 20px;
-}
-.personal .sign label{
-  height: 30px;
-}
-.personal .sign textarea{
-  width: 362px;
-  height: 60px;
-  resize:none;
-}
-.personal .select-box{
-  margin-top: 40px;
-  border: none;
-  height: 38px;
-}
-.personal .select-box .select-copy{
-  width: 320px;
-  height: 38px;
-  float: left;
-  position: relative;
-  z-index: 999;
-}
-.personal .select-box .content{
-  position: relative;
-  width: 315px;
-  height: 38px;
-  line-height: 38px;
-  border: 1px solid rgb(208, 214, 217);
-  padding-left: 5px;
-}
-.personal .select-box .content:hover{
-  cursor: pointer;
-}
-.personal .select-box ul{
-  clear: both;
-  background: #fff;
-  border: 1px solid rgb(208, 214, 217);
-  border-top: none;
-  width: 320px;
-}
-.personal .select-box ul li:hover{
-    background: #6ca5fc;
-    color: #fff;
-    cursor: pointer;
-}
-.personal .select-box ul span{
-  margin-left: 5px;
-}
-.personal .arrow-bottom-btn::after{
+.cloumn-page .cloumn-right{
   position: absolute;
-  left: 305px;
-  top:16px;
-  content: '';
-  display: inline-block;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #000;
+  top: 10px;
+  right: -100px;
 }
-.personal .sub{
-  margin-top: 20px;
-}
-.personal .sub input{
-  width: 365px;
-  background-color: #049cdb;
-  color: #fff;
-  border: none;
-  padding: 5px 0px; 
-}
-.personal .sub input:hover{
-  cursor: pointer;
-}
-/*修改密码*/
-.modify{
-  clear: both;
-  width:400px;
-  margin: 0 auto;
-  color: rgb(101, 110, 115);
-  padding-top: 10px;
-  text-align: center;
-}
-.modify p{
-  clear: both;
-  margin-top: 40px;
-  text-align: right;
-}
-.modify input{
-  width: 310px;
-  padding: 8px 0px 8px 10px;
-  border: 1px solid rgb(208, 214, 217);
-}
-.modify label{
-  float: left;
-  display: block;
-  text-align: right;
-  width: 70px;
-  height: 35px;
-  line-height: 35px;
-}
-.modify .sub{
-  width: 322px;
-  background-color: #049cdb;
-  color: #fff;
-  border: none;
-  text-align: center;
-}
-.modify .sub:hover{
-  cursor: pointer;
-}
-/*邮箱认证*/
-.email{
-  clear: both;
-  text-align: center;
-  padding-top: 40px;
-} 
-.email .fir{
-  font-size: 17px;
-}
-.email .sec{
-  font-size: 18px;
-  font-weight: bolder;
-  margin-top: 20px;
-}
-.email .hook{
-  padding-top: 20px;
-  font-size: 60px;
-}
-.email .hook i{
-  color: rgb(51, 166, 70);;
-}
-.email .hook p{
-  margin-top: 5px;
+.cloumn-page .cloumn-right a{
   font-size: 14px;
-  color: rgb(51, 166, 70);;
+  line-height: 22px;
 }
-.email .change{
-  background: rgb(51, 166, 70);;
-  color: #fff;
-  border: none;
-  padding: 8px 35px;
+.cloumn-page .cloumn-content{
+  margin-left: 50px;
+  margin-top: 20px;
+}
+.cloumn-page .cloumn-content .article-list {
+  padding-top: 10px;
+  margin-left: 0px;
 }
 
-.head {
-  clear: both;
+
+/*专题创建页*/
+.cloumn-edit {
+  margin: 20px auto;
+  margin-left: -120px;
   text-align: center;
-  padding-top: 40px;
 }
-.head .user {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #ddd;
-  margin: 0 auto;
+.cloumn-edit form:first-child{
+  width: 600px;
+  margin: 140px auto 0;
+}
+.cloumn-edit form:last-child{
+  width: 600px;
+  margin: 0px auto;
+}
+.cloumn-edit h3{
+  font-size: 30px;
+  color: #555;
+  margin-bottom: 30px;
+}
+.cloumn-edit form .upload{
+  width: 220px;
+  margin: 20px auto;
   position: relative;
 }
-.head .user>img{
+.cloumn-edit form .upload .fa{
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  font-size: 150px;
+  cursor: pointer;
+  color: #555555;
 }
-.head .user div{
+.cloumn-edit form .upload .fa:hover{
+  color: #000;
+}
+.cloumn-edit form .upload .title{
+  display: block;
+  margin: 2px auto 6px;
+  font-size: 12px;
+}
+.cloumn-edit form .upload .preview{
+  cursor: pointer;
+  width: 100%;
+  height: 140px;
+}
+.cloumn-edit form .upload>div{
   position: absolute;
   top: 0;
   width: 100%;
@@ -392,7 +408,121 @@ input:focus{
   background-color: rgba(255,255,255,0.6);
   display: none;
 }
-.head .user div>img{
+.cloumn-edit form .upload>div>img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -40px;
+}
+.cloumn-edit .input-prepend textarea{
+  height: 108px;
+  line-height: 24px;
+  resize: none;
+}
+.cloumn-edit .btn-success.btn-large{
+  width: 350px;
+  padding: 10px 18px;
+  font-size: 16px;
+}
+
+
+
+/*标签页面*/
+.tag-page{
+  margin: 0 auto;
+  padding-top: 10px;
+  max-width: 880px;
+}
+
+.tag-page .top{
+  padding: 40px 0;
+  text-align: center;
+  font-size: 22px;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 15px;
+}
+.tag-page .top .fa{
+  margin-right: 10px;
+  color: #999999;
+  font-size: 26px;
+}
+.tag-page .article-list {
+  margin-left: 0px;
+  width: 100%;
+  padding: 0px;
+}
+
+
+
+/*设置页*/
+.settings{
+  width: 480px;
+  margin: 0 auto;
+}
+.settings .title{
+  text-align: center;
+  margin-top: 60px;
+  font-size: 24px;
+  color: #555;
+  padding-bottom: 20px;
+}
+.settings .nav li a{
+  width: 158px;
+}
+
+.settings .personal,
+.settings .modify {
+  clear: both;
+  width: 100%;
+  margin: 0 auto;
+  color: #555;
+  padding-top: 36px;
+}
+
+.settings .personal .input-prepend textarea{
+  height: 60px;
+  resize:none;
+  vertical-align: middle;
+  padding: 6px 4px;
+}
+
+.settings .email{
+  text-align: center;
+  padding-top: 130px;
+} 
+
+.settings .head {
+  clear: both;
+  text-align: center;
+  vertical-align: middle;
+}
+.settings .head .user {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin: 0 auto;
+  margin-right: 12px;
+  position: relative;
+}
+.settings .head .user>img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.settings .head .user div{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.6);
+  display: none;
+}
+.settings .head .user div>img{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -401,99 +531,62 @@ input:focus{
   margin-left: -16px;
   margin-top: -16px;
 }
-.head .uploadForm{
+.settings .head .uploadForm{
   text-align: center;
 }
-.head .submit-button {
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  padding: 6px 12px;
-  margin: 20px auto;
-  font-size: 18px;
-  height: 20px;
-  line-height: 20px;
-  cursor: pointer;
-  color: #555;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  transition: all 0.2s;
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-}
-.head .submit-button:hover,
-.head .submit-button:focus{
-  background-color: #049cdb;
-  color: #fff;
-}
-.dis{
-      display: none;
-}
 
 
 
-/*我的主页*/
-.home-page{
-  position: absolute;
-  left: 50%;
-  top:20px;
-  width: 1000px;
-  margin-left: -400px;
+/*个人的主页*/
+.user-page{
+  width: 880px;
+  margin: 18px auto 10px;
 }
-.home-page .host{
-  border-bottom:1px solid #ddd;
-  padding-bottom: 3px;
-}
-.home-page .article-list{
-  margin-left: 0px;
-  padding-top: 0px;
-}
-.home-page .host img{
+
+.user-page .host-box img{
   display: block;
   float: left;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
-.home-page .host ul{
+.user-page .host-box .info {
+  float: left;
+  margin-left: 20px;
+}
+.user-page .host-box .info > div {
+  line-height: 16px;
+  margin: 10px 0;
+  font-size: 14px;
+  height: 16px;
+  color: #969696;
+  border-left: 3px solid transparent;
+  padding-left: 8px;
+}
+.user-page .host-box .info .username {
+  font-size: 16px;
+  font-weight: 100;
+  color: #666;
+  border-left: 3px solid #3da9f7;
+  padding-left: 8px;
+}
+.user-page .host ul{
   float: right;
   margin-top: 30px;
 }
-.home-page .host ul li{
+.user-page .host ul li{
   float: left;
   font-size: 12px;
   padding-left: 50px;
   color: #969696;
 }
 
-.home-page .content .nav{
-  margin-top: 10px;
+.user-page .nav-orderBy{
+  margin-top: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+
 }
-.home-page .content .nav a{
-  margin-right: 10px;
-  font-size: 12px;
-}
-.home-page .content .nav a.active{
-  color:#03A9F4;
-}
-.home-page .content .articles{
-  margin-top: 10px;
-}
-.home-page .content .articles .details{
-  border-bottom: 1px dashed rgb(217, 217, 217);;
-  padding: 10px 0px;
-}
-.home-page .content .articles .details .top{
-  font-size: 12px;
-}
-.home-page .content .articles .details .middle{
-  font-size: 17px;
-  font-weight: bolder;
-  margin: 14px 0px;
-}
-.home-page .content .articles .details .bottom{
-  font-size: 13px;
-}
-.home-page .content .articles .details .bottom a{
-  margin-right: 10px;
-}
+
+
+
