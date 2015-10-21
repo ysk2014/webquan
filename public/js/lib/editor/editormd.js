@@ -2919,7 +2919,7 @@ define('editormd',
                             {
                                 str = "[" + url + "](" + url + ")";
                             }                                
-
+console.log(str);
                             cm.replaceSelection(str);
 
                             this.hide().lockScreen(false).hideMask();

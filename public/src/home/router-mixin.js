@@ -177,13 +177,6 @@ define([
 
 	    if (!elt) return;
 
-		if (evt.defaultPrevented) return;
-
-		if(evt.preventDefault) {
-			evt.preventDefault();
-		} else {
-			evt.returnValue = false;
-		}
 	    
 	    //如果有meta键、ctrl键、shift键按下，返回
 	    if (evt.metaKey || evt.ctrlKey || evt.shiftKey) return;
@@ -201,6 +194,12 @@ define([
     	var windowURL = urllite(window.location.href);
 
     	if (linkURL.protocol !== windowURL.protocol || linkURL.host !== windowURL.host) return;
+
+		if(evt.preventDefault) {
+			evt.preventDefault();
+		} else {
+			evt.returnValue = false;
+		}
 	    
     	return linkURL;
 	}
