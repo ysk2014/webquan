@@ -150,7 +150,7 @@ WQ.cookie = {
 
     defaults: {},
     // 有效期
-    expiresMultiplier: 60 * 60 * 24,
+    expiresMultiplier: 60*60,
 
     // 添加cookie
     set: function(key, value, options) {
