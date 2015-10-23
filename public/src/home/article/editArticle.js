@@ -126,7 +126,7 @@ define([
 				ArticleModel.editArticle(info,function(success,data) {
 					if(success) {
 						if(!data.error) {
-							// window.location.href = '/article/'+aid;
+							window.location.href = '/article/'+aid;
 						} else {
 							Tooltip(data.msg);
 						}
