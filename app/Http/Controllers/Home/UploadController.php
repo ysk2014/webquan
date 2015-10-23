@@ -1,11 +1,12 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Upload\Process as UploadManager;
-use Request, Cache;
+use App\Services\SC;
+use Request, Cache, Redis;
 
 class UploadController extends Controller {
 
-	public $navStatus;
+	public $redis;
 
 	/**
 	 * Create a new controller instance.
@@ -14,7 +15,7 @@ class UploadController extends Controller {
 	 */
 	public function __construct()
 	{
-		// $this->navStatus = 'home';
+		if( !$this->redis ) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -45,15 +46,23 @@ class UploadController extends Controller {
         
         $result = $uploadObject->setFile($file)->upload();
 
-        if(Cache::has('uploadImg')) 
+        $user = SC::getLoginSession();
+
+        $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
+
+        // if(Cache::has($cache))
+        if($this->redis->exists($cache))
         {
-        	$value = Cache::get('uploadImg');
-        	$imgArr = array_push($value, $result['url']);
-        	Cache::add('uploadImg',$imgArr,60);
+        	// $value = Cache::get('uploadImg');
+        	// $imgArr = array_push($value, $result['url']);
+        	// Cache::add('uploadImg',$imgArr,60);
+        	$this->redis->lpush($cache,$result['url']);
         } 
         else 
         {
-        	Cache::add('uploadImg',array($result['url']),60);
+        	$this->redis->lpush($cache,$result['url']);
+        	$this->redis->expire($cache,60*60);
+        	// Cache::add('uploadImg',array($result['url']),60);
         }
 
         return response()->json($result);
