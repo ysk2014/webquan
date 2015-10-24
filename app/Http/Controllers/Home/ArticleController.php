@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
-use Request,Cache;
+use Request,Cache,Redis;
 
 class ArticleController extends Controller {
 
@@ -69,7 +69,7 @@ class ArticleController extends Controller {
 	 */
 	public function getAllArticle(ArticleProcess $articleProcess)
 	{
-		
+		// $redis=Redis::connection();
 		$data = Request::input('data');
 		$result = $articleProcess->getAllArticle($data);
 		return response()->json($result);

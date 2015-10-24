@@ -57,7 +57,7 @@ define([
 			return this;
 		},
 		// 展示文章内容
-		showEditor: function(){
+		showEditor: function(uid){
 			var _this = this;
 			var content = _this.state.info.content ? _this.state.info.content : null;
 	        var testEditor = editormd("article-editormd", {

@@ -8,7 +8,7 @@ use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Models\Home\UserArticle as UserArticleModel;
 use App\Services\BaseProcess;
 use App\Services\SC;
-use Lang, Cache;
+use Lang, Cache, Redis;
 
 
 /**
@@ -54,6 +54,13 @@ class Process extends BaseProcess
     private $userArticleModel;
 
     /**
+     * redis缓存链接
+     * 
+     * @var object
+     */
+    private $redis;
+
+    /**
      * 初始化
      *
      * @access public
@@ -65,6 +72,7 @@ class Process extends BaseProcess
         if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
         if( !$this->careModel) $this->careModel = new UCCModel();
         if( !$this->userArticleModel) $this->userArticleModel = new UserArticleModel();
+        if( !$this->redis) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -89,6 +97,34 @@ class Process extends BaseProcess
         } 
 	}
 
+
+	/**
+	* 文章图片缓存
+	*
+	* @param array $ids;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function imgCache(\App\Services\Home\Article\ArticleSave $data){
+
+		$content = $this->redis->hget('article_'.$data->id,'content');
+
+		$status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$content,$imgArr);
+
+		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
+
+		if($status) {
+			foreach ($imgArr[0] as $key => $value) {
+				$value = str_ireplace('![](','',$value);
+				$value = str_ireplace(')','',$value);
+				$this->redis->lpush($cache,$value);
+			}
+		}
+
+		return $data;
+	}
+
+
 	/**
 	* 删除上传的没有用到的图片，并把第一张图片作为文章的logo
 	*
@@ -111,16 +147,20 @@ class Process extends BaseProcess
 			$data->setLogoDir($logo_dir);
 		}
 
-		if(Cache::has('uploadImg'))
+		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
+		
+
+		if($this->redis->exists($cache))
 		{
-			$uploadImg = Cache::get('uploadImg');
+			$uploadImg = $this->redis->lrange($cache,0,-1);
 			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
 
 			foreach ($uploadImg as $key => $value) {
-				$value = '![]('.$value.')';
-				if(!in_array($value, $imgArr[0]))
+				$value1 = '![]('.$value.')';
+				if(!in_array($value1, $imgArr[0]))
 				{
 					@unlink(dirname(dirname($savePath)).$value);
+
 					// 判断文件夹是否为空
 					if( $this->is_empty_dir(dirname($savePath)) )
 					{
@@ -128,8 +168,7 @@ class Process extends BaseProcess
 					}
 				}
 			}
-
-			Cache::forget('uploadImg');
+			$this->redis->del($cache);
 		}
 
 		return $data;
@@ -184,6 +223,8 @@ class Process extends BaseProcess
 	}
 
 
+
+
 	/**
 	* 编辑文章
 	*
@@ -193,11 +234,15 @@ class Process extends BaseProcess
 	*/
 	public function editArticle(\App\Services\Home\Article\ArticleSave $data)
 	{	
+
 		$resultArr = [];
 		if( !isset($data->id) ) return array('error'=>true,'msg'=>'没有文章id');
 
 		// 进行文章表单验证
 		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
+
+		// 对内容图片进行缓存处理
+		$data = $this->imgCache($data);
 
 		// 对内容进行处理
 		$data = $this->dealData($data);
@@ -206,6 +251,7 @@ class Process extends BaseProcess
 		unset($data->id);
 
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
+			$this->redis->del('article_'.$id);
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
@@ -216,7 +262,7 @@ class Process extends BaseProcess
 	/**
 	* 获取已公布的文章列表
 	*
-	* @param intval $data;
+	* @param array $data;
 	* @access public
 	* @return array
 	*/
@@ -278,6 +324,16 @@ class Process extends BaseProcess
 	public function getArticleById($id)
 	{	
 		$this->articleModel->incrementById('view', $id);
+
+		if($this->redis->hgetall('article_'.$id)) {
+
+			$this->redis->hincrby('article_'.$id,'view',1);
+
+			$articleInfo = $this->redis->hgetall('article_'.$id);
+
+			return array('error'=>false,'data'=>$articleInfo);
+		}
+
 		$articleInfo = $this->articleModel->getArtById($id);
 		if($articleInfo) {
 			$uid = SC::getLoginSession()['id'];
@@ -294,6 +350,9 @@ class Process extends BaseProcess
 					}
 				}	
 			}
+			//进行redis缓存
+			
+			$this->redis->hmset('article_'.$id,$articleInfo->toArray());
 
 			return array('error'=>false,'data'=>$articleInfo);
 		} else {
@@ -440,9 +499,15 @@ class Process extends BaseProcess
 
 		if($sqlData != false) {
 			if($method=='POST') {
+
 				$this->articleModel->incrementById($status,$data['aid']);
+
+				$this->redis->hincrby('article_'.$data['aid'],$status,1);
+				$this->redis->hset('article_'.$data['aid'],$status.'Status',true);
 			} else {
 				$this->articleModel->decrementById($status,$data['aid']);
+				$this->redis->hincrby('article_'.$data['aid'],$status,-1);
+				$this->redis->hset('article_'.$data['aid'],$status.'Status',false);
 			}
 			$resultArr = array('error'=>false, 'msg'=>$msg.'成功');
 		} else {

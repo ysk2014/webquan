@@ -135,7 +135,7 @@ define([
 						React.createElement("h3", null, _this.state.cid>0 ? '编辑' : '新建', "专题"), 
 						React.createElement("div", {className: "upload"}, 
 							React.createElement("input", {type: "file", name: "cloumn-image", style: {display:'none'}, onChange: _this.handleFileChange}), 
-							React.createElement("input", {type: "text", name: "id", style: {display:'none'}, value: WQ.cookie.get('id')}), 
+							React.createElement("input", {type: "text", name: "uid", style: {display:'none'}, value: WQ.cookie.get('id')}), 
 							React.createElement("input", {type: "text", name: "logo", style: {display:'none'}, value: _this.state.logo_dir}), 
 							React.createElement("input", {type: "submit", style: {display:"none"}, onClick: _this.handleUpload}), 
 							React.createElement("iframe", {name: "uploadIframe", id: "uploadIframe", style: {display:"none"}}), 

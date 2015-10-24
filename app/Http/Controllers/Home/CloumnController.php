@@ -136,10 +136,10 @@ class CloumnController extends Controller {
     public function updateLogo(CloumnProcess $manager)
     {
 		$file = Request::file('cloumn-image');
-		$id = Request::input('id');
+		$uid = Request::input('uid');
 		$logoDir = Request::input('logo');
 
-		$result = $manager->uploadLogo($file,$id,$logoDir);
+		$result = $manager->uploadLogo($file,$uid,$logoDir);
 		
 		return response()->json($result);
     }

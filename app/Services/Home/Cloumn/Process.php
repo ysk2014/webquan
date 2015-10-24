@@ -277,7 +277,8 @@ class Process extends BaseProcess
         if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
 
         if(empty($logoDir)) {
-            $config = array('path'=>'cloumn-logo');
+            $fileName = 'cloumn_logo_uid_'.$id.'_'.date('Y', time()) . date('m', time()) . date('d', time());
+            $config = array('path'=>'cloumn-logo','fileName'=>$fileName);
         } else {
             $status = preg_match('/\/upload_path\/cloumn-logo\/(.{1,})?\./', $logoDir,$fileName);
             if($status) {
