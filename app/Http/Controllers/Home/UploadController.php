@@ -50,19 +50,14 @@ class UploadController extends Controller {
 
         $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
 
-        // if(Cache::has($cache))
         if($this->redis->exists($cache))
         {
-        	// $value = Cache::get('uploadImg');
-        	// $imgArr = array_push($value, $result['url']);
-        	// Cache::add('uploadImg',$imgArr,60);
         	$this->redis->lpush($cache,$result['url']);
         } 
         else 
         {
         	$this->redis->lpush($cache,$result['url']);
         	$this->redis->expire($cache,60*60);
-        	// Cache::add('uploadImg',array($result['url']),60);
         }
 
         return response()->json($result);
@@ -82,16 +77,19 @@ class UploadController extends Controller {
 
 		//开始远程图片下载到服务器
         $result = $uploadObject->downloadImage($url);
+
+        $user = SC::getLoginSession();
+
+        $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
         
-        if(Cache::has('uploadImg')) 
+        if($this->redis->exists($cache)) 
         {
-        	$value = Cache::get('uploadImg');
-        	$imgArr = array_push($value, $result['url']);
-        	Cache::put('uploadImg',$imgArr,60);
+        	$this->redis->lpush($cache,$result['url']);
         } 
         else 
         {
-        	Cache::add('uploadImg',array($result['url']),60);
+        	$this->redis->lpush($cache,$result['url']);
+        	$this->redis->expire($cache,60*60);
         }
 
         return response()->json($result);

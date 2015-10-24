@@ -97,6 +97,34 @@ class Process extends BaseProcess
         } 
 	}
 
+
+	/**
+	* 文章图片缓存
+	*
+	* @param array $ids;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function imgCache(\App\Services\Home\Article\ArticleSave $data){
+
+		$content = $this->redis->hget('article_'.$data->id,'content');
+
+		$status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$content,$imgArr);
+
+		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
+
+		if($status) {
+			foreach ($imgArr[0] as $key => $value) {
+				$value = str_ireplace('![](','',$value);
+				$value = str_ireplace(')','',$value);
+				$this->redis->lpush($cache,$value);
+			}
+		}
+
+		return $data;
+	}
+
+
 	/**
 	* 删除上传的没有用到的图片，并把第一张图片作为文章的logo
 	*
@@ -119,8 +147,7 @@ class Process extends BaseProcess
 			$data->setLogoDir($logo_dir);
 		}
 
-		$uid = SC::getLoginSession()['id'];
-		$cache = 'article_img_uid_'.$uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
+		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
 		
 
 		if($this->redis->exists($cache))
@@ -196,6 +223,8 @@ class Process extends BaseProcess
 	}
 
 
+
+
 	/**
 	* 编辑文章
 	*
@@ -212,15 +241,8 @@ class Process extends BaseProcess
 		// 进行文章表单验证
 		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
 
-		// $conetent = $this->redis->hget('article_'.$id,'content');
-		// $status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$data->content,$imgArr);
-
-		// if($status) {
-		// 	foreach ($imgArr[0] as $key => $value) {
-		// 		$value = $value
-		// 	}	$this->
-		// }
-		
+		// 对内容图片进行缓存处理
+		$data = $this->imgCache($data);
 
 		// 对内容进行处理
 		$data = $this->dealData($data);

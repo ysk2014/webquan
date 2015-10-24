@@ -135,7 +135,7 @@ define([
 						<h3>{_this.state.cid>0 ? '编辑' : '新建'}专题</h3>
 						<div className="upload">
 							<input type="file" name="cloumn-image" style={{display:'none'}} onChange={_this.handleFileChange} />
-							<input type="text" name="id" style={{display:'none'}} value={WQ.cookie.get('id')} />
+							<input type="text" name="uid" style={{display:'none'}} value={WQ.cookie.get('id')} />
 							<input type="text" name="logo" style={{display:'none'}} value={_this.state.logo_dir} />
 							<input type="submit"  style={{display:"none"}}  onClick={_this.handleUpload} />
 							<iframe name="uploadIframe" id="uploadIframe" style={{display:"none"}}></iframe>
