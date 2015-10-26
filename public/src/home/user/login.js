@@ -1,5 +1,6 @@
 define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],function(React, $, UserModel,Tooltip) {
 
+    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
     var mixin = {
         // 输入框的值改变
@@ -96,51 +97,53 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
             var _this = this;
 
             return (
-                <div className="login-page" id="login-page">
-                    <div className="logo"></div>
-                    <h4 className="title">
-                        <span>
-                            <a className={_this.state.nav=='sign_in' ? "active" : ""} href="/login/sign_in">登陆</a>
-                            <b>·</b>
-                            <a className={_this.state.nav=='sign_up' ? "active" : ""} href="/login/sign_up">注册</a>
-                        </span>
-                    </h4>
-                    <div className="login-contianer">
-                        <form className="form-horizontal">
-                            <div className="input-prepend">
-                                <span className="add-on">
-                                    <i className="fa fa-user"></i>
-                                </span>
-                                <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} />
-                            </div>
-                            <div className="input-prepend">
-                                <span className="add-on">
-                                    <i className="fa fa-unlock-alt"></i>
-                                </span>
-                                <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} />
-                            </div>
-                            {
-                                (_this.state.nav =='sign_up') ? 
-                                (<div>
-                                    <div className="input-prepend">
-                                        <span className="add-on">
-                                            <i className="fa fa-envelope-o"></i>
-                                        </span>
-                                        <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
-                                    </div>
-                                    <div className="input-prepend">
-                                        <span className="add-on">
-                                            <i className="fa fa-leaf"></i>
-                                        </span>
-                                        <input type="text" className="input-login" name="job" value={_this.state.job} placeholder="职位" onChange={_this.handleJobChange} />
-                                    </div>
-                                </div>) : null
-                            }
-                            
-                            <a className="btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
-                        </form>
+                <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+                    <div className="login-page" id="login-page">
+                        <div className="logo"></div>
+                        <h4 className="title">
+                            <span>
+                                <a className={_this.state.nav=='sign_in' ? "active" : ""} href="/login/sign_in">登陆</a>
+                                <b>·</b>
+                                <a className={_this.state.nav=='sign_up' ? "active" : ""} href="/login/sign_up">注册</a>
+                            </span>
+                        </h4>
+                        <div className="login-contianer">
+                            <form className="form-horizontal">
+                                <div className="input-prepend">
+                                    <span className="add-on">
+                                        <i className="fa fa-user"></i>
+                                    </span>
+                                    <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} />
+                                </div>
+                                <div className="input-prepend">
+                                    <span className="add-on">
+                                        <i className="fa fa-unlock-alt"></i>
+                                    </span>
+                                    <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} />
+                                </div>
+                                {
+                                    (_this.state.nav =='sign_up') ? 
+                                    (<div>
+                                        <div className="input-prepend">
+                                            <span className="add-on">
+                                                <i className="fa fa-envelope-o"></i>
+                                            </span>
+                                            <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
+                                        </div>
+                                        <div className="input-prepend">
+                                            <span className="add-on">
+                                                <i className="fa fa-leaf"></i>
+                                            </span>
+                                            <input type="text" className="input-login" name="job" value={_this.state.job} placeholder="职位" onChange={_this.handleJobChange} />
+                                        </div>
+                                    </div>) : null
+                                }
+                                
+                                <a className="btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </ReactCSSTransitionGroup>
             );
         }
     });

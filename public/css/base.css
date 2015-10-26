@@ -586,10 +586,25 @@ textarea:focus {
   background-color: #03a9f4;
   color: #fff;
 }
+
 .dropdown-menu i{
   width: 18px;
   height: 15px;
   display: inline-block;
+}
+.dropdown-menu > li > a > .news {
+  display: inline-block;
+  float: right;
+  padding: 3px 7px;
+  min-width: 10px;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 10px;
+  background-color: #e16b6f;
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
 }
 .open > .dropdown-menu{
   display: block;
@@ -1003,3 +1018,71 @@ textarea:focus {
   color: #999999;
   font-size: 12px;
 }
+
+
+
+/*动画*/
+
+
+.fade-appear,.fade-enter {
+    opacity: 0.01;
+}
+
+.fade-appear.fade-appear-active,
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    -ms-transition: opacity 0.5s ease-in;
+}
+
+.fade-leave {
+    opacity: 1;
+}
+.fade-leave.fade-leave-active {
+    opacity: 0;
+    transition: opacity .3s ease;
+    -webkit-transition: opacity .3s ease;
+    -moz-transition: opacity .3s ease;
+    -ms-transition: opacity .3s ease;
+}
+
+
+.fadeToTop-appear, .fadeToTop-enter{
+    opacity: 0.01;
+    transform: translateY(20%);
+    -webkit-transform: translateY(20%);
+    -moz-transform: translateY(20%);
+    -ms-transform: translateY(20%);
+}
+
+.fadeToTop-appear.fadeToTop-appear-active,
+.fadeToTop-enter.fadeToTop-enter-active {
+    opacity: 1;
+    transform: translateY(0%);
+    -webkit-transform: translateY(0%);
+    -moz-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    transition: all .4s ease-out .4s;
+    -webkit-transition: all .4s ease-out .4s;
+    -moz-transition: all .4s ease-out .4s;
+    -ms-transition: all .4s ease-out .4s;
+}
+
+.fadeToTop-leave {
+    opacity: 1;
+    transition: all .4s ease-out .4s;
+    -webkit-transition: all .4s ease-out .4s;
+    -moz-transition: all .4s ease-out .4s;
+    -ms-transition: all .4s ease-out .4s;
+}
+
+.fadeToTop-leave.fadeToTop-leave-active {
+    opacity: 0;
+    transition: all .4s ease-out .4s;
+    -webkit-transition: all .4s ease-out .4s;
+    -moz-transition: all .4s ease-out .4s;
+    -ms-transition: all .4s ease-out .4s;
+}
+

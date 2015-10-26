@@ -235,6 +235,18 @@
   right: 0;
   border-top: 4px solid #000;
 }
+.user.avatar .news{
+  position: absolute;
+  top: 0px;
+  right: 9px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: #e16b6f;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 1.4;
+}
 .drop-menu .dropdown-menu{
   right: 2px;
   left: auto;
@@ -453,6 +465,50 @@
   margin-left: 0px;
   width: 100%;
   padding: 0px;
+}
+
+.tag-page .message{
+  padding-right: 15px;
+  margin-top: 5px;
+  margin-right: 10px;
+  border-right: 1px solid #d9d9d9;
+}
+.tag-page .news-nav > a {
+  color: #999;
+}
+.tag-page .news-nav > a:hover,
+.tag-page .news-nav > a.active{
+  color: #555;
+}
+.tag-page .news-nav > a.btn:hover {
+  color: #fff;
+}
+.tag-page .news-list {
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 2px solid #d9d9d9;
+}
+.tag-page .news-list > li {
+  padding: 10px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #eeeeee;
+  line-height: 1.5;
+}
+
+.tag-page .news-list > li i {
+  margin-right: 10px;
+  color: #d9d9d9;
+}
+.tag-page .news-list > li.active i {
+  color: #e16b6f;
+}
+.tag-page .news-list > li a{
+  color: #4094c7;
+}
+.tag-page .news-list > li .time {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #999999;
 }
 
 

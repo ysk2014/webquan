@@ -6,6 +6,7 @@ define([
 	'home/common/tooltip',
 	],function( React, $, WQ, CloumnModel, Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -307,36 +308,39 @@ define([
 				);
 			});
 			return (
-				<div className="cloumn-list-page">
-					<div className="top-bar">
-						<div className="nav">
-							<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>
-							<a className={nav==1 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我关注的</a>
-							<a className={nav==2 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我的专题</a>
+				
+					<div className="cloumn-list-page">
+						<div className="top-bar">
+							<div className="nav">
+								<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>
+								<a className={nav==1 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我关注的</a>
+								<a className={nav==2 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我的专题</a>
+							</div>
+							<a className="btn btn-info pull-right" style={{margin:'10px 120px 0 0'}} href="/cloumn/add">添加专题</a>
 						</div>
-						<a className="btn btn-info pull-right" style={{margin:'10px 120px 0 0'}} href="/cloumn/add">添加专题</a>
+						<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+							<div className="cloumn-list">
+								<div style={_this.state.nav==0 ? {display:'block'} : {display:'none'}}>
+									<ul className="nav-orderBy clearfix" style={{marginLeft: '35px'}}>
+										<li><a className={_this.state.navChild==0 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>热门排序</a></li>
+										<li><a className={_this.state.navChild==1 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最近更新</a></li>
+										<li><a className={_this.state.navChild==2 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>关注度排序</a></li>
+										<li><a className={_this.state.navChild==3 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最新创建排序</a></li>
+									</ul>
+									<ul className="clearfix">{cloumnList}</ul>
+									<a className="more" style={_this.state.next[next] ? {display:'block'} : {display:'none'}} onClick={_this.handleMore}>更多</a>
+								</div>
+								<div style={_this.state.nav==1 ? {display:'block'} : {display:'none'}}>
+									<ul className="clearfix">{cloumnList}</ul>
+								</div>	
+								<div style={_this.state.nav==2 ? {display:'block'} : {display:'none'}}>
+									<ul className="clearfix">{cloumnList}</ul>
+									<a className="btn btn-default btn-large" style={_this.state.next['me'] ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.handleMore}>更多</a>
+								</div>					
+							</div>
+						</ReactCSSTransitionGroup>
 					</div>
 
-					<div className="cloumn-list">
-						<div style={_this.state.nav==0 ? {display:'block'} : {display:'none'}}>
-							<ul className="nav-orderBy clearfix" style={{marginLeft: '35px'}}>
-								<li><a className={_this.state.navChild==0 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>热门排序</a></li>
-								<li><a className={_this.state.navChild==1 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最近更新</a></li>
-								<li><a className={_this.state.navChild==2 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>关注度排序</a></li>
-								<li><a className={_this.state.navChild==3 ? "btn btn-info" : "btn btn-default"} href="javascript:void(0)" onClick={_this.hamdleNavChange}>最新创建排序</a></li>
-							</ul>
-							<ul className="clearfix">{cloumnList}</ul>
-							<a className="more" style={_this.state.next[next] ? {display:'block'} : {display:'none'}} onClick={_this.handleMore}>更多</a>
-						</div>
-						<div style={_this.state.nav==1 ? {display:'block'} : {display:'none'}}>
-							<ul className="clearfix">{cloumnList}</ul>
-						</div>	
-						<div style={_this.state.nav==2 ? {display:'block'} : {display:'none'}}>
-							<ul className="clearfix">{cloumnList}</ul>
-							<a className="btn btn-default btn-large" style={_this.state.next['me'] ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.handleMore}>更多</a>
-						</div>					
-					</div>
-				</div>
 			);
 		}
 	});

@@ -9,6 +9,7 @@ define([
     'editormd',
 	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip, Dialog, editormd) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -298,37 +299,39 @@ define([
 			}) : null;
 
 			return (
-				<div>
-					<div className="top-bar">
-						<span className="desc">写文章</span>
-						<a className="btn btn-info btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 120px 0 0'}} data-publish="1" onClick={this.handlePublic}>发布</a>
-						<a className="btn btn-default btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 10px 0 0'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
+				<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+					<div>
+						<div className="top-bar">
+							<span className="desc">写文章</span>
+							<a className="btn btn-info btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 120px 0 0'}} data-publish="1" onClick={this.handlePublic}>发布</a>
+							<a className="btn btn-default btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 10px 0 0'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
+						</div>
+						<div className="edit-article">
+							<form>
+					            <div className="input-prepend">
+					            	<input type="text" name="title" placeholder="文章标题" onChange={this.handleChangeTitle} value={_this.state.info.title ? _this.state.info.title : null} />
+					            </div>
+					            <div className="input-prepend">
+					            	<textarea name="description" maxLength="200" placeholder="请以200字以内简单描述此内容" onChange={this.handleChangeDesc} value={_this.state.info.description ? _this.state.info.description : null}></textarea>
+					            </div>
+					            <div className="input-prepend">
+					            	<select onChange={_this.handleSelectCloumn}>{cloumns}</select>
+					            </div>
+					            <div className="tags-list" onClick={_this.getFocus}>
+					            	<i className="fa fa-tag"></i><span>增加标签</span>
+					            	<span>{tagsSpan}</span>
+					            	{
+					            		_this.state.tags.length<3 ? <input type="text" placeholder="如：php" onKeyDown={_this.dealTags} value={_this.state.inputTag} onChange={_this.tagChange} /> : null
+					            	}
+					            	<ul>{tagsLi}<li style={_this.state.cacheTags.length>4 ? {display:'none'} : {display:'block'}} onClick={_this.dialogShow}><a href="javascript:void(0)">创建标签&nbsp;<strong>{_this.state.inputTag}</strong></a></li></ul>
+					            </div>
+								<div id="article-editormd">
+									<textarea onChange={this.handleChangeContent} value={_this.state.info.content ? _this.state.info.content : null}></textarea>
+								</div>
+							</form>
+						</div>
 					</div>
-					<div className="edit-article">
-						<form>
-				            <div className="input-prepend">
-				            	<input type="text" name="title" placeholder="文章标题" onChange={this.handleChangeTitle} value={_this.state.info.title ? _this.state.info.title : null} />
-				            </div>
-				            <div className="input-prepend">
-				            	<textarea name="description" maxLength="200" placeholder="请以200字以内简单描述此内容" onChange={this.handleChangeDesc} value={_this.state.info.description ? _this.state.info.description : null}></textarea>
-				            </div>
-				            <div className="input-prepend">
-				            	<select onChange={_this.handleSelectCloumn}>{cloumns}</select>
-				            </div>
-				            <div className="tags-list" onClick={_this.getFocus}>
-				            	<i className="fa fa-tag"></i><span>增加标签</span>
-				            	<span>{tagsSpan}</span>
-				            	{
-				            		_this.state.tags.length<3 ? <input type="text" placeholder="如：php" onKeyDown={_this.dealTags} value={_this.state.inputTag} onChange={_this.tagChange} /> : null
-				            	}
-				            	<ul>{tagsLi}<li style={_this.state.cacheTags.length>4 ? {display:'none'} : {display:'block'}} onClick={_this.dialogShow}><a href="javascript:void(0)">创建标签&nbsp;<strong>{_this.state.inputTag}</strong></a></li></ul>
-				            </div>
-							<div id="article-editormd">
-								<textarea onChange={this.handleChangeContent} value={_this.state.info.content ? _this.state.info.content : null}></textarea>
-							</div>
-						</form>
-					</div>
-				</div>
+				</ReactCSSTransitionGroup>
 			);
 		}
 	});

@@ -6,6 +6,7 @@ define(['react',
         'WQ'
         ],function(React, $, UserModel, Tooltip, ArticleModel, WQ) {
 
+    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
     var mixin = {
         init: function() {
@@ -101,6 +102,7 @@ define(['react',
         render: function() {
             var _this = this;
             var nav = this.state.nav;
+
             var list = (this.state.list[nav] && this.state.list[nav].length>0) ? this.state.list[nav].map(function(d,i) {
 
                 if(d.tags) {
@@ -157,10 +159,12 @@ define(['react',
                         }
                         
                     </ul>
-                    <div className="article-list">
-                        {list}
-                        <a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
-                    </div>
+                    <ReactCSSTransitionGroup transitionName="fadeToTop" transitionAppear={true}>
+                        <div className="article-list">
+                            {list}
+                            <a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
+                        </div>
+                    </ReactCSSTransitionGroup>
                 </div>
             );
         }
@@ -187,22 +191,24 @@ define(['react',
             var logo        = (_this.state.info && _this.state.info.logo_dir && _this.state.info.logo_dir!='')       ? _this.state.info.logo_dir    : '未填写';
             var github      = (_this.state.info && _this.state.info.github && _this.state.info.github!='')           ? _this.state.info.github      : '未填写';
             return (
-                <div className="user-page">
-                    <div className="host-box clearfix">
-                        <img src={logo} />
-                        <div className="info">
-                            <div className="username">昵称:&nbsp;{username}</div>
-                            <div className="desc">简介:&nbsp;{description}</div>
-                            <div className="other">
-                                <span>职位:&nbsp;{job}</span>&nbsp;&nbsp;&nbsp;
-                                <span>邮箱:&nbsp;{email}</span>
+                <ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+                    <div className="user-page">
+                        <div className="host-box clearfix">
+                            <img src={logo} />
+                            <div className="info">
+                                <div className="username">昵称:&nbsp;{username}</div>
+                                <div className="desc">简介:&nbsp;{description}</div>
+                                <div className="other">
+                                    <span>职位:&nbsp;{job}</span>&nbsp;&nbsp;&nbsp;
+                                    <span>邮箱:&nbsp;{email}</span>
+                                </div>
+                                <div className="github">github:&nbsp;{github}</div>
                             </div>
-                            <div className="github">github:&nbsp;{github}</div>
                         </div>
+                        
+                        <Articles uid={_this.state.uid} />
                     </div>
-                    
-                    <Articles uid={_this.state.uid} />
-                </div>
+                </ReactCSSTransitionGroup>
             );
         }
     });

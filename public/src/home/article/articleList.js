@@ -6,6 +6,7 @@ define([
 	'home/common/tooltip',
 	],function(React, $, WQ, ArticleModel, Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -162,22 +163,24 @@ define([
 			}) : null;
 			
 			return (
-				<div className="article-list-page">
-					<div className="top-bar">
-						<div className="nav">
-							<a className="tab active" onClick={this.handleTabChange} href="javascript:void(0)">推荐</a>
-							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>
-							<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">热门</a>
-							{
-								_this.state.uid ? (<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">关注</a>) : null
-							}
+				<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+					<div className="article-list-page">
+						<div className="top-bar">
+							<div className="nav">
+								<a className="tab active" onClick={this.handleTabChange} href="javascript:void(0)">推荐</a>
+								<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>
+								<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">热门</a>
+								{
+									_this.state.uid ? (<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">关注</a>) : null
+								}
+							</div>
+						</div>
+						<div className="article-list">
+							{list}
+							<a className="btn btn-default btn-large" href="javascript:void(0)" style={_this.state.next ? {display:'block',marginTop:'15px'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
 						</div>
 					</div>
-					<div className="article-list">
-						{list}
-						<a className="more" style={_this.state.next ? {display:'block'} : {display:'none'}} data-page={ _this.state.more[nav] ? _this.state.more[nav] : 1} onClick={_this.handleMore}>更多</a>
-					</div>
-				</div>
+				</ReactCSSTransitionGroup>
 			);
 		}
 	});

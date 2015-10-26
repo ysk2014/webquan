@@ -33,6 +33,19 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		//发送邮件
 		sendEmail: function(email,callback) {
 			BaseModel.get('/email',{email:email},callback);
+		},
+
+		//消息
+		getNews: function(data,callback) {
+			BaseModel.get('/user/news',{'data':data},callback);
+		},
+		//未读消息数量
+		getNewsCount: function(uid,callback) {
+			BaseModel.get('/user/news/count',{'uid':uid},callback);
+		},
+
+		updateNews: function(data,callback) {
+			BaseModel.post('/user/news',{'data':data},callback);
 		}
 		
 	};

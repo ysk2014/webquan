@@ -60,6 +60,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		getInitialState: function() {
 			return {
 				userInfo: this.props.info,
+				news: 0,
 			}
 		},
 		componentWillReceiveProps: function(nextProps) {
@@ -70,8 +71,26 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 		componentDidMount: function() {
 			$('.dropdown').dropdown();
+			this.getNewsCount();
+			
 		},
+		getNewsCount: function() {
+			var _this = this;
+			
+			UserModel.getNewsCount(_this.state.userInfo.id,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.setState({
+							news: data.data
+						});
+					}
+				}
+			});
 
+			setTimeout(function() {
+				_this.getNewsCount();
+			},1000*60);
+		},
 		handleClick: function() {
 			UserModel.signOut(function(success,data){
 				if(success) {
@@ -84,11 +103,15 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 		render: function() {
 			var _this = this;
+								
 			return (
 				<div>
 					<a className="user avatar dropdown" data-toggle="dropdown" href="javascript:void(0);">
 						<img src={(_this.state.userInfo.userUrl!='') ? _this.state.userInfo.userUrl : "/image/user-default.png"} />
 						<b className="caret"></b>
+						{
+							this.state.news!=0 ?  <b className="news"></b> : null
+						}
 					</a>
 					<ul className="dropdown-menu arrow-top">
 						<li>
@@ -101,6 +124,13 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							<a href={"/user/"+WQ.cookie.get('id')}>
 								<i className="fa fa-user"></i>
 								<span>我的主页</span>
+							</a>
+						</li>
+						<li>
+							<a href={"/user/"+WQ.cookie.get('id')+"/news"}>
+								<i className="fa fa-bell-o"></i>
+								<span>我的消息</span>
+								{_this.state.news!=0 ? (<span className="news"> {_this.state.news}</span>) : null }
 							</a>
 						</li>
 						<li>

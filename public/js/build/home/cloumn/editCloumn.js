@@ -6,6 +6,7 @@ define([
 	'home/common/tooltip',
 	],function( React, $, WQ, CloumnModel,Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -130,32 +131,34 @@ define([
 		render: function() {
 			var _this = this;
 			return (
-				React.createElement("div", {className: "cloumn-edit"}, 
-					React.createElement("form", {className: "uploadForm", action: "/cloumn/logo", method: "post", target: "uploadIframe"}, 
-						React.createElement("h3", null, _this.state.cid>0 ? '编辑' : '新建', "专题"), 
-						React.createElement("div", {className: "upload"}, 
-							React.createElement("input", {type: "file", name: "cloumn-image", style: {display:'none'}, onChange: _this.handleFileChange}), 
-							React.createElement("input", {type: "text", name: "uid", style: {display:'none'}, value: WQ.cookie.get('id')}), 
-							React.createElement("input", {type: "text", name: "logo", style: {display:'none'}, value: _this.state.logo_dir}), 
-							React.createElement("input", {type: "submit", style: {display:"none"}, onClick: _this.handleUpload}), 
-							React.createElement("iframe", {name: "uploadIframe", id: "uploadIframe", style: {display:"none"}}), 
+				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
+					React.createElement("div", {className: "cloumn-edit"}, 
+						React.createElement("form", {className: "uploadForm", action: "/cloumn/logo", method: "post", target: "uploadIframe"}, 
+							React.createElement("h3", null, _this.state.cid>0 ? '编辑' : '新建', "专题"), 
+							React.createElement("div", {className: "upload"}, 
+								React.createElement("input", {type: "file", name: "cloumn-image", style: {display:'none'}, onChange: _this.handleFileChange}), 
+								React.createElement("input", {type: "text", name: "uid", style: {display:'none'}, value: WQ.cookie.get('id')}), 
+								React.createElement("input", {type: "text", name: "logo", style: {display:'none'}, value: _this.state.logo_dir}), 
+								React.createElement("input", {type: "submit", style: {display:"none"}, onClick: _this.handleUpload}), 
+								React.createElement("iframe", {name: "uploadIframe", id: "uploadIframe", style: {display:"none"}}), 
 
-							React.createElement("i", {className: "fa fa-picture-o", onClick: _this.handleUploadClick, style: _this.state.logo_dir !='' ? {display:'none'} : {display:'block'}}), 
-							React.createElement("img", {className: "preview", style: _this.state.logo_dir =='' ? {display:'none'} : {display:'block'}, src: _this.state.logo_dir+'?'+Math.random()*10000, onClick: _this.handleUploadClick}), 
-							React.createElement("span", {className: "title"}, "点击上传专题图", React.createElement("br", null), "(图片大小最好为220x140)"), 
+								React.createElement("i", {className: "fa fa-picture-o", onClick: _this.handleUploadClick, style: _this.state.logo_dir !='' ? {display:'none'} : {display:'block'}}), 
+								React.createElement("img", {className: "preview", style: _this.state.logo_dir =='' ? {display:'none'} : {display:'block'}, src: _this.state.logo_dir+'?'+Math.random()*10000, onClick: _this.handleUploadClick}), 
+								React.createElement("span", {className: "title"}, "点击上传专题图", React.createElement("br", null), "(图片大小最好为220x140)"), 
 
-							React.createElement("div", null, React.createElement("img", {src: "/image/loading.gif"}))
+								React.createElement("div", null, React.createElement("img", {src: "/image/loading.gif"}))
+							)
+						), 
+						React.createElement("form", null, 
+							React.createElement("input", {type: "text", style: {display:"none"}, value: _this.state.logo_dir}), 
+							React.createElement("div", {className: "input-prepend"}, 
+								React.createElement("input", {type: "text", placeholder: "专题命名，使用尽量少的字来描述", value: _this.state.name, onChange: _this.handleNameChange})
+							), 
+							React.createElement("div", {className: "input-prepend"}, 
+								React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内为专题添加描述", value: _this.state.description, onChange: _this.handleDescChange})
+							), 
+							React.createElement("input", {type: "button", className: "btn btn-info btn-submit", value: "创建专题", style: {width:"60%",margin:'0 auto',cursor:'pointer'}, onClick: _this.handleSubmit})
 						)
-					), 
-					React.createElement("form", null, 
-						React.createElement("input", {type: "text", style: {display:"none"}, value: _this.state.logo_dir}), 
-						React.createElement("div", {className: "input-prepend"}, 
-							React.createElement("input", {type: "text", placeholder: "专题命名，使用尽量少的字来描述", value: _this.state.name, onChange: _this.handleNameChange})
-						), 
-						React.createElement("div", {className: "input-prepend"}, 
-							React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内为专题添加描述", value: _this.state.description, onChange: _this.handleDescChange})
-						), 
-						React.createElement("input", {type: "button", className: "btn btn-info btn-submit", value: "创建专题", style: {width:"60%",margin:'0 auto',cursor:'pointer'}, onClick: _this.handleSubmit})
 					)
 				)
 			);

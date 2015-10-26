@@ -162,4 +162,32 @@ class UserController extends Controller {
         return response()->json($result);
     }
 
+    /**
+     * 我的消息
+     */
+    public function getNews(UserActionProcess $manager) 
+    {
+    	$data = Request::input('data');
+    	$result = $manager->getNews($data);
+    	return response()->json($result);
+    }
+    /**
+     * 未读消息
+     */
+    public function getNewsCountByUnread(UserActionProcess $manager) 
+    {
+    	$uid = Request::input('uid');
+    	$result = $manager->getNewsCountByUnread($uid);
+    	return response()->json($result);
+    }
+
+    /**
+     * 更新消息
+     */
+    public function updateNews(UserActionProcess $manager) 
+    {
+    	$data = Request::input('data');
+    	$result = $manager->updateNews($data);
+    	return response()->json($result);
+    }
 }

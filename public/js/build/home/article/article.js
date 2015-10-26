@@ -7,6 +7,7 @@ define([
     'editormd',
 	],function( React, $, WQ, ArticleModel, Tooltip, editormd) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -20,6 +21,7 @@ define([
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
+						console.log(data);
 						_this.setState({
 							info: data.data,
 						});
@@ -86,7 +88,7 @@ define([
 				return;
 			}
 
-			var data = {aid:aid, uid:uid, content:content};
+			var data = {aid:aid, uid:uid, content:content, author_id:_this.state.info.uid};
 
 			ArticleModel.addComment(data,function(success,data) {
 				if(success) {
@@ -277,7 +279,7 @@ define([
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
-					React.createElement("div", {key: d.id, className: "comment-item  clearfix", "data-id": d.id}, 
+					React.createElement("div", {key: d.id, id: "comment-"+d.id, className: "comment-item  clearfix", "data-id": d.id}, 
 						React.createElement("a", {className: "user avatar", href: "/user/"+d.uid}, 
 							React.createElement("img", {src: d.userUrl ? d.userUrl : "/image/user-default.png"})
 						), 
@@ -298,7 +300,8 @@ define([
 			}) : null;
 
 			return (
-				React.createElement("div", {className: "article-page", style: _this.state.info ? {display:'block'} : {display: 'none'}}, 
+				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
+					React.createElement("div", {className: "article-page", style: _this.state.info ? {display:'block'} : {display: 'none'}}, 
 						React.createElement("h3", {className: "title"}, title), 
 						React.createElement("div", {style: {marginBottom:'10px'}}, 
 							React.createElement("span", {className: "author"}, 
@@ -348,12 +351,15 @@ define([
 									React.createElement("textarea", {id: "comment-text", placeholder: "参与讨论", value: this.state.commentContent, onChange: this.handleChangeCommnet}), 
 									React.createElement("a", {className: "btn btn-default", href: "javascript:void(0)", style: {display:'inline-block',margin:'10px 0'}, onClick: this.submitComment}, "发表评论")
 								), 
-								React.createElement("div", {className: "comment-list"}, 
-									commentList, 
-									React.createElement("a", {className: "btn btn-default btn-large", href: "javascript:void(0)", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, onClick: _this.hamdleMore}, "更多评论")
+								React.createElement(ReactCSSTransitionGroup, {transitionName: "fadeToTop", transitionAppear: true}, 
+									React.createElement("div", {className: "comment-list"}, 
+										commentList, 
+										React.createElement("a", {className: "btn btn-default btn-large", href: "javascript:void(0)", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, onClick: _this.hamdleMore}, "更多评论")
+									)
 								)
 							)
 						)
+					)
 				)
 			);
 		}

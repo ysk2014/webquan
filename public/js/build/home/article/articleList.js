@@ -6,6 +6,7 @@ define([
 	'home/common/tooltip',
 	],function(React, $, WQ, ArticleModel, Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -162,20 +163,22 @@ define([
 			}) : null;
 			
 			return (
-				React.createElement("div", {className: "article-list-page"}, 
-					React.createElement("div", {className: "top-bar"}, 
-						React.createElement("div", {className: "nav"}, 
-							React.createElement("a", {className: "tab active", onClick: this.handleTabChange, href: "javascript:void(0)"}, "推荐"), 
-							React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "最新"), 
-							React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "热门"), 
-							
-								_this.state.uid ? (React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "关注")) : null
-							
+				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
+					React.createElement("div", {className: "article-list-page"}, 
+						React.createElement("div", {className: "top-bar"}, 
+							React.createElement("div", {className: "nav"}, 
+								React.createElement("a", {className: "tab active", onClick: this.handleTabChange, href: "javascript:void(0)"}, "推荐"), 
+								React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "最新"), 
+								React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "热门"), 
+								
+									_this.state.uid ? (React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "关注")) : null
+								
+							)
+						), 
+						React.createElement("div", {className: "article-list"}, 
+							list, 
+							React.createElement("a", {className: "btn btn-default btn-large", href: "javascript:void(0)", style: _this.state.next ? {display:'block',marginTop:'15px'} : {display:'none'}, "data-page":  _this.state.more[nav] ? _this.state.more[nav] : 1, onClick: _this.handleMore}, "更多")
 						)
-					), 
-					React.createElement("div", {className: "article-list"}, 
-						list, 
-						React.createElement("a", {className: "more", style: _this.state.next ? {display:'block'} : {display:'none'}, "data-page":  _this.state.more[nav] ? _this.state.more[nav] : 1, onClick: _this.handleMore}, "更多")
 					)
 				)
 			);

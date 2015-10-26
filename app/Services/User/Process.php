@@ -2,10 +2,11 @@
 namespace App\Services\User;
 
 use App\Models\User as UserModel;
+use App\Models\Home\News as NewsModel;
 use App\Services\User\UserValidate;
 use App\Services\BaseProcess;
 use App\Services\Home\Upload\Process as UploadManager;
-use Lang;
+use Lang,Redis;
 
 /**
 * 用户处理
@@ -37,6 +38,20 @@ class Process extends BaseProcess
     private $uploadManager;
 
     /**
+     * 消息模型
+     * 
+     * @var object
+     */
+    private $newsModel;
+
+    /**
+     * redis缓存链接
+     * 
+     * @var object
+     */
+    private $redis;
+
+    /**
      * 初始化
      *
      * @access public
@@ -46,6 +61,8 @@ class Process extends BaseProcess
         if( ! $this->userModel) $this->userModel = new UserModel();
         if( ! $this->userValidate) $this->userValidate = new UserValidate();
         if( ! $this->uploadManager) $this->uploadManager = new UploadManager();
+        if( ! $this->newsModel) $this->newsModel = new NewsModel();
+        if( ! $this->redis) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -219,6 +236,81 @@ class Process extends BaseProcess
         }
 
         return $resultArr;
+    }
+
+    /**
+     * 获取消息列表
+     * 
+     * @param array $data
+     * @access public
+     * @return array
+     */
+    public function getNews($data) {
+        $page = isset($data['page']) ? $data['page'] : 0;
+
+        if(isset($data['unread'])) {
+            $result = $this->newsModel->getNewsByUnread($data['uid'],$data['unread'],$page);
+        } else {
+            $result = $this->newsModel->getNewsByUid($data['uid'],$page);
+        }
+
+        if($result) {
+
+            if(isset($data['unread'])) {
+                $count = $this->newsModel->countNewsByUid($data['uid']);
+            } else {
+                $count = $this->newsModel->countNews($data['uid']);
+            }
+
+            if( (intval($page)+1)*20 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+            return array('error'=>false,'data'=>$result,'next'=>$next);
+        } else {
+            return array('error'=>true,'msg'=>'没有消息');
+        }
+    }
+
+    /**
+     * 获取消息列表
+     * 
+     * @param intval $uid
+     * @access public
+     * @return array
+     */
+    public function getNewsCountByUnread($uid) {
+
+        $count = $this->newsModel->countNewsByUid($uid);
+
+        if($count) {
+            return array('error'=>false,'data'=>$count);
+        } else {
+            return array('error'=>true,'msg'=>'没有消息');
+        }
+    }
+
+    /**
+     * 更新消息
+     * 
+     * @param intval $id
+     * @access public
+     * @return array
+     */
+    public function updateNews($data) {
+        if(isset($data['uid'])) {
+            $ids = $this->newsModel->getNewsIdsByUnread($data['uid']);
+            $state = $this->newsModel->updateNews($ids);
+        } else {
+            $state = $this->newsModel->updateNew($data['id']);
+        }
+
+        if($state) {
+            return array('error'=>false,'msg'=>'更新完成');
+        } else {
+            return array('error'=>true,'msg'=>'没有消息');
+        }
     }
 
 }

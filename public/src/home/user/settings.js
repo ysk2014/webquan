@@ -6,6 +6,9 @@
     'WQ',
     'home/common/leftNav',
     ],function(React, $, UserModel, Tooltip, WQ, LeftNav) {
+
+    	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 		var mixin = {
 			handleUserNameChange: function(event) {
 	            var _this = this;
@@ -184,44 +187,46 @@
         			return (<option key={i} selected={(job && job==j) ? 'selected' : ''}>{j}</option>);
         		});
         		return(
-        			<div className="personal">
-    					<div className="input-prepend">
-        					<label className="col col-sm-2">头像：</label>
-        					<div className="col col-sm-10"><Head logo_dir={logo_dir} /></div>
-        				</div>
-        				<div className="input-prepend">
-        					<label className="col col-sm-2">昵称：</label>
-        					<input type="text" className="col col-sm-10" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={username}/>
-        				</div>
-        				<div className="input-prepend">
-        					<label className="col col-sm-2">职位：</label>
-        					<select className="col col-sm-10" onChange={_this.handleSelectJob}><option>{jobs}</option></select>
-        				</div>
-        				<div className="input-prepend">
-        					<label className="col col-sm-2">所在地：</label>
-        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
-        				</div>
-        				<div className="input-prepend">
-        					<label className="col col-sm-2">github：</label>
-        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入github地址" onChange={this.handleGithubChange} value={github}/>	
-        				</div>
-        				<div className="input-prepend">
-	        				<label className="col col-sm-2">性别：</label>
-	        				<div className="col col-sm-10">
-	        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={sex == 0 ? "checked" : null }/>
-	        				  	<span>&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={sex == 1 ? "checked" : null }/>
-	        				    <span>&nbsp;&nbsp;女</span>
+        			<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+	        			<div className="personal">
+	    					<div className="input-prepend">
+	        					<label className="col col-sm-2">头像：</label>
+	        					<div className="col col-sm-10"><Head logo_dir={logo_dir} /></div>
 	        				</div>
-        				</div>
-        				<div className="input-prepend">
-		        			<label className="col col-sm-2">个性签名：</label>
-		        			<textarea className="col col-sm-10" name="description" onChange={this.handleSignChange} value={description} placeholder="这位童鞋很懒，什么也没有留下～～！"></textarea>
-        			 	</div>
-        			 	<div className="input-prepend">
-        			 		<label className="col col-sm-2"></label><a href="javascript:void(0);" className="col col-sm-10 btn btn-info btn-submit"  onClick={this.handleSubmit}>保存</a>
-        			 	</div>
-        			</div>
+	        				<div className="input-prepend">
+	        					<label className="col col-sm-2">昵称：</label>
+	        					<input type="text" className="col col-sm-10" name="username" placeholder="请输入昵称" onChange={this.handleUserNameChange} value={username}/>
+	        				</div>
+	        				<div className="input-prepend">
+	        					<label className="col col-sm-2">职位：</label>
+	        					<select className="col col-sm-10" onChange={_this.handleSelectJob}><option>{jobs}</option></select>
+	        				</div>
+	        				<div className="input-prepend">
+	        					<label className="col col-sm-2">所在地：</label>
+	        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
+	        				</div>
+	        				<div className="input-prepend">
+	        					<label className="col col-sm-2">github：</label>
+	        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入github地址" onChange={this.handleGithubChange} value={github}/>	
+	        				</div>
+	        				<div className="input-prepend">
+		        				<label className="col col-sm-2">性别：</label>
+		        				<div className="col col-sm-10">
+		        				  	<input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"0")}  checked={sex == 0 ? "checked" : null }/>
+		        				  	<span>&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		        				    <input type="radio" name="sex" onClick={this.handleSexChange.bind(this,"1")}  checked={sex == 1 ? "checked" : null }/>
+		        				    <span>&nbsp;&nbsp;女</span>
+		        				</div>
+	        				</div>
+	        				<div className="input-prepend">
+			        			<label className="col col-sm-2">个性签名：</label>
+			        			<textarea className="col col-sm-10" name="description" onChange={this.handleSignChange} value={description} placeholder="这位童鞋很懒，什么也没有留下～～！"></textarea>
+	        			 	</div>
+	        			 	<div className="input-prepend">
+	        			 		<label className="col col-sm-2"></label><a href="javascript:void(0);" className="col col-sm-10 btn btn-info btn-submit"  onClick={this.handleSubmit}>保存</a>
+	        			 	</div>
+	        			</div>
+        			</ReactCSSTransitionGroup>
         		)
         	}
         });
@@ -256,12 +261,14 @@
 			render: function(){
 				var _this = this;
 				return(
-					<div className="email input-prepend">
-						<input type="text" className="col col-sm-10" onChange={this.emailChange} value={this.state.email} />
-						<label className="col col-sm-2">
-							<a href="javascript:void(0)" className="btn btn-info btn-submit" style={{width:'92%'}} onClick={this.sendEmail}>验证</a>
-						</label>
-					</div>
+					<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+						<div className="email input-prepend">
+							<input type="text" className="col col-sm-10" onChange={this.emailChange} value={this.state.email} />
+							<label className="col col-sm-2">
+								<a href="javascript:void(0)" className="btn btn-info btn-submit" style={{width:'92%'}} onClick={this.sendEmail}>验证</a>
+							</label>
+						</div>
+					</ReactCSSTransitionGroup>
 				)
 			}
 		});
@@ -332,24 +339,26 @@
 			},
 			render: function(){
 				return(
-					<form className="modify">
-						<div className="input-prepend">
-							<label className="col col-sm-2">当前密码：</label>
-							<input type="password" className="col col-sm-10" placeholder="请输入当前密码" onChange={this.handleOldPsdChange}/>
-						</div>
-						<div className="input-prepend">
-							<label className="col col-sm-2">新密码：</label>
-							<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdChange}/>
-						</div>
-						<div className="input-prepend">
-							<label className="col col-sm-2">确认密码：</label>
-							<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdRepeatChange}/>
-						</div>
-						<div className="input-prepend">
-							<label className="col col-sm-2"></label>
-							<a className="col col-sm-10 btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>保存</a>
-						</div>
-					</form>
+					<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+						<form className="modify">
+							<div className="input-prepend">
+								<label className="col col-sm-2">当前密码：</label>
+								<input type="password" className="col col-sm-10" placeholder="请输入当前密码" onChange={this.handleOldPsdChange}/>
+							</div>
+							<div className="input-prepend">
+								<label className="col col-sm-2">新密码：</label>
+								<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdChange}/>
+							</div>
+							<div className="input-prepend">
+								<label className="col col-sm-2">确认密码：</label>
+								<input className="col col-sm-10" type="password" placeholder="请输入密码" onChange={this.handleNewPsdRepeatChange}/>
+							</div>
+							<div className="input-prepend">
+								<label className="col col-sm-2"></label>
+								<a className="col col-sm-10 btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>保存</a>
+							</div>
+						</form>
+					</ReactCSSTransitionGroup>
 				)
 			}
 		});
