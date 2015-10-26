@@ -245,6 +245,12 @@ class Routes
             Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
             //检查用户名是否存在
             Route::post('/user/name/check', 'Home\UserController@checkUserName');
+            //消息列表
+            Route::get('/user/news', 'Home\UserController@getNews');
+            // 未读消息数量
+            Route::get('/user/news/count', 'Home\UserController@getNewsCountByUnread');
+            //标记已读
+            Route::post('/user/news', 'Home\UserController@updateNews');
 
             Route::group(['middleware' =>  'auth'], function() {
 
@@ -261,6 +267,8 @@ class Routes
                     Route::get('/store', 'Home\UserController@index');
                     //草稿箱
                     Route::get('/draft', 'Home\UserController@index');
+                    //消息
+                    Route::get('/news', 'Home\UserController@index');
 
                 });
 

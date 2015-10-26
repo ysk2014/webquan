@@ -6,6 +6,7 @@ define([
 	'home/common/tooltip',
 	],function( React, $, WQ, CloumnModel,Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -130,34 +131,36 @@ define([
 		render: function() {
 			var _this = this;
 			return (
-				<div className="cloumn-edit">
-					<form className="uploadForm" action="/cloumn/logo" method="post" target="uploadIframe">
-						<h3>{_this.state.cid>0 ? '编辑' : '新建'}专题</h3>
-						<div className="upload">
-							<input type="file" name="cloumn-image" style={{display:'none'}} onChange={_this.handleFileChange} />
-							<input type="text" name="uid" style={{display:'none'}} value={WQ.cookie.get('id')} />
-							<input type="text" name="logo" style={{display:'none'}} value={_this.state.logo_dir} />
-							<input type="submit"  style={{display:"none"}}  onClick={_this.handleUpload} />
-							<iframe name="uploadIframe" id="uploadIframe" style={{display:"none"}}></iframe>
+				<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
+					<div className="cloumn-edit">
+						<form className="uploadForm" action="/cloumn/logo" method="post" target="uploadIframe">
+							<h3>{_this.state.cid>0 ? '编辑' : '新建'}专题</h3>
+							<div className="upload">
+								<input type="file" name="cloumn-image" style={{display:'none'}} onChange={_this.handleFileChange} />
+								<input type="text" name="uid" style={{display:'none'}} value={WQ.cookie.get('id')} />
+								<input type="text" name="logo" style={{display:'none'}} value={_this.state.logo_dir} />
+								<input type="submit"  style={{display:"none"}}  onClick={_this.handleUpload} />
+								<iframe name="uploadIframe" id="uploadIframe" style={{display:"none"}}></iframe>
 
-							<i className="fa fa-picture-o" onClick={_this.handleUploadClick} style={_this.state.logo_dir !='' ? {display:'none'} : {display:'block'}}></i>
-							<img className="preview" style={_this.state.logo_dir =='' ? {display:'none'} : {display:'block'}} src={_this.state.logo_dir+'?'+Math.random()*10000} onClick={_this.handleUploadClick} />
-							<span className="title">点击上传专题图<br/>(图片大小最好为220x140)</span>
+								<i className="fa fa-picture-o" onClick={_this.handleUploadClick} style={_this.state.logo_dir !='' ? {display:'none'} : {display:'block'}}></i>
+								<img className="preview" style={_this.state.logo_dir =='' ? {display:'none'} : {display:'block'}} src={_this.state.logo_dir+'?'+Math.random()*10000} onClick={_this.handleUploadClick} />
+								<span className="title">点击上传专题图<br/>(图片大小最好为220x140)</span>
 
-							<div><img src="/image/loading.gif" /></div>
-						</div>
-					</form>
-					<form>
-						<input type="text" style={{display:"none"}} value={_this.state.logo_dir} />
-						<div className="input-prepend">
-							<input type="text" placeholder="专题命名，使用尽量少的字来描述" value={_this.state.name} onChange={_this.handleNameChange}/>
-						</div>
-						<div className="input-prepend">
-							<textarea name="description" maxLength="200" placeholder="请以200字以内为专题添加描述" value={_this.state.description} onChange={_this.handleDescChange} ></textarea>
-						</div>
-						<input type="button" className="btn btn-info btn-submit" value="创建专题" style={{width:"60%",margin:'0 auto',cursor:'pointer'}} onClick={_this.handleSubmit}/>
-					</form>
-				</div>
+								<div><img src="/image/loading.gif" /></div>
+							</div>
+						</form>
+						<form>
+							<input type="text" style={{display:"none"}} value={_this.state.logo_dir} />
+							<div className="input-prepend">
+								<input type="text" placeholder="专题命名，使用尽量少的字来描述" value={_this.state.name} onChange={_this.handleNameChange}/>
+							</div>
+							<div className="input-prepend">
+								<textarea name="description" maxLength="200" placeholder="请以200字以内为专题添加描述" value={_this.state.description} onChange={_this.handleDescChange} ></textarea>
+							</div>
+							<input type="button" className="btn btn-info btn-submit" value="创建专题" style={{width:"60%",margin:'0 auto',cursor:'pointer'}} onClick={_this.handleSubmit}/>
+						</form>
+					</div>
+				</ReactCSSTransitionGroup>
 			);
 		}
 	});

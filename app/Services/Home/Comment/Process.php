@@ -3,8 +3,10 @@
 use Lang;
 use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
+use App\Models\Home\News as NewsModel;
 use App\Services\Home\Comment\CommentValidate;
 use App\Services\BaseProcess;
+use Redis;
 
 /**
  * 评论相关处理
@@ -36,6 +38,21 @@ class Process extends BaseProcess
     private $articelModel;
 
     /**
+     * 消息模型
+     * 
+     * @var object
+     */
+    private $newsModel;
+
+    /**
+     * redis缓存链接
+     * 
+     * @var object
+     */
+    private $redis;
+
+
+    /**
      * 初始化
      *
      * @access public
@@ -44,7 +61,9 @@ class Process extends BaseProcess
     {
         if( ! $this->articelModel) $this->articelModel = new ArticleModel();
         if( ! $this->commentModel) $this->commentModel = new CommentModel();
+        if( ! $this->newsModel) $this->newsModel = new NewsModel();
         if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
+        if( ! $this->redis) $this->redis = Redis::connection();
     }
 
     /**
@@ -55,16 +74,36 @@ class Process extends BaseProcess
         
         if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
+        $receive_id = $data['author_id'];
+        unset($data['author_id']);
+
         $result = $this->commentModel->addComment($data);
         if($result['id'])
         {
             $this->articelModel->incrementById('comment',$data['aid']);
+            $this->redis->hincrby('article_'.$data['aid'],'comment',1);
+
+            $this->sendNews($data,$receive_id);
             return array('error'=>false,'data'=>$result);
         }
         else
         {
             return array('error'=>true, 'msg'=>'添加失败');
         }
+    }
+
+    /**
+     * 发送消息
+     */
+    public function sendNews($data,$receive_id)
+    {
+        $newsData = [];
+        $newsData['aid'] = $data['aid']; 
+        $newsData['send_id'] = $data['uid']; 
+        $newsData['receive_id'] = $receive_id; 
+        $newsData['addtime'] = $data['addtime']; 
+
+        $this->newsModel->addNew($newsData);
     }
 
     /**

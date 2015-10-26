@@ -60,6 +60,7 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		getInitialState: function() {
 			return {
 				userInfo: this.props.info,
+				news: 0,
 			}
 		},
 		componentWillReceiveProps: function(nextProps) {
@@ -70,8 +71,26 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 		componentDidMount: function() {
 			$('.dropdown').dropdown();
+			this.getNewsCount();
+			
 		},
+		getNewsCount: function() {
+			var _this = this;
+			
+			UserModel.getNewsCount(_this.state.userInfo.id,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.setState({
+							news: data.data
+						});
+					}
+				}
+			});
 
+			setTimeout(function() {
+				_this.getNewsCount();
+			},1000*60);
+		},
 		handleClick: function() {
 			UserModel.signOut(function(success,data){
 				if(success) {
@@ -84,11 +103,15 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		},
 		render: function() {
 			var _this = this;
+								
 			return (
 				React.createElement("div", null, 
 					React.createElement("a", {className: "user avatar dropdown", "data-toggle": "dropdown", href: "javascript:void(0);"}, 
 						React.createElement("img", {src: (_this.state.userInfo.userUrl!='') ? _this.state.userInfo.userUrl : "/image/user-default.png"}), 
-						React.createElement("b", {className: "caret"})
+						React.createElement("b", {className: "caret"}), 
+						
+							this.state.news!=0 ?  React.createElement("b", {className: "news"}) : null
+						
 					), 
 					React.createElement("ul", {className: "dropdown-menu arrow-top"}, 
 						React.createElement("li", null, 
@@ -101,6 +124,13 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')}, 
 								React.createElement("i", {className: "fa fa-user"}), 
 								React.createElement("span", null, "我的主页")
+							)
+						), 
+						React.createElement("li", null, 
+							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/news"}, 
+								React.createElement("i", {className: "fa fa-bell-o"}), 
+								React.createElement("span", null, "我的消息"), 
+								_this.state.news!=0 ? (React.createElement("span", {className: "news"}, " ", _this.state.news)) : null
 							)
 						), 
 						React.createElement("li", null, 

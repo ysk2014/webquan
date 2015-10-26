@@ -9,6 +9,7 @@ define([
     'editormd',
 	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip, Dialog, editormd) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		init: function() {
@@ -298,33 +299,35 @@ define([
 			}) : null;
 
 			return (
-				React.createElement("div", null, 
-					React.createElement("div", {className: "top-bar"}, 
-						React.createElement("span", {className: "desc"}, "写文章"), 
-						React.createElement("a", {className: "btn btn-info btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 120px 0 0'}, "data-publish": "1", onClick: this.handlePublic}, "发布"), 
-						React.createElement("a", {className: "btn btn-default btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 10px 0 0'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")
-					), 
-					React.createElement("div", {className: "edit-article"}, 
-						React.createElement("form", null, 
-				            React.createElement("div", {className: "input-prepend"}, 
-				            	React.createElement("input", {type: "text", name: "title", placeholder: "文章标题", onChange: this.handleChangeTitle, value: _this.state.info.title ? _this.state.info.title : null})
-				            ), 
-				            React.createElement("div", {className: "input-prepend"}, 
-				            	React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内简单描述此内容", onChange: this.handleChangeDesc, value: _this.state.info.description ? _this.state.info.description : null})
-				            ), 
-				            React.createElement("div", {className: "input-prepend"}, 
-				            	React.createElement("select", {onChange: _this.handleSelectCloumn}, cloumns)
-				            ), 
-				            React.createElement("div", {className: "tags-list", onClick: _this.getFocus}, 
-				            	React.createElement("i", {className: "fa fa-tag"}), React.createElement("span", null, "增加标签"), 
-				            	React.createElement("span", null, tagsSpan), 
-				            	
-				            		_this.state.tags.length<3 ? React.createElement("input", {type: "text", placeholder: "如：php", onKeyDown: _this.dealTags, value: _this.state.inputTag, onChange: _this.tagChange}) : null, 
-				            	
-				            	React.createElement("ul", null, tagsLi, React.createElement("li", {style: _this.state.cacheTags.length>4 ? {display:'none'} : {display:'block'}, onClick: _this.dialogShow}, React.createElement("a", {href: "javascript:void(0)"}, "创建标签 ", React.createElement("strong", null, _this.state.inputTag))))
-				            ), 
-							React.createElement("div", {id: "article-editormd"}, 
-								React.createElement("textarea", {onChange: this.handleChangeContent, value: _this.state.info.content ? _this.state.info.content : null})
+				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
+					React.createElement("div", null, 
+						React.createElement("div", {className: "top-bar"}, 
+							React.createElement("span", {className: "desc"}, "写文章"), 
+							React.createElement("a", {className: "btn btn-info btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 120px 0 0'}, "data-publish": "1", onClick: this.handlePublic}, "发布"), 
+							React.createElement("a", {className: "btn btn-default btn-md pull-right", href: "javascript:void(0)", style: {margin:'10px 10px 0 0'}, "data-publish": "0", onClick: this.handlePublic}, "保存草稿")
+						), 
+						React.createElement("div", {className: "edit-article"}, 
+							React.createElement("form", null, 
+					            React.createElement("div", {className: "input-prepend"}, 
+					            	React.createElement("input", {type: "text", name: "title", placeholder: "文章标题", onChange: this.handleChangeTitle, value: _this.state.info.title ? _this.state.info.title : null})
+					            ), 
+					            React.createElement("div", {className: "input-prepend"}, 
+					            	React.createElement("textarea", {name: "description", maxLength: "200", placeholder: "请以200字以内简单描述此内容", onChange: this.handleChangeDesc, value: _this.state.info.description ? _this.state.info.description : null})
+					            ), 
+					            React.createElement("div", {className: "input-prepend"}, 
+					            	React.createElement("select", {onChange: _this.handleSelectCloumn}, cloumns)
+					            ), 
+					            React.createElement("div", {className: "tags-list", onClick: _this.getFocus}, 
+					            	React.createElement("i", {className: "fa fa-tag"}), React.createElement("span", null, "增加标签"), 
+					            	React.createElement("span", null, tagsSpan), 
+					            	
+					            		_this.state.tags.length<3 ? React.createElement("input", {type: "text", placeholder: "如：php", onKeyDown: _this.dealTags, value: _this.state.inputTag, onChange: _this.tagChange}) : null, 
+					            	
+					            	React.createElement("ul", null, tagsLi, React.createElement("li", {style: _this.state.cacheTags.length>4 ? {display:'none'} : {display:'block'}, onClick: _this.dialogShow}, React.createElement("a", {href: "javascript:void(0)"}, "创建标签 ", React.createElement("strong", null, _this.state.inputTag))))
+					            ), 
+								React.createElement("div", {id: "article-editormd"}, 
+									React.createElement("textarea", {onChange: this.handleChangeContent, value: _this.state.info.content ? _this.state.info.content : null})
+								)
 							)
 						)
 					)

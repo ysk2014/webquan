@@ -7,6 +7,7 @@ define([
 	'home/common/tooltip',
 	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip) {
 
+	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 	var mixin = {
 		// 获取专题数据和专题下的所有文章
@@ -156,6 +157,7 @@ define([
 		render: function() {
 			var _this = this;
 			var way = _this.state.way[_this.state.nav];
+
 			var articles = (_this.state.articles[way]&&_this.state.articles[way].length>0) ? _this.state.articles[way].map(function(d,i) {
 
 				if(d.tags) {
@@ -197,34 +199,37 @@ define([
 					)
 				);
 			}) : null;
+
 			return (
-				React.createElement("div", {className: "cloumn-page"}, 
-					React.createElement("div", {className: "cloumn-header"}, 
-						React.createElement("div", {className: "info"}, 
-							React.createElement("div", {className: "cname"}, React.createElement("a", {href: "/cloumn/"+_this.state.cid}, React.createElement("h3", null, _this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''))), 
-							React.createElement("div", {className: "anthor"}, 
-								React.createElement("a", {style: {color:'#3da9f7',marginRight:'10px'}, href: "/cloumn/"+_this.state.cid}, _this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0, " 片文章"), 
-								React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", React.createElement("a", {href: _this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}, _this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''))
-							), 
-							React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
-							React.createElement("div", {className: "footer"}, 
-									_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-									(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit', className: "btn btn-info"}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑"))) : null
-								
-							), 
-							React.createElement("div", {className: "cloumn-right"}, 
-								React.createElement("a", {onClick: this.handleCare, onMouseEnter: this.handleOver, onMouseLeave: this.handleOut, href: "javascript:void(0)", "data-care": _this.state.cloumn['careStatus'] ? true : false, className: _this.state.cloumn['careStatus'] ? "btn btn-default" : "btn btn-info"}, _this.state.cloumn['careStatus'] ? '正在关注' : '添加关注')
+				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
+					React.createElement("div", {className: "cloumn-page"}, 
+						React.createElement("div", {className: "cloumn-header"}, 
+							React.createElement("div", {className: "info"}, 
+								React.createElement("div", {className: "cname"}, React.createElement("a", {href: "/cloumn/"+_this.state.cid}, React.createElement("h3", null, _this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''))), 
+								React.createElement("div", {className: "anthor"}, 
+									React.createElement("a", {style: {color:'#3da9f7',marginRight:'10px'}, href: "/cloumn/"+_this.state.cid}, _this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0, " 片文章"), 
+									React.createElement("span", null, React.createElement("i", {className: "fa fa-user"}), "  所有者：", React.createElement("a", {href: _this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}, _this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''))
+								), 
+								React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
+								React.createElement("div", {className: "footer"}, 
+										_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
+										(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit', className: "btn btn-info"}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑"))) : null
+									
+								), 
+								React.createElement("div", {className: "cloumn-right"}, 
+									React.createElement("a", {onClick: this.handleCare, onMouseEnter: this.handleOver, onMouseLeave: this.handleOut, href: "javascript:void(0)", "data-care": _this.state.cloumn['careStatus'] ? true : false, className: _this.state.cloumn['careStatus'] ? "btn btn-default" : "btn btn-info"}, _this.state.cloumn['careStatus'] ? '正在关注' : '添加关注')
+								)
 							)
-						)
-					), 
-					React.createElement("div", {className: "cloumn-content"}, 
-						React.createElement("ul", {className: "nav-sequence toolbar"}, 
-							React.createElement("li", {className: _this.state.nav==0 ? "active" : '', "data-nav": "0", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "热门排序")), " ·",  
-							React.createElement("li", {className: _this.state.nav==1 ? "active" : '', "data-nav": "1", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "最近更新"))
 						), 
-						React.createElement("div", {className: "article-list"}, 
-							articles, 
-							React.createElement("a", {className: "btn btn-info btn-large", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
+						React.createElement("div", {className: "cloumn-content"}, 
+							React.createElement("ul", {className: "nav-sequence toolbar"}, 
+								React.createElement("li", {className: _this.state.nav==0 ? "active" : '', "data-nav": "0", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "热门排序")), " ·",  
+								React.createElement("li", {className: _this.state.nav==1 ? "active" : '', "data-nav": "1", onClick: _this.handleTabChange}, React.createElement("a", {href: "javascript:void(0)"}, "最近更新"))
+							), 
+							React.createElement("div", {className: "article-list"}, 
+								articles, 
+								React.createElement("a", {className: "btn btn-info btn-large", style: _this.state.next ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}, "data-page":  _this.state.more[way] ? _this.state.more[way] : 1, onClick: _this.hamdleMore}, "更多")
+							)
 						)
 					)
 				)
