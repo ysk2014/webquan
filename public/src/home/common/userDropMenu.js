@@ -151,6 +151,17 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 								<span>设置</span>
 							</a>
 						</li>
+						{
+							(WQ.cookie.get('id') == 5) ? (
+								<li>
+									<a href={"/user/"+WQ.cookie.get('id')+"/bugs"}>
+										<i className="fa fa-question-circle"></i>
+										<span>bug反馈</span>
+									</a>
+								</li>
+							) : null
+						}
+						
 						<li>
 							<a data-href="/sign_out" onClick={this.handleClick}>
 								<i className="fa fa-sign-out"></i>

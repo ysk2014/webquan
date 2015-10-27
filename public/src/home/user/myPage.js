@@ -1,10 +1,11 @@
 define(['react', 
         'jquery', 
         'home/model/userModel',
+        'home/model/bugModel',
         'home/common/tooltip',
         'home/model/articleModel',
         'WQ'
-        ],function(React, $, UserModel, Tooltip, ArticleModel, WQ) {
+        ],function(React, $, UserModel, BugModel, Tooltip, ArticleModel, WQ) {
 
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -351,6 +352,52 @@ define(['react',
 		}
 	});
 
+	var Bugs = React.createClass({
+		getInitialState: function() {
+			return {
+                uid: this.props.uid,
+                bugs: [],
+            }
+		},
+		componentDidMount: function() {
+			var _this = this;
+			BugModel.getAll(this.state.uid,function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.setState({
+							bugs: data.data
+						});
+					}
+				}
+			});
+		},
+		render: function() {
+			var _this = this;
+			var nav = this.state.nav;
+			var bugList = _this.state.bugs.map(function(b,i) {
+				return (
+					<li key={b.id} data-nid={b.id}>
+						<i className="fa fa-fw fa-comments-o"></i>
+						<span><a href={"/user/"+b.uid}>{b.username}</a> 提交了bug：</span>
+						<span><a>{b.content}</a></span>
+						<span className="time pull-right">{WQ.timeFormat(b.addtime)}</span>
+					</li>
+				);
+			});
+			return (
+				<ReactCSSTransitionGroup transitionName="fadeToTop" transitionAppear={true}>
+					<div>
+						<div className="top" style={{borderBottom:'0px'}}><i className="fa fa-question-circle"></i>bug反馈</div>
+						<ul className="news-list">
+							{bugList}
+						</ul>
+					</div>
+				</ReactCSSTransitionGroup>
+			);
+		}
+	});
+
+
     return React.createClass({
     	getInitialState: function() {
     		return {
@@ -372,6 +419,8 @@ define(['react',
         		var content = <Store uid={_this.state.uid} type={_this.state.type} />;
         	} else if(_this.state.type == 'news') {
         		var content = <News uid={_this.state.uid} />;
+        	} else if(_this.state.type == 'bugs') {
+        		var content = <Bugs uid={_this.state.uid} />;
         	}
 
         	return (

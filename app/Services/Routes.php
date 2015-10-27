@@ -74,6 +74,12 @@ class Routes
             Route::post('/t/info', 'Home\TagController@getTagByName');
 
             
+            //查询bug
+            Route::get('/bug/list', 'Home\BugController@getAllBugs');
+            //添加bug
+            Route::post('/bug', 'Home\BugController@addBug');
+
+            
             Route::group(['middleware' =>  'auth'], function() {
 
                 //图片上传upload
@@ -81,12 +87,14 @@ class Routes
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
 
-
                 // 标签
                 Route::post('/tags/all', 'Home\TagController@getTagsByName');
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
 
+
+                //bug页面
+                Route::get('/bug', 'Home\BugController@index');
 
             });
         });
@@ -269,7 +277,8 @@ class Routes
                     Route::get('/draft', 'Home\UserController@index');
                     //消息
                     Route::get('/news', 'Home\UserController@index');
-
+                    //bug
+                    Route::get('/bugs', 'Home\UserController@index');
                 });
 
             });
