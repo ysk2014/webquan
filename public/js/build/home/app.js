@@ -39,7 +39,8 @@ requirejs([
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
+        'home/common/bug',
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
         
 
     var App = React.createClass({displayName: "App",
@@ -62,6 +63,7 @@ requirejs([
             '/user/:id/:type'   : 'store',
 
             '/t/:name': 'tag',
+            '/bug' : 'bug',
         },
         articleList: function() {
             return React.createElement(ArticleList, null);
@@ -115,6 +117,10 @@ requirejs([
             return React.createElement(Tag, {name: name})
         },
 
+        bug: function() {
+            return React.createElement(Bug, null)
+        },
+
         notFound: function(path) {
             return React.createElement("div", {className: "not-found"}, "Page Not Found: ", path);
         },
@@ -135,7 +141,7 @@ requirejs([
                             React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
-                            React.createElement("li", {className: (this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.path != '/cloumns' && this.state.path != '/bug') ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-home"}), React.createElement("br", null), 
                                     React.createElement("span", null, "首页")
@@ -147,10 +153,10 @@ requirejs([
                                     React.createElement("span", null, "专题")
                                 )
                             ), 
-                            React.createElement("li", {className: this.state.path == '/other' ? "active" : null}, 
-                                React.createElement("a", {href: "/"}, 
-                                    React.createElement("i", {className: "fa fa-bell-o"}), React.createElement("br", null), 
-                                    React.createElement("span", null, "问答")
+                            React.createElement("li", {className: this.state.path == '/bug' ? "active" : null}, 
+                                React.createElement("a", {href: "/bug"}, 
+                                    React.createElement("i", {className: "fa fa-question-circle"}), React.createElement("br", null), 
+                                    React.createElement("span", null, "bug反馈")
                                 )
                             )
                             

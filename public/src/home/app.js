@@ -39,7 +39,8 @@ requirejs([
         'home/cloumn/editCloumn',
         'home/cloumn/cloumn',
         'home/tag',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag){
+        'home/common/bug',
+    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
         
 
     var App = React.createClass({
@@ -62,6 +63,7 @@ requirejs([
             '/user/:id/:type'   : 'store',
 
             '/t/:name': 'tag',
+            '/bug' : 'bug',
         },
         articleList: function() {
             return <ArticleList />;
@@ -115,6 +117,10 @@ requirejs([
             return <Tag name={name} />
         },
 
+        bug: function() {
+            return <Bug />
+        },
+
         notFound: function(path) {
             return <div className="not-found">Page Not Found: {path}</div>;
         },
@@ -135,7 +141,7 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.path != '/cloumns') ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.path != '/cloumns' && this.state.path != '/bug') ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i><br/>
                                     <span>首页</span>
@@ -147,10 +153,10 @@ requirejs([
                                     <span>专题</span>
                                 </a>
                             </li>
-                            <li className={this.state.path == '/other' ? "active" : null}>
-                                <a href="/">
-                                    <i className="fa fa-bell-o"></i><br/>
-                                    <span>问答</span>
+                            <li className={this.state.path == '/bug' ? "active" : null}>
+                                <a href="/bug">
+                                    <i className="fa fa-question-circle"></i><br/>
+                                    <span>bug反馈</span>
                                 </a>
                             </li>
                             

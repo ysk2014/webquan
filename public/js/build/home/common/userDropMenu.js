@@ -151,6 +151,17 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 								React.createElement("span", null, "设置")
 							)
 						), 
+						
+							(WQ.cookie.get('id') == 5) ? (
+								React.createElement("li", null, 
+									React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/bugs"}, 
+										React.createElement("i", {className: "fa fa-question-circle"}), 
+										React.createElement("span", null, "bug反馈")
+									)
+								)
+							) : null, 
+						
+						
 						React.createElement("li", null, 
 							React.createElement("a", {"data-href": "/sign_out", onClick: this.handleClick}, 
 								React.createElement("i", {className: "fa fa-sign-out"}), 
