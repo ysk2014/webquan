@@ -39,6 +39,12 @@ define(['react', 'jquery', 'WQ','home/model/bugModel','home/common/tooltip'],fun
                 content: event.target.value
             });
         },
+        handleFocus: function() {
+            var uid = WQ.cookie.get('id');
+            if(!uid) {
+                window.location.href='/login/sign_in';
+            }
+        },
         render: function() {
         	var _this = this;
         	var nav = _this.state.nav;
@@ -47,7 +53,7 @@ define(['react', 'jquery', 'WQ','home/model/bugModel','home/common/tooltip'],fun
         		<div className="tag-page">
     			    <div className="top" style={{borderBottom:'0px'}}><i className="fa fa-question-circle"></i>bug反馈</div>
         			<form>
-        				<textarea style={model.textarea} placeholder="感谢你的bug反馈，我们会尽快修改" onChange={_this.handleChange} value={_this.state.content}></textarea>
+        				<textarea style={model.textarea} placeholder="感谢你的bug反馈，我们会尽快修改" onChange={_this.handleChange} value={_this.state.content} onFocus={this.handleFocus}></textarea>
         				<a className="btn btn-info btn-large" style={{fontSize:'18px',lineHeight:'40px',height:'40px'}} href="javascript:void(0)" onClick={_this.handleSubmit}>提交</a>
         			</form>
         		</div>
