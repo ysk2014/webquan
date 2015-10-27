@@ -150,7 +150,7 @@ requirejs([
                             React.createElement("li", {className: this.state.path == '/other' ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-bell-o"}), React.createElement("br", null), 
-                                    React.createElement("span", null, "问答")
+                                    React.createElement("span", null, "意见反馈")
                                 )
                             )
                             
