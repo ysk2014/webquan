@@ -150,7 +150,7 @@ requirejs([
                             <li className={this.state.path == '/other' ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-bell-o"></i><br/>
-                                    <span>问答</span>
+                                    <span>意见反馈</span>
                                 </a>
                             </li>
                             
