@@ -24,6 +24,10 @@ define(['react', 'jquery', 'WQ','home/model/bugModel','home/common/tooltip'],fun
                 uid: WQ.cookie.get('id'),
                 content: _this.state.content
             };
+            if(_this.state.content=='') {
+                Tooltip('内容不能为空');
+                return false;
+            }
             BugModel.addBug(params,function(success,data) {
                 if(success) {
                     if(!data.error) {
