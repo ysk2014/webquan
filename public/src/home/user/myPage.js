@@ -14,7 +14,7 @@ define(['react',
     		var type = (this.props.type=='store') ? 1 : 0;
     		return {
                 uid: this.props.uid,
-                type: this.props.type,
+                type: type,
                 articles: [],
                 page: 0,
             }
@@ -294,6 +294,8 @@ define(['react',
 			});
 		},
 		handleRead: function(event) {
+			alert(1);
+			event.preventDefault();
 			var li = $(event.target).parents('li');
 			if(!li.hasClass('active')) return;
 

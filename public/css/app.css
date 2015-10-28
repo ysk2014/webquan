@@ -468,26 +468,57 @@
   padding: 0px;
 }
 
+.tag-page .news-nav{
+  border-bottom: 1px solid #d9d9d9;
+  height: 50px;
+}
 .tag-page .message{
-  padding-right: 15px;
-  margin-top: 5px;
-  margin-right: 10px;
-  border-right: 1px solid #d9d9d9;
+  float: left;
+  line-height: 49px;
+  display: inline-block;
+  padding: 0 13px;
+  color: #666666;
+  position: relative;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-bottom: 1px solid transparent;
 }
-.tag-page .news-nav > a {
+.tag-page .message:hover,
+.tag-page .message.active{
+  border-color: #03a9f4;
+  background-color: transparent;
+}
+.tag-page .message:after{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  border-bottom: 0 solid #03a9f4;
+  content: '';
+  opacity: 0;
+  -webkit-transition: opacity 218ms ease,border-width 218ms ease;
+  -o-transition: opacity 218ms ease,border-width 218ms ease;
+  transition: opacity 218ms ease,border-width 218ms ease;
+}
+.tag-page .message:hover:after,
+.tag-page .message.active:after{
+  border-width: 2px;
+  opacity: 1;
+}
+
+.tag-page .news-nav > a.btn {
   color: #999;
+  margin-top: 8px;
 }
-.tag-page .news-nav > a:hover,
-.tag-page .news-nav > a.active{
-  color: #555;
-}
+
 .tag-page .news-nav > a.btn:hover {
   color: #fff;
 }
 .tag-page .news-list {
   padding-top: 10px;
   margin-top: 10px;
-  border-top: 2px solid #d9d9d9;
+  
 }
 .tag-page .news-list > li {
   padding: 10px;

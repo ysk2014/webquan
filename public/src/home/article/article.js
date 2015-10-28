@@ -78,7 +78,7 @@ define([
 		submitComment: function() {
 			var _this = this;
 			var aid = this.state.aid;
-			var content = this.state.commentContent;
+			var content = WQ.trim(this.state.commentContent);
 			var uid = WQ.cookie.get('id');
 			var username = WQ.cookie.get('username');
 			var userUrl = WQ.cookie.get('userUrl');
@@ -87,8 +87,11 @@ define([
 				window.location.href="/login/sign_in";
 				return;
 			}
-
-			var data = {aid:aid, uid:uid, content:content, author_id:_this.state.info.uid};
+			if(content.indexOf('@')==0) {
+				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.receive_id};
+			} else {
+				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.info.uid};
+			}
 
 			ArticleModel.addComment(data,function(success,data) {
 				if(success) {
@@ -117,10 +120,31 @@ define([
 		// 回复评论
 		handleReplay: function(event) {
 			var nick = $(event.target).data('nick');
+			var receive_id = $(event.target).data('uid');
 			this.setState({
-				commentContent: '@' + nick + ' '
+				commentContent: '@' + nick + ' ',
+				receive_id: receive_id
 			});
 			$('#comment-text').focus();
+		},
+		// 删除评论
+		handleDelComment: function(event) {
+			var _this = this;
+			var cid = $(event.target).data('id');
+			var key = $(event.target).data('key');
+			ArticleModel.delComment({aid:_this.state.aid,cid:cid},function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.state.commentList.splice(key,1);
+						_this.state.info.comment = parseInt(_this.state.info.comment)-1;
+						_this.setState({
+							commentList: _this.state.commentList,
+							info: _this.state.info
+						});
+						Tooltip(data.msg);
+					}
+				}
+			});
 		},
 		// 获取更多评论
 		hamdleMore: function() {
@@ -237,6 +261,7 @@ define([
 				page: 0,					 //评论分页
 				next: false,                 //是否还有下一页
 				uid: null,                   //用户id
+				receive_id: 0,
 			}
 		},
 		componentDidMount: function() {
@@ -279,7 +304,7 @@ define([
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
 				return (
-					<div key={d.id} id={"comment-"+d.id} className="comment-item  clearfix" data-id={d.id}>
+					<div key={i} id={"comment-"+d.id} className="comment-item  clearfix" data-id={d.id}>
 						<a className="user avatar" href={"/user/"+d.uid}>
 							<img src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 						</a>
@@ -292,7 +317,8 @@ define([
 								<div className="html">{d.content}</div>
 							</div>
 							<div className="replay">
-								<a data-nick={d.username} onClick={_this.handleReplay}>回复</a>
+								<a data-nick={d.username} data-uid={d.uid} onClick={_this.handleReplay}>回复</a>
+								<a data-id={d.id} data-key={i} onClick={_this.handleDelComment}>删除</a>
 							</div>
 						</div>
 					</div>

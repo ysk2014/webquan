@@ -207,7 +207,7 @@ define([
 							<div className="info">
 								<div className="cname"><a href={"/cloumn/"+_this.state.cid}><h3>{_this.state.cloumn['name'] ? _this.state.cloumn['name'] : ''}</h3></a></div>
 								<div className="anthor">
-									<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;片文章</a>
+									<a style={{color:'#3da9f7',marginRight:'10px'}} href={"/cloumn/"+_this.state.cid}>{_this.state.cloumn['count'] ? _this.state.cloumn['count'] : 0}&nbsp;篇文章</a>
 									<span><i className="fa fa-user"></i>&nbsp;&nbsp;所有者：<a href={_this.state.cloumn['uid'] ? '/user/'+_this.state.cloumn['uid'] : 'javascript:void(0)'}>{_this.state.cloumn['username'] ? _this.state.cloumn['username'] : ''}</a></span>
 								</div>
 								<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>

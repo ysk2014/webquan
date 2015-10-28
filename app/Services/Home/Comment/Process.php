@@ -74,8 +74,8 @@ class Process extends BaseProcess
         
         if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
-        $receive_id = $data['author_id'];
-        unset($data['author_id']);
+        $receive_id = $data['receive_id'];
+        unset($data['receive_id']);
 
         $result = $this->commentModel->addComment($data);
         if($result['id'])
@@ -109,12 +109,14 @@ class Process extends BaseProcess
     /**
      * 删除评论
      */
-    public function delComment($id)
+    public function delComment($cid,$aid)
     {
-        $cid = array($id);
+        $cid = array($cid);
         
         if($this->commentModel->delComment($cid) != false)
         {
+            $this->articelModel->decrementById('comment',$aid);
+            $this->redis->hincrby('article_'.$aid,'comment',-1);
             return array('error'=>false,'msg'=>'删除成功');
         }
         else

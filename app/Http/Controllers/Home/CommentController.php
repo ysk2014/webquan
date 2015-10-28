@@ -57,8 +57,8 @@ class CommentController extends Controller {
 
 		} else if($method=="DELETE") {
 
-			$id = Request::input('cid');
-			$result = $commentProcess->delComment($id);
+			$cid = Request::input('cid');
+			$result = $commentProcess->delComment($cid,$aid);
 
 		} else {
 			$result = array('error'=>true,'msg'=>'路由匹配失败');

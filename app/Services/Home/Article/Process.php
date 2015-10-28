@@ -193,7 +193,9 @@ class Process extends BaseProcess
 
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if($sqlData != false) {
-			$this->cloumnModel->incrementData('count',$data['cid']);
+			if($data['is_publish']==1) {
+				$this->cloumnModel->incrementData('count',$data['cid']);
+			}
 			
 			$resultArr = array('error'=>false, 'data'=>$sqlData);
 		} else {
@@ -251,7 +253,15 @@ class Process extends BaseProcess
 		unset($data->id);
 
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
+			$is_publish = $this->redis->hget('article_'.$id,'is_publish');
 			$this->redis->del('article_'.$id);
+
+			if($is_publish==0 && $data['is_publish']==1) {
+				$this->cloumnModel->incrementData('count',$data['cid']);
+			} else if($is_publish==1 && $data['is_publish']==0) {
+				$this->cloumnModel->decrementData('count',$data['cid']);
+			}
+
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
