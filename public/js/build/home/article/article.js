@@ -39,6 +39,7 @@ define([
                 markdown        : markdown ,
                 tocm            : true,
 	        });
+	        $('#editormd-view a').attr('target','_blank');
 		},
 		// 获取评论
 		showComment: function(aid,page,first) {
