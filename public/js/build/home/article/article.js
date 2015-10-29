@@ -168,7 +168,7 @@ define([
 			} else {
 				var ele = $(event.target).parent();
 			}
-			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id')};
+			var params = {aid: _this.state.aid, uid: WQ.cookie.get('id'), author_id: this.state.info.uid};
 			if(ele.hasClass('btn-info')) {
 				ArticleModel.addPraise(params,function(success,data) {
 					if(success) {
@@ -215,7 +215,7 @@ define([
 			} else {
 				var ele = $(event.target).parent();
 			}
-			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id')};
+			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id'), author_id: this.state.info.uid};
 			if(ele.hasClass('btn-info')) {
 				ArticleModel.addStore(params,function(success,data) {
 					if(success) {
@@ -255,7 +255,7 @@ define([
 		getInitialState: function() {
 			return {
 				name: 'home',
-				aid: this.props.aid,   //文章id
+				aid: this.props.aid,         //文章id
 				commentList: [],             //评论数据
 				commentContent: '',          //要评论的内容
 				page: 0,					 //评论分页

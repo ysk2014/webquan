@@ -22,7 +22,7 @@ class UserArticle extends Base
      * @var string
      * type的值， 0：推荐，1：收藏
      */
-    protected $fillable = array('id', 'aid', 'uid', 'type', 'addtime');
+    protected $fillable = array('id', 'aid', 'author_id', 'uid', 'type', 'addtime');
 
     /**
      * 增加
@@ -82,7 +82,7 @@ class UserArticle extends Base
     {
         return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('article','user_article.aid','=','article.id')
-                    ->leftJoin('user','user_article.uid','=','user.id')
+                    ->leftJoin('user','user_article.author_id','=','user.id')
                     ->where('user_article.uid','=', intval($uid))
                     ->where('user_article.type','=', intval($type))
                     ->skip($page*20)->take(20)
