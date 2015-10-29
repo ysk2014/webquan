@@ -200,11 +200,6 @@ define([
 
     	if (linkURL.protocol !== windowURL.protocol || linkURL.host !== windowURL.host) return;
 
-		if(evt.preventDefault) {
-			evt.preventDefault();
-		} else {
-			evt.returnValue = false;
-		}
 	    
     	return linkURL;
 	}
