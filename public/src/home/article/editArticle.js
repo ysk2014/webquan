@@ -281,7 +281,7 @@ define([
 		},
 		render: function() {
 			var _this = this;
-console.log(_this.state.selected);
+
 			if(this.state.cloumns.length>0) {
 				var cloumns = _this.state.cloumns.map(function(d,i) {
 					return (<option key={d.id} value={d.id} selected={_this.state.selected==d.id ? 'selected' : ''}>{d.name}</option>);
