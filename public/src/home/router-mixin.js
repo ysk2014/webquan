@@ -49,11 +49,12 @@ define([
 
 	        if (path.length === 0) path = '/';
 
-	        this.setState({ path: path + url.query });
+	        this.setState({ path: path + url.search });
 	    },
 	    renderCurrentRoute: function() {
 	    	var path = this.state.path,
-            url = urllite(path);
+            url = urllite(path),
+            queryParams = parseSearch(url.search);
 
 	        var parsedPath = url.path;
 
@@ -62,7 +63,8 @@ define([
 	        var matchedRoute = this.matchRoute(parsedPath);
 
 	        if (matchedRoute) {
-	        	return matchedRoute.handler.apply(this, matchedRoute.params);
+	        	console.log(matchedRoute.params.concat(queryParams));
+	        	return matchedRoute.handler.apply(this, matchedRoute.params.concat(queryParams));
 	        } else if (this.notFound) {
 	            return this.notFound(parsedPath);
 	        } else {
@@ -81,7 +83,7 @@ define([
 	            }
 
 	            setTimeout(function() {
-	            	var pathWithSearch = url.path + (url.query || '');
+	            	var pathWithSearch = url.path + (url.search || '');
 	                if (pathWithSearch.length === 0) pathWithSearch = '/';
 
 	                if (self.state.useHistory) {
@@ -157,10 +159,13 @@ define([
 
 
 	function getInitialPath(component) {
-	    
 	    url = urllite(window.location.href);
 
-	    var path = url.path;
+	    if(url.search) {
+	    	var path = url.path + url.search;
+	    } else {
+	    	var path = url.path;
+	    }
 
 	    return path || '/';
 	}
@@ -224,33 +229,38 @@ define([
 	}
 
 	function urllite(url) {
-		var a =  document.createElement('a');  
-		a.href = url; 
+		var URL_PATTERN = /^(?:(?:([^:\/?\#]+:)\/+|(\/\/))(?:([a-z0-9-\._~%]+)(?::([a-z0-9-\._~%]+))?@)?(([a-z0-9-\._~%!$&'()*+,;=]+)(?::([0-9]+))?)?)?([^?\#]*?)(\?[^\#]*)?(\#.*)?$/;
+		var m = url.toString().match(URL_PATTERN);
+		var pathname = m[8] || '';
 		return {  
-			 source: url,  
-			 protocol: a.protocol.replace(':',''),  
-			 host: a.hostname,  
-			 port: a.port,  
-			 query: a.search,
-			 params: (function(){  
-			     var ret = {},  
-			         seg = a.search.replace(/^\?/,'').split('&'),  
-			         len = seg.length, i = 0, s;  
-			     for (;i<len;i++) {  
-			         if (!seg[i]) { continue; }  
-			         s = seg[i].split('=');  
-			         ret[s[0]] = s[1];  
-			     }  
-			     return ret;  
-			 })(),  
-			 file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],  
-			 hash: a.hash.replace('#',''),  
-			 path: a.pathname.replace(/^([^\/])/,'/$1'),  
-			 relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],  
-			 segments: a.pathname.replace(/^\//,'').split('/') 
+			source: m[0],  
+			protocol: m[1],
+	        username: m[3],
+	        password: m[4],
+	        hostname: m[6],
+	        port: m[7],
+	        path: m[1] && pathname.charAt(0) !== '/' ? "/" + pathname : pathname,
+	        search: m[9],
+	        hash: m[10],
+	        isSchemeRelative: m[2] != null
 		}
 	}
 
+	function parseSearch(str) {
+	    var parsed = {};
+	    str = str ? str : '';
+	    if (str.indexOf('?') === 0) str = str.slice(1);
+
+	    var pairs = str.split('&');
+
+	    pairs.forEach(function(pair) {
+	        var keyVal = pair.split('=');
+
+	        parsed[keyVal[0]] = keyVal[1];
+	    });
+
+	    return parsed;
+	}
 
 	return RouterMixin;
 

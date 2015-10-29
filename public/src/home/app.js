@@ -26,6 +26,7 @@ requirejs.config({
 requirejs([
         'react', 
         'jquery',
+        'WQ',
         'home/router-mixin',
         'home/common/userDropMenu',
         'home/user/login',
@@ -40,7 +41,7 @@ requirejs([
         'home/cloumn/cloumn',
         'home/tag',
         'home/common/bug',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
+    ],function(React, $, WQ, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
         
 
     var App = React.createClass({
@@ -90,6 +91,16 @@ requirejs([
         },
 
         addCloumn: function() {
+            var _this = this;
+            var uid = WQ.cookie.get('id');
+            if(!uid) {
+                setTimeout(function() {
+                    window.history.pushState({}, '', '/login/sign_in?page=cloumns');
+                    _this.setState({
+                        path: '/login/sign_in?page=cloumns'
+                    });
+                },0);
+            }
             return <EditCloumn />
         },
 
@@ -109,8 +120,8 @@ requirejs([
             return <MyPage uid={uid} type={type} />
         },
 
-        login: function(way) {
-            return <Login way={way} />
+        login: function(way,params) {
+            return <Login way={way} params={params} />
         },
 
         tag: function(name) {
@@ -141,13 +152,13 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.path != '/cloumns' && this.state.path != '/bug') ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i><br/>
                                     <span>首页</span>
                                 </a>
                             </li>
-                            <li className={this.state.path == '/cloumns' ? "active" : null}>
+                            <li className={this.state.path.indexOf('/cloumn') > -1 ? "active" : null}>
                                 <a href="/cloumns">
                                     <i className="fa fa-th-list"></i><br/>
                                     <span>专题</span>

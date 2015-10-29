@@ -26,6 +26,7 @@ requirejs.config({
 requirejs([
         'react', 
         'jquery',
+        'WQ',
         'home/router-mixin',
         'home/common/userDropMenu',
         'home/user/login',
@@ -40,7 +41,7 @@ requirejs([
         'home/cloumn/cloumn',
         'home/tag',
         'home/common/bug',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
+    ],function(React, $, WQ, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
         
 
     var App = React.createClass({displayName: "App",
@@ -90,6 +91,16 @@ requirejs([
         },
 
         addCloumn: function() {
+            var _this = this;
+            var uid = WQ.cookie.get('id');
+            if(!uid) {
+                setTimeout(function() {
+                    window.history.pushState({}, '', '/login/sign_in?page=cloumns');
+                    _this.setState({
+                        path: '/login/sign_in?page=cloumns'
+                    });
+                },0);
+            }
             return React.createElement(EditCloumn, null)
         },
 
@@ -109,8 +120,8 @@ requirejs([
             return React.createElement(MyPage, {uid: uid, type: type})
         },
 
-        login: function(way) {
-            return React.createElement(Login, {way: way})
+        login: function(way,params) {
+            return React.createElement(Login, {way: way, params: params})
         },
 
         tag: function(name) {
@@ -141,13 +152,13 @@ requirejs([
                             React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
-                            React.createElement("li", {className: (this.state.path == '/' || this.state.path != '/cloumns' && this.state.path != '/bug') ? "active" : null}, 
+                            React.createElement("li", {className: (this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}, 
                                 React.createElement("a", {href: "/"}, 
                                     React.createElement("i", {className: "fa fa-home"}), React.createElement("br", null), 
                                     React.createElement("span", null, "首页")
                                 )
                             ), 
-                            React.createElement("li", {className: this.state.path == '/cloumns' ? "active" : null}, 
+                            React.createElement("li", {className: this.state.path.indexOf('/cloumn') > -1 ? "active" : null}, 
                                 React.createElement("a", {href: "/cloumns"}, 
                                     React.createElement("i", {className: "fa fa-th-list"}), React.createElement("br", null), 
                                     React.createElement("span", null, "专题")

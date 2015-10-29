@@ -63,6 +63,11 @@ define([
 			var uid = WQ.cookie.get('id');
 			var dataObj = {cid:cid,uid:uid};
 
+			if(!uid) {
+				window.location.href="/login/sign_in?page=cloumn&&method="+cid;
+				return;
+			}
+
 			if(myCare) {
 				CloumnModel.delCare(dataObj,function(success,data) {
 					if(success) {
