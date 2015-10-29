@@ -43,7 +43,7 @@ define(['react',
     		});
     	},
     	handleMore: function() {
-			_this.getArts(_this.state.name,_this.state.page);
+			_this.getArticles(_this.state.page);
 		},
 		render: function() {
 			var _this = this;
@@ -137,7 +137,27 @@ define(['react',
     		});
     	},
     	handleMore: function() {
-			_this.getArts(_this.state.name,_this.state.page);
+			_this.getArticles(_this.state.page);
+		},
+		handlePublish: function(event) {
+			var _this = this;
+			if(event.target.tagName.toLowerCase() == 'a'){
+				var ele = $(event.target);
+			} else {
+				var ele = $(event.target).parent();
+			}
+			var key = ele.data('key');
+			_this.state.articles[key]['is_publish'] = 1;
+			ArticleModel.editArticle(_this.state.articles[key],function(success,data) {
+				if(success) {
+					if(!data.error) {
+						_this.state.articles.splice(key,1);
+						_this.setState({
+							articles: _this.state.articles,
+						});
+					}
+				}
+			})
 		},
 		render: function() {
 			var _this = this;
@@ -166,11 +186,13 @@ define(['react',
 						
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
+							<a href="javascript:void(0)" className="btn btn-default pull-right" data-key={i} onClick={_this.handlePublish}><i className="fa fa-send-o"></i>发布</a>
 							<div className="author">
 								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
 									<span className="name">{d.username}</span>
 								</a>
+
 								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
 								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
 								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>

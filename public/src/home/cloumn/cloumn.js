@@ -218,7 +218,10 @@ define([
 								<div className="cdesc">{_this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''}</div>
 								<div className="footer">
 									{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(<a href={"/cloumn/"+_this.state.cid+'/edit'} className="btn btn-info"><i className="fa fa-edit"></i><span>编辑</span></a>) : null
+										(<a href={"/cloumn/"+_this.state.cid+'/edit'} className="btn btn-info" style={{marginRight:'10px'}}><i className="fa fa-edit"></i><span>编辑</span></a>) : null
+									}
+									{	_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
+										(<a href={"/article/add?cloumn="+_this.state.cloumn['id']} className="btn btn-info" style={{marginRight:'10px'}}><i className="fa fa-edit"></i><span>添加文章</span></a>) : null
 									}
 								</div>
 								<div className="cloumn-right">
