@@ -218,7 +218,10 @@ define([
 								React.createElement("div", {className: "cdesc"}, _this.state.cloumn['description'] ? _this.state.cloumn['description'] : ''), 
 								React.createElement("div", {className: "footer"}, 
 										_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
-										(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit', className: "btn btn-info"}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑"))) : null
+										(React.createElement("a", {href: "/cloumn/"+_this.state.cid+'/edit', className: "btn btn-info", style: {marginRight:'10px'}}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "编辑"))) : null, 
+									
+										_this.state.cloumn['uid'] && _this.state.cloumn['uid']==WQ.cookie.get('id') ? 
+										(React.createElement("a", {href: "/article/add?cloumn="+_this.state.cloumn['id'], className: "btn btn-info", style: {marginRight:'10px'}}, React.createElement("i", {className: "fa fa-edit"}), React.createElement("span", null, "添加文章"))) : null
 									
 								), 
 								React.createElement("div", {className: "cloumn-right"}, 

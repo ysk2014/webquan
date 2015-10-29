@@ -155,7 +155,7 @@ define([
 				name: 'editArticle',
 				aid: this.props.aid ? this.props.aid : 0,  //文章id，如果是添加则为0
 				info: {uid:uid,is_publish:0}, //发布文章的数据
-				selected: -1,    
+				selected: this.props.params && this.props.params['cloumn'] ? this.props.params['cloumn'] : -1, 
 				cloumns: [],     //专题列表
 				tags: [],        //已选择的标签
 				cacheTags: [],   //从数据库里调出的标签数据
@@ -281,7 +281,7 @@ define([
 		},
 		render: function() {
 			var _this = this;
-
+console.log(_this.state.selected);
 			if(this.state.cloumns.length>0) {
 				var cloumns = _this.state.cloumns.map(function(d,i) {
 					return (<option key={d.id} value={d.id} selected={_this.state.selected==d.id ? 'selected' : ''}>{d.name}</option>);

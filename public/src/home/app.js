@@ -70,8 +70,8 @@ requirejs([
             return <ArticleList />;
         },
 
-        addArticle: function() {
-            return <EditArticle />
+        addArticle: function(params) {
+            return <EditArticle  params={params} />
         },
 
         editArticle: function(aid) {

@@ -70,8 +70,8 @@ requirejs([
             return React.createElement(ArticleList, null);
         },
 
-        addArticle: function() {
-            return React.createElement(EditArticle, null)
+        addArticle: function(params) {
+            return React.createElement(EditArticle, {params: params})
         },
 
         editArticle: function(aid) {
