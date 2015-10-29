@@ -26,6 +26,7 @@ requirejs.config({
 requirejs([
         'react', 
         'jquery',
+        'WQ',
         'home/router-mixin',
         'home/common/userDropMenu',
         'home/user/login',
@@ -40,7 +41,7 @@ requirejs([
         'home/cloumn/cloumn',
         'home/tag',
         'home/common/bug',
-    ],function(React, $, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
+    ],function(React, $, WQ, RouterMixin, UserDropMenu, Login, User, Settings, MyPage, ArticleList, EditArticle, Article, CloumnList, EditCloumn, Cloumn, Tag, Bug){
         
 
     var App = React.createClass({
@@ -90,6 +91,16 @@ requirejs([
         },
 
         addCloumn: function() {
+            var _this = this;
+            var uid = WQ.cookie.get('id');
+            if(!uid) {
+                setTimeout(function() {
+                    window.history.pushState({}, '', '/login/sign_in?page=cloumns');
+                    _this.setState({
+                        path: '/login/sign_in?page=cloumns'
+                    });
+                },0);
+            }
             return <EditCloumn />
         },
 
@@ -109,8 +120,8 @@ requirejs([
             return <MyPage uid={uid} type={type} />
         },
 
-        login: function(way) {
-            return <Login way={way} />
+        login: function(way,params) {
+            return <Login way={way} params={params} />
         },
 
         tag: function(name) {

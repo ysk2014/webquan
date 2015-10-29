@@ -38,7 +38,11 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
             UserModel.login(data,function(success,data) {
                 if(success) {
                     if(!data.error) {
-                        window.location.href ="/";
+                        if(_this.state.method) {
+                            window.location.href ="/"+_this.state.page+'/'+_this.state.method;
+                        } else {
+                            window.location.href ="/"+_this.state.page;
+                        }
                     } else {
                         Tooltip(data.msg);
                     }
@@ -82,6 +86,8 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
         getInitialState: function() {
             return {
                 nav: this.props.way,
+                page: this.props.params&& this.props.params['page'] ? this.props.params['page'] : null,
+                method: this.props.params&& this.props.params['method'] ? this.props.params['method'] : null,
                 username: '',
                 password: '',
                 email: '',
