@@ -152,13 +152,13 @@ requirejs([
                             <a href="/"><img src="/image/logo1.png" /></a>
                         </div>
                         <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.path != '/cloumns' && this.state.path != '/bug') ? "active" : null}>
+                            <li className={(this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}>
                                 <a href="/">
                                     <i className="fa fa-home"></i><br/>
                                     <span>首页</span>
                                 </a>
                             </li>
-                            <li className={this.state.path == '/cloumns' ? "active" : null}>
+                            <li className={this.state.path.indexOf('/cloumn') > -1 ? "active" : null}>
                                 <a href="/cloumns">
                                     <i className="fa fa-th-list"></i><br/>
                                     <span>专题</span>
