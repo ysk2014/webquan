@@ -84,7 +84,7 @@ define([
 			var userUrl = WQ.cookie.get('userUrl');
 
 			if(!uid) {
-				window.location.href="/login/sign_in";
+				window.location.href="/login/sign_in?page=article&&method="+aid;
 				return;
 			}
 			if(content.indexOf('@')==0) {
@@ -157,9 +157,10 @@ define([
 		// 推荐处理
 		handlePraise: function(event) {
 			var _this = this;
+			var aid = _this.state.aid;
 
 			if(!WQ.cookie.get('id')) {
-				window.location.href="/login/sign_in";
+				window.location.href="/login/sign_in?page=article&&method="+aid;
 				return;
 			}
 
@@ -204,9 +205,10 @@ define([
 		// 收藏处理
 		handleStore: function(event) {
 			var _this = this;
+			var aid = _this.state.aid;
 
 			if(!WQ.cookie.get('id')) {
-				window.location.href="/login/sign_in";
+				window.location.href="/login/sign_in?page=article&&method="+aid;
 				return;
 			}
 
@@ -266,9 +268,10 @@ define([
 		},
 		componentDidMount: function() {
 			this.init();
+			var aid = this.state.aid;
 			$('#comment-text').on('focus',function() {
 				if(!WQ.cookie.get('id')) {
-					window.location.href="/login/sign_in";
+					window.location.href="/login/sign_in?page=article&&method="+aid;
 					return;
 				};
 			});
@@ -318,7 +321,9 @@ define([
 							), 
 							React.createElement("div", {className: "replay"}, 
 								React.createElement("a", {"data-nick": d.username, "data-uid": d.uid, onClick: _this.handleReplay}, "回复"), 
-								React.createElement("a", {"data-id": d.id, "data-key": i, onClick: _this.handleDelComment}, "删除")
+								
+									uid == WQ.cookie.get('id') ? React.createElement("a", {"data-id": d.id, "data-key": i, onClick: _this.handleDelComment}, "删除") : null
+								
 							)
 						)
 					)

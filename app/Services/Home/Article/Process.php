@@ -341,33 +341,35 @@ class Process extends BaseProcess
 
 			$articleInfo = $this->redis->hgetall('article_'.$id);
 
-			return array('error'=>false,'data'=>$articleInfo);
-		}
-
-		$articleInfo = $this->articleModel->getArtById($id);
-		if($articleInfo) {
-			$uid = SC::getLoginSession()['id'];
-			//判断用户是否已推荐和收藏
-			$articleInfo['praiseStatus'] = false;
-			$articleInfo['storeStatus'] = false;
-			$ids = $this->userArticleModel->getIds($id,$uid);
-			if($ids) {
-				foreach ($ids as $key => $value) {
-					if($value['type']==0) {
-						$articleInfo['praiseStatus'] = true;
-					} else if($value['type']==1) {
-						$articleInfo['storeStatus'] = true;
-					}
-				}	
-			}
-			//进行redis缓存
-			
-			$this->redis->hmset('article_'.$id,$articleInfo->toArray());
-
-			return array('error'=>false,'data'=>$articleInfo);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+
+			$articleInfo = $this->articleModel->getArtById($id);
+
+			if($articleInfo) {
+				//进行redis缓存
+				$this->redis->hmset('article_'.$id,$articleInfo->toArray());
+			} else {
+				return array('error'=>true,'msg'=>'获取文章失败');
+			}
 		}
+
+		$uid = SC::getLoginSession()['id'];
+		//判断用户是否已推荐和收藏
+		$articleInfo['praiseStatus'] = false;
+		$articleInfo['storeStatus'] = false;
+		$ids = $this->userArticleModel->getIds($id,$uid);
+		if($ids) {
+			foreach ($ids as $key => $value) {
+				if($value['type']==0) {
+					$articleInfo['praiseStatus'] = true;
+				} else if($value['type']==1) {
+					$articleInfo['storeStatus'] = true;
+				}
+			}	
+		}
+		
+		return array('error'=>false,'data'=>$articleInfo);
+		
 	}
 
 	/**
