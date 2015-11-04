@@ -351,7 +351,7 @@ define(['react',
 				return (
 					<li key={n.id} data-nid={n.id} className={n.unread ? 'active' : ''}>
 						<i className="fa fa-fw fa-comments-o"></i>
-						<span>你在《<a href={"/article/"+n.aid+"news="+n.id} ><span onClick={this.handleRead}>{n.title}</span></a>》中收到一条 <a href={"/user/"+n.send_id} onClick={this.handleRead}>{n.username}</a> 的评论</span>
+						<span>你在《<a href={"/article/"+n.aid+"news="+n.id} ><span onClick={this.handleRead}>{n.title}</span></a>》中收到一条 <a href={"/user/"+n.send_id+"news="+n.id} onClick={this.handleRead}>{n.username}</a> 的评论</span>
 						<span className="time pull-right">{WQ.timeFormat(n.addtime)}</span>
 					</li>
 				);
