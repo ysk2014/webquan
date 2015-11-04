@@ -104,6 +104,7 @@ define([
 				});
 			}
 		},
+		// tab切换
 		handleTabChange: function(event) {
 			var _this = this;
 			if(event.target.tagName.toLowerCase()=='a') {
