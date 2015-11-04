@@ -78,8 +78,8 @@ requirejs([
             return <EditArticle aid={aid} />
         },
 
-        article: function(aid) {
-            return <Article aid={aid} />
+        article: function(aid, params) {
+            return <Article aid={aid} params={params} />
         },
 
         cloumnList: function() {
@@ -108,8 +108,8 @@ requirejs([
             return <EditCloumn cid={cid} />
         },
 
-        user: function(id) {
-            return <User uid={id} />
+        user: function(id,params) {
+            return <User uid={id} params={params} />
         },
 
         settings: function(uid) {

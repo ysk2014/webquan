@@ -78,8 +78,8 @@ requirejs([
             return React.createElement(EditArticle, {aid: aid})
         },
 
-        article: function(aid) {
-            return React.createElement(Article, {aid: aid})
+        article: function(aid, params) {
+            return React.createElement(Article, {aid: aid, params: params})
         },
 
         cloumnList: function() {
@@ -108,8 +108,8 @@ requirejs([
             return React.createElement(EditCloumn, {cid: cid})
         },
 
-        user: function(id) {
-            return React.createElement(User, {uid: id})
+        user: function(id,params) {
+            return React.createElement(User, {uid: id, params: params})
         },
 
         settings: function(uid) {

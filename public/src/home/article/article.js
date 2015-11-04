@@ -3,9 +3,10 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/articleModel',
+	'home/model/userModel',
 	'home/common/tooltip',
     'editormd',
-	],function( React, $, WQ, ArticleModel, Tooltip, editormd) {
+	],function( React, $, WQ, ArticleModel, UserModel, Tooltip, editormd) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -30,6 +31,15 @@ define([
 					}
 				}
 			});
+
+			//如果是从消息页面跳转过来的，就把消息设置为已读
+			if(_this.state.newsId!=0) {
+				UserModel.updateNews({id:_this.state.newsId},function(success,data) {
+					if(success) {
+						if(!data.error) return;
+					}
+				});
+			}
 			return this;
 		},
 		// 把文章内容markdown数据转化成html
@@ -259,6 +269,7 @@ define([
 			return {
 				name: 'home',
 				aid: this.props.aid,         //文章id
+				newsId: this.props.params&&this.props.params.news ? this.props.params.news : 0,    //消息id
 				commentList: [],             //评论数据
 				commentContent: '',          //要评论的内容
 				page: 0,					 //评论分页

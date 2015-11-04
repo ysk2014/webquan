@@ -22,6 +22,17 @@ define(['react',
                     }
                 }
             });
+
+            //如果是从消息页面跳转过来的，就把消息设置为已读
+            if(_this.state.newsId!=0) {
+                UserModel.updateNews({id:_this.state.newsId},function(success,data) {
+                    if(success) {
+                        if(!data.error) return;
+                    }
+                });
+            }
+
+            return this;
         }
     };
     
@@ -175,6 +186,7 @@ define(['react',
         getInitialState: function() {
             return {
                 uid: this.props.uid,
+                newsId: this.props.params&&this.props.params.news ? this.props.params.news : 0,    //消息id
                 info: null,
             }
         },
