@@ -49,7 +49,7 @@ class UserValidate extends BaseValidate
 	*
 	* @access public
 	*/
-	public function password(\App\Services\User\Param\UserSave $data)
+	public function pwd(\App\Services\User\Param\UserModifyPassword $data)
 	{
         // 创建验证规则
         $rules = array(
@@ -93,21 +93,21 @@ class UserValidate extends BaseValidate
 		// 创建验证规则
 		$rules = array(
 			'username' 	  => 'required',
-			'password'    => 'required',
+			// 'password'    => 'required',
 			'job' 		  => 'required',
-			'email'       => 'required'
+			// 'email'       => 'required'
 		);
 
 		// 自定义验证信息
 		$messages = array(
 			'username.required'    => Lang::get('用户名不能为空'),
-			'password.required'    => Lang::get('密码不能为空'),
+			// 'password.required'    => Lang::get('密码不能为空'),
 			'job.required'         => Lang::get('职位不能为空'),
-			'email.required'       => Lang::get('邮箱不能为空')
+			// 'email.required'       => Lang::get('邮箱不能为空')
 		);
 
 		// 开始验证
-		$validator = Validator::make($data->toArray(),$rules,$message);
+		$validator = Validator::make($data->toArray(),$rules,$messages);
 		if($validator->fails())
 		{
 			$this->errorMsg = $validator->messages()->first();

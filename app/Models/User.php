@@ -20,7 +20,7 @@ class User extends Base
 	*
 	* @var string 
 	*/
-	protected $fillable = array('id', 'name', 'password', 'realname', 'email', 'phone', 'sex', 'company', 'job', 'description', 'city',
+	protected $fillable = array('id', 'username', 'password', 'realname', 'logo_dir', 'email', 'phone', 'sex', 'company', 'job', 'description', 'city',
                                 'addtime', 'status', 'token', 'github',
                                 'last_login_ip', 'last_login_time'
                             );
@@ -32,8 +32,9 @@ class User extends Base
      */
     public function InfoByName($username)
     {
-        return $this->where('name', $username)->first();
+        return $this->where('username', $username)->first();
     }
+
 
     /**
      * 取得所有的用户
@@ -96,7 +97,7 @@ class User extends Base
      */
     public function getUserByName($name)
     {
-        return $this->where('name', '=', $name)->first();
+        return $this->where('username', '=', $name)->first();
     }
 
     /**

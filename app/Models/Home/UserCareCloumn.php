@@ -39,9 +39,11 @@ class UserCareCloumn extends Base
      * 
      * @param array $ids 专题的ID
      */
-    public function del(array $ids)
+    public function del($data)
     {
-        return $this->destroy($ids);
+        return $this->where('uid','=',intval($data['uid']))
+                    ->where('cid','=',intval($data['cid']))
+                    ->delete();
     }
 
     /**
@@ -49,15 +51,48 @@ class UserCareCloumn extends Base
      * 
      * @param intval $id 用户的ID
      */
-    public function getCloumnsByUid($uid)
+    public function getCloumnsByUid($uid,$page)
     {
         return $this->select(array('cloumn.*'))
-                    ->leftJoin('user','user_care_cloumn.uid','=','user.id')
+                    ->leftJoin('cloumn','user_care_cloumn.cid','=','cloumn.id')
                     ->where('user_care_cloumn.uid','=', intval($uid))
+                    ->skip($page*24)->take(24)
                     ->orderBy('user_care_cloumn.addtime','desc')
                     ->get()
                     ->toArray();
     }
+
+    /**
+     * 获取用户关注的所有专题
+     * 
+     * @param intval $id 用户的ID
+     */
+    public function getCidsByUid($uid)
+    {
+        return $this->select('cid')
+                    ->where('uid','=', intval($uid))
+                    ->orderBy('addtime','desc')
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
+     * 判断用户是否关注该专题
+     * 
+     */
+    public function getCareId($cid,$uid)
+    {
+        return $this->where('cid','=',$cid)->where('uid','=',$uid)->first();
+    } 
+
+    /**
+     * 获取专题总数
+     * 
+     */
+    public function countCaresByUid($uid)
+    {
+        return $this->where('uid','=',$uid)->count();
+    } 
 
     /**
      * 获取关注该专题的所有用户信息

@@ -19,14 +19,16 @@ class Cloumn extends BaseValidate
     {
         //创建验证规则
         $rules = array(
-            'title'    => 'required',
-            'description'   => 'required',
+            'name'           => 'required',
+            'description'    => 'required',
+            'uid'            => 'required',
         );
         
         //自定义验证消息
         $messages = array(
-            'title.required'   => Lang::get('Cloumn.title_empty'),
-            'description.required'  => Lang::get('Cloumn.description_empty')
+            'name.required'          => Lang::get('专题名称不能为空'),
+            'description.required'   => Lang::get('专题描述不能为空'),
+            'uid.required'           => Lang::get('用户不能为空'),
         );
         
         //开始验证
@@ -45,6 +47,6 @@ class Cloumn extends BaseValidate
      */
     public function edit(\App\Services\Home\Cloumn\CloumnSave $data)
     {
-        $this->add($data);
+        return $this->add($data);
     }
 }

@@ -24,7 +24,7 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($id=0)
 	{
 		return view('home.app');
 	}
@@ -38,7 +38,6 @@ class UserController extends Controller {
 		// if($isLogin) return redirect('home.app');
 		return view('home.app');
 	}
-
 
     /**
      * 开始登录处理
@@ -61,54 +60,36 @@ class UserController extends Controller {
 	}
 
     /**
-     * 开始注册处理
+     * 处理用户信息
      *
      * @param App\Services\User\Process $process 用户核心处理
      * @access public
      */
-	public function addUser(UserActionProcess $manager)
+	public function dealUser(UserActionProcess $manager,$id=0)
 	{
-		$data = (array) Request::input('data');
-		$data['addtime'] = time();
-
+		$method = Request::method();
 		$param = new \App\Services\User\Param\UserSave();
-		$param->setAttributes($data);
 
-		$result = $manager->addUser($param);
+		if($method=="POST") {
+
+			$data = (array) Request::input('data');
+			$data['addtime'] = time();
+
+			$param->setAttributes($data);
+			$result = $manager->addUser($param);
+
+		} else if($method=="PUT") {
+			$data = (array) Request::input('data');
+
+			$param->setAttributes($data);
+			$result = $manager->editUser($param);
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 
 		return $result;
 	}
 
-    /**
-     * 编辑用户信息
-     *
-     * @param App\Services\User\Process $process 用户核心处理
-     * @access public
-     */
-	public function editUser(UserActionProcess $manager)
-	{
-		$data = (array) Request::input('data');
-		// $data['addtime'] = time();
-		$param = new \App\Services\User\Param\UserSave();
-		$param->setAttributes($data);
-
-		$result = $manager->editUser($param);
-		
-		return response()->json($result);
-	}
-
-    /**
-     * 删除用户
-     *
-     * @access public
-     */
-	public function delUser()
-	{
-		$id = Request::input('id');
-		$ids = [$id];
-		$result = $manager->delUser($ids);
-		return response()->json($result);
-	}
 
     /**
      * 修改密码
@@ -134,6 +115,7 @@ class UserController extends Controller {
     public function getUserInfoByLogin(LoginProcess $loginProcess)
     {
 		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		unset($isLogin->password);
 		$data = $isLogin ? ['userInfo'=>$isLogin] : [];
 		return response()->json($data);
     }
@@ -141,13 +123,34 @@ class UserController extends Controller {
     /**
      * 根据用户的id获取用户的信息
      */
-    public function getUserInfoById(UserActionProcess $manager)
+    public function getUserInfoById(UserActionProcess $manager,$id=0)
     {
-		$id = intval(Request::input('id'));
 		$result = $manager->getUserInfoById($id);
 		return response()->json($result);
     }
 
+    /**
+     * 检查用户名是否占用
+     */
+    public function checkUserName(UserActionProcess $manager)
+    {
+		$username = intval(Request::input('username'));
+		$result = $manager->checkUserName($username);
+		return response()->json($result);
+    }
+
+    /**
+     * 更新头像
+     */
+    public function updateLogo(UserActionProcess $manager)
+    {
+		$file = Request::file('file');
+		$id = Request::input('id');
+
+		$result = $manager->uploadLogo($file,$id);
+		
+		return response()->json($result);
+    }
 
     /**
      * 登录退出
@@ -155,7 +158,36 @@ class UserController extends Controller {
     public function getOut(LoginProcess $loginProcess)
     {
         $loginProcess->getProcess()->logout();
-        return redirect('/');
+        $result = array('error'=>false,'msg'=>'退出');
+        return response()->json($result);
     }
 
+    /**
+     * 我的消息
+     */
+    public function getNews(UserActionProcess $manager) 
+    {
+    	$data = Request::input('data');
+    	$result = $manager->getNews($data);
+    	return response()->json($result);
+    }
+    /**
+     * 未读消息
+     */
+    public function getNewsCountByUnread(UserActionProcess $manager) 
+    {
+    	$uid = Request::input('uid');
+    	$result = $manager->getNewsCountByUnread($uid);
+    	return response()->json($result);
+    }
+
+    /**
+     * 更新消息
+     */
+    public function updateNews(UserActionProcess $manager) 
+    {
+    	$data = Request::input('data');
+    	$result = $manager->updateNews($data);
+    	return response()->json($result);
+    }
 }

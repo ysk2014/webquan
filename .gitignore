@@ -1,6 +1,10 @@
 .env
+.env.*.php
+.env.php
 
 *.log
+/config
+
+/public/js/build/
+
 /config/database.php
-/config/sys.php
-/public/js/build

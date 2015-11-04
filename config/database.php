@@ -57,7 +57,7 @@ return [
             'host'      => env('DB_HOST', 'localhost'),
             'database'  => env('DB_DATABASE', 'wq'),
             'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', ''),
+            'password'  => env('DB_PASSWORD', 'mysql'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -116,7 +116,7 @@ return [
 
         'default' => [
             'host'     => '127.0.0.1',
-            'port'     => 6379,
+            'port'     => 5000,
             'database' => 0,
         ],
 

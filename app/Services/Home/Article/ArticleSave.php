@@ -17,6 +17,8 @@ class ArticleSave extends AbstractParam
 
     protected $description;
 
+    protected $logo_dir;
+
     protected $cid;
 
     protected $uid;
@@ -25,11 +27,15 @@ class ArticleSave extends AbstractParam
 
     protected $comment;
 
-    protected $care;
+    protected $tags;
+
+    protected $praise;
+
+    protected $store;
 
     protected $is_publish;
 
-    protected $is_check;
+    protected $update_time;
 
     protected $addtime;
 
@@ -47,9 +53,15 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function seDescription($description)
+    public function setDescription($description)
     {
-        $this->description = $this->attributes['description'] = $realname;
+        $this->description = $this->attributes['description'] = $description;
+        return $this;
+    }
+
+    public function setLogoDir($logo_dir)
+    {
+        $this->logo_dir = $this->attributes['logo_dir'] = $logo_dir;
         return $this;
     }
 
@@ -83,9 +95,21 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function setCare($care)
+    public function setTags($tags)
     {
-        $this->care = $this->attributes['care'] = $care;
+        $this->tags = $this->attributes['tags'] = $tags;
+        return $this;
+    }
+
+    public function setPraise($praise)
+    {
+        $this->praise = $this->attributes['praise'] = $praise;
+        return $this;
+    }
+
+    public function setStore($store)
+    {
+        $this->store = $this->attributes['store'] = $store;
         return $this;
     }
 
@@ -95,15 +119,15 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function setIsCheck($is_check)
-    {
-        $this->is_check = $this->attributes['is_check'] = $is_check;
-        return $this;
-    }
-
     public function setAddTime($addtime)
     {
         $this->addtime = $this->attributes['addtime'] = $addtime;
+        return $this;
+    }
+
+    public function setUpdateTime($update_time)
+    {
+        $this->update_time = $this->attributes['update_time'] = $update_time;
         return $this;
     }
 }

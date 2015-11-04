@@ -23,7 +23,7 @@ class Cloumn extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'description', 'uid', 'view', 'count', 'care', 'is_contribute', 'is_check', 'last_time', 'addtime');
+    protected $fillable = array('id', 'name', 'description', 'logo_dir', 'uid', 'count', 'view', 'care', 'update_time', 'addtime');
 
     /**
      * 增加专题
@@ -62,10 +62,23 @@ class Cloumn extends Base
      */
     public function getCloumnById($id)
     {
-        return $this->select(array('cloumn.*','user.name as uname'))
+        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','cloumn.uid','=','user.id')
                     ->where('cloumn.id','=', intval($id))
                     ->first();
+    }
+    /**
+     * 根据用户id获取专题信息
+     * 
+     * @param intval $uid 用户的ID
+     */
+    public function getCloumnsByUid($uid,$page)
+    {
+        return $this->where('cloumn.uid','=', intval($uid))
+                    ->orderBy('addtime','desc')
+                    ->skip($page*24)->take(24)
+                    ->get()
+                    ->toArray();
     }
 
     /**
@@ -73,38 +86,58 @@ class Cloumn extends Base
      * 
      * @param $data 排序
      */
-    public function getCloumns($data)
+    public function getCloumns($data,$page)
     {
-        return $this->select(array('cloumn.*','user.*'))
+        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','cloumn.uid','=','user.id')
-                    ->orderBy('cloumn.'.$data,'desc')
+                    ->skip($page*24)->take(24)
+                    ->orderBy($data,'desc')
                     ->get()
                     ->toArray();
     }
 
+
     /**
-     * 获取专题check
+     * 根据专题名称获取专题信息
      * 
+     * @param string $title 专题的名称
+     */
+    public function getInfoByName($Name)
+    {
+        return $this->where('title','=', $title)->first();
+    }
+
+    /**
+     * 获取专题总数
+     * 
+     */
+    public function countCloumnByUid($uid)
+    {
+        return $this->where('uid','=',$uid)->count();
+    } 
+
+    /**
+     * 获取专题总数
+     * 
+     */
+    public function countCloumn()
+    {
+        return $this->count();
+    } 
+
+    /**
+     * 获取专题某个字段
+     * 
+     * @param string $data 专题的字段
      * @param intval $id 专题的ID
      */
-    public function getCheckById($id)
+    public function getDataById($data,$id)
     {
-        return $this->select('is_check')
+        return $this->select($data)
                     ->where('id','=', intval($id))
                     ->first();
     }
 
-    /**
-     * 获取专题contribute
-     * 
-     * @param intval $id 专题的ID
-     */
-    public function getContributeById($id)
-    {
-        return $this->select('is_contribute')
-                    ->where('id','=', intval($id))
-                    ->first();
-    }
 
     /**
      * 自增数量

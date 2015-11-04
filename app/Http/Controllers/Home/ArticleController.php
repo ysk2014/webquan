@@ -1,10 +1,10 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
+use Request,Cache,Redis;
 
 class ArticleController extends Controller {
 
-	public $navStatus;
 	/**
 	 * Create a new controller instance.
 	 *
@@ -30,23 +30,12 @@ class ArticleController extends Controller {
 	 */
 	public function editPage()
 	{
-		return view('home.article');
+		return view('home.app');
 	}
 
-	/**
-	 * 获取文章列表
-	 *
-	 * @return Response
-	 */
-	public function getAllArticle(ArticleProcess $articleProcess)
-	{
-		$way = Request::input('way');
-		$data = $articleProcess->getAllArticle($way);
-		return response()->json($data);
-	}
 
 	/**
-	 * 获取文章列表
+	 * 获取文章详情
 	 *
 	 * @return Response
 	 */
@@ -60,50 +49,154 @@ class ArticleController extends Controller {
 	}
 
 	/**
-	 * 添加文章
+	 * 获取文章列表
 	 *
 	 * @return Response
 	 */
-	public function addArticle(ArticleProcess $articleProcess)
+	public function getArticles(ArticleProcess $articleProcess,$id=0){
+		$data = Request::input('data');
+		if(!isset($data['is_publish'])) {
+			$data['is_publish'] = 1;
+		}
+		$data = $articleProcess->getArtsByUid($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 获取已公布的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getAllArticle(ArticleProcess $articleProcess)
+	{
+		// $redis=Redis::connection();
+		$data = Request::input('data');
+		$result = $articleProcess->getAllArticle($data);
+		return response()->json($result);
+	}
+
+	/**
+	 * 根据专题id获取文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCid(ArticleProcess $articleProcess,$cid)
 	{
 		$data = Request::input('data');
-		$data['addtime'] = time();
-		$param = new \App\Services\Home\Article\ArticleSave();
-		$param->setAttributes($data);
+		$data = $articleProcess->getArtsByCid($data);
+		return response()->json($data);
+	}
 
-		$result = $articleProcess->addArticle($param);
+	/**
+	 * 根据用户id获取文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByUid(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		if(!isset($data['is_publish'])) {
+			$data['is_publish'] = 1;
+		}
+		$data = $articleProcess->getArtsByUid($data);
+		return response()->json($data);
+	}
+
+
+	/**
+	 * 模糊查询标签名称的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsLikeTagName(ArticleProcess $articleProcess,$name)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsLikeTagName($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 获取用户关注专题的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByCare(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtOfCareByUid($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 获取用户收藏或者推荐的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getArtsByPraiseOrStore(ArticleProcess $articleProcess)
+	{
+		$data = Request::input('data');
+		$data = $articleProcess->getArtsByPraiseOrStore($data);
+		return response()->json($data);
+	}
+
+	/**
+	 * 处理文章, 添加、更新和删除操作
+	 *
+	 * @return Response
+	 */
+	public function dealArticle(ArticleProcess $articleProcess,$id=0)
+	{
+		$method = Request::method();
+		
+		if($method=='PUT') {                      //更新文章
+
+			$data = Request::input('data');
+			$data['update_time'] = time();
+			$param = new \App\Services\Home\Article\ArticleSave();
+			$param->setAttributes($data); 
+
+			$result = $articleProcess->editArticle($param);
+
+		}else if($method=='POST') {
+
+			$data = Request::input('data');
+			$data['addtime'] = time();
+			$data['update_time'] = time();
+
+			$param = new \App\Services\Home\Article\ArticleSave();
+			$param->setAttributes($data); 
+
+			$result = $articleProcess->addArticle($param);
+
+		} else if($method== "DELETE") {            //删除文章
+			$ids = [$id];
+			$result = $articleProcess->delArticle($ids);
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 		
 		return response()->json($result);
 	}
 
 	/**
-	 * 编辑文章
+	 * 处理文章推荐和收藏
 	 *
 	 * @return Response
 	 */
-	public function editArticle(ArticleProcess $articleProcess)
+	public function dealPraiseOrStore(ArticleProcess $articleProcess,$id=0)
 	{
+		$method = Request::method();
+
 		$data = Request::input('data');
-		// $data['addtime'] = time();
-		$param = new \App\Services\Home\Article\ArticleSave();
-		$param->setAttributes($data);
 
-		$result = $articleProcess->editArticle($param);
-		
-		return response()->json($result);
-	}
-
-	/**
-	 * 编辑文章
-	 *
-	 * @return Response
-	 */
-	public function delArticle(ArticleProcess $articleProcess)
-	{
-		$id = Request::input('id');
-		$ids = [$id];
-		$result = $articleProcess->delArticle($ids);
-		
+		if($method=='POST') {
+			$data['addtime'] = time();
+			$result = $articleProcess->dealPraiseOrStore($data,$method);
+		} else if($method=='DELETE') {
+			$result = $articleProcess->dealPraiseOrStore($data,$method);
+		} else {
+			$result = array('error'=>true,'msg'=>'路由匹配失败');
+		}
 		return response()->json($result);
 	}
 
