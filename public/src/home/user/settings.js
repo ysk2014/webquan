@@ -4,8 +4,7 @@
     'home/model/userModel',
     'home/common/tooltip',
     'WQ',
-    'home/common/leftNav',
-    ],function(React, $, UserModel, Tooltip, WQ, LeftNav) {
+    ],function(React, $, UserModel, Tooltip, WQ) {
 
     	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
