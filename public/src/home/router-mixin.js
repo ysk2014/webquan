@@ -48,8 +48,12 @@ define([
 	            path = this.state.useHistory ? url.path : hash.slice(2);
 
 	        if (path.length === 0) path = '/';
-
-	        this.setState({ path: path + url.search });
+	        if(url.search) {
+	        	this.setState({ path: path + url.search });
+	        } else {
+	        	this.setState({ path: path });
+	        }
+	        
 	    },
 	    renderCurrentRoute: function() {
 	    	var path = this.state.path,
@@ -63,7 +67,6 @@ define([
 	        var matchedRoute = this.matchRoute(parsedPath);
 
 	        if (matchedRoute) {
-	        	console.log(matchedRoute.params.concat(queryParams));
 	        	return matchedRoute.handler.apply(this, matchedRoute.params.concat(queryParams));
 	        } else if (this.notFound) {
 	            return this.notFound(parsedPath);
