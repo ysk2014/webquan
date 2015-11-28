@@ -8,7 +8,7 @@
 *.log
 /config
 
-*.DS_Store
+
 
 /public/js/build/.module-cache
 
