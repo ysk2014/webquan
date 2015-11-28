@@ -66,6 +66,37 @@ class Process extends BaseProcess
         if( ! $this->redis) $this->redis = Redis::connection();
     }
 
+
+    /**
+     * 递归评论数据
+     *
+     * @param $d   单个数据
+     * @param $data  数据数组
+     */
+    public function dealData($data,$result) {
+        foreach ($data as $key => $value) {
+            if($value['fid'] == $result['id']) {
+                $result['childen'][] = $this->dealData($data,$value);
+            } 
+        }
+        return $result;
+    }
+
+    /**
+     * 评论数据重组处理
+     *
+     * @param $data   从数据库取出的数据
+     */
+    public function dealCommentData($data) {
+        $result = [];
+        foreach ($data as $key => $value) {
+            if($value['fid']==0) {
+                $result[] = $this->dealData($data,$value);
+            }
+        }
+        return $result;
+    }
+
     /**
      * 增加评论
      */
@@ -180,7 +211,7 @@ class Process extends BaseProcess
             } else {
                 $next = false;
             }
-            return array('error'=>false, 'data'=>$result, 'next'=>$next);
+            return array('error'=>false, 'data'=>$this->dealCommentData($result), 'next'=>$next);
         }
         else
         {

@@ -22,7 +22,7 @@ class Comment extends Model
      *
      * @var string
      */
-    protected $fillable = array('id', 'aid', 'uid', 'content', 'addtime');
+    protected $fillable = array('id', 'aid', 'uid', 'content', 'fid', 'addtime');
 
 
     /**
