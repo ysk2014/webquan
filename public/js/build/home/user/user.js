@@ -27,7 +27,10 @@ define(['react',
             if(_this.state.newsId!=0) {
                 UserModel.updateNews({id:_this.state.newsId},function(success,data) {
                     if(success) {
-                        if(!data.error) return;
+                        if(!data.error) {
+                            $('.drop-menu .news').remove();
+                            return;
+                        }
                     }
                 });
             }

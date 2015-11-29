@@ -36,7 +36,10 @@ define([
 			if(_this.state.newsId!=0) {
 				UserModel.updateNews({id:_this.state.newsId},function(success,data) {
 					if(success) {
-						if(!data.error) return;
+						if(!data.error) {
+							$('.drop-menu .news').remove();
+							return;
+						} 
 					}
 				});
 			}
@@ -98,29 +101,56 @@ define([
 				window.location.href="/login/sign_in?page=article&&method="+aid;
 				return;
 			}
-			if(content.indexOf('@')==0) {
-				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.receive_id};
+			if(content.indexOf('@')==0 && content.indexOf(':')>0) {
+				var content_data = content.split(':');
+				content_data[0] = '';
+				content = content_data.join('');
+				var data = {aid:aid, uid:uid, content:content, fid:_this.state.fid, pid:_this.state.pid, receive_id:_this.state.receive_id};
 			} else {
+				_this.setState({
+					fid: 0,
+				});
 				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.info.uid};
 			}
 
 			ArticleModel.addComment(data,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						_this.state.commentList.push({
-							id: data.data.id,
-							aid: aid,
-							uid: uid,
-							username: username,
-							content: content,
-							userUrl: userUrl,
-							addtime: data.data.addtime
-						});
+						if(_this.state.fid==0) {
+							_this.state.commentList.push({
+								id: data.data.id,
+								aid: aid,
+								uid: uid,
+								username: username,
+								content: content,
+								userUrl: userUrl,
+								addtime: data.data.addtime,
+								fid: 0
+							});
+						} else {
+							if(!_this.state.commentList[_this.state.comment_index]['children']) {
+								_this.state.commentList[_this.state.comment_index]['children'] = [];
+							} 
+							_this.state.commentList[_this.state.comment_index]['children'].push({
+								id: data.data.id,
+								aid: aid,
+								uid: uid,
+								username: username,
+								content: content,
+								userUrl: userUrl,
+								addtime: data.data.addtime,
+								fid: _this.state.fid,
+								pid: _this.state.pid
+							});
+						}
 						_this.state.info.comment = parseInt(_this.state.info.comment)+1;
 						_this.setState({
 							commentList: _this.state.commentList,
 							commentContent: '',
-							info: _this.state.info
+							info: _this.state.info,
+							fid: 0,
+							pid: 0,
+							comment_index: 0
 						});
 					} else {
 						Tooltip(data.msg);
@@ -130,24 +160,58 @@ define([
 		},
 		// 回复评论
 		handleReplay: function(event) {
-			var nick = $(event.target).data('nick');
-			var receive_id = $(event.target).data('uid');
+			var ele = $(event.target).parent();
+			var nick = ele.data('nick');
+			var receive_id = ele.data('uid');
+			var fid = parseInt(ele.data('fid')) ? ele.data('fid') : ele.data('id');
+			var pid = ele.data('id');
+			var comment_index = ele.data('index');
+
 			this.setState({
-				commentContent: '@' + nick + ' ',
-				receive_id: receive_id
+				commentContent: '@' + nick + ': ',
+				receive_id: receive_id,
+				fid: fid,
+				pid: pid,
+				comment_index: comment_index
 			});
 			$('#comment-text').focus();
 		},
 		// 删除评论
 		handleDelComment: function(event) {
 			var _this = this;
-			var cid = $(event.target).data('id');
-			var key = $(event.target).data('key');
-			ArticleModel.delComment({aid:_this.state.aid,cid:cid},function(success,data) {
+			var ele = $(event.target).parent();
+			var cid = ele.data('id');
+			var index = ele.data('index');
+			var key = ele.data('key');
+			var fid = parseInt(ele.data('fid'));
+			var cids = [];
+
+			if(fid==0 && key==index) {
+				if(_this.state.commentList[index]['children']) {
+					cids = _this.state.commentList[index]['children'].map(function(m) {
+						return m['id'];
+					});
+				}
+				cids.push(cid);
+			} else {
+				var children = _this.state.commentList[index]['children'];
+				for (var i = key; i < children.length; i++) {
+					if(children[i]['fid']!=children[i]['pid']) {
+						cids.push(children[i]['id']);
+					}
+				};
+			}
+
+			ArticleModel.delComment({aid:_this.state.aid,cids:cids},function(success,data) {
 				if(success) {
 					if(!data.error) {
-						_this.state.commentList.splice(key,1);
-						_this.state.info.comment = parseInt(_this.state.info.comment)-1;
+						if(fid==0 && key==index) {
+							_this.state.commentList.splice(key,1);
+						} else {
+							_this.state.commentList[index]['children'].splice(key);
+						}
+						
+						_this.state.info.comment = parseInt(_this.state.info.comment)-cids.length;
 						_this.setState({
 							commentList: _this.state.commentList,
 							info: _this.state.info
@@ -275,7 +339,10 @@ define([
 				page: 0,					 //评论分页
 				next: false,                 //是否还有下一页
 				uid: null,                   //用户id
-				receive_id: 0,
+				receive_id: 0,               //通知id
+				fid: 0,                      //第一级评论标志的缓存
+				pid: 0,                      //评论父级id的缓存
+				comment_index: 0,            //评论第几个的标记缓存
 			}
 		},
 		componentDidMount: function() {
@@ -318,6 +385,42 @@ define([
 			}
 
 			var commentList = this.state.commentList.length>0 ? this.state.commentList.map(function(d,i) {
+
+				var children = d['children'] ? d['children'].map(function(m,n) {
+					
+					if(m.fid==m.pid && m.pid==d.id) {
+						var replay_user_id = d.uid;
+						var replay_user_name = d.username;
+					} else {
+						var replay_user_id, replay_user_name;
+						for(var ins=0; ins<d['children'].length; ins++) {
+							if(m.pid==d['children'][ins]['id']) {
+								replay_user_id = d['children'][ins]['uid'];
+								replay_user_name = d['children'][ins]['username'];
+							}
+						}
+					}
+
+					return (
+						React.createElement("div", {key: n, id: "comment-"+m.id, className: "children-item", "data-id": m.id}, 
+							React.createElement("div", {className: "con"}, 
+								React.createElement("span", {className: "author"}, 
+									React.createElement("a", {href: "/user/"+m.uid}, m.username + ': '), "  ", 
+									replay_user_id ? (React.createElement("a", {href: "/user/"+replay_user_id}, '@' + replay_user_name)) : null, "  ", 
+									React.createElement("span", {className: "html"}, m.content)
+								), 
+								React.createElement("div", {className: "hd-time"}, WQ.timeFormat(m.addtime))
+							), 
+							React.createElement("div", {className: "replay", "data-nick": m.username, "data-index": i, "data-uid": m.uid, "data-fid": d.id, "data-id": m.id, "data-key": n, "data-pid": m.pid}, 
+								React.createElement("a", {onClick: _this.handleReplay}, "回复"), 
+								
+									m.uid == WQ.cookie.get('id') ? React.createElement("a", {onClick: _this.handleDelComment}, "删除") : null
+								
+							)
+						)
+					)
+				}) : null;
+
 				return (
 					React.createElement("div", {key: i, id: "comment-"+d.id, className: "comment-item  clearfix", "data-id": d.id}, 
 						React.createElement("a", {className: "user avatar", href: "/user/"+d.uid}, 
@@ -331,15 +434,18 @@ define([
 								), 
 								React.createElement("div", {className: "html"}, d.content)
 							), 
-							React.createElement("div", {className: "replay"}, 
-								React.createElement("a", {"data-nick": d.username, "data-uid": d.uid, onClick: _this.handleReplay}, "回复"), 
+							React.createElement("div", {className: "replay", "data-nick": d.username, "data-index": i, "data-uid": d.uid, "data-fid": d.fid, "data-pid": d.pid, "data-id": d.id, "data-key": i}, 
+								React.createElement("a", {onClick: _this.handleReplay}, "回复"), 
 								
-									uid == WQ.cookie.get('id') ? React.createElement("a", {"data-id": d.id, "data-key": i, onClick: _this.handleDelComment}, "删除") : null
+									d.uid == WQ.cookie.get('id') ? React.createElement("a", {onClick: _this.handleDelComment}, "删除") : null
 								
 							)
-						)
+						), 
+						React.createElement("div", {style: {'clear':'both'}}), 
+						children
 					)
 				);
+
 			}) : null;
 
 			return (

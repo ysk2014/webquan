@@ -180,10 +180,10 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function incrementById($data,$id)
+    public function incrementById($data,$id,$len=1)
     {
         return $this->where('id','=', intval($id))
-                    ->increment($data);
+                    ->increment($data,$len);
     }
 
     /**
@@ -191,10 +191,10 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function decrementById($data,$id)
+    public function decrementById($data,$id,$len)
     {
         return $this->where('id','=', intval($id))
-                    ->decrement($data);
+                    ->decrement($data,$len);
     }  
 
     /**

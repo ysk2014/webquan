@@ -22,7 +22,7 @@ class Comment extends Model
      *
      * @var string
      */
-    protected $fillable = array('id', 'aid', 'uid', 'content', 'fid', 'addtime');
+    protected $fillable = array('id', 'aid', 'uid', 'content', 'fid', 'pid', 'addtime');
 
 
     /**
@@ -98,7 +98,7 @@ class Comment extends Model
      */
     public function countCommentByAid($aid)
     {
-        return $this->where('aid', $aid)->count();
+        return $this->where('aid', $aid)->->where('fid', 0)->count();
     }
 
 
