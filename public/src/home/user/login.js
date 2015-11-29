@@ -1,4 +1,4 @@
-define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],function(React, $, UserModel,Tooltip) {
+define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],function(React, $, WQ, UserModel,Tooltip) {
 
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -118,12 +118,33 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                 job: event.target.value,
             });
         },
+        handlePress: function(event) {
+            var _this = this;
+            if(event.which==13 && _this.state.nav == 'sign_in') {
+                _this.handleSignIn();
+            }
+        },
         // 登陆处理
         handleSignIn: function() {
             var _this = this;
+            var username = WQ.trim(_this.state.username);
+            var password = WQ.trim(_this.state.password);
+
+            if(username=='') {
+                Tooltip('用户名不能为空');
+                $('.login-contianer').find('input[name="username"]').focus();
+                return false;
+            }
+
+            if(password=='') {
+                Tooltip('密码不能为空');
+                $('.login-contianer').find('input[name="password"]').focus();
+                return false;
+            }
+
             var data = {
-                username: _this.state.username,
-                password: _this.state.password,
+                username: WQ.trim(_this.state.username),
+                password: WQ.trim(_this.state.password),
             }
             UserModel.login(data,function(success,data) {
                 if(success) {
@@ -217,13 +238,13 @@ define(['react', 'jquery', 'home/model/userModel','home/common/tooltip'],functio
                                         <span className="add-on">
                                             <i className="fa fa-user"></i>
                                         </span>
-                                        <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} />
+                                        <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} onKeyPress={_this.handlePress} />
                                     </div>
                                     <div className="input-prepend">
                                         <span className="add-on">
                                             <i className="fa fa-unlock-alt"></i>
                                         </span>
-                                        <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} />
+                                        <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} onKeyPress={_this.handlePress} />
                                     </div>
                                     {
                                         (_this.state.nav =='sign_up') ? 

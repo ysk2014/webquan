@@ -76,7 +76,7 @@ class Process extends BaseProcess
     public function dealData($data,$result) {
         foreach ($data as $key => $value) {
             if($value['fid'] == $result['id']) {
-                $result['childen'][] = $this->dealData($data,$value);
+                $result['children'][] = $this->dealData($data,$value);
             } 
         }
         return $result;
@@ -140,14 +140,12 @@ class Process extends BaseProcess
     /**
      * 删除评论
      */
-    public function delComment($cid,$aid)
+    public function delComment($cids,$aid)
     {
-        $cid = array($cid);
-        
-        if($this->commentModel->delComment($cid) != false)
+        if($this->commentModel->delComment($cids) != false)
         {
-            $this->articelModel->decrementById('comment',$aid);
-            $this->redis->hincrby('article_'.$aid,'comment',-1);
+            $this->articelModel->decrementById('comment',$aid,count($cids));
+            $this->redis->hincrby('article_'.$aid,'comment',-1*count($cids));
             return array('error'=>false,'msg'=>'删除成功');
         }
         else

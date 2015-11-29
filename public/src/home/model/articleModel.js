@@ -93,7 +93,7 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 		},
 		// 删除评论
 		delComment: function(data,callback) {
-			BaseModel.del('/article/'+data['aid']+'/comment', {'cid':data['cid']}, callback);
+			BaseModel.del('/article/'+data['aid']+'/comment', {'cids':data['cids']}, callback);
 		},
 
 
