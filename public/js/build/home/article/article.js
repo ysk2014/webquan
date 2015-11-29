@@ -99,7 +99,7 @@ define([
 				return;
 			}
 			if(content.indexOf('@')==0) {
-				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.receive_id};
+				var data = {aid:aid, uid:uid, content:content, fid:_this.state.fid, receive_id:_this.state.receive_id};
 			} else {
 				var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.info.uid};
 			}
@@ -132,9 +132,11 @@ define([
 		handleReplay: function(event) {
 			var nick = $(event.target).data('nick');
 			var receive_id = $(event.target).data('uid');
+			var fid = $(event.target).data('fid');
 			this.setState({
 				commentContent: '@' + nick + ' ',
-				receive_id: receive_id
+				receive_id: receive_id,
+				fid: fid
 			});
 			$('#comment-text').focus();
 		},
@@ -275,7 +277,8 @@ define([
 				page: 0,					 //评论分页
 				next: false,                 //是否还有下一页
 				uid: null,                   //用户id
-				receive_id: 0,
+				receive_id: 0,               //通知id
+				fid: 0,                      //评论的父级id的缓存
 			}
 		},
 		componentDidMount: function() {
@@ -332,7 +335,7 @@ define([
 								React.createElement("div", {className: "html"}, d.content)
 							), 
 							React.createElement("div", {className: "replay"}, 
-								React.createElement("a", {"data-nick": d.username, "data-uid": d.uid, onClick: _this.handleReplay}, "回复"), 
+								React.createElement("a", {"data-nick": d.username, "data-uid": d.uid, "data-fid": d.id, onClick: _this.handleReplay}, "回复"), 
 								
 									uid == WQ.cookie.get('id') ? React.createElement("a", {"data-id": d.id, "data-key": i, onClick: _this.handleDelComment}, "删除") : null
 								
