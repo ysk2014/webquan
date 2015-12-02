@@ -209,12 +209,18 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
         },
         componentDidMount: function() {
             $('.left-bar').hide();
+            var h = parseInt($('#login-page').height());
+            $('#login-page').animate({'margin-top':-h/2+'px'},300);
             this.canvasAnimate();
         },
         componentWillReceiveProps: function(nextProps) {
             this.setState({
                 nav: nextProps.way
             });
+            setTimeout(function() {
+                var h = parseInt($('#login-page').height());
+                $('#login-page').animate({'margin-top':-h/2+'px'},300);
+            },0);
         },
         render: function() {
             var _this = this;

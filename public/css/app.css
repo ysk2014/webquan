@@ -65,8 +65,12 @@
 
 /*登陆和注册*/
 .login-page{
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 440px;
-  margin: 250px auto 0px;
+  margin-left: -220px;
+  /*margin: 250px auto 0px;*/
   background-color: #fff;
   border-radius: 6px;
   overflow: hidden;
