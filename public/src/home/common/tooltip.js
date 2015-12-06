@@ -12,12 +12,13 @@ define(['react','jquery'],function(React, $) {
 					var _this = this;
 					var alertBox = $(_this.getDOMNode());
 					
-					$('#mask').show();
-					alertBox.css('margin-left',-parseInt(alertBox.width())/2);
+					$('#mask').slideDown(1000);
 
 					setTimeout(function() {
-						React.unmountComponentAtNode($('#mask').get(0));
-						$('#mask').hide();
+						$('#mask').slideUp(1000,function() {
+							React.unmountComponentAtNode($('#mask').get(0));
+						});
+						
 					},1000);
 				},
 				render: function() {

@@ -243,6 +243,8 @@ class Routes
             Route::post('/sign_up', 'Home\UserController@dealUser');
             // 退出
             Route::get('/sign_out', 'Home\UserController@getOut');
+            // 密码重置页
+            Route::get('/page/forget', 'Home\UserController@forget');
 
 
             // 个人首页

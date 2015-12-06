@@ -271,6 +271,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     }
                                     
                                     <a className="btn btn-info btn-submit" href="javascript:void(0)" onClick={this.handleSubmit}>{(_this.state.nav=='sign_in') ? "登陆" : "注册"}</a>
+                                    <a target="_blank" href="/page/forget" className="pull-right forget">忘记密码</a>
                                 </form>
                             </div>
                         </div>

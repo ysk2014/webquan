@@ -39,6 +39,14 @@ class UserController extends Controller {
 		return view('home.app');
 	}
 
+	/**
+	* 密码重置页面
+	*/
+	public function forget()
+	{
+		return view('home.forget');
+	}
+
     /**
      * 开始登录处理
      *

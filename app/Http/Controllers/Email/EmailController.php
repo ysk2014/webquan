@@ -6,6 +6,7 @@ use Request,Cache,Mail;
 
 class EmailController extends BaseController {
 
+	// static public $rand;
 	/**
 	 * Create a new controller instance.
 	 *
@@ -24,12 +25,12 @@ class EmailController extends BaseController {
 	{
 		$email = Request::input('email');
 
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		$rand = rand(100000,999999);
 
-		$data = ['email'=>$email, 'name'=>$isLogin['username']];
+		$data = ['email'=>$email, 'rand'=>$rand];
 		Mail::send('emails.password', $data, function($message) use($data)
 		{
-		    $message->to($data['email'], $data['name'])->subject('欢迎加入我们的社区，请绑定您的邮箱！');
+		    $message->to($data['email'], $data['rand'])->subject('【重要】web圈验证码');
 		});
 		return response()->json($data);
 	}
