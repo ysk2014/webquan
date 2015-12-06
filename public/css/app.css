@@ -47,13 +47,14 @@
 }
 
 .alert-box{
-  position:absolute; 
-  left:50%;
-  top: 50%;
+  position:fixed;
+  top: 0;
+  left: 50%;
+  width: 600px;
   height: 40px;
+  margin-left: -300px;
   line-height: 40px;
-  margin-top: -180px;
-  background: #666;
+  background: #e16b6f;
   padding:0 30px;
   z-index: 999;
   color: #fff;
@@ -113,6 +114,14 @@
   width: calc(100% - 44px);
   height: 44px;
 }
+.login-page .forget{
+  margin-top: 10px;
+  color: #cdcdcd;
+}
+.login-page .forget:hover {
+  color: #5dade2;
+}
+
 
 
 /*编辑文章页*/
