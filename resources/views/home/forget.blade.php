@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>忘记密码|Web圈</title>
+	<title>忘记密码 | Web圈</title>
 	<link href="{{ asset('image/web.ico') }}" rel="shortcut icon">
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
@@ -43,10 +43,10 @@
         <div class="title"><span></span><h3>密码重置</h3></div>
         <div class="content">
             <div class="input-prepend">
-                <span iclass="add-on">
+                <span class="add-on">
                     <i class="fa fa-envelope-o"></i>
                 </span>
-                <input type="text" class="input-login check" name="username"  placeholder="请输入验证码" />
+                <input type="text" class="input-login" name="username"  placeholder="请输入新密码" />
             </div>
             <a class="btn btn-info btn-submit" id="next-3" href="javascript:void(0)">下一步</a>
         </div>
