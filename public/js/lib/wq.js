@@ -61,6 +61,12 @@ WQ.timeFormat = function(time) {
 WQ.trim = function(str) {
     return (!String.prototype.trim) ? str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") : str.trim();
 };
+// 邮箱验证
+WQ.checkEmail = function(str) {
+    var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    return email.test(str);
+}
+
 
 WQ.isIE    = (navigator.appName == "Microsoft Internet Explorer");
 WQ.isIE8   = (WQ.isIE && navigator.appVersion.match(/8./i) == "8.");
