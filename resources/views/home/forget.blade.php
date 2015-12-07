@@ -13,7 +13,7 @@
 	
 <body>
 	<canvas id="cas-bc"></canvas>
-	<div class="container">
+	<div class="container page-show">
 		<div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
 		<div class="title"><span></span><h3>密码重置</h3></div>
 		<div class="content">
@@ -23,9 +23,34 @@
                 </span>
 				<input type="text" class="input-login" name="username"  placeholder="请输入用户绑定的邮箱" />
 			</div>
-			<a class="btn btn-info btn-submit" id="next" href="javascript:void(0)">下一步</a>
+			<a class="btn btn-info btn-submit" id="next-1" href="javascript:void(0)">下一步</a>
 		</div>
 	</div>
+    <div class="container">
+        <div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
+        <div class="title"><span></span><h3>为了账号安全，需要验证邮箱有效性</h3></div>
+        <div class="desc">一封包含有验证码的邮件已经发送至邮箱：<a></a></div>
+        <div class="content">
+            <div class="input-prepend">
+                <span id="resend" class="add-on-btn btn btn-info disabled">等待60秒</span>
+                <input type="text" class="input-login check" name="username"  placeholder="请输入验证码" />
+            </div>
+            <a class="btn btn-info btn-submit" id="next-2" href="javascript:void(0)">下一步</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
+        <div class="title"><span></span><h3>密码重置</h3></div>
+        <div class="content">
+            <div class="input-prepend">
+                <span iclass="add-on">
+                    <i class="fa fa-envelope-o"></i>
+                </span>
+                <input type="text" class="input-login check" name="username"  placeholder="请输入验证码" />
+            </div>
+            <a class="btn btn-info btn-submit" id="next-3" href="javascript:void(0)">下一步</a>
+        </div>
+    </div>
 	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
 	<script type="text/javascript">
@@ -120,17 +145,53 @@
             }
         }
         canvasAnimate();
+
         $('.input-login').focus();
-        $('#next').on('click',function() {
-        	var email = $(this).siblings().find('input').val();
+
+        var email;
+
+        var dealAjax = function(ele,email) {
+            ele.parents('.container').addClass('fadeOutLeft animated').next('.container').addClass('fadeInRight animated page-show').find('.desc a').html(email);
+            var time = 60;
+            var timer = setInterval(function() {
+                --time;
+                if(time==0) {
+                    clearInterval(timer);
+                    $('#resend').removeClass('disabled').html('重新发送')
+                } else {
+                    $('#resend').html('等待'+time+'秒');
+                }
+            },1000);
+        };
+
+        $('#next-1').on('click',function() {
+            var $this = $(this);
+            email = $(this).siblings().find('input').val();
         	if(WQ.trim(email) == '') {
         		alert('邮箱不能为空');
         		$(this).siblings().find('input').focus();
         		return;
         	}
+            if(!WQ.checkEmail(email)) {
+                alert('邮箱格式不正确');
+                $(this).siblings().find('input').focus();
+                return;
+            }
 	        $.get('/email',{email:email},function(data) {
-	        	console.log(data);
+	        	dealAjax($this,email);
 	        });
+        });
+
+        $('#resend').on('click',function() {
+            if($(this).hasClass('disabled')) return;
+
+            $.get('/email',{email:email},function(data) {
+                dealAjax($('#next-1'),email);
+            });
+        });
+
+        $('#next-2').on('click',function() {
+            $(this).parents('.container').addClass('fadeOutLeft animated').next('.container').addClass('fadeInRight animated page-show');
         });
         
 	</script>

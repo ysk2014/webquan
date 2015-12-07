@@ -165,11 +165,33 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
         //注册处理
         handleSignUp: function() {
             var _this = this;
+            var username = WQ.trim(_this.state.username);
+            var password = WQ.trim(_this.state.password);
+            var email = WQ.trim(_this.state.email);
+            var job = WQ.trim(_this.state.job);
+
+            if(username=='') {
+                Tooltip('用户名不能为空');
+                $('.login-contianer').find('input[name="username"]').focus();
+                return false;
+            }
+
+            if(password=='') {
+                Tooltip('密码不能为空');
+                $('.login-contianer').find('input[name="password"]').focus();
+                return false;
+            }
+
+            if(!WQ.checkEmail(email)) {
+                Tooltip('邮箱地址不正确');
+                return false;
+            }
+
             var data = {
-                username: _this.state.username,
-                password: _this.state.password,
-                   email: _this.state.email,
-                     job: _this.state.job,
+                username: username,
+                password: password,
+                   email: email,
+                     job: job,
             }
             UserModel.register(data,function(success,data) {
                 if (success) {
@@ -259,7 +281,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                                 React.createElement("span", {className: "add-on"}, 
                                                     React.createElement("i", {className: "fa fa-envelope-o"})
                                                 ), 
-                                                React.createElement("input", {type: "text", className: "input-login", name: "email", value: _this.state.email, placeholder: "email", onChange: _this.handleEmailChange})
+                                                React.createElement("input", {type: "text", className: "input-login", name: "email", value: _this.state.email, placeholder: "email", onChange: _this.handleEmailChange, onFocus: _this.handleCheckEmail})
                                             ), 
                                             React.createElement("div", {className: "input-prepend"}, 
                                                 React.createElement("span", {className: "add-on"}, 

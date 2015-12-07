@@ -6,7 +6,6 @@ use Request,Cache,Mail;
 
 class EmailController extends BaseController {
 
-	// static public $rand;
 	/**
 	 * Create a new controller instance.
 	 *
