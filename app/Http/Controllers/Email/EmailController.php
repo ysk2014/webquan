@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Controller as BaseController;
 use App\Services\User\Login\Process as LoginProcess;
+use App\Services\Email\Process as EmailProcess;
 use Request,Cache,Mail;
 
 class EmailController extends BaseController {
@@ -17,24 +18,26 @@ class EmailController extends BaseController {
 	}
 
 	/**
-	 * article
+	 * 
 	 *
 	 */
-	public function index()
+	public function index(EmailProcess $deal)
 	{
 		$email = Request::input('email');
 
-		$rand = rand(100000,999999);
+		$result = $deal->sendVerifyCode($email);
 
-		$data = ['email'=>$email, 'rand'=>$rand];
-		Mail::send('emails.password', $data, function($message) use($data)
-		{
-		    $message->to($data['email'], $data['rand'])->subject('【重要】web圈验证码');
-		});
-		return response()->json($data);
+		return response()->json($result);
 	}
 
+	public function checkVerifyCode(EmailProcess $deal) 
+	{
+		$verifyCode = Request::input('verifyCode');
 
+		$result = $deal->checkVerifyCode($verifyCode);
+
+		return response()->json($result);
+	}
 
 
 }
