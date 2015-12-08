@@ -61,6 +61,8 @@ class Routes
 
             // 邮件
             Route::get('/email', 'Email\EmailController@index');
+            //邮件验证码
+            Route::post('/email/verifyCode', 'Email\EmailController@checkVerifyCode');
 
             $this->user();
 
@@ -245,6 +247,8 @@ class Routes
             Route::get('/sign_out', 'Home\UserController@getOut');
             // 密码重置页
             Route::get('/page/forget', 'Home\UserController@forget');
+            // 密码重置
+            Route::post('/password/reset', 'Home\UserController@resetPassword');
 
 
             // 个人首页

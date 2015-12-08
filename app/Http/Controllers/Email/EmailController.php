@@ -17,10 +17,6 @@ class EmailController extends BaseController {
 
 	}
 
-	/**
-	 * 
-	 *
-	 */
 	public function index(EmailProcess $deal)
 	{
 		$email = Request::input('email');
@@ -30,11 +26,12 @@ class EmailController extends BaseController {
 		return response()->json($result);
 	}
 
-	public function checkVerifyCode(EmailProcess $deal) 
+	public function checkVerifyCode(EmailProcess $deal)
 	{
-		$verifyCode = Request::input('verifyCode');
+		$verifyCode = Request::input('code');
+		$email = Request::input('email');
 
-		$result = $deal->checkVerifyCode($verifyCode);
+		$result = $deal->checkVerifyCode($email,$verifyCode);
 
 		return response()->json($result);
 	}

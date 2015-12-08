@@ -161,6 +161,26 @@ class Process extends BaseProcess
     }
 
     /**
+     * 忘记密码时,重置密码
+     * 
+     * @return true|false
+     */
+    public function resetPassword($uid,$newPassword)
+    {
+        $resultArr = [];
+
+        $updateData = ['password' => md5($newPassword)];
+
+        if($this->userModel->editUser($updateData,$uid) !== false)  {
+            $resultArr = array('error'=>false, 'msg'=>'修改成功');
+            \App\Services\SC::delLoginSession();
+        } else {
+            $resultArr = array('error'=>true, 'msg'=>'修改失败');
+        }
+        return $resultArr;
+    }
+
+    /**
      * 根据用户id获取用户信息
      * 
      * @param intval $uid

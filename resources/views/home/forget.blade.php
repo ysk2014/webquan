@@ -174,7 +174,8 @@
                         --time;
                         if(time==0) {
                             clearInterval(timer);
-                            $('#resend').removeClass('disabled').html('重新发送')
+                            $('#resend').removeClass('disabled').html('重新发送');
+                            $('#next-2').addClass('disabled');
                         } else {
                             $('#resend').html('等待'+time+'秒');
                         }
@@ -195,11 +196,15 @@
                         return;
                     }
                     $.get('/email',{email:_this.email},function(data) {
+                        if(!data.error) {
+                            _this.page1.addClass('fadeOutLeft animated');
+                            _this.page2.addClass('fadeInRight animated page-show').find('.desc a').html(_this.email);
 
-                        _this.page1.addClass('fadeOutLeft animated');
-                        _this.page2.addClass('fadeInRight animated page-show').find('.desc a').html(_this.email);
-
-                        dealAjax();
+                            dealAjax();
+                        } else {
+                            alert(data.msg);
+                        }
+                        
                     });
                 });
                 // page2的验证码重新发送按钮的处理
@@ -207,16 +212,60 @@
 
                     if($(this).hasClass('disabled')) return;
 
+                    if($('#next-2').hasClass('disabled')) $('#next-2').removeClass('disabled');
+                    
                     $.get('/email',{email:_this.email},function(data) {
-                        dealAjax();
+                        if(!data.error) {
+                            dealAjax();
+                        } else {
+                            alert(data.msg);
+                        }
                     });
                 });
                 // page2的下一步点击处理
                 $('#next-2').on('click',function() {
+
+                    if($(this).hasClass('disabled')) return;
+
                     var verifyCode = $(this).siblings().find('input').val();
-                    $.post()
-                    _this.page2.addClass('fadeOutLeft animated');
-                    _this.page3.addClass('fadeInRight animated page-show');
+
+                    if(verifyCode.length!=6) {
+                        alert('请输入正确的验证码');
+                        return;
+                    }
+
+                    $.post('/email/verifyCode',{email:_this.email,code:verifyCode},function(data) {
+                        if(!data.error) {
+                            _this.page3.data('code',data.data);
+                            _this.page2.addClass('fadeOutLeft animated');
+                            _this.page3.addClass('fadeInRight animated page-show');
+                        }
+                    },'json');
+                });
+
+                $('#next-3').on('click', function() {
+                    var newPassword = _this.page3.find('input[name="newPassword"]').val();
+                    var newPasswordRepeat = _this.page3.find('input[name="newPasswordRepeat"]').val();
+                    if(newPassword == '' || newPasswordRepeat == '') {
+                        alert('密码不能为空');
+                        return;
+                    }
+                    if(newPassword.length<6) {
+                        alert('密码不能小于六位数');
+                        return;
+                    }
+                    if(newPasswordRepeat != newPassword) {
+                        alert('两次密码输入不一致');
+                        return;
+                    }
+
+                    $.post('/password/reset',{code:_this.page3.data('code'),newPassword: newPassword},function(data) {
+                        if(!data.error) {
+                            window.location.href = '/login/sign_in';
+                        } else {
+                            alert(data.msg);
+                        }
+                    },'json');
                 });
             }
         };

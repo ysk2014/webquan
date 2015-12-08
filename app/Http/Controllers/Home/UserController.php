@@ -118,6 +118,21 @@ class UserController extends Controller {
 	}
 
     /**
+     * 重置密码
+     *
+     * @access public
+     */
+	public function resetPassword(UserActionProcess $manager)
+	{
+		$uid =  Request::input('code');
+		$newPassword =  Request::input('newPassword');
+
+		$result = $manager->resetPassword($uid,$newPassword);
+		
+		return response()->json($result);
+	}
+
+    /**
      * 获取登录用户的信息
      */
     public function getUserInfoByLogin(LoginProcess $loginProcess)
