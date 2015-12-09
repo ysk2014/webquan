@@ -180,4 +180,6 @@ requirejs([
     });
 
     React.render(<App />, document.getElementById('container'));
+    $('#loading').hide();
+
 })
