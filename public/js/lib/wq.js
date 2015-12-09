@@ -244,7 +244,19 @@ WQ.cookie = {
         this.remove('_');
         return ret;
     }
-}
+};
+
+
+//提示框
+WQ.tooltip = function(content) {
+    var tpl = '<div ref="alertBox" class="alert-box"><p>' + content + '</p></div>';
+    $('#mask').append(tpl).slideDown(1000);
+    setTimeout(function() {
+        $('#mask').slideUp(1000,function() {
+            $('#mask').html('');
+        });
+    },1000);
+};
 
 
 

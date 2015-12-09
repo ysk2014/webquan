@@ -12,6 +12,7 @@
 </head>
 	
 <body>
+    <div id="mask"></div>
 	<canvas id="cas-bc"></canvas>
 	<div class="container page-show" id="page-1">
 		<div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
@@ -186,12 +187,12 @@
                     var $this = $(this);
                     _this.email = $(this).siblings().find('input').val();
                     if(WQ.trim(_this.email) == '') {
-                        alert('邮箱不能为空');
+                        WQ.tooltip('邮箱不能为空');
                         $(this).siblings().find('input').focus();
                         return;
                     }
                     if(!WQ.checkEmail(_this.email)) {
-                        alert('邮箱格式不正确');
+                        WQ.tooltip('邮箱格式不正确');
                         $(this).siblings().find('input').focus();
                         return;
                     }
@@ -202,7 +203,7 @@
 
                             dealAjax();
                         } else {
-                            alert(data.msg);
+                            WQ.tooltip(data.msg);
                         }
                         
                     });
@@ -218,7 +219,7 @@
                         if(!data.error) {
                             dealAjax();
                         } else {
-                            alert(data.msg);
+                            WQ.tooltip(data.msg);
                         }
                     });
                 });
@@ -230,7 +231,7 @@
                     var verifyCode = $(this).siblings().find('input').val();
 
                     if(verifyCode.length!=6) {
-                        alert('请输入正确的验证码');
+                        WQ.tooltip('请输入正确的验证码');
                         return;
                     }
 
@@ -247,15 +248,15 @@
                     var newPassword = _this.page3.find('input[name="newPassword"]').val();
                     var newPasswordRepeat = _this.page3.find('input[name="newPasswordRepeat"]').val();
                     if(newPassword == '' || newPasswordRepeat == '') {
-                        alert('密码不能为空');
+                        WQ.tooltip('密码不能为空');
                         return;
                     }
                     if(newPassword.length<6) {
-                        alert('密码不能小于六位数');
+                        WQ.tooltip('密码不能小于六位数');
                         return;
                     }
                     if(newPasswordRepeat != newPassword) {
-                        alert('两次密码输入不一致');
+                        WQ.tooltip('两次密码输入不一致');
                         return;
                     }
 
@@ -263,7 +264,7 @@
                         if(!data.error) {
                             window.location.href = '/login/sign_in';
                         } else {
-                            alert(data.msg);
+                            WQ.tooltip(data.msg);
                         }
                     },'json');
                 });

@@ -325,6 +325,10 @@ textarea:focus {
 .btn:focus:active {
   outline: none;
 }
+.btn.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
 .btn>i{
   margin-right: 4px;
 }
