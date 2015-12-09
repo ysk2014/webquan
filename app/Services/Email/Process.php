@@ -22,7 +22,12 @@ class Process extends BaseProcess
 	{
 		# code...
 	}
-	// 发送验证码
+
+	/**
+     * 发送验证码
+     * 
+     * @params $email 邮箱
+     */
 	public function sendVerifyCode($email) 
 	{
 		self::$verifyCode = rand(100000,999999);
@@ -36,6 +41,12 @@ class Process extends BaseProcess
 		$result = ['error'=>false];
 		return $result;
 	}
+
+	/**
+     * 匹配验证码
+     * 
+     * @params $email 邮箱 
+     */
 	public function checkVerifyCode($code) {
 		if($code == self::$verifyCode) {
 			$result = ['error'=>false];
