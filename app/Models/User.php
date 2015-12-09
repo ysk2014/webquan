@@ -101,6 +101,17 @@ class User extends Base
     }
 
     /**
+     * 取得指定用户名的信息
+     * 
+     * @param string $email 用户邮箱
+     * @return array
+     */
+    public function getUidByEmail($email)
+    {
+        return $this->select('id')->where('email', '=', $email)->first();
+    }
+
+    /**
      * 更新最后登录时间
      * 
      * @param int $userId 登录用户的ID
