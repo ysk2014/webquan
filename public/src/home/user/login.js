@@ -182,7 +182,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 return false;
             }
 
-            if(!WQ.checkEmail(email)) {
+            if(!WQ.check.email(email)) {
                 Tooltip('邮箱地址不正确');
                 return false;
             }
@@ -281,7 +281,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                                 <span className="add-on">
                                                     <i className="fa fa-envelope-o"></i>
                                                 </span>
-                                                <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} onFocus={_this.handleCheckEmail} />
+                                                <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
                                             </div>
                                             <div className="input-prepend">
                                                 <span className="add-on">

@@ -34,7 +34,7 @@
         <div class="content">
             <div class="input-prepend">
                 <span id="resend" class="add-on-btn btn btn-info disabled">等待60秒</span>
-                <input type="text" class="input-login check" name="verifyCode"  placeholder="请输入验证码" />
+                <input type="text" class="input-login check" maxlength="6" name="verifyCode"  placeholder="请输入六位数验证码" />
             </div>
             <a class="btn btn-info btn-submit" id="next-2" href="javascript:void(0)">下一步</a>
         </div>
@@ -182,6 +182,12 @@
                         }
                     },1000);
                 };
+                _this.page1.find('input').on('click',function(e) {
+                    e = event || window.event;
+                    if(e.which==13) {
+                        $('#next-1').trigger('click');
+                    }
+                });
                 // page1的下一步点击处理
                 $('#next-1').on('click',function() {
                     var $this = $(this);
@@ -191,7 +197,7 @@
                         $(this).siblings().find('input').focus();
                         return;
                     }
-                    if(!WQ.checkEmail(_this.email)) {
+                    if(!WQ.check.email(_this.email)) {
                         WQ.tooltip('邮箱格式不正确');
                         $(this).siblings().find('input').focus();
                         return;
@@ -231,7 +237,12 @@
                     var verifyCode = $(this).siblings().find('input').val();
 
                     if(verifyCode.length!=6) {
-                        WQ.tooltip('请输入正确的验证码');
+                        WQ.tooltip('请输入六位数的验证码');
+                        return;
+                    }
+
+                    if(!WQ.check.number(verifyCode)) {
+                        WQ.tooltip('您输入的验证码不能有除数字以外的字符');
                         return;
                     }
 
@@ -262,7 +273,10 @@
 
                     $.post('/password/reset',{code:_this.page3.data('code'),newPassword: newPassword},function(data) {
                         if(!data.error) {
-                            window.location.href = '/login/sign_in';
+                            WQ.tooltip(data.msg);
+                            setTimeout(function() {
+                                window.location.href = '/login/sign_in';
+                            },1200);
                         } else {
                             WQ.tooltip(data.msg);
                         }

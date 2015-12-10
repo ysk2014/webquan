@@ -57,7 +57,7 @@ class Process extends BaseProcess
 		    $message->to($data['email'], $data['rand'])->subject('【重要】web圈验证码');
 		});
 
-		$result = ['error'=>false,'data'=>$user['id']];
+		$result = ['error'=>false];
 		return $result;
 	}
 

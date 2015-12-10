@@ -258,7 +258,47 @@ WQ.tooltip = function(content) {
     },1000);
 };
 
-
+//验证
+WQ.check = {
+    regExps: {
+        "require"   : /\S+/,    // 不为空
+        "email"     : /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,      // 邮箱
+        "url"       : /^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/,   // 链接地址
+        "currency"  : /^(0|[1-9][0-9]*)(\.[0-9]{1,2})?$/,   // 货币
+        "number"    : /^\d+$/,                              // 数字
+        "zip"       : /^\d{6}$/,                            // 邮编
+        "integer"   : /^(0|-?[1-9][0-9]*)$/,                // 整数
+        "pinteger"  : /^(0|[1-9][0-9]*)$/,                  // 正整数
+        "double"    : /^-?(0|[1-9][0-9]*)\.[0-9]+$/,        // 浮点数
+        "pdouble"   : /^(0|[1-9][0-9]*)\.[0-9]+$/,          // 正浮点数
+        "english"   : /^[A-Za-z]+$/,                        // 英文字母
+        "chinese"   : /^[\u4e00-\u9fa5]+$/                  // 汉字
+    },
+    empty: function(str) {
+        return !this.regExps['require'].test(str);
+    },
+    email: function(str) {
+        return this.regExps['email'].test(str);
+    },
+    url: function(url) {
+        return this.regExps['url'].test(url);
+    },
+    currency: function(str) {
+        return this.regExps['currency'].test(str);
+    },
+    number: function(str) {
+        return this.regExps['number'].test(str);
+    },
+    zip: function(str) {
+        return this.regExps['zip'].test(str);
+    },
+    en: function(str) {
+        return this.regExps['english'].test(str);
+    },
+    cn: function(str) {
+        return this.regExps['chinese'].test(str);
+    }
+};
 
 if ( typeof define === "function" && define.amd ) {
     define( "WQ", [], function() {
