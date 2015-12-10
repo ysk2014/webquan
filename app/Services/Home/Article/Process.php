@@ -290,7 +290,13 @@ class Process extends BaseProcess
 				$next = false;
 			}
 
-			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+
+			return array('error'=>false,'data'=>$articleData, 'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
@@ -318,7 +324,13 @@ class Process extends BaseProcess
 				$next = false;
 			}
 
-			return array('error'=>false,'data'=>$articleInfo, 'next'=>$next);
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+
+			return array('error'=>false,'data'=>$articleData, 'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'没有更多的文章了');
 		}
@@ -395,7 +407,14 @@ class Process extends BaseProcess
 			} else {
 				$next = false;
 			}
-			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+
+			return array('error'=>false,'data'=>$articleData,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
@@ -419,7 +438,14 @@ class Process extends BaseProcess
 			} else {
 				$next = false;
 			}
-			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+
+			return array('error'=>false,'data'=>$articleData,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
@@ -447,7 +473,14 @@ class Process extends BaseProcess
 			} else {
 				$next = false;
 			}
-			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+
+			return array('error'=>false,'data'=>$articleData,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
@@ -474,7 +507,14 @@ class Process extends BaseProcess
 			} else {
 				$next = false;
 			}
-			return array('error'=>false,'data'=>$articleInfo,'next'=>$next);
+
+			$articleData = array();
+			foreach ($articleInfo as $key => $value) {
+				unset($value['content']);
+				array_push($articleData,$value);
+			}
+			
+			return array('error'=>false,'data'=>$articleData,'next'=>$next);
 		} else {
 			return array('error'=>true,'msg'=>'获取文章失败');
 		}
