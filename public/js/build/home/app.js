@@ -149,7 +149,7 @@ requirejs([
 
                     React.createElement("div", {className: "left-bar"}, 
                         React.createElement("div", {className: "logo"}, 
-                            React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo1.png"}))
+                            React.createElement("a", {href: "/"}, React.createElement("img", {src: "/image/logo.png"}))
                         ), 
                         React.createElement("ul", {className: "left-nav"}, 
                             React.createElement("li", {className: (this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}, 

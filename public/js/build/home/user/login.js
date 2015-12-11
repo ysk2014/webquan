@@ -182,7 +182,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 return false;
             }
 
-            if(!WQ.checkEmail(email)) {
+            if(!WQ.check.email(email)) {
                 Tooltip('邮箱地址不正确');
                 return false;
             }
@@ -281,7 +281,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                                 React.createElement("span", {className: "add-on"}, 
                                                     React.createElement("i", {className: "fa fa-envelope-o"})
                                                 ), 
-                                                React.createElement("input", {type: "text", className: "input-login", name: "email", value: _this.state.email, placeholder: "email", onChange: _this.handleEmailChange, onFocus: _this.handleCheckEmail})
+                                                React.createElement("input", {type: "text", className: "input-login", name: "email", value: _this.state.email, placeholder: "email", onChange: _this.handleEmailChange})
                                             ), 
                                             React.createElement("div", {className: "input-prepend"}, 
                                                 React.createElement("span", {className: "add-on"}, 

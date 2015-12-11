@@ -149,7 +149,7 @@ requirejs([
 
                     <div className="left-bar">
                         <div className="logo">
-                            <a href="/"><img src="/image/logo1.png" /></a>
+                            <a href="/"><img src="/image/logo.png" /></a>
                         </div>
                         <ul className="left-nav">
                             <li className={(this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}>

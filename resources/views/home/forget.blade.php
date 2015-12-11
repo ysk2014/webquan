@@ -15,7 +15,7 @@
     <div id="mask"></div>
 	<canvas id="cas-bc"></canvas>
 	<div class="container page-show" id="page-1">
-		<div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
+		<div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
 		<div class="title"><span></span><h3>密码重置</h3></div>
 		<div class="content">
 			<div class="input-prepend">
@@ -28,7 +28,7 @@
 		</div>
 	</div>
     <div class="container" id="page-2">
-        <div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
+        <div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
         <div class="title"><span></span><h3>为了账号安全，需要验证邮箱有效性</h3></div>
         <div class="desc">一封包含有验证码的邮件已经发送至邮箱：<a></a></div>
         <div class="content">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="container" id="page-3">
-        <div class="logo"><a href="/"><img src="{{ asset('image/logo1.png') }}"></a></div>
+        <div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
         <div class="title"><span></span><h3>密码重置</h3></div>
         <div class="content">
             <div class="input-prepend">
