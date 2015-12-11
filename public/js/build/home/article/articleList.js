@@ -169,10 +169,7 @@ define([
 							React.createElement("div", {className: "nav"}, 
 								React.createElement("a", {className: "tab active", onClick: this.handleTabChange, href: "javascript:void(0)"}, "推荐"), 
 								React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "最新"), 
-								React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "热门"), 
-								
-									_this.state.uid ? (React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "关注")) : null
-								
+								React.createElement("a", {className: "tab", onClick: this.handleTabChange, href: "javascript:void(0)"}, "热门")
 							)
 						), 
 						React.createElement("div", {className: "article-list"}, 

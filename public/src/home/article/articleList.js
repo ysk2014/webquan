@@ -170,9 +170,6 @@ define([
 								<a className="tab active" onClick={this.handleTabChange} href="javascript:void(0)">推荐</a>
 								<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">最新</a>
 								<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">热门</a>
-								{
-									_this.state.uid ? (<a className="tab" onClick={this.handleTabChange} href="javascript:void(0)">关注</a>) : null
-								}
 							</div>
 						</div>
 						<div className="article-list">
