@@ -5,6 +5,7 @@ use Request;
 
 class AuthController extends BaseController {
 
+	public static $auth;
 	/**
 	 * Create a new controller instance.
 	 *
@@ -16,12 +17,13 @@ class AuthController extends BaseController {
 	}
 
 	public function qq() {
+		self::$auth = 'qq';
         return \Socialite::with('qq')->redirect();
     }
 
 
-    public function qqCallback() {
-        $oauthUser = \Socialite::with('qq')->user();
+    public function callback() {
+        $oauthUser = \Socialite::with(self::$auth)->user();
 
         var_dump($oauthUser->getId());
         var_dump($oauthUser->getNickname());
