@@ -3,9 +3,14 @@
 namespace Illuminate\Database\Connectors;
 
 use PDO;
+use Exception;
+use Illuminate\Support\Arr;
+use Illuminate\Database\DetectsLostConnections;
 
 class Connector
 {
+    use DetectsLostConnections;
+
     /**
      * The default PDO connection options.
      *
@@ -27,7 +32,7 @@ class Connector
      */
     public function getOptions(array $config)
     {
-        $options = array_get($config, 'options', []);
+        $options = Arr::get($config, 'options', []);
 
         return array_diff_key($this->options, $options) + $options;
     }
@@ -42,11 +47,19 @@ class Connector
      */
     public function createConnection($dsn, array $config, array $options)
     {
-        $username = array_get($config, 'username');
+        $username = Arr::get($config, 'username');
 
-        $password = array_get($config, 'password');
+        $password = Arr::get($config, 'password');
 
-        return new PDO($dsn, $username, $password, $options);
+        try {
+            $pdo = new PDO($dsn, $username, $password, $options);
+        } catch (Exception $e) {
+            $pdo = $this->tryAgainIfCausedByLostConnection(
+                $e, $dsn, $username, $password, $options
+            );
+        }
+
+        return $pdo;
     }
 
     /**
@@ -68,5 +81,26 @@ class Connector
     public function setDefaultOptions(array $options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * Handle a exception that occurred during connect execution.
+     *
+     * @param  \Exception  $e
+     * @param  string  $dsn
+     * @param  string  $username
+     * @param  string  $password
+     * @param  array   $options
+     * @return \PDO
+     *
+     * @throws \Exception
+     */
+    protected function tryAgainIfCausedByLostConnection(Exception $e, $dsn, $username, $password, $options)
+    {
+        if ($this->causedByLostConnection($e)) {
+            return new PDO($dsn, $username, $password, $options);
+        }
+
+        throw $e;
     }
 }

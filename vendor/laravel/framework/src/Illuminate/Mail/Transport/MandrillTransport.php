@@ -2,12 +2,10 @@
 
 namespace Illuminate\Mail\Transport;
 
-use Swift_Transport;
 use Swift_Mime_Message;
-use Swift_Events_EventListener;
 use GuzzleHttp\ClientInterface;
 
-class MandrillTransport implements Swift_Transport
+class MandrillTransport extends Transport
 {
     /**
      * Guzzle client instance.
@@ -39,36 +37,14 @@ class MandrillTransport implements Swift_Transport
     /**
      * {@inheritdoc}
      */
-    public function isStarted()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function start()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function stop()
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function send(Swift_Mime_Message $message, &$failedRecipients = null)
     {
+        $this->beforeSendPerformed($message);
+
         $data = [
             'key' => $this->key,
             'to' => $this->getToAddresses($message),
-            'raw_message' => (string) $message,
+            'raw_message' => $message->toString(),
             'async' => false,
         ];
 
@@ -86,7 +62,7 @@ class MandrillTransport implements Swift_Transport
      *
      * Note that Mandrill still respects CC, BCC headers in raw message itself.
      *
-     * @param  Swift_Mime_Message $message
+     * @param  \Swift_Mime_Message $message
      * @return array
      */
     protected function getToAddresses(Swift_Mime_Message $message)
@@ -109,14 +85,6 @@ class MandrillTransport implements Swift_Transport
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function registerPlugin(Swift_Events_EventListener $plugin)
-    {
-        //
-    }
-
-    /**
      * Get the API key being used by the transport.
      *
      * @return string
@@ -130,7 +98,7 @@ class MandrillTransport implements Swift_Transport
      * Set the API key being used by the transport.
      *
      * @param  string  $key
-     * @return void
+     * @return string
      */
     public function setKey($key)
     {

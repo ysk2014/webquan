@@ -106,7 +106,9 @@ class EncryptCookies
         $decrypted = [];
 
         foreach ($cookie as $key => $value) {
-            $decrypted[$key] = $this->encrypter->decrypt($value);
+            if (is_string($value)) {
+                $decrypted[$key] = $this->encrypter->decrypt($value);
+            }
         }
 
         return $decrypted;
@@ -120,8 +122,8 @@ class EncryptCookies
      */
     protected function encrypt(Response $response)
     {
-        foreach ($response->headers->getCookies() as $key => $cookie) {
-            if ($this->isDisabled($key)) {
+        foreach ($response->headers->getCookies() as $cookie) {
+            if ($this->isDisabled($cookie->getName())) {
                 continue;
             }
 

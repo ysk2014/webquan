@@ -3,6 +3,8 @@
 namespace Illuminate\Database\Eloquent;
 
 use Closure;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -120,7 +122,7 @@ class Builder
             if (count($result) == count(array_unique($id))) {
                 return $result;
             }
-        } elseif (!is_null($result)) {
+        } elseif (! is_null($result)) {
             return $result;
         }
 
@@ -148,7 +150,7 @@ class Builder
      */
     public function firstOrFail($columns = ['*'])
     {
-        if (!is_null($model = $this->first($columns))) {
+        if (! is_null($model = $this->first($columns))) {
             return $model;
         }
 
@@ -220,7 +222,9 @@ class Builder
             // On each chunk result set, we will pass them to the callback and then let the
             // developer take care of everything within the callback, which allows us to
             // keep the memory low for spinning through large result sets for working.
-            call_user_func($callback, $results);
+            if (call_user_func($callback, $results) === false) {
+                break;
+            }
 
             $page++;
 
@@ -232,7 +236,7 @@ class Builder
      * Get an array with the values of a given column.
      *
      * @param  string  $column
-     * @param  string  $key
+     * @param  string|null  $key
      * @return \Illuminate\Support\Collection
      */
     public function lists($column, $key = null)
@@ -259,14 +263,17 @@ class Builder
      * @param  int  $perPage
      * @param  array  $columns
      * @param  string  $pageName
+     * @param  int|null  $page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     *
+     * @throws \InvalidArgumentException
      */
-    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page')
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $total = $this->query->getCountForPagination();
 
         $this->query->forPage(
-            $page = Paginator::resolveCurrentPage($pageName),
+            $page = $page ?: Paginator::resolveCurrentPage($pageName),
             $perPage = $perPage ?: $this->model->getPerPage()
         );
 
@@ -347,13 +354,13 @@ class Builder
      */
     protected function addUpdatedAtColumn(array $values)
     {
-        if (!$this->model->usesTimestamps()) {
+        if (! $this->model->usesTimestamps()) {
             return $values;
         }
 
         $column = $this->model->getUpdatedAtColumn();
 
-        return array_add($values, $column, $this->model->freshTimestampString());
+        return Arr::add($values, $column, $this->model->freshTimestampString());
     }
 
     /**
@@ -513,9 +520,9 @@ class Builder
      */
     protected function isNested($name, $relation)
     {
-        $dots = str_contains($name, '.');
+        $dots = Str::contains($name, '.');
 
-        return $dots && starts_with($name, $relation.'.');
+        return $dots && Str::startsWith($name, $relation.'.');
     }
 
     /**
@@ -717,14 +724,14 @@ class Builder
             $relationQuery->wheres, $relationQuery->getBindings()
         );
 
-        $this->query->mergeBindings($hasQuery->getQuery());
+        $this->query->addBinding($hasQuery->getQuery()->getBindings(), 'where');
     }
 
     /**
      * Get the "has relation" base query instance.
      *
      * @param  string  $relation
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
     protected function getHasRelationQuery($relation)
     {
@@ -800,7 +807,7 @@ class Builder
         foreach (explode('.', $name) as $segment) {
             $progress[] = $segment;
 
-            if (!isset($results[$last = implode('.', $progress)])) {
+            if (! isset($results[$last = implode('.', $progress)])) {
                 $results[$last] = function () {};
             }
         }
@@ -913,7 +920,7 @@ class Builder
      */
     public function getMacro($name)
     {
-        return array_get($this->macros, $name);
+        return Arr::get($this->macros, $name);
     }
 
     /**

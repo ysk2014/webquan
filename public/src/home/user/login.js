@@ -214,6 +214,9 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 _this.handleSignUp();
             }
         },
+        handleQQ: function() {
+            window.location.href = "/auth/qq";
+        }
     };
 
     return React.createClass({
@@ -296,6 +299,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     <a target="_blank" href="/page/forget" className="pull-right forget">忘记密码</a>
                                 </form>
                             </div>
+                            <a href="javascript:void(0);" onClick={_this.handleQQ}>QQ</a>
                         </div>
                     </ReactCSSTransitionGroup>
                 </div>

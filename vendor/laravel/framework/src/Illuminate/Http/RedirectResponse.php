@@ -3,6 +3,7 @@
 namespace Illuminate\Http;
 
 use BadMethodCallException;
+use Illuminate\Support\Str;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Session\Store as SessionStore;
@@ -31,8 +32,8 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Flash a piece of data to the session.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string|array  $key
+     * @param  mixed  $value
      * @return \Illuminate\Http\RedirectResponse
      */
     public function with($key, $value = null)
@@ -76,7 +77,7 @@ class RedirectResponse extends BaseRedirectResponse
                 $value = array_filter($value, $callback);
             }
 
-            return !$value instanceof UploadedFile;
+            return ! $value instanceof UploadedFile;
         }));
 
         return $this;
@@ -140,7 +141,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Get the request instance.
      *
-     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Request|null
      */
     public function getRequest()
     {
@@ -161,7 +162,7 @@ class RedirectResponse extends BaseRedirectResponse
     /**
      * Get the session store implementation.
      *
-     * @return \Illuminate\Session\Store
+     * @return \Illuminate\Session\Store|null
      */
     public function getSession()
     {
@@ -184,14 +185,14 @@ class RedirectResponse extends BaseRedirectResponse
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return void
+     * @return $this
      *
      * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {
-        if (starts_with($method, 'with')) {
-            return $this->with(snake_case(substr($method, 4)), $parameters[0]);
+        if (Str::startsWith($method, 'with')) {
+            return $this->with(Str::snake(substr($method, 4)), $parameters[0]);
         }
 
         throw new BadMethodCallException("Method [$method] does not exist on Redirect.");

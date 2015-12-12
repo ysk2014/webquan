@@ -5,6 +5,7 @@ namespace Illuminate\Queue;
 use Closure;
 use DateTime;
 use RuntimeException;
+use Illuminate\Support\Arr;
 use SuperClosure\Serializer;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\QueueableEntity;
@@ -120,7 +121,13 @@ abstract class Queue
         }
 
         if (is_array($data)) {
-            array_walk($data, function (&$d) { $d = $this->prepareQueueableEntity($d); });
+            $data = array_map(function ($d) {
+                if (is_array($d)) {
+                    return $this->prepareQueueableEntities($d);
+                }
+
+                return $this->prepareQueueableEntity($d);
+            }, $data);
         }
 
         return $data;
@@ -167,7 +174,7 @@ abstract class Queue
     {
         $payload = json_decode($payload, true);
 
-        return json_encode(array_set($payload, $key, $value));
+        return json_encode(Arr::set($payload, $key, $value));
     }
 
     /**
