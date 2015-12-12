@@ -69,7 +69,7 @@ class Process extends BaseProcess
             unset($data['nick']);
             unset($data['avatar']);
             $data['uid'] = $uid;
-            if( $this->authModel->addUserAuth($data) != false ) {
+            if( $this->userAuthModel->addUserAuth($data) != false ) {
 
                 $arr = [];
                 $arr['last_login_time'] = time();
