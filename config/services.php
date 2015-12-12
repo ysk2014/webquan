@@ -38,7 +38,7 @@ return [
     'qq' => [
         'client_id' => 101272985,
         'client_secret' => env('QQ_SECRET'),
-        'redirect' => 'http://web-engineer.cn/',  
+        'redirect' => 'http://web-engineer.cn/auth/callback',  
     ],
 
 ];
