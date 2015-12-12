@@ -151,6 +151,10 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
 
+
+        //第三方登陆
+        SocialiteProviders\Manager\ServiceProvider::class,
+
     ],
 
     /*
@@ -200,6 +204,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
         //https://github.com/barryvdh/laravel-debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

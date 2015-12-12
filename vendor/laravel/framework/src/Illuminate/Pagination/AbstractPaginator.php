@@ -128,7 +128,7 @@ abstract class AbstractPaginator
         }
 
         return $this->path.'?'
-                        .http_build_query($parameters, null, '&')
+                        .urldecode(http_build_query($parameters, null, '&'))
                         .$this->buildFragment();
     }
 
@@ -275,7 +275,7 @@ abstract class AbstractPaginator
      */
     public function hasPages()
     {
-        return !($this->currentPage() == 1 && !$this->hasMorePages());
+        return ! ($this->currentPage() == 1 && ! $this->hasMorePages());
     }
 
     /**
@@ -340,6 +340,16 @@ abstract class AbstractPaginator
     public static function presenter(Closure $resolver)
     {
         static::$presenterResolver = $resolver;
+    }
+
+    /**
+     * Get the query string variable used to store the page.
+     *
+     * @return string
+     */
+    public function getPageName()
+    {
+        return $this->pageName;
     }
 
     /**

@@ -99,6 +99,10 @@ class Routes
                 Route::get('/bug', 'Home\BugController@index');
 
             });
+
+            //第三方登录
+            Route::get('auth/qq', 'Auth\AuthController@qq');
+            Route::get('auth/callback', 'Auth\AuthController@callback');
         });
         return $this;
     }

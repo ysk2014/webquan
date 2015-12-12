@@ -5,6 +5,8 @@ namespace Illuminate\Filesystem;
 use Closure;
 use Aws\S3\S3Client;
 use OpenCloud\Rackspace;
+use Illuminate\Support\Arr;
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\Filesystem as Flysystem;
 use League\Flysystem\Adapter\Ftp as FtpAdapter;
@@ -124,7 +126,15 @@ class FilesystemManager implements FactoryContract
      */
     public function createLocalDriver(array $config)
     {
-        return $this->adapt(new Flysystem(new LocalAdapter($config['root'])));
+        $permissions = isset($config['permissions']) ? $config['permissions'] : [];
+
+        $links = (array_get($config, 'links') === 'skip')
+            ? LocalAdapter::SKIP_LINKS
+            : LocalAdapter::DISALLOW_LINKS;
+
+        return $this->adapt($this->createFlysystem(new LocalAdapter(
+            $config['root'], LOCK_EX, $links, $permissions
+        ), $config));
     }
 
     /**
@@ -135,9 +145,13 @@ class FilesystemManager implements FactoryContract
      */
     public function createFtpDriver(array $config)
     {
-        $ftpConfig = array_only($config, ['host', 'username', 'password', 'port', 'root', 'passive', 'ssl', 'timeout']);
+        $ftpConfig = Arr::only($config, [
+            'host', 'username', 'password', 'port', 'root', 'passive', 'ssl', 'timeout',
+        ]);
 
-        return $this->adapt(new Flysystem(new FtpAdapter($ftpConfig)));
+        return $this->adapt($this->createFlysystem(
+            new FtpAdapter($ftpConfig), $config
+        ));
     }
 
     /**
@@ -148,16 +162,30 @@ class FilesystemManager implements FactoryContract
      */
     public function createS3Driver(array $config)
     {
-        $config += [
-            'credentials' => array_only($config, ['key', 'secret']),
-            'version'     => 'latest',
-        ];
+        $s3Config = $this->formatS3Config($config);
 
-        unset($config['key'], $config['secret']);
+        $root = isset($s3Config['root']) ? $s3Config['root'] : null;
 
-        return $this->adapt(
-            new Flysystem(new S3Adapter(new S3Client($config), $config['bucket']))
-        );
+        return $this->adapt($this->createFlysystem(
+            new S3Adapter(new S3Client($s3Config), $s3Config['bucket'], $root), $config
+        ));
+    }
+
+    /**
+     * Format the given S3 configuration with the default options.
+     *
+     * @param  array  $config
+     * @return array
+     */
+    protected function formatS3Config(array $config)
+    {
+        $config += ['version' => 'latest'];
+
+        if ($config['key'] && $config['secret']) {
+            $config['credentials'] = Arr::only($config, ['key', 'secret']);
+        }
+
+        return $config;
     }
 
     /**
@@ -172,25 +200,39 @@ class FilesystemManager implements FactoryContract
             'username' => $config['username'], 'apiKey' => $config['key'],
         ]);
 
-        return $this->adapt(new Flysystem(
-            new RackspaceAdapter($this->getRackspaceContainer($client, $config))
+        return $this->adapt($this->createFlysystem(
+            new RackspaceAdapter($this->getRackspaceContainer($client, $config)), $config
         ));
     }
 
     /**
      * Get the Rackspace Cloud Files container.
      *
-     * @param  Rackspace  $client
+     * @param  \OpenCloud\Rackspace  $client
      * @param  array  $config
      * @return \OpenCloud\ObjectStore\Resource\Container
      */
     protected function getRackspaceContainer(Rackspace $client, array $config)
     {
-        $urlType = array_get($config, 'url_type');
+        $urlType = Arr::get($config, 'url_type');
 
         $store = $client->objectStoreService('cloudFiles', $config['region'], $urlType);
 
         return $store->getContainer($config['container']);
+    }
+
+    /**
+     * Create a Flysystem instance with the given adapter.
+     *
+     * @param  \League\Flysystem\AdapterInterface  $adapter
+     * @param  array  $config
+     * @return \Leage\Flysystem\FlysystemInterface
+     */
+    protected function createFlysystem(AdapterInterface $adapter, array $config)
+    {
+        $config = Arr::only($config, ['visibility']);
+
+        return new Flysystem($adapter, count($config) > 0 ? $config : null);
     }
 
     /**

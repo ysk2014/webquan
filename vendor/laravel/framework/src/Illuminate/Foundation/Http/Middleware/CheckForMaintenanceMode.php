@@ -16,7 +16,7 @@ class CheckForMaintenanceMode
     protected $app;
 
     /**
-     * Create a new filter instance.
+     * Create a new middleware instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
      * @return void
@@ -32,6 +32,8 @@ class CheckForMaintenanceMode
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function handle($request, Closure $next)
     {

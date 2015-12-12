@@ -3,24 +3,28 @@
 use Barryvdh\Debugbar\LaravelDebugbar;
 use Illuminate\Routing\Controller;
 
-class BaseController extends Controller
-{
-    /**
-     * The laravel debugbar instance.
-     *
-     * @var \Barryvdh\Debugbar\LaravelDebugbar
-     */
-    protected $debugbar;
+if (class_exists('Illuminate\Routing\Controller')) {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @param \Barryvdh\Debugbar\LaravelDebugbar $debugbar
-     *
-     * @return void
-     */
-    public function __construct(LaravelDebugbar $debugbar)
+    class BaseController extends Controller
     {
-        $this->debugbar = $debugbar;
+        protected $debugbar;
+
+        public function __construct(LaravelDebugbar $debugbar)
+        {
+            $this->debugbar = $debugbar;
+        }
+    }
+
+} else {
+
+    class BaseController
+    {
+        protected $debugbar;
+
+        public function __construct(LaravelDebugbar $debugbar)
+        {
+            $this->debugbar = $debugbar;
+        }
     }
 }
+
