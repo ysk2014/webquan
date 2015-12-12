@@ -20,7 +20,7 @@ class AuthController extends BaseController {
     }
 
 
-    public function callback() {
+    public function qqCallback() {
         $oauthUser = \Socialite::with('qq')->user();
 
         var_dump($oauthUser->getId());

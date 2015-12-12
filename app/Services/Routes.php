@@ -102,7 +102,7 @@ class Routes
 
             //第三方登录
             Route::get('auth/qq', 'Auth\AuthController@qq');
-            Route::get('auth/callback', 'Auth\AuthController@callback');
+            Route::get('auth/qq/callback', 'Auth\AuthController@qqCallback');
         });
         return $this;
     }
