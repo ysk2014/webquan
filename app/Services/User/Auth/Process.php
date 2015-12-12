@@ -69,7 +69,7 @@ class Process extends BaseProcess
             unset($data['nick']);
             unset($data['avatar']);
             $data['uid'] = $uid;
-            if( $this->addUserAuth($data) != false ) {
+            if( $this->authModel->addUserAuth($data) != false ) {
 
                 $arr = [];
                 $arr['last_login_time'] = time();
@@ -79,7 +79,7 @@ class Process extends BaseProcess
                 $userInfo['id'] = $uid;
                 SC::setLoginSession($userInfo);
                 SC::setUserPermissionSession($userInfo['status']);
-                
+
                 $result = ['error'=>false, 'msg'=>'登录成功'];
             } else {
                 $resultArr = array('error'=>true, 'msg'=>'登录成功');
