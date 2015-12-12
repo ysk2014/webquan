@@ -5,7 +5,7 @@ use App\Models\User as UserModel;
 use App\Models\UserAuth as UserAuthModel;
 use App\Services\BaseProcess;
 use App\Services\SC;
-use Lang;
+use Lang,Request;
 
 /**
 * 用户处理
