@@ -215,7 +215,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
             }
         },
         handleQQ: function() {
-            window.location.href = "/user/qq";
+            window.location.href = "/auth/qq";
         }
     };
 
