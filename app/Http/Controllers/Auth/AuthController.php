@@ -38,6 +38,7 @@ class AuthController extends BaseController {
         ];
 
         $result = $manager->addUser($data);
+        
         if (!$result['error']) {
             return redirect('/');
         }
