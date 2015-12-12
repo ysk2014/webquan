@@ -60,6 +60,7 @@ class Process extends BaseProcess
 
         $userInfo['logo_dir'] = $data['avatar'];
 		$userInfo['password'] = md5('webquan');
+        $userInfo['addtime'] = time();
 
 		// 开始保存到数据库
         $uid = $this->userModel->addUser($info);
