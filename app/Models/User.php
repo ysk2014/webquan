@@ -55,7 +55,7 @@ class User extends Base
      */
     public function addUser(array $data)
     {
-        return $this->create($data);
+        return $this->insertGetId($data);
     }
     
     /**

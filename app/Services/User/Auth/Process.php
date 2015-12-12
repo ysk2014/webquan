@@ -1,12 +1,11 @@
 <?php
-namespace App\Services\User;
+namespace App\Services\User\Auth;
 
 use App\Models\User as UserModel;
-use App\Models\Home\News as NewsModel;
-use App\Services\User\UserValidate;
+use App\Models\UserAuth as UserAuthModel;
 use App\Services\BaseProcess;
-use App\Services\Home\Upload\Process as UploadManager;
-use Lang,Redis;
+use App\Services\SC;
+use Lang;
 
 /**
 * 用户处理
@@ -28,28 +27,7 @@ class Process extends BaseProcess
      * 
      * @var object
      */
-    private $userValidate;
-
-    /**
-     * 上传处理对象
-     * 
-     * @var object
-     */
-    private $uploadManager;
-
-    /**
-     * 消息模型
-     * 
-     * @var object
-     */
-    private $newsModel;
-
-    /**
-     * redis缓存链接
-     * 
-     * @var object
-     */
-    private $redis;
+    private $userAuthModel;
 
     /**
      * 初始化
@@ -59,10 +37,7 @@ class Process extends BaseProcess
 	function __construct()
 	{
         if( ! $this->userModel) $this->userModel = new UserModel();
-        if( ! $this->userValidate) $this->userValidate = new UserValidate();
-        if( ! $this->uploadManager) $this->uploadManager = new UploadManager();
-        if( ! $this->newsModel) $this->newsModel = new NewsModel();
-        if( ! $this->redis) $this->redis = Redis::connection();
+        if( ! $this->userAuthModel) $this->userAuthModel = new UserAuthModel();
 	}
 
 	/**
@@ -72,22 +47,42 @@ class Process extends BaseProcess
 	* @access public
 	* @return array $resultArr
 	*/
-	public function addUser(\App\Services\User\Param\UserSave $data)
+	public function addUser($data)
 	{
         $resultArr = [];
-		// 进行用户表单验证
-		if( !$this->userValidate->add($data)) return array('error'=>'true','msg'=>$this->userValidate->getErrorMessage());
+        $userInfo = [];
 		// 检测改用户名是否已存在
-		if($this->userModel->getUserByName($data->username)) return array('error'=>true, 'msg'=>'用户名已经存在');
+		if($this->userModel->getUserByName($data['nick'])) {
+            $userInfo['username'] = $data['openid'];
+        } else {
+            $userInfo['username'] = $data['nick'];
+        }
 
-		$data->setPassword(md5($data->password));
+        $userInfo['logo_dir'] = $data['avatar'];
+		$userInfo['password'] = md5('webquan');
 
 		// 开始保存到数据库
-		if($this->userModel->addUser($data->toArray()) !== false ) {
-            $resultArr = array('error'=> false, 'msg'=>'注册成功');
+        $uid = $this->userModel->addUser($info);
+
+		if( $uid ) {
+            unset($data['nick']);
+            unset($data['avatar']);
+            $data['uid'] = $uid;
+            if( $this->addUserAuth($data) != false ) {
+                $arr = [];
+                $arr['last_login_time'] = time();
+                $arr['last_login_ip'] = Request::ip();
+                $this->userModel->updateLastLoginInfo($uid, $arr);
+                SC::setLoginSession($userInfo);
+                SC::setUserPermissionSession($userInfo['status']);
+                $result = ['error'=>false, 'msg'=>'登录成功'];
+            } else {
+                $resultArr = array('error'=>true, 'msg'=>'登录成功');
+            }
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'注册失败');
+            $resultArr = array('error'=>true, 'msg'=>'登录失败');
         }
+
         return $resultArr;
 	}
 
