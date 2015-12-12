@@ -22,7 +22,6 @@ define([
 			CloumnModel.getAllCloumns(params,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 						if(_this.state.cloumns[way]) {
 							Array.prototype.push.apply(_this.state.cloumns[way],data.data);
 							_this.state.next[way] = data.next;
@@ -51,7 +50,6 @@ define([
 			CloumnModel.getCloumnsByUid(params,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 						if(_this.state.cloumns['me']) {
 							Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
 							_this.state.next['me'] = data.next;
@@ -80,7 +78,6 @@ define([
 			CloumnModel.getCareCloumnsByUid(params,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 						if(_this.state.cloumns['myCare']) {
 							Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
 							_this.state.next['myCare'] = data.next;
@@ -116,9 +113,6 @@ define([
 				}
 				_this.getAllCloumns(_this.state.order[_this.state.navChild],page);
 			} else if(_this.state.nav==1) {
-				var page = _this.state.page['myCare'] ? _this.state.page['myCare'] : 0;
-				_this.getCareCloumnsByUid(page);
-			} else if(_this.state.nav==2) {
 				var page = _this.state.page['me'] ? _this.state.page['me'] : 0;
 				_this.getCloumnsByUid(page);
 			}
@@ -131,11 +125,8 @@ define([
 			_this.setState({
 				nav: index,
 			});
-			if(!_this.state.cloumns['me'] && index==2) {
+			if(!_this.state.cloumns['me'] && index==1) {
 				_this.getCloumnsByUid(0);
-			}
-			if(!_this.state.cloumns['myCare'] && index==1) {
-				_this.getCareCloumnsByUid(0);
 			}
 		},
 		// 二级导航切换
@@ -192,11 +183,6 @@ define([
 						_this.state.cloumns['addtime'][index]['care'] = parseInt(care)+num;
 					}
 				} else if(nav==1) {
-					_this.state.cloumns['myCare'][index]['myCare'] = status;
-					var care = _this.state.cloumns['myCare'][index]['care'];
-					_this.state.cloumns['myCare'][index]['care'] = parseInt(care)+num;
-
-				} else if(nav==2) {
 					_this.state.cloumns['me'][index]['myCare'] = status;
 					var care = _this.state.cloumns['me'][index]['care'];
 					_this.state.cloumns['me'][index]['care'] = parseInt(care)+num;
@@ -283,8 +269,6 @@ define([
 					var cloumns = _this.state.cloumns['addtime'] ? _this.state.cloumns['addtime'] : [];
 				}
 			} else if(nav==1) {
-				var cloumns = _this.state.cloumns['myCare'] ? _this.state.cloumns['myCare'] : [];
-			} else {
 				var cloumns = _this.state.cloumns['me'] ? _this.state.cloumns['me'] : [];
 				
 			}
@@ -313,8 +297,7 @@ define([
 						<div className="top-bar">
 							<div className="nav">
 								<a className={nav==0 ? "tab active" : "tab"} onClick={this.hamdleTabChange} href="javascript:void(0)">专题广场</a>
-								<a className={nav==1 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我关注的</a>
-								<a className={nav==2 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我的专题</a>
+								<a className={nav==1 ? "tab active" : "tab"} style={_this.state.uid ? {display:'inline-block'} : {display:'none'}} onClick={this.hamdleTabChange} href="javascript:void(0)">我的专题</a>
 							</div>
 							<a className="btn btn-info pull-right" style={{margin:'10px 120px 0 0'}} href="/cloumn/add">添加专题</a>
 						</div>
@@ -332,11 +315,8 @@ define([
 								</div>
 								<div style={_this.state.nav==1 ? {display:'block'} : {display:'none'}}>
 									<ul className="clearfix">{cloumnList}</ul>
-								</div>	
-								<div style={_this.state.nav==2 ? {display:'block'} : {display:'none'}}>
-									<ul className="clearfix">{cloumnList}</ul>
 									<a className="btn btn-default btn-large" style={_this.state.next['me'] ? {display:'block',margin:'20px auto'} : {display:'none',margin:'20px auto'}} onClick={_this.handleMore}>更多</a>
-								</div>					
+								</div>	
 							</div>
 						</ReactCSSTransitionGroup>
 					</div>

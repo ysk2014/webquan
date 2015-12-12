@@ -11,14 +11,18 @@
   	<link rel="stylesheet" href="{{ asset('js/lib/editor/lib/codemirror/codemirror.min.css') }}" />
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
-	<script data-main="{{ asset('js/build/home/app-build.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
+	<script data-main="{{ asset('js/build/home/app.js') }}" src="{{ asset('js/lib/require.js') }}"></script>
 </head>
 
 <body>
 	<div id='container'></div>
 	<div id="mask"></div>
 	<div id="loading">
-		<div><img src="{{ asset('image/loading@3x.gif') }}"></div>
+		<div class="spinner">
+		  	<div class="bounce1"></div>
+		  	<div class="bounce2"></div>
+		  	<div class="bounce3"></div>
+		</div>
 	</div>
 </body>
 </html>

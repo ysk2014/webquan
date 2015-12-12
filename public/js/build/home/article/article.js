@@ -23,7 +23,6 @@ define([
 			ArticleModel.getArticleById(aid,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 						_this.setState({
 							info: data.data,
 						});

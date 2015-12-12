@@ -45,7 +45,6 @@ define([
 			var _this = this;
 			ArticleModel.getAllArticle({way:way,page:page},function(success,data) {
 				if(success) {
-					console.log(data);
 					if(!data.error) {
 						if(_this.state.list[way]) {
 							Array.prototype.push.apply(_this.state.list[way],data.data);

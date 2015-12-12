@@ -16,7 +16,6 @@ define([
 				CloumnModel.getCloumnById(_this.state.cid,_this.state.uid,function(success,data) {
 					if(success) {
 						if(!data.error) {
-							console.log(data);
 							_this.setState({
 								name: data.data['name'],
 								description: data.data['description'],

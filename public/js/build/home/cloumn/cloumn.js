@@ -17,7 +17,6 @@ define([
 			CloumnModel.getCloumnById(_this.state.cid,uid,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 						_this.setState({
 							cloumn: data.data
 						});
@@ -36,7 +35,6 @@ define([
 			ArticleModel.getAllArticleByCid(dataObj,function(success,data) {
 				if(success) {
 					if(!data.error) {
-						console.log(data);
 
 						if(_this.state.articles[way]) {
 							Array.prototype.push.apply(_this.state.articles[way],data.data);

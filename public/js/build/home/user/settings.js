@@ -253,9 +253,9 @@ define([
 	        },
 	        sendEmail: function() {
 	        	var _this = this;
-	        	UserModel.sendEmail(_this.state.email,function(success,data){
+	        	// UserModel.sendEmail(_this.state.email,function(success,data){
 
-	        	});
+	        	// });
 	        },
 			render: function(){
 				var _this = this;
@@ -323,13 +323,11 @@ define([
 					newPasswordRepeat: _this.state.newPasswordRepeat
 				}
 				if(_this.judge(data) == true){
-				console.log(data);
 					UserModel.modifyPassword(data['id'],data,function(success,data){
 	                    if(success){
 	                    	if(!data.error){
 	                    		window.location.href="/login/sign_in";
 	                    	}else{
-	                    		console.log(data);
 	                    		alert(data.msg);
 	                    	}
 	                    }
