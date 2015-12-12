@@ -78,7 +78,6 @@ class Process extends BaseProcess
 
                 $userInfo['id'] = $uid;
                 SC::setLoginSession($userInfo);
-                SC::setUserPermissionSession($userInfo['status']);
 
                 $result = ['error'=>false, 'msg'=>'登录成功'];
             } else {
