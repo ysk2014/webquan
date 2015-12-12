@@ -1,4 +1,4 @@
-<?php namespace App\Http\Controllers\Home;
+<?php namespace App\Http\Controllers\Auth;
 
 use Illuminate\Routing\Controller as BaseController;
 use Request;
@@ -20,7 +20,7 @@ class AuthController extends BaseController {
     }
 
 
-    public function callback() {
+    public function qqCallback() {
         $oauthUser = \Socialite::with('qq')->user();
 
         var_dump($oauthUser->getId());

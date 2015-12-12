@@ -101,8 +101,8 @@ class Routes
             });
 
             //第三方登录
-            Route::get('auth/qq', 'Home\AuthController@qq');
-            Route::get('auth/callback', 'Home\AuthController@callback');
+            Route::get('auth/qq', 'Auth\AuthController@qq');
+            Route::get('auth/qq/callback', 'Auth\AuthController@qqCallback');
         });
         return $this;
     }
