@@ -17,7 +17,6 @@ class AuthController extends BaseController {
 
 	public function qq() {
         return \Socialite::with('qq')->redirect();
-        // return \Socialite::with('weibo')->scopes(array('email'))->redirect();
     }
 
 
