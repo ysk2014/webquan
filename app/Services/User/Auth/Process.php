@@ -63,19 +63,23 @@ class Process extends BaseProcess
         $userInfo['addtime'] = time();
 
 		// 开始保存到数据库
-        $uid = $this->userModel->addUser($info);
+        $uid = $this->userModel->addUser($userInfo);
 
 		if( $uid ) {
             unset($data['nick']);
             unset($data['avatar']);
             $data['uid'] = $uid;
             if( $this->addUserAuth($data) != false ) {
+
                 $arr = [];
                 $arr['last_login_time'] = time();
                 $arr['last_login_ip'] = Request::ip();
                 $this->userModel->updateLastLoginInfo($uid, $arr);
+
+                $userInfo['id'] = $uid;
                 SC::setLoginSession($userInfo);
                 SC::setUserPermissionSession($userInfo['status']);
+                
                 $result = ['error'=>false, 'msg'=>'登录成功'];
             } else {
                 $resultArr = array('error'=>true, 'msg'=>'登录成功');
