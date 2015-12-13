@@ -320,9 +320,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     <li className="weibo">
                                         <a href="/auth/weibo"><i className="fa fa-weibo"></i></a>
                                     </li>
-                                    <li className="github">
-                                        <a href="/auth/github"><i className="fa fa-github fa-lg"></i></a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>

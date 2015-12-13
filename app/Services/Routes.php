@@ -110,9 +110,6 @@ class Routes
             Route::get('auth/weixin', 'Auth\AuthController@weixin');
             Route::get('auth/weixin/callback', 'Auth\AuthController@weixinCallback');
 
-            Route::get('auth/github', 'Auth\AuthController@github');
-            Route::get('auth/github/callback', 'Auth\AuthController@github');
-
         });
         return $this;
     }

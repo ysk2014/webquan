@@ -319,9 +319,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     ), 
                                     React.createElement("li", {className: "weibo"}, 
                                         React.createElement("a", {href: "/auth/weibo"}, React.createElement("i", {className: "fa fa-weibo"}))
-                                    ), 
-                                    React.createElement("li", {className: "github"}, 
-                                        React.createElement("a", {href: "/auth/github"}, React.createElement("i", {className: "fa fa-github fa-lg"}))
                                     )
                                 )
                             )
