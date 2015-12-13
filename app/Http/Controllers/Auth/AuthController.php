@@ -37,11 +37,11 @@ class AuthController extends BaseController {
             'type'=>'QQ'
         ];
 
-        $result = $manager->addUser($data);
+        $result = $manager->checkUser($data);
         
-        // if (!$result['error']) {
+        if (!$result['error']) {
             return redirect('/');
-        // }
+        }
     }
 
 

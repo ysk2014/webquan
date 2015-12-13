@@ -36,9 +36,43 @@ class Process extends BaseProcess
      */
 	function __construct()
 	{
-        if( ! $this->userModel) $this->userModel = new UserModel();
-        if( ! $this->userAuthModel) $this->userAuthModel = new UserAuthModel();
+        if ( ! $this->userModel) $this->userModel = new UserModel();
+        if ( ! $this->userAuthModel) $this->userAuthModel = new UserAuthModel();
 	}
+
+    /**
+    * 检查用户
+    *
+    * @param object $data;
+    * @access public
+    * @return array $resultArr
+    */
+    public function checkUser($data)
+    {
+        $resultArr = [];
+        $authInfo = $this->userAuthModel->InfoByOid($data['openid']);
+        if ($authInfo) {
+            $userInfo = $this->userModel->getUserById($authInfo['uid']);
+            if ($userInfo) {
+                $arr = [];
+                $arr['last_login_time'] = time();
+                $arr['last_login_ip'] = Request::ip();
+                $this->userModel->updateLastLoginInfo($uid, $arr);
+
+                $userInfo['openid'] = $authInfo['openid'];
+                $userInfo['type'] = $authInfo['type'];
+
+                SC::setLoginSession($userInfo);
+
+                $resultArr = ['error'=>false, 'msg'=>'登录成功'];
+            } else {
+                $resultArr = array('error'=>true, 'msg'=>'查询user表失败');
+            }
+        } else {
+            $resultArr = $this->addUser($data);
+        }
+        return $resultArr;
+    }
 
 	/**
 	* 增加新的用户
@@ -52,7 +86,7 @@ class Process extends BaseProcess
         $resultArr = [];
         $userInfo = [];
 		// 检测改用户名是否已存在
-		if($this->userModel->getUserByName($data['nick'])) {
+		if ($this->userModel->getUserByName($data['nick'])) {
             $userInfo['username'] = $data['openid'];
         } else {
             $userInfo['username'] = $data['nick'];
@@ -65,7 +99,7 @@ class Process extends BaseProcess
 		// 开始保存到数据库
         $uid = $this->userModel->addUser($userInfo);
 
-		if( $uid ) {
+		if ( $uid ) {
             unset($data['nick']);
             unset($data['avatar']);
             $data['uid'] = $uid;
@@ -77,11 +111,13 @@ class Process extends BaseProcess
                 $this->userModel->updateLastLoginInfo($uid, $arr);
 
                 $userInfo['id'] = $uid;
+                $userInfo['openid'] = $data['openid'];
+                $userInfo['type'] = $data['type'];
                 SC::setLoginSession($userInfo);
 
-                $result = ['error'=>false, 'msg'=>'登录成功'];
+                $resultArr = ['error'=>false, 'msg'=>'登录成功'];
             } else {
-                $resultArr = array('error'=>true, 'msg'=>'登录成功');
+                $resultArr = array('error'=>true, 'msg'=>'user表添加数据失败');
             }
         } else {
             $resultArr = array('error'=>true, 'msg'=>'登录失败');

@@ -42,5 +42,6 @@ class UserAuth extends Base
         return $this->create($data);
     }
 
+
 }
 ?>
