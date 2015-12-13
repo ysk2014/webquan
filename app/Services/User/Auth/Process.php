@@ -57,7 +57,7 @@ class Process extends BaseProcess
                 $arr = [];
                 $arr['last_login_time'] = time();
                 $arr['last_login_ip'] = Request::ip();
-                $this->userModel->updateLastLoginInfo($uid, $arr);
+                $this->userModel->updateLastLoginInfo($authInfo['uid'], $arr);
 
                 $userInfo['openid'] = $authInfo['openid'];
                 $userInfo['type'] = $authInfo['type'];
