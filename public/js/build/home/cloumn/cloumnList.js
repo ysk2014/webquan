@@ -258,6 +258,9 @@ define([
 			var _this = this;
 			var nav = _this.state.nav;
 			var next = _this.state.order[_this.state.navChild];
+
+			document.title = '专题广场 | Web圈';
+			
 			if(nav==0) {
 				if(_this.state.navChild==0) {
 					var cloumns = _this.state.cloumns['view'] ? _this.state.cloumns['view'] : [];

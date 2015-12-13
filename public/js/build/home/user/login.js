@@ -259,6 +259,12 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
         render: function() {
             var _this = this;
 
+            if (_this.state.nav=='sign_in') {
+                document.title = '登录 | Web圈';
+            } else {
+                document.title = '注册 | Web圈';
+            }
+
             return (
                 React.createElement("div", null, 
                     React.createElement("canvas", {id: "cas-bc"}), 

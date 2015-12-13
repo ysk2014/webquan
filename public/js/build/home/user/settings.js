@@ -394,6 +394,9 @@ define([
 	        },
 	        render: function() {
 	        	var _this = this;
+
+	        	document.title = '设置 | Web圈';
+	        	
 	            return (
 	            	React.createElement("div", {className: "settings clearfix"}, 
 	            	

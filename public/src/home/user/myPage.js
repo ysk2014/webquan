@@ -47,6 +47,7 @@ define(['react',
 		},
 		render: function() {
 			var _this = this;
+			document.title = '我的收藏 | Web圈';
 
         	var list = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
 				if(d.tags) {
@@ -161,6 +162,7 @@ define(['react',
 		},
 		render: function() {
 			var _this = this;
+			document.title = '我的草稿箱 | Web圈';
 
         	var list = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
 				if(d.tags) {
@@ -347,6 +349,9 @@ define(['react',
 		render: function() {
 			var _this = this;
 			var nav = this.state.nav;
+
+			document.title = '消息 | Web圈';
+
 			var news = _this.state.news[nav] ? _this.state.news[nav].map(function(n,i) {
 				return (
 					<li key={n.id} data-nid={n.id} className={n.unread ? 'active' : ''}>
@@ -397,6 +402,9 @@ define(['react',
 		render: function() {
 			var _this = this;
 			var nav = this.state.nav;
+
+			document.title = 'bug反馈 | Web圈';
+
 			var bugList = _this.state.bugs.map(function(b,i) {
 				return (
 					<li key={b.id} data-nid={b.id}>

@@ -194,6 +194,10 @@ define([
 			var storeStatus  = _this.state.info ? _this.state.info.storeStatus  : null;     //登录的用户是否已收藏
 			var tags         = _this.state.info ? _this.state.info.tags         : null;     //标签
 
+			if (title) {
+				document.title = title + '| Web圈';
+			}
+
 			if(tags) {
 				if(tags.indexOf('|')) {
 					var tagsList = tags.split('|').map(function(t,i) {

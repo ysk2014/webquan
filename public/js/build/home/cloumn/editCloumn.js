@@ -129,6 +129,13 @@ define([
 		},
 		render: function() {
 			var _this = this;
+
+			if (_this.state.cid) {
+				document.title = '编辑专题 | Web圈';
+			} else {
+				document.title = '添加专题 | Web圈';
+			}
+
 			return (
 				React.createElement(ReactCSSTransitionGroup, {transitionName: "fade", transitionAppear: true}, 
 					React.createElement("div", {className: "cloumn-edit"}, 

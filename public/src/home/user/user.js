@@ -199,6 +199,8 @@ define(['react',
         
         render: function() {
             var _this = this;
+            document.title = '我的主页 | Web圈';
+
             var username    = (_this.state.info && _this.state.info.username && _this.state.info.username!='')       ? _this.state.info.username    : '未填写';
             var email       = (_this.state.info && _this.state.info.email && _this.state.info.email!='')             ? _this.state.info.email       : '未填写';
             var job         = (_this.state.info && _this.state.info.job && _this.state.info.job!='')                 ? _this.state.info.job         : '未填写';

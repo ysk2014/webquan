@@ -282,6 +282,12 @@ define([
 		render: function() {
 			var _this = this;
 
+			if (_this.state.aid) {
+				document.title = '编辑文章 | Web圈';
+			} else {
+				document.title = '添加文章 | Web圈';
+			}
+
 			if(this.state.cloumns.length>0) {
 				var cloumns = _this.state.cloumns.map(function(d,i) {
 					return (React.createElement("option", {key: d.id, value: d.id, selected: _this.state.selected==d.id ? 'selected' : ''}, d.name));

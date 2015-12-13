@@ -162,6 +162,10 @@ define([
 			var _this = this;
 			var way = _this.state.way[_this.state.nav];
 
+			if (_this.state.cloumn['name']) {
+				document.title = _this.state.cloumn['name'] + '| Web圈';
+			}
+
 			var articles = (_this.state.articles[way]&&_this.state.articles[way].length>0) ? _this.state.articles[way].map(function(d,i) {
 
 				if(d.tags) {
