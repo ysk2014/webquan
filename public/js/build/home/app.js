@@ -67,6 +67,7 @@ requirejs([
             '/bug' : 'bug',
         },
         articleList: function() {
+            document.title = 'Web圈';
             return React.createElement(ArticleList, null);
         },
 
