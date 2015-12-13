@@ -836,6 +836,10 @@ textarea:focus {
   font-size: 13px;
   color: #aaaaaa;
 }
+.article-list .author .avatar {
+  width: 20px;
+  height: 20px;
+}
 .article-list article .desc .author a{
   font-size: 12px;
   color: #3da9f7;
