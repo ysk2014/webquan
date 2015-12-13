@@ -147,32 +147,35 @@ requirejs([
                         matches ? null : <UserDropMenu />
                     }
 
-                    <div className="left-bar">
-                        <div className="logo">
-                            <a href="/"><img src="/image/logo.png" /></a>
-                        </div>
-                        <ul className="left-nav">
-                            <li className={(this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}>
-                                <a href="/">
-                                    <i className="fa fa-home"></i><br/>
-                                    <span>首页</span>
-                                </a>
-                            </li>
-                            <li className={this.state.path.indexOf('/cloumn') > -1 ? "active" : null}>
-                                <a href="/cloumns">
-                                    <i className="fa fa-th-list"></i><br/>
-                                    <span>专题</span>
-                                </a>
-                            </li>
-                            <li className={this.state.path == '/bug' ? "active" : null}>
-                                <a href="/bug">
-                                    <i className="fa fa-question-circle"></i><br/>
-                                    <span>bug反馈</span>
-                                </a>
-                            </li>
-                            
-                        </ul>
-                    </div>
+                    {
+                        matches ? null : (<div className="left-bar">
+                                            <div className="logo">
+                                                <a href="/"><img src="/image/logo.png" /></a>
+                                            </div>
+                                            <ul className="left-nav">
+                                                <li className={(this.state.path == '/' || this.state.path.indexOf('/cloumn') == -1 && this.state.path != '/bug') ? "active" : null}>
+                                                    <a href="/">
+                                                        <i className="fa fa-home"></i><br/>
+                                                        <span>首页</span>
+                                                    </a>
+                                                </li>
+                                                <li className={this.state.path.indexOf('/cloumn') > -1 ? "active" : null}>
+                                                    <a href="/cloumns">
+                                                        <i className="fa fa-th-list"></i><br/>
+                                                        <span>专题</span>
+                                                    </a>
+                                                </li>
+                                                <li className={this.state.path == '/bug' ? "active" : null}>
+                                                    <a href="/bug">
+                                                        <i className="fa fa-question-circle"></i><br/>
+                                                        <span>bug反馈</span>
+                                                    </a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </div>)
+                    }
+                    
                     <div className="container">{page}</div>
                 </div>
             )
