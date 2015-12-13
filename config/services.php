@@ -40,5 +40,10 @@ return [
         'client_secret' => 'd7b94c947a5150bf97ab439801b4671f',
         'redirect' => 'http://web-engineer.cn/auth/qq/callback',  
     ],
+    'weibo' => [
+        'client_id' => '1498409001',
+        'client_secret' => 'b325bfe4871625d0f3f9bfbc8cf61d31',
+        'redirect' => 'http://web-engineer.cn/auth/weibo/callback',  
+    ],
 
 ];

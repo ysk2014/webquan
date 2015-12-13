@@ -25,6 +25,7 @@ return array(
     'SuperClosure\\' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
     'Stringy\\' => array($vendorDir . '/danielstjules/stringy/src'),
     'SocialiteProviders\\Weixin\\' => array($vendorDir . '/socialiteproviders/weixin/src'),
+    'SocialiteProviders\\Weibo\\' => array($vendorDir . '/socialiteproviders/weibo/src'),
     'SocialiteProviders\\Qq\\' => array($vendorDir . '/socialiteproviders/qq/src'),
     'SocialiteProviders\\Manager\\' => array($vendorDir . '/socialiteproviders/manager/src'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src/Psy'),

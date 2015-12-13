@@ -3998,5 +3998,44 @@
             }
         ],
         "description": "Weixin OAuth2 Provider for Laravel Socialite"
+    },
+    {
+        "name": "socialiteproviders/weibo",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/SocialiteProviders/Weibo.git",
+            "reference": "761232f499b28a651cfa30df3d8d155907f10acd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/SocialiteProviders/Weibo/zipball/761232f499b28a651cfa30df3d8d155907f10acd",
+            "reference": "761232f499b28a651cfa30df3d8d155907f10acd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.0",
+            "socialiteproviders/manager": "~1.0"
+        },
+        "time": "2015-06-29 05:47:15",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "SocialiteProviders\\Weibo\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "xyxu",
+                "email": "techxu@gmail.com"
+            }
+        ],
+        "description": "weibo.com OAuth2 Provider for Laravel Socialite"
     }
 ]
