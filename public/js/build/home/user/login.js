@@ -176,8 +176,20 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 return false;
             }
 
+            if(WQ.check.number(username)) {
+                Tooltip('用户名全为数字');
+                $('.login-contianer').find('input[name="username"]').focus();
+                return false;
+            }
+
             if(password=='') {
                 Tooltip('密码不能为空');
+                $('.login-contianer').find('input[name="password"]').focus();
+                return false;
+            }
+
+            if(password.length<6) {
+                Tooltip('密码不能小于六位');
                 $('.login-contianer').find('input[name="password"]').focus();
                 return false;
             }
@@ -214,9 +226,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 _this.handleSignUp();
             }
         },
-        handleQQ: function() {
-            window.location.href = "/auth/qq";
-        }
     };
 
     return React.createClass({
@@ -263,17 +272,17 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     React.createElement("a", {className: _this.state.nav=='sign_up' ? "active" : "", href: "/login/sign_up"}, "注册")
                                 )
                             ), 
-                            React.createElement("div", {className: "login-contianer"}, 
+                            React.createElement("div", {className: "login-container"}, 
                                 React.createElement("form", {className: "form-horizontal"}, 
                                     React.createElement("div", {className: "input-prepend"}, 
                                         React.createElement("span", {className: "add-on"}, 
-                                            React.createElement("i", {className: "fa fa-user"})
+                                            React.createElement("i", {className: "fa fa-user fa-lg"})
                                         ), 
                                         React.createElement("input", {type: "text", className: "input-login", name: "username", value: _this.state.username, placeholder: "用户名", onChange: _this.handleUnameChange, onKeyPress: _this.handlePress})
                                     ), 
                                     React.createElement("div", {className: "input-prepend"}, 
                                         React.createElement("span", {className: "add-on"}, 
-                                            React.createElement("i", {className: "fa fa-unlock-alt"})
+                                            React.createElement("i", {className: "fa fa-unlock-alt fa-lg"})
                                         ), 
                                         React.createElement("input", {type: "password", className: "input-login", name: "password", value: _this.state.password, placeholder: "密码", onChange: _this.handlePwdChange, onKeyPress: _this.handlePress})
                                     ), 
@@ -299,7 +308,23 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     React.createElement("a", {target: "_blank", href: "/page/forget", className: "pull-right forget"}, "忘记密码")
                                 )
                             ), 
-                            React.createElement("a", {href: "javascript:void(0);", onClick: _this.handleQQ}, "QQ")
+                            React.createElement("div", {className: "login-other"}, 
+                                React.createElement("p", null, "您还可以通过以下方式直接登录"), 
+                                React.createElement("ul", {className: "clearfix"}, 
+                                    React.createElement("li", {className: "qq"}, 
+                                        React.createElement("a", {href: "/auth/qq"}, React.createElement("i", {className: "fa fa-qq"}))
+                                    ), 
+                                    React.createElement("li", {className: "weixin"}, 
+                                        React.createElement("a", {href: "/auth/weixin"}, React.createElement("i", {className: "fa fa-weixin"}))
+                                    ), 
+                                    React.createElement("li", {className: "weibo"}, 
+                                        React.createElement("a", {href: "/auth/weibo"}, React.createElement("i", {className: "fa fa-weibo"}))
+                                    ), 
+                                    React.createElement("li", {className: "github"}, 
+                                        React.createElement("a", {href: "/auth/github"}, React.createElement("i", {className: "fa fa-github fa-lg"}))
+                                    )
+                                )
+                            )
                         )
                     )
                 )

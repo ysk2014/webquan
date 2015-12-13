@@ -158,7 +158,9 @@
 .login-page .title span b{
   margin: 0px 10px;
 }
-
+.login-page .login-container {
+  margin-top: 30px;
+}
 .login-page form{
   width: 300px;
   padding-bottom: 40px;
@@ -175,6 +177,47 @@
 }
 .login-page .forget:hover {
   color: #5dade2;
+}
+.login-page .login-other {
+  width: 300px;
+  margin: 0 auto;
+}
+.login-page .login-other p {
+  margin-bottom: 15px;
+  color: #999999;
+  text-align: center;
+}
+.login-page .login-other ul {
+  margin: 0 0 10px 25px;
+}
+.login-page .login-other li {
+  float: left;
+  margin: 0 10px;
+}
+.login-page .login-other li a {
+  width: 44px;
+  height: 44px;
+  display: inline-block;
+  border-radius: 50%;
+  line-height: 44px;
+  font-size: 20px;
+  background: #eeeeee;
+  text-align: center;
+}
+.login-page .login-other li a:hover {
+  color: #fff;
+}
+.login-page .login-other li.weibo a:hover {
+  background-color: #f57e42;
+}
+.login-page .login-other li.qq a:hover {
+  background-color: #15a7f0;
+}
+.login-page .login-other li.weixin a:hover {
+  background-color: #49be38;
+}
+.login-page .login-other li.github a:hover {
+  background-color: #000;
 }
 
 

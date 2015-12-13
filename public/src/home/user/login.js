@@ -176,8 +176,20 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 return false;
             }
 
+            if(WQ.check.number(username)) {
+                Tooltip('用户名全为数字');
+                $('.login-contianer').find('input[name="username"]').focus();
+                return false;
+            }
+
             if(password=='') {
                 Tooltip('密码不能为空');
+                $('.login-contianer').find('input[name="password"]').focus();
+                return false;
+            }
+
+            if(password.length<6) {
+                Tooltip('密码不能小于六位');
                 $('.login-contianer').find('input[name="password"]').focus();
                 return false;
             }
@@ -214,9 +226,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 _this.handleSignUp();
             }
         },
-        handleQQ: function() {
-            window.location.href = "/auth/qq";
-        }
     };
 
     return React.createClass({
@@ -263,17 +272,17 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     <a className={_this.state.nav=='sign_up' ? "active" : ""} href="/login/sign_up">注册</a>
                                 </span>
                             </h4>
-                            <div className="login-contianer">
+                            <div className="login-container">
                                 <form className="form-horizontal">
                                     <div className="input-prepend">
                                         <span className="add-on">
-                                            <i className="fa fa-user"></i>
+                                            <i className="fa fa-user fa-lg"></i>
                                         </span>
                                         <input type="text" className="input-login" name="username" value={_this.state.username} placeholder="用户名" onChange={_this.handleUnameChange} onKeyPress={_this.handlePress} />
                                     </div>
                                     <div className="input-prepend">
                                         <span className="add-on">
-                                            <i className="fa fa-unlock-alt"></i>
+                                            <i className="fa fa-unlock-alt fa-lg"></i>
                                         </span>
                                         <input type="password" className="input-login" name="password" value={_this.state.password} placeholder="密码" onChange={_this.handlePwdChange} onKeyPress={_this.handlePress} />
                                     </div>
@@ -299,7 +308,23 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                     <a target="_blank" href="/page/forget" className="pull-right forget">忘记密码</a>
                                 </form>
                             </div>
-                            <a href="javascript:void(0);" onClick={_this.handleQQ}>QQ</a>
+                            <div className="login-other">
+                                <p>您还可以通过以下方式直接登录</p>
+                                <ul className="clearfix">
+                                    <li className="qq">
+                                        <a href="/auth/qq"><i className="fa fa-qq"></i></a>
+                                    </li>
+                                    <li className="weixin">
+                                        <a href="/auth/weixin"><i className="fa fa-weixin"></i></a>
+                                    </li>
+                                    <li className="weibo">
+                                        <a href="/auth/weibo"><i className="fa fa-weibo"></i></a>
+                                    </li>
+                                    <li className="github">
+                                        <a href="/auth/github"><i className="fa fa-github fa-lg"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </ReactCSSTransitionGroup>
                 </div>
