@@ -121,40 +121,40 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')}, 
+							React.createElement("a", {href: "/user/"+_this.state.userInfo.id}, 
 								React.createElement("i", {className: "fa fa-user"}), 
 								React.createElement("span", null, "我的主页")
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/news"}, 
+							React.createElement("a", {href: "/user/"+_this.state.userInfo.id+"/news"}, 
 								React.createElement("i", {className: "fa fa-bell-o"}), 
 								React.createElement("span", null, "我的消息"), 
 								_this.state.news!=0 ? (React.createElement("span", {className: "news"}, " ", _this.state.news)) : null
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/draft"}, 
+							React.createElement("a", {href: "/user/"+_this.state.userInfo.id+"/draft"}, 
 								React.createElement("i", {className: "fa fa-inbox"}), 
 								React.createElement("span", null, "我的草稿箱")
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/store"}, 
+							React.createElement("a", {href: "/user/"+_this.state.userInfo.id+"/store"}, 
 								React.createElement("i", {className: "fa fa-bookmark"}), 
 								React.createElement("span", null, "我的收藏")
 							)
 						), 
 						React.createElement("li", null, 
-							React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/settings"}, 
+							React.createElement("a", {href: "/user/"+_this.state.userInfo.id+"/settings"}, 
 								React.createElement("i", {className: "fa fa-cogs"}), 
 								React.createElement("span", null, "设置")
 							)
 						), 
 						
-							(WQ.cookie.get('id') == 5) ? (
+							(_this.state.userInfo.id == 5) ? (
 								React.createElement("li", null, 
-									React.createElement("a", {href: "/user/"+WQ.cookie.get('id')+"/bugs"}, 
+									React.createElement("a", {href: "/user/"+_this.state.userInfo.id+"/bugs"}, 
 										React.createElement("i", {className: "fa fa-question-circle"}), 
 										React.createElement("span", null, "bug反馈")
 									)

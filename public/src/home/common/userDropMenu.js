@@ -121,40 +121,40 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 							</a>
 						</li>
 						<li>
-							<a href={"/user/"+WQ.cookie.get('id')}>
+							<a href={"/user/"+_this.state.userInfo.id}>
 								<i className="fa fa-user"></i>
 								<span>我的主页</span>
 							</a>
 						</li>
 						<li>
-							<a href={"/user/"+WQ.cookie.get('id')+"/news"}>
+							<a href={"/user/"+_this.state.userInfo.id+"/news"}>
 								<i className="fa fa-bell-o"></i>
 								<span>我的消息</span>
 								{_this.state.news!=0 ? (<span className="news"> {_this.state.news}</span>) : null }
 							</a>
 						</li>
 						<li>
-							<a href={"/user/"+WQ.cookie.get('id')+"/draft"}>
+							<a href={"/user/"+_this.state.userInfo.id+"/draft"}>
 								<i className="fa fa-inbox"></i>
 								<span>我的草稿箱</span>
 							</a>
 						</li>
 						<li>
-							<a href={"/user/"+WQ.cookie.get('id')+"/store"}>
+							<a href={"/user/"+_this.state.userInfo.id+"/store"}>
 								<i className="fa fa-bookmark"></i>
 								<span>我的收藏</span>
 							</a>
 						</li>
 						<li>
-							<a href={"/user/"+WQ.cookie.get('id')+"/settings"}>
+							<a href={"/user/"+_this.state.userInfo.id+"/settings"}>
 								<i className="fa fa-cogs"></i>
 								<span>设置</span>
 							</a>
 						</li>
 						{
-							(WQ.cookie.get('id') == 5) ? (
+							(_this.state.userInfo.id == 5) ? (
 								<li>
-									<a href={"/user/"+WQ.cookie.get('id')+"/bugs"}>
+									<a href={"/user/"+_this.state.userInfo.id+"/bugs"}>
 										<i className="fa fa-question-circle"></i>
 										<span>bug反馈</span>
 									</a>
