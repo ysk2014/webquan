@@ -44,7 +44,7 @@ class ArticleController extends Controller {
 		$articleProcess = new ArticleProcess();
 
 		$data = $articleProcess->getArticleById(intval($id));
-
+		
 		return response()->json($data);
 	}
 
@@ -161,12 +161,23 @@ class ArticleController extends Controller {
 
 			$data = Request::input('data');
 			$data['addtime'] = time();
-			$data['update_time'] = time();
+			
+			$is_publish = $data['is_publish'];
+			// unset($data['is_publish']);
+
+			// if($is_publish==1) {
+				$data['update_time'] = time();
+			// }
 
 			$param = new \App\Services\Home\Article\ArticleSave();
 			$param->setAttributes($data); 
 
-			$result = $articleProcess->addArticle($param);
+			// if ($is_publish==1) {
+				$result = $articleProcess->addArticle($param);
+			// } else {
+				// $result = $articleProcess->addDraft($param);
+			// }
+			
 
 		} else if($method== "DELETE") {            //删除文章
 			$ids = [$id];

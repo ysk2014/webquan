@@ -33,8 +33,6 @@ class ArticleSave extends AbstractParam
 
     protected $store;
 
-    protected $is_publish;
-
     protected $update_time;
 
     protected $addtime;
@@ -110,12 +108,6 @@ class ArticleSave extends AbstractParam
     public function setStore($store)
     {
         $this->store = $this->attributes['store'] = $store;
-        return $this;
-    }
-
-    public function setIsPublish($is_publish)
-    {
-        $this->is_publish = $this->attributes['is_publish'] = $is_publish;
         return $this;
     }
 
