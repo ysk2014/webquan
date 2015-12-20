@@ -11,26 +11,22 @@ define(['react',
     var mixin = {
         init: function() {
             var _this = this;
-            UserModel.getUserInfoById(_this.state.uid,function(success,data) {
-                if(success) {
-                    if(!data.error) {
-                        _this.setState({
-                            info: data.data
-                        });
-                    } else {
-                        Tooltip(data.msg);
-                    }
+            UserModel.getUserInfoById(_this.state.uid,function(data) {
+                if(!data.error) {
+                    _this.setState({
+                        info: data.data
+                    });
+                } else {
+                    Tooltip(data.msg);
                 }
             });
 
             //如果是从消息页面跳转过来的，就把消息设置为已读
             if(_this.state.newsId!=0) {
-                UserModel.updateNews({id:_this.state.newsId},function(success,data) {
-                    if(success) {
-                        if(!data.error) {
-                            $('.drop-menu .news').remove();
-                            return;
-                        }
+                UserModel.updateNews({id:_this.state.newsId},function(data) {
+                    if(!data.error) {
+                        $('.drop-menu .news').remove();
+                        return;
                     }
                 });
             }
@@ -91,24 +87,22 @@ define(['react',
             var uid = _this.state.uid;
             var params = {uid:uid,way:way,page:page,is_publish:is_publish};
 
-            ArticleModel.getAllArticleByUid(params,function(success,data) {
-                if(success) {
-                    if(!data.error) {
-                        if(_this.state.list[way]) {
-                            Array.prototype.push.apply(_this.state.list[way],data.data);
-                        } else {
-                            _this.state.list[way] = data.data;
-                        }
-                        
-                        _this.state.more[way] = parseInt(page)+1;
-                        _this.setState({
-                            list: _this.state.list,
-                            next: data.next,
-                            more: _this.state.more
-                        });
+            ArticleModel.getAllArticleByUid(params,function(data) {
+                if(!data.error) {
+                    if(_this.state.list[way]) {
+                        Array.prototype.push.apply(_this.state.list[way],data.data);
                     } else {
-                        Tooltip(data.msg);
+                        _this.state.list[way] = data.data;
                     }
+                    
+                    _this.state.more[way] = parseInt(page)+1;
+                    _this.setState({
+                        list: _this.state.list,
+                        next: data.next,
+                        more: _this.state.more
+                    });
+                } else {
+                    Tooltip(data.msg);
                 }
             });
         },

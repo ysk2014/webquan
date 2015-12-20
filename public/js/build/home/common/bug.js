@@ -28,13 +28,11 @@ define(['react', 'jquery', 'WQ','home/model/bugModel','home/common/tooltip'],fun
                 Tooltip('内容不能为空');
                 return false;
             }
-            BugModel.addBug(params,function(success,data) {
-                if(success) {
-                    if(!data.error) {
-                        Tooltip('感谢你的bug反馈，我们会尽快修改');
-                    } else {
-                        Tooltip(data.msg);
-                    }
+            BugModel.addBug(params,function(data) {
+                if(!data.error) {
+                    Tooltip('感谢你的bug反馈，我们会尽快修改');
+                } else {
+                    Tooltip(data.msg);
                 }
             });
         },

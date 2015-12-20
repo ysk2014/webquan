@@ -14,15 +14,13 @@ define([
 		init: function() {
 			var _this = this;
 			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : 0;
-			CloumnModel.getCloumnById(_this.state.cid,uid,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							cloumn: data.data
-						});
-					} else {
-						Tooltip(data.msg);
-					}
+			CloumnModel.getCloumnById(_this.state.cid,uid,function(data) {
+				if(!data.error) {
+					_this.setState({
+						cloumn: data.data
+					});
+				} else {
+					Tooltip(data.msg);
 				}
 			});	
 			_this.getArticlesByCid('view',0);
@@ -32,25 +30,23 @@ define([
 		getArticlesByCid: function(way,page) {
 			var _this = this;
 			var dataObj = {cid:_this.state.cid,way:way,page:page};
-			ArticleModel.getAllArticleByCid(dataObj,function(success,data) {
-				if(success) {
-					if(!data.error) {
+			ArticleModel.getAllArticleByCid(dataObj,function(data) {
+				if(!data.error) {
 
-						if(_this.state.articles[way]) {
-							Array.prototype.push.apply(_this.state.articles[way],data.data);
-						} else {
-							_this.state.articles[way] = data.data;
-						}
-						_this.state.more[way] = parseInt(page)+1;
-						_this.setState({
-							articles: _this.state.articles,
-							more: _this.state.more,
-							next: data.next,
-						});
+					if(_this.state.articles[way]) {
+						Array.prototype.push.apply(_this.state.articles[way],data.data);
 					} else {
-						Tooltip(data.msg);
+						_this.state.articles[way] = data.data;
 					}
-				} 
+					_this.state.more[way] = parseInt(page)+1;
+					_this.setState({
+						articles: _this.state.articles,
+						more: _this.state.more,
+						next: data.next,
+					});
+				} else {
+					Tooltip(data.msg);
+				}
 			});
 		},
 		handleCare: function(event) {
@@ -67,37 +63,33 @@ define([
 			}
 
 			if(myCare) {
-				CloumnModel.delCare(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
-							_this.state.cloumn['care'] = _this.state.cloumn['care']-1;
-							_this.setState({
-								cloumn: _this.state.cloumn
-							});
+				CloumnModel.delCare(dataObj,function(data) {
+					if(!data.error) {
+						_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+						_this.state.cloumn['care'] = _this.state.cloumn['care']-1;
+						_this.setState({
+							cloumn: _this.state.cloumn
+						});
 
-							ele.data('care',false);
-							ele.addClass('btn-info').removeClass('btn-default');
-						} else {
-							Tooltip(data.msg);
-						}
+						ele.data('care',false);
+						ele.addClass('btn-info').removeClass('btn-default');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else {
-				CloumnModel.addCare(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
-							_this.state.cloumn['care'] = _this.state.cloumn['care']+1;
-							_this.setState({
-								cloumn: _this.state.cloumn
-							});
-							
-							ele.data('care',true);
-							ele.addClass('btn-default').removeClass('btn-info');
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.addCare(dataObj,function(data) {
+					if(!data.error) {
+						_this.state.cloumn['careStatus'] = !_this.state.cloumn['careStatus'];
+						_this.state.cloumn['care'] = _this.state.cloumn['care']+1;
+						_this.setState({
+							cloumn: _this.state.cloumn
+						});
+						
+						ele.data('care',true);
+						ele.addClass('btn-default').removeClass('btn-info');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}

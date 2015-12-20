@@ -43,24 +43,22 @@ define([
 		// 获取全部文章
 		getAllArticle: function(way,page) {
 			var _this = this;
-			ArticleModel.getAllArticle({way:way,page:page},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.list[way]) {
-							Array.prototype.push.apply(_this.state.list[way],data.data);
-						} else {
-							_this.state.list[way] = data.data;
-						}
-						
-						_this.state.more[way] = parseInt(page)+1;
-						_this.setState({
-							list: _this.state.list,
-							more: _this.state.more,
-							next: data.next
-						});
+			ArticleModel.getAllArticle({way:way,page:page},function(data) {
+				if(!data.error) {
+					if(_this.state.list[way]) {
+						Array.prototype.push.apply(_this.state.list[way],data.data);
 					} else {
-						Tooltip(data.msg);
+						_this.state.list[way] = data.data;
 					}
+					
+					_this.state.more[way] = parseInt(page)+1;
+					_this.setState({
+						list: _this.state.list,
+						more: _this.state.more,
+						next: data.next
+					});
+				} else {
+					Tooltip(data.msg);
 				}
 			});
 		},
@@ -68,24 +66,22 @@ define([
 		getAllArtsByUidCare: function(page) {
 			var _this = this;
 			var uid = WQ.cookie.get('id');
-			ArticleModel.getAllArtsByUidCare({uid:uid,page:page},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.list['care']) {
-							Array.prototype.push.apply(_this.state.list['care'],data.data);
-						} else {
-							_this.state.list['care'] = data.data;
-						}
-						_this.state.more['care'] = parseInt(page)+1;
-						_this.setState({
-							list: _this.state.list,
-							more: _this.state.more,
-							next: data.next
-						});
+			ArticleModel.getAllArtsByUidCare({uid:uid,page:page},function(data) {
+				if(!data.error) {
+					if(_this.state.list['care']) {
+						Array.prototype.push.apply(_this.state.list['care'],data.data);
 					} else {
-						Tooltip(data.msg);
+						_this.state.list['care'] = data.data;
 					}
-				} 
+					_this.state.more['care'] = parseInt(page)+1;
+					_this.setState({
+						list: _this.state.list,
+						more: _this.state.more,
+						next: data.next
+					});
+				} else {
+					Tooltip(data.msg);
+				}
 			});
 		},
 		// 分页

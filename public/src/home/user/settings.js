@@ -162,14 +162,12 @@
         	handleSubmit: function(event) {
         		var _this = this;
         		var data = _this.state.info;
-        		UserModel.editUser(_this.state.info.id,data,function(success,data) {
-                    if(success){
-                    	if(!data.error){
-                    		Tooltip("修改成功");
-                    	}else{
-                    		Tooltip(data.msg);
-                    	}
-                    }
+        		UserModel.editUser(_this.state.info.id,data,function(data) {
+                	if(!data.error){
+                		Tooltip("修改成功");
+                	}else{
+                		Tooltip(data.msg);
+                	}
         		});
         	},
         	render: function() {
@@ -253,7 +251,7 @@
 	        },
 	        sendEmail: function() {
 	        	var _this = this;
-	        	// UserModel.sendEmail(_this.state.email,function(success,data){
+	        	// UserModel.sendEmail(_this.state.email,function(data){
 
 	        	// });
 	        },
@@ -323,14 +321,12 @@
 					newPasswordRepeat: _this.state.newPasswordRepeat
 				}
 				if(_this.judge(data) == true){
-					UserModel.modifyPassword(data['id'],data,function(success,data){
-	                    if(success){
-	                    	if(!data.error){
-	                    		window.location.href="/login/sign_in";
-	                    	}else{
-	                    		alert(data.msg);
-	                    	}
-	                    }
+					UserModel.modifyPassword(data['id'],data,function(data){
+                    	if(!data.error){
+                    		window.location.href="/login/sign_in";
+                    	}else{
+                    		alert(data.msg);
+                    	}
 	        		})
 				}
 			},
@@ -371,15 +367,13 @@
 	        },
 	        componentDidMount: function(){
 	        	var _this = this;
-	        	UserModel.getUserInfoById(_this.state.uid,function(success,data) {
-					if(success){
-						if(!data.error){
-							_this.setState({
-								info: data.data
-	            			});
-						}else{
-							Tooltip(data.msg);
-						}
+	        	UserModel.getUserInfoById(_this.state.uid,function(data) {
+					if(!data.error){
+						_this.setState({
+							info: data.data
+            			});
+					}else{
+						Tooltip(data.msg);
 					}
 				});	
 	        },  

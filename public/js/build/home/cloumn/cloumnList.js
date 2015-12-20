@@ -19,26 +19,24 @@ define([
 		getAllCloumns: function(way,page){
 			var _this = this;
 			var params = {way:way,page:page};
-			CloumnModel.getAllCloumns(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.cloumns[way]) {
-							Array.prototype.push.apply(_this.state.cloumns[way],data.data);
-							_this.state.next[way] = data.next;
-							_this.state.page[way] = parseInt(page)+1;
-						} else {
-							_this.state.cloumns[way] = data.data;
-							_this.state.next[way] = data.next;
-							_this.state.page[way] = parseInt(page)+1;
-						}
-						_this.setState({
-							cloumns: _this.state.cloumns,
-							next: _this.state.next,
-							page: _this.state.page,
-						});	
+			CloumnModel.getAllCloumns(params,function(data) {
+				if(!data.error) {
+					if(_this.state.cloumns[way]) {
+						Array.prototype.push.apply(_this.state.cloumns[way],data.data);
+						_this.state.next[way] = data.next;
+						_this.state.page[way] = parseInt(page)+1;
 					} else {
-						Tooltip(data.msg);
+						_this.state.cloumns[way] = data.data;
+						_this.state.next[way] = data.next;
+						_this.state.page[way] = parseInt(page)+1;
 					}
+					_this.setState({
+						cloumns: _this.state.cloumns,
+						next: _this.state.next,
+						page: _this.state.page,
+					});	
+				} else {
+					Tooltip(data.msg);
 				}
 			});
 		},
@@ -47,26 +45,24 @@ define([
 			var _this = this;
 			var uid = _this.state.uid;
 			var params = {uid:uid, page:page};
-			CloumnModel.getCloumnsByUid(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.cloumns['me']) {
-							Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
-							_this.state.next['me'] = data.next;
-							_this.state.page['me'] = parseInt(page)+1;
-						} else {
-							_this.state.cloumns['me'] = data.data;
-							_this.state.next = {'me':data.next};
-							_this.state.page = {'me':parseInt(page)+1};
-						}
-						_this.setState({
-							cloumns: _this.state.cloumns,
-							next: _this.state.next,
-							page: _this.state.page,
-						});
+			CloumnModel.getCloumnsByUid(params,function(data) {
+				if(!data.error) {
+					if(_this.state.cloumns['me']) {
+						Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
+						_this.state.next['me'] = data.next;
+						_this.state.page['me'] = parseInt(page)+1;
 					} else {
-						Tooltip(data.msg);
+						_this.state.cloumns['me'] = data.data;
+						_this.state.next = {'me':data.next};
+						_this.state.page = {'me':parseInt(page)+1};
 					}
+					_this.setState({
+						cloumns: _this.state.cloumns,
+						next: _this.state.next,
+						page: _this.state.page,
+					});
+				} else {
+					Tooltip(data.msg);
 				}
 			});
 		},
@@ -75,26 +71,24 @@ define([
 			var _this = this;
 			var uid = _this.state.uid;
 			var params = {uid:uid, page:page};
-			CloumnModel.getCareCloumnsByUid(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.cloumns['myCare']) {
-							Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
-							_this.state.next['myCare'] = data.next;
-							_this.state.page['myCare'] = parseInt(page)+1;
-						} else {
-							_this.state.cloumns['myCare'] = data.data;
-							_this.state.next = {'myCare':data.next};
-							_this.state.page = {'myCare':parseInt(page)+1};
-						}
-						_this.setState({
-							cloumns: _this.state.cloumns,
-							next: _this.state.next,
-							page: _this.state.page,
-						});
+			CloumnModel.getCareCloumnsByUid(params,function(data) {
+				if(!data.error) {
+					if(_this.state.cloumns['myCare']) {
+						Array.prototype.push.apply(_this.state.cloumns['me'],data.data);
+						_this.state.next['myCare'] = data.next;
+						_this.state.page['myCare'] = parseInt(page)+1;
 					} else {
-						Tooltip(data.msg);
+						_this.state.cloumns['myCare'] = data.data;
+						_this.state.next = {'myCare':data.next};
+						_this.state.page = {'myCare':parseInt(page)+1};
 					}
+					_this.setState({
+						cloumns: _this.state.cloumns,
+						next: _this.state.next,
+						page: _this.state.page,
+					});
+				} else {
+					Tooltip(data.msg);
 				}
 			});
 		},
@@ -200,23 +194,19 @@ define([
 			};
 
 			if(myCare) {
-				CloumnModel.delCare(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							changeCare(false);
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.delCare(dataObj,function(data) {
+					if(!data.error) {
+						changeCare(false);
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else {
-				CloumnModel.addCare(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							changeCare(true);
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.addCare(dataObj,function(data) {
+					if(!data.error) {
+						changeCare(true);
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}
