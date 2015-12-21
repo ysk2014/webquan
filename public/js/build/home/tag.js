@@ -10,15 +10,13 @@ define([
 	var mixin = {
 		init: function() {
 			var _this = this;
-			ArticleModel.tagInfo(_this.state.name,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							tagInfo: data.data
-						});
-					} else {
-						Tooltip(data.msg);
-					}
+			ArticleModel.tagInfo(_this.state.name,function(data) {
+				if(!data.error) {
+					_this.setState({
+						tagInfo: data.data
+					});
+				} else {
+					Tooltip(data.msg);
 				}
 			});
 			_this.getArts(_this.state.name,_this.state.page);
@@ -26,23 +24,21 @@ define([
 		getArts: function(name,page) {
 			var _this = this;
 			var params = {name:_this.state.name,page:page};
-			ArticleModel.getArtsLikeTag(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(_this.state.articles.length>0) {
-							Array.prototype.push.apply(_this.state.articles,data.data);
-						} else {
-							_this.state.articles = data.data;
-						}
-						
-						_this.setState({
-							articles: _this.state.articles,
-							next: data.next,
-							page: _this.state.page+1,
-						});
+			ArticleModel.getArtsLikeTag(params,function(data) {
+				if(!data.error) {
+					if(_this.state.articles.length>0) {
+						Array.prototype.push.apply(_this.state.articles,data.data);
 					} else {
-						Tooltip(data.msg)
+						_this.state.articles = data.data;
 					}
+					
+					_this.setState({
+						articles: _this.state.articles,
+						next: data.next,
+						page: _this.state.page+1,
+					});
+				} else {
+					Tooltip(data.msg)
 				}
 			});
 		},

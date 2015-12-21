@@ -14,23 +14,20 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 					len: 3,
 				})
 			} else {
-	            UserModel.getUserInfoByLogin(function(success, data) {
-	                if(success) {
-	                	if(data.userInfo) {
-	                		var userInfo = {username: data.userInfo.username, id: data.userInfo.id, userUrl: data.userInfo.logo_dir!=null ? data.userInfo.logo_dir : ''};
-							_this.setState({
-								userInfo : userInfo,
-								len: 3,
-							});
-							WQ.cookie.set(userInfo,1);
-	                	} else {
-							_this.setState({
-								userInfo : [],
-								len: 0,
-							});
-	                	}
-	                	
-	                }
+	            UserModel.getUserInfoByLogin(function(data) {
+                	if(data.userInfo) {
+                		var userInfo = {username: data.userInfo.username, id: data.userInfo.id, userUrl: data.userInfo.logo_dir!=null ? data.userInfo.logo_dir : ''};
+						_this.setState({
+							userInfo : userInfo,
+							len: 3,
+						});
+						WQ.cookie.set(userInfo,1);
+                	} else {
+						_this.setState({
+							userInfo : [],
+							len: 0,
+						});
+                	}
 	            });
 			}
 		},
@@ -77,13 +74,11 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 		getNewsCount: function() {
 			var _this = this;
 			
-			UserModel.getNewsCount(_this.state.userInfo.id,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							news: data.data
-						});
-					}
+			UserModel.getNewsCount(_this.state.userInfo.id,function(data) {
+				if(!data.error) {
+					_this.setState({
+						news: data.data
+					});
 				}
 			});
 
@@ -92,12 +87,10 @@ define(['react', 'jquery', 'WQ','home/model/userModel', 'jqueryextend'],function
 			},1000*60);
 		},
 		handleClick: function() {
-			UserModel.signOut(function(success,data){
-				if(success) {
-					if(!data.error) {
-						WQ.cookie.empty();
-						window.location.href="/";
-					}
+			UserModel.signOut(function(data){
+				if(!data.error) {
+					WQ.cookie.empty();
+					window.location.href="/";
 				}
 			});
 		},

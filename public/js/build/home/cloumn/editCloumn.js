@@ -13,17 +13,15 @@ define([
 			var _this = this;
 			// 如果是编辑页面则获取专题数据
 			if(_this.state.cid > 0) {
-				CloumnModel.getCloumnById(_this.state.cid,_this.state.uid,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.setState({
-								name: data.data['name'],
-								description: data.data['description'],
-								logo_dir: data.data['logo_dir']
-							});
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.getCloumnById(_this.state.cid,_this.state.uid,function(data) {
+					if(!data.error) {
+						_this.setState({
+							name: data.data['name'],
+							description: data.data['description'],
+							logo_dir: data.data['logo_dir']
+						});
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}
@@ -46,24 +44,20 @@ define([
 			var _this = this;
 			if(_this.state.cid > 0) {
 				var dataObj = {name:_this.state.name,description:_this.state.description,uid:_this.state.uid,id:_this.state.cid,logo_dir:_this.state.logo_dir};
-				CloumnModel.editCloumn(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							window.location.href='/cloumn/'+_this.state.cid;
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.editCloumn(dataObj,function(data) {
+					if(!data.error) {
+						window.location.href='/cloumn/'+_this.state.cid;
+					} else {
+						Tooltip(data.msg);
 					}
 				});	
 			} else {
 				var dataObj = {name:_this.state.name,description:_this.state.description,uid:_this.state.uid,logo_dir:_this.state.logo_dir};
-				CloumnModel.addCloumn(dataObj,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							window.location.href='/cloumn/'+data.data;
-						} else {
-							Tooltip(data.msg);
-						}
+				CloumnModel.addCloumn(dataObj,function(data) {
+					if(!data.error) {
+						window.location.href='/cloumn/'+data.data;
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}

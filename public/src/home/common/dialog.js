@@ -46,12 +46,10 @@ define(['react','jquery','home/model/articleModel'],function(React, $, ArticleMo
 				handleOk: function() {
 					var _this = this;
 					var params = _this.state;
-					ArticleModel.addTag(params,function(success,data) {
-						if(success) {
-							if(!data.error) {
-								_this.handleClose();
-								opt.ok && opt.ok(data.error);
-							}
+					ArticleModel.addTag(params,function(data) {
+						if(!data.error) {
+							_this.handleClose();
+							opt.ok && opt.ok(data.error);
 						}
 					});
 				},

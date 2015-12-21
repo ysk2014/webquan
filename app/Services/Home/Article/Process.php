@@ -2,6 +2,7 @@
 namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
+use App\Models\Home\Drafts as DraftsModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\Cloumn as CloumnModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
@@ -24,6 +25,13 @@ class Process extends BaseProcess
      * @var object
      */
     private $articleModel;
+
+    /**
+     * 草稿模型
+     * 
+     * @var object
+     */
+    private $draftsModel;
 
     /**
      * 文章表单验证对象
@@ -68,6 +76,7 @@ class Process extends BaseProcess
 	function __construct()
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
+        if( ! $this->draftsModel) $this->draftsModel = new DraftsModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
         if( !$this->careModel) $this->careModel = new UCCModel();
@@ -197,6 +206,32 @@ class Process extends BaseProcess
 				$this->cloumnModel->incrementData('count',$data['cid']);
 			}
 			
+			$resultArr = array('error'=>false, 'data'=>$sqlData);
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'创建失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 增加草稿
+	*
+	* @param object $data;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function addDraft(\App\Services\Home\Article\ArticleSave $data)
+	{
+		$resultArr = [];
+		// 进行文章表单验证
+		if( !$this->articleValidate->add($data) ) 
+			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
+
+		// 对内容进行处理
+		$data = $this->dealData($data);
+
+		$sqlData = $this->draftsModel->addDraft($data->toArray());
+		if($sqlData != false) {
 			$resultArr = array('error'=>false, 'data'=>$sqlData);
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'创建失败');
@@ -364,7 +399,9 @@ class Process extends BaseProcess
 				return array('error'=>true,'msg'=>'获取文章失败');
 			}
 		}
-
+		if($articleInfo['is_publish'] == 0) {
+			return array('error'=>true,'msg'=>'获取文章失败');
+		}
 		$uid = SC::getLoginSession()['id'];
 		//判断用户是否已推荐和收藏
 		$articleInfo['praiseStatus'] = false;

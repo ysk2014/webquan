@@ -25,29 +25,27 @@ define([
 			showComment: function(page,first) {
 				var _this = this;
 				var aid = _this.state.aid;
-		        ArticleModel.getContentsByAid({aid:aid,page:page},function(success,data) {
-		        	if(success) {
-		        		if(!data.error) {
-		        			if(data.data) {
-		        				if(_this.state.commentList.length>0) {
-		        					Array.prototype.push.apply(_this.state.commentList,data.data);
-		        				} else {
-		        					_this.state.commentList = data.data;
-		        				}
+		        ArticleModel.getContentsByAid({aid:aid,page:page},function(data) {
+	        		if(!data.error) {
+	        			if(data.data) {
+	        				if(_this.state.commentList.length>0) {
+	        					Array.prototype.push.apply(_this.state.commentList,data.data);
+	        				} else {
+	        					_this.state.commentList = data.data;
+	        				}
 
-			        			_this.setState({
-			        				commentList: _this.state.commentList,
-			        				page: _this.state.page+1,
-			        				next: data.next
-			        			});
-		        			}
-		        		} else {
-		        			if(!first) Tooltip(data.msg);
 		        			_this.setState({
+		        				commentList: _this.state.commentList,
+		        				page: _this.state.page+1,
 		        				next: data.next
 		        			});
-		        		}
-		        	}
+	        			}
+	        		} else {
+	        			if(!first) Tooltip(data.msg);
+	        			_this.setState({
+	        				next: data.next
+	        			});
+	        		}
 		        });
 			},
 			// 写评论
@@ -81,48 +79,46 @@ define([
 					var data = {aid:aid, uid:uid, content:content, receive_id:_this.state.author};
 				}
 
-				ArticleModel.addComment(data,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							if(_this.state.fid==0) {
-								_this.state.commentList.push({
-									id: data.data.id,
-									aid: aid,
-									uid: uid,
-									username: username,
-									content: content,
-									userUrl: userUrl,
-									addtime: data.data.addtime,
-									fid: 0
-								});
-							} else {
-								if(!_this.state.commentList[_this.state.comment_index]['children']) {
-									_this.state.commentList[_this.state.comment_index]['children'] = [];
-								} 
-								_this.state.commentList[_this.state.comment_index]['children'].push({
-									id: data.data.id,
-									aid: aid,
-									uid: uid,
-									username: username,
-									content: content,
-									userUrl: userUrl,
-									addtime: data.data.addtime,
-									fid: _this.state.fid,
-									pid: _this.state.pid
-								});
-							}
-							_this.props.updateComment(1);
-							// _this.state.info.comment = parseInt(_this.state.info.comment)+1;
-							_this.setState({
-								commentList: _this.state.commentList,
-								commentContent: '',
-								fid: 0,
-								pid: 0,
-								comment_index: 0
+				ArticleModel.addComment(data,function(data) {
+					if(!data.error) {
+						if(_this.state.fid==0) {
+							_this.state.commentList.push({
+								id: data.data.id,
+								aid: aid,
+								uid: uid,
+								username: username,
+								content: content,
+								userUrl: userUrl,
+								addtime: data.data.addtime,
+								fid: 0
 							});
 						} else {
-							Tooltip(data.msg);
+							if(!_this.state.commentList[_this.state.comment_index]['children']) {
+								_this.state.commentList[_this.state.comment_index]['children'] = [];
+							} 
+							_this.state.commentList[_this.state.comment_index]['children'].push({
+								id: data.data.id,
+								aid: aid,
+								uid: uid,
+								username: username,
+								content: content,
+								userUrl: userUrl,
+								addtime: data.data.addtime,
+								fid: _this.state.fid,
+								pid: _this.state.pid
+							});
 						}
+						_this.props.updateComment(1);
+						// _this.state.info.comment = parseInt(_this.state.info.comment)+1;
+						_this.setState({
+							commentList: _this.state.commentList,
+							commentContent: '',
+							fid: 0,
+							pid: 0,
+							comment_index: 0
+						});
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			},
@@ -170,21 +166,19 @@ define([
 					};
 				}
 
-				ArticleModel.delComment({aid:_this.state.aid,cids:cids},function(success,data) {
-					if(success) {
-						if(!data.error) {
-							if(fid==0 && key==index) {
-								_this.state.commentList.splice(key,1);
-							} else {
-								_this.state.commentList[index]['children'].splice(key);
-							}
-							_this.props.updateComment(-cids.length);
-							// _this.state.info.comment = parseInt(_this.state.info.comment)-cids.length;
-							_this.setState({
-								commentList: _this.state.commentList,
-							});
-							Tooltip(data.msg);
+				ArticleModel.delComment({aid:_this.state.aid,cids:cids},function(data) {
+					if(!data.error) {
+						if(fid==0 && key==index) {
+							_this.state.commentList.splice(key,1);
+						} else {
+							_this.state.commentList[index]['children'].splice(key);
 						}
+						_this.props.updateComment(-cids.length);
+						// _this.state.info.comment = parseInt(_this.state.info.comment)-cids.length;
+						_this.setState({
+							commentList: _this.state.commentList,
+						});
+						Tooltip(data.msg);
 					}
 				});
 			},

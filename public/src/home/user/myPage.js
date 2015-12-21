@@ -25,21 +25,19 @@ define(['react',
     	getArticles: function(page) {
     		var _this = this;
     		var params = {uid:_this.state.uid,type:_this.state.type,page:page};
-    		ArticleModel.getArticlesByPS(params,function(success,data) {
-    			if(success) {
-    				if(!data.error) {
-    					if(_this.state.articles.length>0) {
-							Array.prototype.push.apply(_this.state.articles,data.data);
-						} else {
-							_this.state.articles = data.data;
-						}
-						_this.setState({
-							articles: _this.state.articles,
-							next: data.next,
-							page: _this.state.page+1,
-						});
-    				}
-    			}
+    		ArticleModel.getArticlesByPS(params,function(data) {
+				if(!data.error) {
+					if(_this.state.articles.length>0) {
+						Array.prototype.push.apply(_this.state.articles,data.data);
+					} else {
+						_this.state.articles = data.data;
+					}
+					_this.setState({
+						articles: _this.state.articles,
+						next: data.next,
+						page: _this.state.page+1,
+					});
+				}
     		});
     	},
     	handleMore: function() {
@@ -120,21 +118,19 @@ define(['react',
     		var _this = this;
     		var params = {uid:_this.state.uid, way:'is_publish', page:page, is_publish:0};
 
-    		ArticleModel.getAllArticleByUid(params,function(success,data) {
-    			if(success) {
-    				if(!data.error) {
-    					if(_this.state.articles.length>0) {
-							Array.prototype.push.apply(_this.state.articles,data.data);
-						} else {
-							_this.state.articles = data.data;
-						}
-						_this.setState({
-							articles: _this.state.articles,
-							next: data.next,
-							page: _this.state.page+1,
-						});
-    				}
-    			}
+    		ArticleModel.getAllArticleByUid(params,function(data) {
+				if(!data.error) {
+					if(_this.state.articles.length>0) {
+						Array.prototype.push.apply(_this.state.articles,data.data);
+					} else {
+						_this.state.articles = data.data;
+					}
+					_this.setState({
+						articles: _this.state.articles,
+						next: data.next,
+						page: _this.state.page+1,
+					});
+				}
     		});
     	},
     	handleMore: function() {
@@ -149,14 +145,12 @@ define(['react',
 			}
 			var key = ele.data('key');
 			_this.state.articles[key]['is_publish'] = 1;
-			ArticleModel.editArticle(_this.state.articles[key],function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.state.articles.splice(key,1);
-						_this.setState({
-							articles: _this.state.articles,
-						});
-					}
+			ArticleModel.editArticle(_this.state.articles[key],function(data) {
+				if(!data.error) {
+					_this.state.articles.splice(key,1);
+					_this.setState({
+						articles: _this.state.articles,
+					});
 				}
 			})
 		},
@@ -231,28 +225,26 @@ define(['react',
 		},
 		getNews: function(params,status) {
 			var _this = this;
-			UserModel.getNews(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(status) {
-							var nav = 'all';
-						} else {
-							var nav = 'unread'
-						}
-
-						if(_this.state.news[nav]) {
-							Array.prototype.push.apply(_this.state.news[nav],data.data);
-						} else {
-							_this.state.news[nav] = data.data;
-						}
-
-						_this.state.more[nav] = parseInt(params['page'])+1;
-						_this.setState({
-							news: _this.state.news,
-							next: data.next,
-							more: _this.state.more
-						});
+			UserModel.getNews(params,function(data) {
+				if(!data.error) {
+					if(status) {
+						var nav = 'all';
+					} else {
+						var nav = 'unread'
 					}
+
+					if(_this.state.news[nav]) {
+						Array.prototype.push.apply(_this.state.news[nav],data.data);
+					} else {
+						_this.state.news[nav] = data.data;
+					}
+
+					_this.state.more[nav] = parseInt(params['page'])+1;
+					_this.setState({
+						news: _this.state.news,
+						next: data.next,
+						more: _this.state.more
+					});
 				}
 			});
 		},
@@ -302,17 +294,15 @@ define(['react',
 		},
 		updateNews: function(params,status) {
 			var _this = this;
-			UserModel.updateNews(params,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						if(status) {
-							$('.news-list li.active').removeClass('active');
-							$('.drop-menu .news').hide();
-							_this.state.news['unread'] = null;
-							_this.setState({
-								news: _this.state.news
-							});
-						}
+			UserModel.updateNews(params,function(data) {
+				if(!data.error) {
+					if(status) {
+						$('.news-list li.active').removeClass('active');
+						$('.drop-menu .news').hide();
+						_this.state.news['unread'] = null;
+						_this.setState({
+							news: _this.state.news
+						});
 					}
 				}
 			});
@@ -389,13 +379,11 @@ define(['react',
 		},
 		componentDidMount: function() {
 			var _this = this;
-			BugModel.getAll(this.state.uid,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							bugs: data.data
-						});
-					}
+			BugModel.getAll(this.state.uid,function(data) {
+				if(!data.error) {
+					_this.setState({
+						bugs: data.data
+					});
 				}
 			});
 		},

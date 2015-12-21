@@ -146,19 +146,17 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 username: WQ.trim(_this.state.username),
                 password: WQ.trim(_this.state.password),
             }
-            UserModel.login(data,function(success,data) {
-                if(success) {
-                    if(!data.error) {
-                        if(_this.state.method && _this.state.page) {
-                            window.location.href ="/"+_this.state.page+'/'+_this.state.method;
-                        } else if(_this.state.page) {
-                            window.location.href ="/"+_this.state.page;
-                        } else {
-                            window.location.href ="/";
-                        }
+            UserModel.login(data,function(data) {
+                if(!data.error) {
+                    if(_this.state.method && _this.state.page) {
+                        window.location.href ="/"+_this.state.page+'/'+_this.state.method;
+                    } else if(_this.state.page) {
+                        window.location.href ="/"+_this.state.page;
                     } else {
-                        Tooltip(data.msg);
+                        window.location.href ="/";
                     }
+                } else {
+                    Tooltip(data.msg);
                 }
             });
         },
@@ -205,17 +203,15 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                    email: email,
                      job: job,
             }
-            UserModel.register(data,function(success,data) {
-                if (success) {
-                    if(!data.error) {
-                        Tooltip("注册成功");
-                        _this.setState({
-                            nav: "sign_in",
-                        });
-                    } else {
-                        Tooltip(data.msg);
-                    }
-                };
+            UserModel.register(data,function(data) {
+                if(!data.error) {
+                    Tooltip("注册成功");
+                    _this.setState({
+                        nav: "sign_in",
+                    });
+                } else {
+                    Tooltip(data.msg);
+                }
             });
         },
         handleSubmit: function() {

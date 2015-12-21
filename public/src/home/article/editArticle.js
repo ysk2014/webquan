@@ -16,40 +16,36 @@ define([
 			var _this = this;
 			var uid = WQ.cookie.get('id');
 			//获取专题列表
-			CloumnModel.getCloumnsByUid({uid:uid},function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.state.info.cid = data.data[0]['id'];
-						_this.setState({
-							cloumns: data.data,
-							info: _this.state.info
-						});
-					} else {
-						Tooltip(data.msg);
-						window.location.href="/cloumn/add";
-					}
+			CloumnModel.getCloumnsByUid({uid:uid},function(data) {
+				if(!data.error) {
+					_this.state.info.cid = data.data[0]['id'];
+					_this.setState({
+						cloumns: data.data,
+						info: _this.state.info
+					});
+				} else {
+					Tooltip(data.msg);
+					window.location.href="/cloumn/add";
 				}
 			});
 			//判断是添加文章，还是编辑文章，如果是编辑文章，获取文章数据并把文章内容赋值到markdown编辑器里
 			var aid = this.state.aid;
 			if(aid>0) {
-				ArticleModel.getArticleById(aid,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							if(data.data.tags.indexOf('|')) {
-								_this.state.tags = data.data.tags.split('|');
-							} else {
-								_this.state.tags = data.data.tags;
-							}
-							_this.setState({
-								info: data.data,
-								tags: _this.state.tags,
-								selected: data.data.cid,
-							});
-							_this.showEditor();
+				ArticleModel.getArticleById(aid,function(data) {
+					if(!data.error) {
+						if(data.data.tags.indexOf('|')) {
+							_this.state.tags = data.data.tags.split('|');
 						} else {
-							Tooltip(data.msg);
+							_this.state.tags = data.data.tags;
 						}
+						_this.setState({
+							info: data.data,
+							tags: _this.state.tags,
+							selected: data.data.cid,
+						});
+						_this.showEditor();
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else {
@@ -124,23 +120,19 @@ define([
 			var aid = this.state.aid;
 
 			if(aid>0) {
-				ArticleModel.editArticle(info,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							window.location.href = '/article/'+aid;
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.editArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+aid;
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else {
-				ArticleModel.addArticle(info,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							window.location.href = '/article/'+data.data;
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.addArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+data.data;
+					} else {
+						Tooltip(data.msg);
 					}
 				});	
 			}
@@ -209,13 +201,11 @@ define([
 			} else {
 				clearTimeout(_this.state.timer);
 				var timer = setTimeout(function(){
-					ArticleModel.getAllTags(WQ.trim(ele.val()),function(success,data) {
-						if(success) {
-							if(!data.error) {
-								_this.setState({
-									cacheTags: data.data
-								});
-							}
+					ArticleModel.getAllTags(WQ.trim(ele.val()),function(data) {
+						if(!data.error) {
+							_this.setState({
+								cacheTags: data.data
+							});
 						}
 					});
 				},200);

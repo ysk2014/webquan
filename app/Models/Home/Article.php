@@ -5,7 +5,7 @@ use App\Models\Base;
 /**
  * 文章表模型
  *
- * @author jiang
+ * @author ysk
  */
 class Article extends Base
 {
@@ -191,7 +191,7 @@ class Article extends Base
      * 
      * @param intval $id 专题的ID
      */
-    public function decrementById($data,$id,$len)
+    public function decrementById($data,$id,$len=1)
     {
         return $this->where('id','=', intval($id))
                     ->decrement($data,$len);

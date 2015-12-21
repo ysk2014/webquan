@@ -20,26 +20,22 @@ define([
 				uid: uid
 			});
 			//获取文章数据
-			ArticleModel.getArticleById(aid,function(success,data) {
-				if(success) {
-					if(!data.error) {
-						_this.setState({
-							info: data.data,
-						});
-						_this.showEditor(data.data.content);
-					}
+			ArticleModel.getArticleById(aid,function(data) {
+				if(!data.error) {
+					_this.setState({
+						info: data.data,
+					});
+					_this.showEditor(data.data.content);
 				}
 			});
 
 			//如果是从消息页面跳转过来的，就把消息设置为已读
 			if(_this.state.newsId!=0) {
-				UserModel.updateNews({id:_this.state.newsId},function(success,data) {
-					if(success) {
-						if(!data.error) {
-							$('.drop-menu .news').remove();
-							return;
-						} 
-					}
+				UserModel.updateNews({id:_this.state.newsId},function(data) {
+					if(!data.error) {
+						$('.drop-menu .news').remove();
+						return;
+					} 
 				});
 			}
 			return this;
@@ -70,33 +66,29 @@ define([
 			}
 			var params = {aid: _this.state.aid, uid: WQ.cookie.get('id'), author_id: this.state.info.uid};
 			if(ele.hasClass('btn-info')) {
-				ArticleModel.addPraise(params,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.info.praise = parseInt(_this.state.info.praise)+1;
-							_this.state.info.praiseStatus = !_this.state.info.praiseStatus;
-							_this.setState({
-								info: _this.state.info
-							}); 
-							ele.addClass('btn-danger').removeClass('btn-info');
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.addPraise(params,function(data) {
+					if(!data.error) {
+						_this.state.info.praise = parseInt(_this.state.info.praise)+1;
+						_this.state.info.praiseStatus = !_this.state.info.praiseStatus;
+						_this.setState({
+							info: _this.state.info
+						}); 
+						ele.addClass('btn-danger').removeClass('btn-info');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else if(ele.hasClass('btn-danger')) {
-				ArticleModel.delPraise(params,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.info.praise = parseInt(_this.state.info.praise)-1;
-							_this.state.info.praiseStatus = !_this.state.info.praiseStatus;
-							_this.setState({
-								info: _this.state.info
-							});
-							ele.addClass('btn-info').removeClass('btn-danger');
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.delPraise(params,function(data) {
+					if(!data.error) {
+						_this.state.info.praise = parseInt(_this.state.info.praise)-1;
+						_this.state.info.praiseStatus = !_this.state.info.praiseStatus;
+						_this.setState({
+							info: _this.state.info
+						});
+						ele.addClass('btn-info').removeClass('btn-danger');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}
@@ -118,33 +110,29 @@ define([
 			}
 			var params = {aid: _this.state.aid,uid: WQ.cookie.get('id'), author_id: this.state.info.uid};
 			if(ele.hasClass('btn-info')) {
-				ArticleModel.addStore(params,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.info.store = parseInt(_this.state.info.store)+1;
-							_this.state.info.storeStatus = !_this.state.info.storeStatus;
-							_this.setState({
-								info: _this.state.info
-							}); 
-							ele.addClass('btn-danger').removeClass('btn-info');
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.addStore(params,function(data) {
+					if(!data.error) {
+						_this.state.info.store = parseInt(_this.state.info.store)+1;
+						_this.state.info.storeStatus = !_this.state.info.storeStatus;
+						_this.setState({
+							info: _this.state.info
+						}); 
+						ele.addClass('btn-danger').removeClass('btn-info');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			} else if(ele.hasClass('btn-danger')) {
-				ArticleModel.delStore(params,function(success,data) {
-					if(success) {
-						if(!data.error) {
-							_this.state.info.store = parseInt(_this.state.info.store)-1;
-							_this.state.info.storeStatus = !_this.state.info.storeStatus;
-							_this.setState({
-								info: _this.state.info
-							});
-							ele.addClass('btn-info').removeClass('btn-danger');
-						} else {
-							Tooltip(data.msg);
-						}
+				ArticleModel.delStore(params,function(data) {
+					if(!data.error) {
+						_this.state.info.store = parseInt(_this.state.info.store)-1;
+						_this.state.info.storeStatus = !_this.state.info.storeStatus;
+						_this.setState({
+							info: _this.state.info
+						});
+						ele.addClass('btn-info').removeClass('btn-danger');
+					} else {
+						Tooltip(data.msg);
 					}
 				});
 			}
