@@ -24,6 +24,15 @@ class DraftController extends Controller {
 		return view('home.app');
 	}
 
+	/**
+	 * draft
+	 *
+	 */
+	public function page($id=0)
+	{
+		return view('home.app');
+	}
+
 
 	/**
 	 * 获取草稿详情

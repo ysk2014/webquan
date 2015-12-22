@@ -101,6 +101,8 @@ class Routes
 
                 //草稿详细页面
                 Route::get('user/{id}/draft/{did}', 'Home\DraftController@index');
+                Route::get('/draft/{id}/edit', 'Home\DraftController@page');
+
                 //获取草稿id的信息
                 Route::get('/draft/{id}/info', 'Home\DraftController@getDraftById');
                 //添加草稿
