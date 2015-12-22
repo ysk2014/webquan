@@ -154,8 +154,13 @@ define([
 		//保存到草稿
 		handleSave: function(event) {
 			var _this = this;
+			var uid = WQ.cookie.get('id');
 			var did = _this.state.did;
 			var aid = _this.state.aid;
+			_this.state.info.tags = _this.state.tags.join('|');
+			_this.setState({
+				info: _this.state.info
+			});
 			var info = _this.state.info;
 
 			if (did>0) {
@@ -164,7 +169,7 @@ define([
 				}
 
 				DraftModel.editDraft(info,function(data) {
-					if(!data.error) {
+					if (!data.error) {
 
 					} else {
 
@@ -172,10 +177,10 @@ define([
 				});
 			} else {
 				DraftModel.addDraft(info,function(data) {
-					if(!data.error) {
-
+					if (!data.error) {
+						window.location.href = '/user/' + uid + '/draft/'+data.data;
 					} else {
-
+						Tooltip(data.msg);
 					}
 				});
 			}
@@ -189,7 +194,7 @@ define([
 			return {
 				aid: this.props.aid ? this.props.aid : 0,  //文章id，如果是添加则为0
 				did: this.props.did ? this.props.did : 0,  //草稿箱id，如果是添加则为0
-				info: {uid:uid,is_publish:0}, //发布文章的数据
+				info: {uid:uid,}, //发布文章的数据
 				selected: this.props.params && this.props.params['cloumn'] ? this.props.params['cloumn'] : -1, 
 				cloumns: [],     //专题列表
 				tags: [],        //已选择的标签

@@ -52,7 +52,7 @@ requirejs([
             '/article/:id/edit': 'editArticle',
             '/article/:id'     : 'article',
             '/draft/:id/edit'  : 'editDraft',
-            '/draft/:id'       : 'draft',
+            '/user/:id/draft/:did' : 'draft',
 
 
             '/cloumns'         : 'cloumnList',
@@ -89,8 +89,8 @@ requirejs([
             return React.createElement(Article, {aid: aid, params: params})
         },
 
-        draft: function(did) {
-            return React.createElement(Article, {did: did})
+        draft: function(uid,did) {
+            return React.createElement(Article, {did: did, uid: uid})
         },
 
         cloumnList: function() {

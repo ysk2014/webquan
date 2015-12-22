@@ -209,7 +209,7 @@ class Process extends BaseProcess
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if ($sqlData != false) {
 
-			$this->draftsModel->delDrafts(array $did);
+			if (isset($did)) $this->draftsModel->delDrafts($did);
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
 			

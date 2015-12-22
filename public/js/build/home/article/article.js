@@ -3,11 +3,12 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/articleModel',
+	'home/model/draftModel',
 	'home/model/userModel',
 	'home/common/tooltip',
 	'home/article/comment',
     'editormd',
-	],function( React, $, WQ, ArticleModel, UserModel, Tooltip, CommentList, editormd) {
+	],function( React, $, WQ, ArticleModel, DraftModel, UserModel, Tooltip, CommentList, editormd) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -15,19 +16,31 @@ define([
 		init: function() {
 			var _this = this;
 			var aid = _this.state.aid;
+			var did = _this.state.did;
 			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
 			_this.setState({
 				uid: uid
 			});
-			//获取文章数据
-			ArticleModel.getArticleById(aid,function(data) {
+
+			var success = function (data) {
 				if(!data.error) {
 					_this.setState({
 						info: data.data,
 					});
 					_this.showEditor(data.data.content);
 				}
-			});
+			}
+			//获取文章数据
+			if (aid>0) {
+				ArticleModel.getArticleById(aid,function(data) {
+					success(data);
+				});	
+			} else if (did>0) {
+				DraftModel.getDraftById(did,function(data) {
+					success(data);
+				});	
+			}
+			
 
 			//如果是从消息页面跳转过来的，就把消息设置为已读
 			if(_this.state.newsId!=0) {
@@ -150,21 +163,23 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				name: 'home',
-				aid: this.props.aid,         //文章id
+				aid: this.props.aid ? this.props.aid : 0,         //文章id
+				did: this.props.did ? this.props.did : 0,         //草稿id
 				newsId: this.props.params&&this.props.params.news ? this.props.params.news : 0,    //消息id
-				uid: null,                   //用户id
+				uid: this.props.uid ? this.props.uid : null,                   //用户id
 			}
 		},
 		componentDidMount: function() {
 			this.init();
 			var aid = this.state.aid;
-			$('#comment-text').on('focus',function() {
-				if(!WQ.cookie.get('id')) {
-					window.location.href="/login/sign_in?page=article&&method="+aid;
-					return;
-				};
-			});
+			if (aid>0) {
+				$('#comment-text').on('focus',function() {
+					if(!WQ.cookie.get('id')) {
+						window.location.href="/login/sign_in?page=article&&method="+aid;
+						return;
+					};
+				});	
+			}
 		},
 		render: function() {
 			var _this = this;
@@ -212,32 +227,36 @@ define([
 							), 
 							React.createElement("span", {className: "tag time"}, " • ", WQ.timeFormat(time)), 
 							React.createElement("span", {className: "tag"}, " 发布在: ", cloumn), 
-							React.createElement("span", {className: "tag view"}, " 阅读: ", view), 
-							React.createElement("span", {className: "tag comment"}, " 评论: ", comment), 
+							_this.state.aid>0 ? React.createElement("span", {className: "tag view"}, " 阅读: ", view) : null, 
+							_this.state.aid>0 ? React.createElement("span", {className: "tag comment"}, " 评论: ", comment) : null, 
 							tagsList
 						), 
 						React.createElement("div", {className: "tool", style: {marginBottom:'10px'}}, 
 							_this.state.uid==uid ? (
-								React.createElement("a", {className: "btn btn-info", href: "/article/"+this.state.aid+"/edit"}, 
+								React.createElement("a", {className: "btn btn-info", href: _this.state.aid>0 ? "/article/"+this.state.aid+"/edit" : (_this.state.did>0 ? "/draft/"+this.state.did+"/edit" : 'javascript:void(0);')}, 
 									React.createElement("i", {className: "fa fa-pencil-square-o"}), 
 									React.createElement("span", null, "编辑")
 								)
 							): null, 
 							
-							React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
+							_this.state.aid>0 ? (React.createElement("a", {className: praiseStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePraise}, 
 								React.createElement("i", {className: "fa fa-thumbs-up"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, praiseStatus ? '已推荐' : '推荐'), 
 								React.createElement("span", null, praise)
-							), 
-							React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
+							)) : null, 
+							_this.state.aid>0 ? (React.createElement("a", {className: storeStatus ? "btn btn-danger" : "btn btn-info", href: "javascript:void(0)", onClick: _this.handleStore}, 
 								React.createElement("i", {className: "fa fa-bookmark-o"}), 
 								React.createElement("span", {style: {marginRight:'4px'}}, storeStatus ? '已收藏' : '收藏'), 
 								React.createElement("span", null, store)
-							), 
-							React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
+							)) : null, 
+							_this.state.aid>0 ? (React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
 								React.createElement("i", {className: "fa fa-share-square-o"}), 
 								React.createElement("span", null, "分享")
-							)
+							)) : null, 
+							_this.state.did>0 ? (React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
+								React.createElement("i", {className: "fa fa-share-square-o"}), 
+								React.createElement("span", null, "发布")
+							)) : null
 						), 
 						
 						React.createElement("div", {id: "editormd-view"}, 
@@ -245,7 +264,10 @@ define([
 						), 
 
 						
-						React.createElement(CommentList, {updateComment: _this.updateComment, aid: _this.state.aid, author: uid})
+							_this.state.aid>0 ? React.createElement(CommentList, {updateComment: _this.updateComment, aid: _this.state.aid, author: uid}) : null
+							
+						
+						
 								
 					)
 				)

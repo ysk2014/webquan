@@ -100,15 +100,15 @@ class Routes
 
 
                 //草稿详细页面
-                Route::get('/draft/{id}', 'Home\ArticleController@index');
+                Route::get('user/{id}/draft/{did}', 'Home\DraftController@index');
                 //获取草稿id的信息
-                Route::get('/draft/{id}/info', 'Home\ArticleController@index');
+                Route::get('/draft/{id}/info', 'Home\DraftController@getDraftById');
                 //添加草稿
-                Route::post('/draft/add', 'Home\ArticleController@index');
+                Route::post('/draft/add', 'Home\DraftController@dealDraft');
                 //更新草稿
-                Route::put('/draft/{id}', 'Home\ArticleController@index');
+                Route::put('/draft/{id}', 'Home\DraftController@dealDraft');
                 // 删除草稿
-                Route::delete('/draft/{id}', 'Home\ArticleController@index');
+                Route::delete('/draft/{id}', 'Home\DraftController@dealDraft');
 
             });
 
@@ -304,7 +304,6 @@ class Routes
                     Route::get('/store', 'Home\UserController@index');
                     //草稿箱
                     Route::get('/draft', 'Home\UserController@index');
-                    Route::get('/draft/edit', 'Home\UserController@index');
                     //消息
                     Route::get('/news', 'Home\UserController@index');
                     //bug

@@ -19,7 +19,7 @@ class DraftController extends Controller {
 	 * draft
 	 *
 	 */
-	public function index($id=0)
+	public function index($id=0,$did=0)
 	{
 		return view('home.app');
 	}
@@ -87,7 +87,7 @@ class DraftController extends Controller {
 			$result = $draftProcess->addDraft($param);
 
 		} else if($method== "DELETE") {            //删除草稿
-			$result = $draftProcess->delDrafts(array $id);
+			$result = $draftProcess->delDrafts($id);
 		} else {
 			$result = array('error'=>true,'msg'=>'路由匹配失败');
 		}

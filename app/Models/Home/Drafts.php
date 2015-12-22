@@ -22,7 +22,7 @@ class Drafts extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'aid', 'tags', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'aid', 'tags', 'addtime','update_time');
 
     /**
      * 增加草稿

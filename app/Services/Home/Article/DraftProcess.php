@@ -14,7 +14,7 @@ use Lang, Cache;
 *
 * @author ysk
 */
-class Process extends BaseProcess
+class DraftProcess extends BaseProcess
 {
     /**
      * 草稿模型
@@ -183,7 +183,7 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function delDrafts($id)
+	public function delDrafts(array $id)
 	{
 		$resultArr = [];
 		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
