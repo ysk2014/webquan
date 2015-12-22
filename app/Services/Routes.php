@@ -98,6 +98,18 @@ class Routes
                 //bug页面
                 Route::get('/bug', 'Home\BugController@index');
 
+
+                //草稿详细页面
+                Route::get('/draft/{id}', 'Home\ArticleController@index');
+                //获取草稿id的信息
+                Route::get('/draft/{id}/info', 'Home\ArticleController@index');
+                //添加草稿
+                Route::post('/draft/add', 'Home\ArticleController@index');
+                //更新草稿
+                Route::put('/draft/{id}', 'Home\ArticleController@index');
+                // 删除草稿
+                Route::delete('/draft/{id}', 'Home\ArticleController@index');
+
             });
 
             //第三方登录
@@ -292,6 +304,7 @@ class Routes
                     Route::get('/store', 'Home\UserController@index');
                     //草稿箱
                     Route::get('/draft', 'Home\UserController@index');
+                    Route::get('/draft/edit', 'Home\UserController@index');
                     //消息
                     Route::get('/news', 'Home\UserController@index');
                     //bug

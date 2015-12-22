@@ -20,9 +20,7 @@ class User extends Base
 	*
 	* @var string 
 	*/
-	protected $fillable = array('id', 'username', 'password', 'realname', 'logo_dir', 'email', 'phone', 'sex', 'company', 'job', 'description', 'city',
-                                'addtime', 'status', 'token', 'github',
-                                'last_login_ip', 'last_login_time'
+	protected $fillable = array('id', 'username', 'password', 'logo_dir', 'email', 'phone', 'sex', 'job', 'description', 'addtime', 'github','last_login_ip', 'last_login_time'
                             );
 
     /**

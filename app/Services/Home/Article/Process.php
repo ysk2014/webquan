@@ -194,17 +194,24 @@ class Process extends BaseProcess
 	{
 		$resultArr = [];
 		// 进行文章表单验证
-		if( !$this->articleValidate->add($data) ) 
+		if ( !$this->articleValidate->add($data) ) 
 			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
 
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
+		if ($data->id) {
+			$did = $data->id;
+			unset($data->id);
+			unset($data->aid);
+		}
+
 		$sqlData = $this->articleModel->addArticle($data->toArray());
-		if($sqlData != false) {
-			if($data['is_publish']==1) {
-				$this->cloumnModel->incrementData('count',$data['cid']);
-			}
+		if ($sqlData != false) {
+
+			$this->draftsModel->delDrafts(array $did);
+
+			$this->cloumnModel->incrementData('count',$data['cid']);
 			
 			$resultArr = array('error'=>false, 'data'=>$sqlData);
 		} else {
@@ -213,31 +220,6 @@ class Process extends BaseProcess
 		return $resultArr;
 	}
 
-	/**
-	* 增加草稿
-	*
-	* @param object $data;
-	* @access public
-	* @return boolean true|false
-	*/
-	public function addDraft(\App\Services\Home\Article\ArticleSave $data)
-	{
-		$resultArr = [];
-		// 进行文章表单验证
-		if( !$this->articleValidate->add($data) ) 
-			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
-
-		// 对内容进行处理
-		$data = $this->dealData($data);
-
-		$sqlData = $this->draftsModel->addDraft($data->toArray());
-		if($sqlData != false) {
-			$resultArr = array('error'=>false, 'data'=>$sqlData);
-		} else {
-			$resultArr = array('error'=>true, 'msg'=>'创建失败');
-		}
-		return $resultArr;
-	}
 
 	/**
 	* 删除文章

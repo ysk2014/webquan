@@ -135,7 +135,6 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 			data['type']=1;
 			BaseModel.del('/article/'+data.aid+'/store', {'data':data}, callback);
 		},
-		
 
 	};
 	return ArticleModel;

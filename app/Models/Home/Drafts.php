@@ -22,7 +22,7 @@ class Drafts extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'tags', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'aid', 'tags', 'addtime');
 
     /**
      * 增加草稿
@@ -49,7 +49,7 @@ class Drafts extends Base
      * 
      * @param array $ids 文章的ID
      */
-    public function delDraft(array $ids)
+    public function delDrafts(array $ids)
     {
         return $this->destroy($ids);
     }

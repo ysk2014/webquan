@@ -4,10 +4,11 @@ define([
 	'WQ',
 	'home/model/cloumnModel',
 	'home/model/articleModel',
+	'home/model/draftModel',
 	'home/common/tooltip',
 	'home/common/dialog',
     'editormd',
-	],function( React, $, WQ, CloumnModel, ArticleModel, Tooltip, Dialog, editormd) {
+	],function( React, $, WQ, CloumnModel, ArticleModel, DraftModel, Tooltip, Dialog, editormd) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -24,34 +25,47 @@ define([
 						info: _this.state.info
 					});
 				} else {
-					Tooltip(data.msg);
+					// Tooltip(data.msg);
 					window.location.href="/cloumn/add";
 				}
 			});
-			//判断是添加文章，还是编辑文章，如果是编辑文章，获取文章数据并把文章内容赋值到markdown编辑器里
+			//判断是添加，还是编辑，如果是编辑，获取数据并把内容赋值到markdown编辑器里
 			var aid = this.state.aid;
-			if(aid>0) {
-				ArticleModel.getArticleById(aid,function(data) {
-					if(!data.error) {
-						if(data.data.tags.indexOf('|')) {
-							_this.state.tags = data.data.tags.split('|');
-						} else {
-							_this.state.tags = data.data.tags;
-						}
-						_this.setState({
-							info: data.data,
-							tags: _this.state.tags,
-							selected: data.data.cid,
-						});
-						_this.showEditor();
+			var did = this.state.did;
+			// 请求成功返回数据
+			var success = function(data) {
+				if(!data.error) {
+					if(data.data.tags.indexOf('|')) {
+						_this.state.tags = data.data.tags.split('|');
 					} else {
-						Tooltip(data.msg);
+						_this.state.tags = data.data.tags;
 					}
+					_this.setState({
+						info: data.data,
+						tags: _this.state.tags,
+						selected: data.data.cid,
+					});
+					_this.showEditor();
+				} else {
+					Tooltip(data.msg);
+				}
+			};
+
+			if (aid>0 && did==0) {
+				ArticleModel.getArticleById(aid,function(data) {
+					success(data);
 				});
+			} else if (aid==0 && did>0) {
+				DraftModel.getDraftById(did,function(data) {
+					success(data);
+				})
 			} else {
 				this.showEditor();
 			}
 			return this;
+		},
+		componentDidMount: function() {
+			this.init();
 		},
 		// 展示文章内容
 		showEditor: function(uid){
@@ -136,6 +150,35 @@ define([
 					}
 				});	
 			}
+		},
+		//保存到草稿
+		handleSave: function(event) {
+			var _this = this;
+			var did = _this.state.did;
+			var aid = _this.state.aid;
+			var info = _this.state.info;
+
+			if (did>0) {
+				if (aid) {
+					info['aid'] = aid;
+				}
+
+				DraftModel.editDraft(info,function(data) {
+					if(!data.error) {
+
+					} else {
+
+					}
+				});
+			} else {
+				DraftModel.addDraft(info,function(data) {
+					if(!data.error) {
+
+					} else {
+
+					}
+				});
+			}
 		}
 	}
 
@@ -144,8 +187,8 @@ define([
 		getInitialState: function() {
 			var uid = WQ.cookie.get('id');
 			return {
-				name: 'editArticle',
 				aid: this.props.aid ? this.props.aid : 0,  //文章id，如果是添加则为0
+				did: this.props.did ? this.props.did : 0,  //草稿箱id，如果是添加则为0
 				info: {uid:uid,is_publish:0}, //发布文章的数据
 				selected: this.props.params && this.props.params['cloumn'] ? this.props.params['cloumn'] : -1, 
 				cloumns: [],     //专题列表
@@ -154,9 +197,6 @@ define([
 				inputTag: '',    //标签输入框的数据
 				timer: null,     //定时调用数据库的标签数据
 			}
-		},
-		componentDidMount: function() {
-			this.init();
 		},
 		// 编辑标签
 		tagChange: function(event) {
@@ -274,6 +314,8 @@ define([
 
 			if (_this.state.aid) {
 				document.title = '编辑文章 | Web圈';
+			} else if (_this.state.did) {
+				document.title = '编辑草稿 | Web圈';		
 			} else {
 				document.title = '添加文章 | Web圈';
 			}
@@ -298,9 +340,9 @@ define([
 				<ReactCSSTransitionGroup transitionName="fade" transitionAppear={true}>
 					<div>
 						<div className="top-bar">
-							<span className="desc">写文章</span>
+							<span className="desc">{_this.state.did ? '编辑文章' : (_this.state.did ? '编辑草稿' : '写文章') }</span>
 							<a className="btn btn-info btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 120px 0 0'}} data-publish="1" onClick={this.handlePublic}>发布</a>
-							<a className="btn btn-default btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 10px 0 0'}} data-publish="0" onClick={this.handlePublic}>保存草稿</a>
+							<a className="btn btn-default btn-md pull-right" href="javascript:void(0)" style={{margin:'10px 10px 0 0'}} data-publish="0" onClick={this.handleSave}>保存草稿</a>
 						</div>
 						<div className="edit-article">
 							<form>

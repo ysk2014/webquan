@@ -51,6 +51,8 @@ requirejs([
             '/article/add'     : 'addArticle',
             '/article/:id/edit': 'editArticle',
             '/article/:id'     : 'article',
+            '/draft/:id/edit'  : 'editDraft',
+            '/draft/:id'       : 'draft',
 
 
             '/cloumns'         : 'cloumnList',
@@ -79,8 +81,16 @@ requirejs([
             return React.createElement(EditArticle, {aid: aid})
         },
 
+        editDraft: function(did) {
+            return React.createElement(EditArticle, {did: did})
+        },
+
         article: function(aid, params) {
             return React.createElement(Article, {aid: aid, params: params})
+        },
+
+        draft: function(did) {
+            return React.createElement(Article, {did: did})
         },
 
         cloumnList: function() {
