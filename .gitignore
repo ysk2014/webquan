@@ -11,6 +11,6 @@
 
 *.DS_Store
 
-/public/js/build/.module-cache
+/public/js/build/
 
 /config/database.php
