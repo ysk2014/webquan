@@ -152,6 +152,7 @@ class ArticleController extends Controller {
 
 			$data = Request::input('data');
 			$data['update_time'] = time();
+
 			$param = new \App\Services\Home\Article\ArticleSave();
 			$param->setAttributes($data); 
 
@@ -161,9 +162,7 @@ class ArticleController extends Controller {
 
 			$data = Request::input('data');
 			$data['addtime'] = time();
-			
-			$is_publish = $data['is_publish'];
-
+				
 			$data['update_time'] = time();
 
 			$param = new \App\Services\Home\Article\ArticleSave();

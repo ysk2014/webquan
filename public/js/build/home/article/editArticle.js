@@ -133,7 +133,7 @@ define([
 			var info = _this.state.info;
 			var aid = this.state.aid;
 
-			if(aid>0) {
+			if (aid>0) {
 				ArticleModel.editArticle(info,function(data) {
 					if(!data.error) {
 						window.location.href = '/article/'+aid;
@@ -163,11 +163,11 @@ define([
 			});
 			var info = _this.state.info;
 
-			if (did>0) {
-				if (aid) {
-					info['aid'] = aid;
-				}
+			if (aid>0) {
+				info['aid'] = aid;
+			}
 
+			if (did>0) {
 				DraftModel.editDraft(info,function(data) {
 					if (!data.error) {
 

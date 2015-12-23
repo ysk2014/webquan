@@ -156,6 +156,30 @@ define([
 			_this.setState({
 				info: _this.state.info
 			});
+		},
+		// 发布
+		handlePublish: function() {
+			var _this = this;
+			var info = _this.state.info;
+			var aid = info.aid ? info.aid : 0;
+
+			if (aid>0) {
+				ArticleModel.editArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+aid;
+					} else {
+						Tooltip(data.msg);
+					}
+				});
+			} else {
+				ArticleModel.addArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+data.data;
+					} else {
+						Tooltip(data.msg);
+					}
+				});	
+			}
 		}
 	}
 
@@ -253,8 +277,8 @@ define([
 								React.createElement("i", {className: "fa fa-share-square-o"}), 
 								React.createElement("span", null, "分享")
 							)) : null, 
-							_this.state.did>0 ? (React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)"}, 
-								React.createElement("i", {className: "fa fa-share-square-o"}), 
+							_this.state.did>0 ? (React.createElement("a", {className: "btn btn-info", href: "javascript:void(0)", onClick: _this.handlePublish}, 
+								React.createElement("i", {className: "fa fa-cloud-upload"}), 
 								React.createElement("span", null, "发布")
 							)) : null
 						), 

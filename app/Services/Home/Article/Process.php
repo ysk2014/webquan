@@ -200,6 +200,7 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
+		//草稿箱处理
 		if ($data->id) {
 			$did = $data->id;
 			unset($data->id);
@@ -209,6 +210,7 @@ class Process extends BaseProcess
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if ($sqlData != false) {
 
+			// 删除草稿箱
 			if (isset($did)) $this->draftsModel->delDrafts($did);
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
@@ -266,6 +268,13 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
+		//如果有草稿，删除草稿箱
+		if (isset($data->aid)) {
+			$did = intval($data->id);
+			$data->id = $data->aid;
+			unset($data->aid);
+		}
+
 		$id = intval($data->id);
 		unset($data->id);
 
@@ -277,6 +286,11 @@ class Process extends BaseProcess
 				$this->cloumnModel->incrementData('count',$data['cid']);
 			} else if($is_publish==1 && $data['is_publish']==0) {
 				$this->cloumnModel->decrementData('count',$data['cid']);
+			}
+
+			//删除草稿箱
+			if (isset($did)) {
+				$this->draftsModel->delDrafts($did);
 			}
 
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
