@@ -211,7 +211,8 @@ class Process extends BaseProcess
 		if ($sqlData != false) {
 
 			// 删除草稿箱
-			if (isset($did)) $this->draftsModel->delDrafts($did);
+			$dids = [$did];
+			if (isset($did)) $this->draftsModel->delDrafts($dids);
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
 			
@@ -253,7 +254,7 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function editArticle(\App\Services\Home\Article\ArticleSave $data)
+	public function editArticle(\App\Services\Home\Article\ArticleSave $data,$did=0)
 	{	
 
 		$resultArr = [];
@@ -268,29 +269,19 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
-		//如果有草稿，删除草稿箱
-		if (isset($data->aid)) {
-			$did = intval($data->id);
-			$data->id = $data->aid;
-			unset($data->aid);
-		}
 
 		$id = intval($data->id);
 		unset($data->id);
 
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
-			$is_publish = $this->redis->hget('article_'.$id,'is_publish');
 			$this->redis->del('article_'.$id);
 
-			if($is_publish==0 && $data['is_publish']==1) {
-				$this->cloumnModel->incrementData('count',$data['cid']);
-			} else if($is_publish==1 && $data['is_publish']==0) {
-				$this->cloumnModel->decrementData('count',$data['cid']);
-			}
-
+			$this->cloumnModel->incrementData('count',$data['cid']);
+			
 			//删除草稿箱
-			if (isset($did)) {
-				$this->draftsModel->delDrafts($did);
+			if ($did>0) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
 			}
 
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
@@ -299,6 +290,8 @@ class Process extends BaseProcess
 		}
 		return $resultArr;
 	}
+
+
 
 	/**
 	* 获取已公布的文章列表
@@ -395,9 +388,7 @@ class Process extends BaseProcess
 				return array('error'=>true,'msg'=>'获取文章失败');
 			}
 		}
-		if($articleInfo['is_publish'] == 0) {
-			return array('error'=>true,'msg'=>'获取文章失败');
-		}
+		
 		$uid = SC::getLoginSession()['id'];
 		//判断用户是否已推荐和收藏
 		$articleInfo['praiseStatus'] = false;

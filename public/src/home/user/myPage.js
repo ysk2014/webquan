@@ -4,8 +4,9 @@ define(['react',
         'home/model/bugModel',
         'home/common/tooltip',
         'home/model/articleModel',
+        'home/model/draftModel',
         'WQ'
-        ],function(React, $, UserModel, BugModel, Tooltip, ArticleModel, WQ) {
+        ],function(React, $, UserModel, BugModel, Tooltip, ArticleModel, DraftModel, WQ) {
 
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -107,26 +108,26 @@ define(['react',
     	getInitialState: function() {
     		return {
                 uid: this.props.uid,
-                articles: [],
+                drafts: [],
                 page: 0,
             }
     	},
     	componentDidMount: function() {
-            this.getArticles(0);
+            this.getDrafts(0);
         },
-    	getArticles: function(page) {
+    	getDrafts: function(page) {
     		var _this = this;
-    		var params = {uid:_this.state.uid, way:'is_publish', page:page, is_publish:0};
+    		var params = {id:_this.state.uid, page:page};
 
-    		ArticleModel.getAllArticleByUid(params,function(data) {
+    		DraftModel.getDraftsByUid(params,function(data) {
 				if(!data.error) {
-					if(_this.state.articles.length>0) {
-						Array.prototype.push.apply(_this.state.articles,data.data);
+					if(_this.state.drafts.length>0) {
+						Array.prototype.push.apply(_this.state.drafts,data.data);
 					} else {
-						_this.state.articles = data.data;
+						_this.state.drafts = data.data;
 					}
 					_this.setState({
-						articles: _this.state.articles,
+						drafts: _this.state.drafts,
 						next: data.next,
 						page: _this.state.page+1,
 					});
@@ -134,7 +135,7 @@ define(['react',
     		});
     	},
     	handleMore: function() {
-			_this.getArticles(_this.state.page);
+			_this.getDrafts(_this.state.page);
 		},
 		handlePublish: function(event) {
 			var _this = this;
@@ -144,21 +145,27 @@ define(['react',
 				var ele = $(event.target).parent();
 			}
 			var key = ele.data('key');
-			_this.state.articles[key]['is_publish'] = 1;
-			ArticleModel.editArticle(_this.state.articles[key],function(data) {
+
+			var info = _this.state.drafts[key];
+			var aid = info.aid ? info.aid : 0;
+			
+			DraftModel.draftToArt(info.id,function(data) {
 				if(!data.error) {
-					_this.state.articles.splice(key,1);
+					_this.state.drafts.splice(key,1);
 					_this.setState({
-						articles: _this.state.articles,
+						drafts: _this.state.drafts
 					});
+				} else {
+					Tooltip(data.msg);
 				}
-			})
+			});
+			
 		},
 		render: function() {
 			var _this = this;
 			document.title = '我的草稿箱 | Web圈';
 
-        	var list = _this.state.articles.length>0 ? _this.state.articles.map(function(d,i) {
+        	var list = _this.state.drafts.length>0 ? _this.state.drafts.map(function(d,i) {
 				if(d.tags) {
 					if(d.tags.indexOf('|')) {
 						var tagsList = d.tags.split('|').map(function(t,k) {
@@ -182,7 +189,7 @@ define(['react',
 						
 						<div className="desc">
 							<a className="title" href={"/article/"+d.id}>{d.title}</a>
-							<a href="javascript:void(0)" className="btn btn-default pull-right" data-key={i} onClick={_this.handlePublish}><i className="fa fa-send-o"></i>发布</a>
+							<a href="javascript:void(0)" className="btn btn-default pull-right" data-key={i} onClick={_this.handlePublish}><i className="fa fa-cloud-upload"></i>发布</a>
 							<div className="author">
 								<a href={"/user/"+d.uid}>
 									<img className="avatar" src={d.userUrl ? d.userUrl : "/image/user-default.png"} />
@@ -190,9 +197,6 @@ define(['react',
 								</a>
 
 								<span className="time">&nbsp;•&nbsp;{WQ.timeFormat(d.addtime)}</span>
-								<span className="tag">&nbsp;阅读:&nbsp;{d.view}</span>
-								<span className="tag">&nbsp;推荐:&nbsp;{d.praise}</span>
-								<span className="tag">&nbsp;评论:&nbsp;{d.comment}</span>
 								{tagsList}
 							</div>
 							<div className="description">{d.description}</div>

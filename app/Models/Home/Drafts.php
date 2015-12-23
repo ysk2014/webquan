@@ -69,6 +69,19 @@ class Drafts extends Base
     }
 
     /**
+     * 根据草稿id获取草稿信息
+     * 
+     * @param intval $id 草稿的ID
+     */
+    public function getDraftSingleById($id)
+    {
+        return $this->select('*')
+                    ->where('id','=', intval($id))
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
      * 根据用户id获取草稿信息列表
      * 
      * @param intval $cid 专题的ID

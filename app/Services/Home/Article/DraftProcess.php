@@ -2,11 +2,12 @@
 namespace App\Services\Home\Article;
 
 use App\Models\Home\Drafts as DraftsModel;
+use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\Cloumn as CloumnModel;
 use App\Services\BaseProcess;
 use App\Services\SC;
-use Lang, Cache;
+use Lang, Cache, Redis;
 
 
 /**
@@ -24,6 +25,13 @@ class DraftProcess extends BaseProcess
     private $draftsModel;
 
     /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articleModel;
+
+    /**
      * 文章表单验证对象
      * 
      * @var object
@@ -38,15 +46,24 @@ class DraftProcess extends BaseProcess
     private $cloumnModel;
 
     /**
+     * redis缓存链接
+     * 
+     * @var object
+     */
+    private $redis;
+
+    /**
      * 初始化
      *
      * @access public
      */
 	function __construct()
 	{
+		if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->draftsModel) $this->draftsModel = new DraftsModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
+        if( !$this->redis) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -165,7 +182,9 @@ class DraftProcess extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
-		if (isset($data->id)) unset($data->id);
+		if (isset($data->id)) {
+			unset($data->id);
+		}
 
 		$sqlData = $this->draftsModel->addDraft($data->toArray());
 		if($sqlData != false) {
@@ -260,7 +279,7 @@ class DraftProcess extends BaseProcess
 	 */
 	public function getDraftsByUid($data)
 	{	
-		if( !isset($data['id']) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if( !isset($data['id']) ) return array('error'=>true,'msg'=>'没有获取到用户id');
 
 		$page = isset($data['page']) ? $data['page'] : 0;
 
@@ -284,6 +303,49 @@ class DraftProcess extends BaseProcess
 		} else {
 			return array('error'=>true,'msg'=>404);
 		}
+	}
+
+	/**
+	* 草稿变成文章
+	*
+	* @access public
+	* @return array
+	*/
+	public function draftToArt($did)
+	{
+		if (!isset($did)) return array('error'=>true,'msg'=>'没有获取到草稿id');
+
+		$resultArr = [];
+
+		$draftInfo = $this->draftsModel->getDraftSingleById($did)[0];
+
+		if ($draftInfo) {
+			unset($draftInfo['id']);
+			$draftInfo['update_time'] = time();
+
+			$aid = $draftInfo['aid'];
+			unset($draftInfo['aid']);
+
+			$draftInfo = (array)$draftInfo;
+			
+			if ($aid>0) {
+				$sqlData = $this->articleModel->editArticle($draftInfo,$aid);
+			} else {
+				$sqlData = $this->articleModel->addArticle($draftInfo);
+			}
+
+			if ($sqlData) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
+				
+				$resultArr = array('error'=>false,'msg'=>'发布成功');
+			} else {
+				$resultArr = array('error'=>true,'msg'=>'发布失败');
+			}
+		} else {
+			$resultArr = array('error'=>true,'msg'=>'草稿信息获取失败');
+		}
+		return $resultArr;
 	}
 
 }

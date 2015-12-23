@@ -167,21 +167,25 @@ define([
 				info['aid'] = aid;
 			}
 
+			var success = function(data,did) {
+				if (!data.error) {
+					window.location.href = '/user/' + uid + '/draft/'+did;
+				} else {
+					Tooltip(data.msg);
+				}
+			}
+
 			if (did>0) {
 				DraftModel.editDraft(info,function(data) {
-					if (!data.error) {
-
-					} else {
-
-					}
+					success(data,did);
 				});
 			} else {
+				delete info['view'];
+				delete info['comment'];
+				delete info['praise'];
+				delete info['store'];
 				DraftModel.addDraft(info,function(data) {
-					if (!data.error) {
-						window.location.href = '/user/' + uid + '/draft/'+data.data;
-					} else {
-						Tooltip(data.msg);
-					}
+					success(data,data.data);
 				});
 			}
 		}
@@ -338,7 +342,11 @@ define([
 			}) : null;
 
 			var tagsSpan = _this.state.tags.length>0 ? _this.state.tags.map(function(tag,i) {
-				return (<span className="tag selected">{tag}<span className="remove" onClick={_this.handleDelTag}>x</span></span>);
+				if (tag.length>0) {
+					return (<span className="tag selected">{tag}<span className="remove" onClick={_this.handleDelTag}>x</span></span>);
+				} else {
+					return null;
+				}
 			}) : null;
 
 			return (
