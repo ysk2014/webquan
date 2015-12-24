@@ -108,9 +108,9 @@ class UserArticle extends Base
 
     /**
      * 根据用户id和类型获取文章总数
-     * 
+     * @param intval $id 用户的ID
      */
-    public function getArtCount($uid, $type)
+    public function getCountByType($uid, $type)
     {
         return $this->where('uid','=',$uid)->where('type','=',$type)->count();
     }
