@@ -211,8 +211,11 @@ class Process extends BaseProcess
 		if ($sqlData != false) {
 
 			// 删除草稿箱
-			$dids = [$did];
-			if (isset($did)) $this->draftsModel->delDrafts($dids);
+			
+			if (isset($did)) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
+			}
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
 			
@@ -276,7 +279,7 @@ class Process extends BaseProcess
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
 			$this->redis->del('article_'.$id);
 
-			$this->cloumnModel->incrementData('count',$data['cid']);
+			// $this->cloumnModel->incrementData('count',$data->cid);
 			
 			//删除草稿箱
 			if ($did>0) {

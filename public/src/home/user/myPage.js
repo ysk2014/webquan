@@ -9,7 +9,7 @@ define(['react',
         ],function(React, $, UserModel, BugModel, Tooltip, ArticleModel, DraftModel, WQ) {
 
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
+    // 我的收藏
     var Store = React.createClass({
     	getInitialState: function() {
     		var type = (this.props.type=='store') ? 1 : 0;
@@ -103,7 +103,7 @@ define(['react',
 		}
     });
 
-
+	// 我的草稿箱
     var Draft = React.createClass({
     	getInitialState: function() {
     		return {
@@ -147,7 +147,6 @@ define(['react',
 			var key = ele.data('key');
 
 			var info = _this.state.drafts[key];
-			var aid = info.aid ? info.aid : 0;
 			
 			DraftModel.draftToArt(info.id,function(data) {
 				if(!data.error) {
@@ -328,7 +327,7 @@ define(['react',
 			},true);
 		}
 	};
-
+	// 我的消息
 	var News = React.createClass({
 		mixins: [mixin],
 		getInitialState: function() {
@@ -373,7 +372,7 @@ define(['react',
 			);
 		}
 	});
-
+	// 我的bug
 	var Bugs = React.createClass({
 		getInitialState: function() {
 			return {
