@@ -240,6 +240,13 @@ class Process extends BaseProcess
 		if( !is_array($ids) ) return array('error'=>true,'msg'=>'没有文章id');
 
 		if($this->articleModel->delArticle($ids) != false) {
+			// 删除缓存
+			foreach ($ids as $key => $id) {
+				if ($this->redis->hlen('article_'.$id)>0) {
+					$this->redis->del('article_'.$id);
+				}
+			};
+			
 			$resultArr = array('error'=>false, 'msg'=>'删除成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'删除失败');
@@ -277,10 +284,11 @@ class Process extends BaseProcess
 		unset($data->id);
 
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
-			$this->redis->del('article_'.$id);
+			// 删除redis缓存
+			if ($this->redis->hlen('article_'.$id)>0) {
+				$this->redis->del('article_'.$id);
+			}
 
-			// $this->cloumnModel->incrementData('count',$data->cid);
-			
 			//删除草稿箱
 			if ($did>0) {
 				$dids = [$did];
@@ -374,7 +382,7 @@ class Process extends BaseProcess
 	{	
 		$this->articleModel->incrementById('view', $id);
 
-		if($this->redis->hgetall('article_'.$id)) {
+		if ($this->redis->hlen('article_'.$id)>0) {
 
 			$this->redis->hincrby('article_'.$id,'view',1);
 

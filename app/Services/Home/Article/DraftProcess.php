@@ -208,6 +208,12 @@ class DraftProcess extends BaseProcess
 		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
 
 		if($this->draftsModel->delDrafts($id) != false) {
+			//删除草稿缓存
+			foreach ($id as $key => $value) {
+				if ($this->redis->hlen('draft_'.$value)>0) {
+					$this->redis->del('draft_'.$value);
+				}
+			}
 			$resultArr = array('error'=>false, 'msg'=>'删除成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'删除失败');
@@ -244,6 +250,10 @@ class DraftProcess extends BaseProcess
 		unset($data->id);
 
 		if($this->draftsModel->editDraft($data->toArray(), $id) != false) {
+			//删除草稿缓存
+			if ($this->redis->hlen('draft_'.$id) > 0) {
+				$this->redis->del('draft_'.$id);
+			}
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
@@ -261,9 +271,16 @@ class DraftProcess extends BaseProcess
 	*/
 	public function getDraftById($id)
 	{	
-		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if ( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
 
-		$draftInfo = $this->draftsModel->getDraftById($id);
+		if ($this->redis->hlen('draft_'.$id)>0) {
+
+			$draftInfo = $this->redis->hgetall('draft_'.$id);
+
+		} else {
+			$draftInfo = $this->draftsModel->getDraftById($id);
+		}
+		
 		if ($draftInfo) {
 			return array('error'=>false,'data'=>$draftInfo);
 		} else {
