@@ -22,7 +22,7 @@ class Drafts extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'aid', 'tags', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'aid', 'tags', 'addtime','update_time');
 
     /**
      * 增加草稿
@@ -66,6 +66,19 @@ class Drafts extends Base
                     ->leftJoin('cloumn','drafts.cid','=','cloumn.id')
                     ->where('drafts.id','=', intval($id))
                     ->first();
+    }
+
+    /**
+     * 根据草稿id获取草稿信息
+     * 
+     * @param intval $id 草稿的ID
+     */
+    public function getDraftSingleById($id)
+    {
+        return $this->select('*')
+                    ->where('id','=', intval($id))
+                    ->get()
+                    ->toArray();
     }
 
     /**

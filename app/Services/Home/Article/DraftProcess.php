@@ -2,11 +2,12 @@
 namespace App\Services\Home\Article;
 
 use App\Models\Home\Drafts as DraftsModel;
+use App\Models\Home\Article as ArticleModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\Cloumn as CloumnModel;
 use App\Services\BaseProcess;
 use App\Services\SC;
-use Lang, Cache;
+use Lang, Cache, Redis;
 
 
 /**
@@ -14,7 +15,7 @@ use Lang, Cache;
 *
 * @author ysk
 */
-class Process extends BaseProcess
+class DraftProcess extends BaseProcess
 {
     /**
      * 草稿模型
@@ -22,6 +23,13 @@ class Process extends BaseProcess
      * @var object
      */
     private $draftsModel;
+
+    /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articleModel;
 
     /**
      * 文章表单验证对象
@@ -38,15 +46,24 @@ class Process extends BaseProcess
     private $cloumnModel;
 
     /**
+     * redis缓存链接
+     * 
+     * @var object
+     */
+    private $redis;
+
+    /**
      * 初始化
      *
      * @access public
      */
 	function __construct()
 	{
+		if( ! $this->articleModel) $this->articleModel = new ArticleModel();
         if( ! $this->draftsModel) $this->draftsModel = new DraftsModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
+        if( !$this->redis) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -165,7 +182,9 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
-		if (isset($data->id)) unset($data->id);
+		if (isset($data->id)) {
+			unset($data->id);
+		}
 
 		$sqlData = $this->draftsModel->addDraft($data->toArray());
 		if($sqlData != false) {
@@ -183,12 +202,18 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function delDrafts($id)
+	public function delDrafts(array $id)
 	{
 		$resultArr = [];
 		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
 
 		if($this->draftsModel->delDrafts($id) != false) {
+			//删除草稿缓存
+			foreach ($id as $key => $value) {
+				if ($this->redis->hlen('draft_'.$value)>0) {
+					$this->redis->del('draft_'.$value);
+				}
+			}
 			$resultArr = array('error'=>false, 'msg'=>'删除成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'删除失败');
@@ -225,6 +250,10 @@ class Process extends BaseProcess
 		unset($data->id);
 
 		if($this->draftsModel->editDraft($data->toArray(), $id) != false) {
+			//删除草稿缓存
+			if ($this->redis->hlen('draft_'.$id) > 0) {
+				$this->redis->del('draft_'.$id);
+			}
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
@@ -242,9 +271,16 @@ class Process extends BaseProcess
 	*/
 	public function getDraftById($id)
 	{	
-		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if ( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
 
-		$draftInfo = $this->draftsModel->getDraftById($id);
+		if ($this->redis->hlen('draft_'.$id)>0) {
+
+			$draftInfo = $this->redis->hgetall('draft_'.$id);
+
+		} else {
+			$draftInfo = $this->draftsModel->getDraftById($id);
+		}
+		
 		if ($draftInfo) {
 			return array('error'=>false,'data'=>$draftInfo);
 		} else {
@@ -260,7 +296,7 @@ class Process extends BaseProcess
 	 */
 	public function getDraftsByUid($data)
 	{	
-		if( !isset($data['id']) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if( !isset($data['id']) ) return array('error'=>true,'msg'=>'没有获取到用户id');
 
 		$page = isset($data['page']) ? $data['page'] : 0;
 
@@ -284,6 +320,49 @@ class Process extends BaseProcess
 		} else {
 			return array('error'=>true,'msg'=>404);
 		}
+	}
+
+	/**
+	* 草稿变成文章
+	*
+	* @access public
+	* @return array
+	*/
+	public function draftToArt($did)
+	{
+		if (!isset($did)) return array('error'=>true,'msg'=>'没有获取到草稿id');
+
+		$resultArr = [];
+
+		$draftInfo = $this->draftsModel->getDraftSingleById($did)[0];
+
+		if ($draftInfo) {
+			unset($draftInfo['id']);
+			$draftInfo['update_time'] = time();
+
+			$aid = $draftInfo['aid'];
+			unset($draftInfo['aid']);
+
+			$draftInfo = (array)$draftInfo;
+			
+			if ($aid>0) {
+				$sqlData = $this->articleModel->editArticle($draftInfo,$aid);
+			} else {
+				$sqlData = $this->articleModel->addArticle($draftInfo);
+			}
+
+			if ($sqlData) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
+				
+				$resultArr = array('error'=>false,'msg'=>'发布成功');
+			} else {
+				$resultArr = array('error'=>true,'msg'=>'发布失败');
+			}
+		} else {
+			$resultArr = array('error'=>true,'msg'=>'草稿信息获取失败');
+		}
+		return $resultArr;
 	}
 
 }

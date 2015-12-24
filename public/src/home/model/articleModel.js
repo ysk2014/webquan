@@ -25,7 +25,6 @@ define(['home/model/base','jquery'],function(BaseModel, $) {
 	     * @param uid 用户id
 	     * @param way 根据way进行排序，可以不传，默认为addtime创建时间排序
 	     * @param page 分页页数
-	     * @param is_publish 是否已经发布，0：为未发布，为草稿箱
 	     */
 		getAllArticleByUid: function(data, callback) {
 			BaseModel.get('/articles/user/'+data.uid,{'data':data}, callback);

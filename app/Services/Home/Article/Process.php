@@ -200,6 +200,7 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
+		//草稿箱处理
 		if ($data->id) {
 			$did = $data->id;
 			unset($data->id);
@@ -209,7 +210,12 @@ class Process extends BaseProcess
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if ($sqlData != false) {
 
-			$this->draftsModel->delDrafts(array $did);
+			// 删除草稿箱
+			
+			if (isset($did)) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
+			}
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
 			
@@ -234,6 +240,13 @@ class Process extends BaseProcess
 		if( !is_array($ids) ) return array('error'=>true,'msg'=>'没有文章id');
 
 		if($this->articleModel->delArticle($ids) != false) {
+			// 删除缓存
+			foreach ($ids as $key => $id) {
+				if ($this->redis->hlen('article_'.$id)>0) {
+					$this->redis->del('article_'.$id);
+				}
+			};
+			
 			$resultArr = array('error'=>false, 'msg'=>'删除成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>'删除失败');
@@ -251,7 +264,7 @@ class Process extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function editArticle(\App\Services\Home\Article\ArticleSave $data)
+	public function editArticle(\App\Services\Home\Article\ArticleSave $data,$did=0)
 	{	
 
 		$resultArr = [];
@@ -266,17 +279,20 @@ class Process extends BaseProcess
 		// 对内容进行处理
 		$data = $this->dealData($data);
 
+
 		$id = intval($data->id);
 		unset($data->id);
 
 		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
-			$is_publish = $this->redis->hget('article_'.$id,'is_publish');
-			$this->redis->del('article_'.$id);
+			// 删除redis缓存
+			if ($this->redis->hlen('article_'.$id)>0) {
+				$this->redis->del('article_'.$id);
+			}
 
-			if($is_publish==0 && $data['is_publish']==1) {
-				$this->cloumnModel->incrementData('count',$data['cid']);
-			} else if($is_publish==1 && $data['is_publish']==0) {
-				$this->cloumnModel->decrementData('count',$data['cid']);
+			//删除草稿箱
+			if ($did>0) {
+				$dids = [$did];
+				$this->draftsModel->delDrafts($dids);
 			}
 
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
@@ -285,6 +301,8 @@ class Process extends BaseProcess
 		}
 		return $resultArr;
 	}
+
+
 
 	/**
 	* 获取已公布的文章列表
@@ -364,7 +382,7 @@ class Process extends BaseProcess
 	{	
 		$this->articleModel->incrementById('view', $id);
 
-		if($this->redis->hgetall('article_'.$id)) {
+		if ($this->redis->hlen('article_'.$id)>0) {
 
 			$this->redis->hincrby('article_'.$id,'view',1);
 
@@ -381,9 +399,7 @@ class Process extends BaseProcess
 				return array('error'=>true,'msg'=>'获取文章失败');
 			}
 		}
-		if($articleInfo['is_publish'] == 0) {
-			return array('error'=>true,'msg'=>'获取文章失败');
-		}
+		
 		$uid = SC::getLoginSession()['id'];
 		//判断用户是否已推荐和收藏
 		$articleInfo['praiseStatus'] = false;

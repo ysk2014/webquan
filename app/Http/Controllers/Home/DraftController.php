@@ -19,7 +19,16 @@ class DraftController extends Controller {
 	 * draft
 	 *
 	 */
-	public function index($id=0)
+	public function index($id=0,$did=0)
+	{
+		return view('home.app');
+	}
+
+	/**
+	 * draft
+	 *
+	 */
+	public function page($id=0)
 	{
 		return view('home.app');
 	}
@@ -45,10 +54,12 @@ class DraftController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getDraftsByUid(DraftProcess $draftProcess)
+	public function getDraftsByUid($id=0)
 	{
 		$data = Request::input('data');
 		
+		$draftProcess = new DraftProcess();
+
 		$data = $draftProcess->getDraftsByUid($data);
 		return response()->json($data);
 	}
@@ -87,7 +98,7 @@ class DraftController extends Controller {
 			$result = $draftProcess->addDraft($param);
 
 		} else if($method== "DELETE") {            //删除草稿
-			$result = $draftProcess->delDrafts(array $id);
+			$result = $draftProcess->delDrafts($id);
 		} else {
 			$result = array('error'=>true,'msg'=>'路由匹配失败');
 		}
@@ -95,5 +106,20 @@ class DraftController extends Controller {
 		return response()->json($result);
 	}
 
+
+	/**
+	 * 草稿变成文章
+	 *
+	 * @return Response
+	 */
+	public function draftToArt()
+	{
+		$data = Request::input('data');
+
+		$draftProcess = new DraftProcess();
+		$result = $draftProcess->draftToArt(intval($data));
+
+		return response()->json($result);
+	}
 
 }

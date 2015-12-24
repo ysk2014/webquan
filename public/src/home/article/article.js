@@ -3,11 +3,12 @@ define([
 	'jquery',
 	'WQ',
 	'home/model/articleModel',
+	'home/model/draftModel',
 	'home/model/userModel',
 	'home/common/tooltip',
 	'home/article/comment',
     'editormd',
-	],function( React, $, WQ, ArticleModel, UserModel, Tooltip, CommentList, editormd) {
+	],function( React, $, WQ, ArticleModel, DraftModel, UserModel, Tooltip, CommentList, editormd) {
 
 	var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -15,19 +16,31 @@ define([
 		init: function() {
 			var _this = this;
 			var aid = _this.state.aid;
+			var did = _this.state.did;
 			var uid = WQ.cookie.get('id') ? WQ.cookie.get('id') : null;
 			_this.setState({
 				uid: uid
 			});
-			//获取文章数据
-			ArticleModel.getArticleById(aid,function(data) {
+
+			var success = function (data) {
 				if(!data.error) {
 					_this.setState({
 						info: data.data,
 					});
 					_this.showEditor(data.data.content);
 				}
-			});
+			}
+			//获取文章数据
+			if (aid>0) {
+				ArticleModel.getArticleById(aid,function(data) {
+					success(data);
+				});	
+			} else if (did>0) {
+				DraftModel.getDraftById(did,function(data) {
+					success(data);
+				});	
+			}
+			
 
 			//如果是从消息页面跳转过来的，就把消息设置为已读
 			if(_this.state.newsId!=0) {
@@ -143,6 +156,30 @@ define([
 			_this.setState({
 				info: _this.state.info
 			});
+		},
+		// 发布
+		handlePublish: function() {
+			var _this = this;
+			var info = _this.state.info;
+			var aid = info.aid ? info.aid : 0;
+
+			if (aid>0) {
+				ArticleModel.editArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+aid;
+					} else {
+						Tooltip(data.msg);
+					}
+				});
+			} else {
+				ArticleModel.addArticle(info,function(data) {
+					if(!data.error) {
+						window.location.href = '/article/'+data.data;
+					} else {
+						Tooltip(data.msg);
+					}
+				});	
+			}
 		}
 	}
 
@@ -150,21 +187,23 @@ define([
 		mixins: [mixin],
 		getInitialState: function() {
 			return {
-				name: 'home',
-				aid: this.props.aid,         //文章id
+				aid: this.props.aid ? this.props.aid : 0,         //文章id
+				did: this.props.did ? this.props.did : 0,         //草稿id
 				newsId: this.props.params&&this.props.params.news ? this.props.params.news : 0,    //消息id
-				uid: null,                   //用户id
+				uid: this.props.uid ? this.props.uid : null,                   //用户id
 			}
 		},
 		componentDidMount: function() {
 			this.init();
 			var aid = this.state.aid;
-			$('#comment-text').on('focus',function() {
-				if(!WQ.cookie.get('id')) {
-					window.location.href="/login/sign_in?page=article&&method="+aid;
-					return;
-				};
-			});
+			if (aid>0) {
+				$('#comment-text').on('focus',function() {
+					if(!WQ.cookie.get('id')) {
+						window.location.href="/login/sign_in?page=article&&method="+aid;
+						return;
+					};
+				});	
+			}
 		},
 		render: function() {
 			var _this = this;
@@ -212,40 +251,47 @@ define([
 							</span>
 							<span className="tag time">&nbsp;•&nbsp;{WQ.timeFormat(time)}</span>
 							<span className="tag">&nbsp;发布在:&nbsp;{cloumn}</span>
-							<span className="tag view">&nbsp;阅读:&nbsp;{view}</span>
-							<span className="tag comment">&nbsp;评论:&nbsp;{comment}</span>
+							{_this.state.aid>0 ? <span className="tag view">&nbsp;阅读:&nbsp;{view}</span> : null}
+							{_this.state.aid>0 ? <span className="tag comment">&nbsp;评论:&nbsp;{comment}</span> : null }
 							{tagsList}
 						</div>
 						<div className="tool" style={{marginBottom:'10px'}}>
 							{_this.state.uid==uid ? (
-								<a className="btn btn-info" href={"/article/"+this.state.aid+"/edit"}>
+								<a className="btn btn-info" href={_this.state.aid>0 ? "/article/"+this.state.aid+"/edit" : (_this.state.did>0 ? "/draft/"+this.state.did+"/edit" : 'javascript:void(0);')}>
 									<i className="fa fa-pencil-square-o"></i>
 									<span>编辑</span>
 								</a>
 							): null}
 							
-							<a className={praiseStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handlePraise}>
+							{_this.state.aid>0 ? (<a className={praiseStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handlePraise}>
 								<i className="fa fa-thumbs-up"></i>
 								<span style={{marginRight:'4px'}}>{praiseStatus ? '已推荐' : '推荐'}</span>
 								<span>{praise}</span>
-							</a>
-							<a className={storeStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handleStore}>
+							</a>) : null }
+							{_this.state.aid>0 ? (<a className={storeStatus ? "btn btn-danger" : "btn btn-info"} href="javascript:void(0)" onClick={_this.handleStore}>
 								<i className="fa fa-bookmark-o"></i>
 								<span style={{marginRight:'4px'}}>{storeStatus ? '已收藏' : '收藏'}</span>
 								<span>{store}</span>
-							</a>
-							<a className="btn btn-info" href="javascript:void(0)">
+							</a>) : null }
+							{_this.state.aid>0 ? (<a className="btn btn-info" href="javascript:void(0)">
 								<i className="fa fa-share-square-o"></i>
 								<span>分享</span>
-							</a>
+							</a>) : null }
+							{_this.state.did>0 ? (<a className="btn btn-info" href="javascript:void(0)" onClick={_this.handlePublish}>
+								<i className="fa fa-cloud-upload"></i>
+								<span>发布</span>
+							</a>) : null }
 						</div>
 						
 						<div id="editormd-view">
 							<textarea></textarea>
 						</div>
 
+						{
+							_this.state.aid>0 ? <CommentList updateComment={_this.updateComment} aid={_this.state.aid} author={uid} /> : null
+							
+						}
 						
-						<CommentList updateComment={_this.updateComment} aid={_this.state.aid} author={uid} />
 								
 					</div>
 				</ReactCSSTransitionGroup>

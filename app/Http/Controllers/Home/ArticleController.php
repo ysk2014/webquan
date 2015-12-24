@@ -152,18 +152,25 @@ class ArticleController extends Controller {
 
 			$data = Request::input('data');
 			$data['update_time'] = time();
+
+			if (isset($data['aid'])) {
+				$did = $data['id'];
+				$data['id'] = $data['aid'];
+				unset($data['aid']);
+			} else {
+				$did = 0;
+			}
+
 			$param = new \App\Services\Home\Article\ArticleSave();
 			$param->setAttributes($data); 
 
-			$result = $articleProcess->editArticle($param);
+			$result = $articleProcess->editArticle($param,$did);
 
 		}else if($method=='POST') {
 
 			$data = Request::input('data');
 			$data['addtime'] = time();
-			
-			$is_publish = $data['is_publish'];
-
+				
 			$data['update_time'] = time();
 
 			$param = new \App\Services\Home\Article\ArticleSave();
@@ -180,6 +187,7 @@ class ArticleController extends Controller {
 		
 		return response()->json($result);
 	}
+
 
 	/**
 	 * 处理文章推荐和收藏

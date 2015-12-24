@@ -23,9 +23,9 @@
 	                job: _this.state.info,
 	            });
 	        },
-	        handleCityChange: function(event) {
+	        handleEmailChange: function(event) {
 	            var _this = this;
-	            _this.state.info.city = event.target.value;
+	            _this.state.info.email = event.target.value;
 	            _this.setState({
 	                info: _this.state.info,
 	            });
@@ -162,6 +162,11 @@
         	handleSubmit: function(event) {
         		var _this = this;
         		var data = _this.state.info;
+
+        		if(WQ.trim(data.email)!='' && !WQ.check.email(info.email)) {
+                	Tooltip('邮箱地址不正确');
+                	return false;
+            	}
         		UserModel.editUser(_this.state.info.id,data,function(data) {
                 	if(!data.error){
                 		Tooltip("修改成功");
@@ -174,7 +179,7 @@
         		var _this = this;
         		var username    = _this.state.info ? _this.state.info.username    : null;
         		var job         = _this.state.info ? _this.state.info.job         : null;
-        		var city        = _this.state.info ? _this.state.info.city        : null;
+        		var email       = _this.state.info ? _this.state.info.email       : null;
         		var sex         = _this.state.info ? _this.state.info.sex         : null;
         		var description = _this.state.info ? _this.state.info.description : null;
         		var logo_dir    = _this.state.info ? _this.state.info.logo_dir    : null;
@@ -199,12 +204,12 @@
 	        					<select className="col col-sm-10" onChange={_this.handleSelectJob}><option>{jobs}</option></select>
 	        				</div>
 	        				<div className="input-prepend">
-	        					<label className="col col-sm-2">所在地：</label>
-	        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入地址" onChange={this.handleCityChange} value={city}/>	
+	        					<label className="col col-sm-2">邮箱：</label>
+	        					<input type="text" className="col col-sm-10" name="email" placeholder="请输入地址" onChange={this.handleEmailChange} value={email}/>	
 	        				</div>
 	        				<div className="input-prepend">
 	        					<label className="col col-sm-2">github：</label>
-	        					<input type="text" className="col col-sm-10" name="city" placeholder="请输入github地址" onChange={this.handleGithubChange} value={github}/>	
+	        					<input type="text" className="col col-sm-10" name="github" placeholder="请输入github地址" onChange={this.handleGithubChange} value={github}/>	
 	        				</div>
 	        				<div className="input-prepend">
 		        				<label className="col col-sm-2">性别：</label>

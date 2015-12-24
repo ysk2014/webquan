@@ -22,7 +22,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'store', 'comment', 'is_publish', 'update_time', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'store', 'comment', 'update_time', 'addtime');
 
     /**
      * 增加文章
@@ -73,13 +73,12 @@ class Article extends Base
      * 
      * @param intval $cid 专题的ID
      */
-    public function getArtsByUid($uid,$way='addtime',$page,$is_publish=1)
+    public function getArtsByUid($uid,$way='addtime',$page)
     {
         return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.uid','=', intval($uid))
-                    ->where('article.is_publish','=',$is_publish)
                     ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -98,7 +97,6 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.cid','=', intval($cid))
-                    ->where('article.is_publish','=',1)
                     ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -117,7 +115,6 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->whereIn('article.cid', $cids)
-                    ->where('article.is_publish','=',1)
                     ->orderBy('article.addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -138,7 +135,6 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
-                    ->where('article.is_publish','=',1)
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
@@ -155,7 +151,6 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.addtime','desc')
-                    ->where('article.is_publish','=',1)
                     ->where('article.tags','like','%'.$data['name'].'%')
                     ->skip($data['page']*20)->take(20)
                     ->get()
