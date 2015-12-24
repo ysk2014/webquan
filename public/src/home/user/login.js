@@ -112,12 +112,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 email: event.target.value,
             });
         },
-        handleJobChange: function(event) {
-            var _this = this;
-            _this.setState({
-                job: event.target.value,
-            });
-        },
         handlePress: function(event) {
             var _this = this;
             if(event.which==13 && _this.state.nav == 'sign_in') {
@@ -166,7 +160,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
             var username = WQ.trim(_this.state.username);
             var password = WQ.trim(_this.state.password);
             var email = WQ.trim(_this.state.email);
-            var job = WQ.trim(_this.state.job);
 
             if(username=='') {
                 Tooltip('用户名不能为空');
@@ -201,8 +194,7 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 username: username,
                 password: password,
                    email: email,
-                     job: job,
-            }
+            };
             UserModel.register(data,function(data) {
                 if(!data.error) {
                     Tooltip("注册成功");
@@ -234,7 +226,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                 username: '',
                 password: '',
                 email: '',
-                job: '',
             }
         },
         componentDidMount: function() {
@@ -296,12 +287,6 @@ define(['react', 'jquery', 'WQ' ,'home/model/userModel','home/common/tooltip'],f
                                                     <i className="fa fa-envelope-o"></i>
                                                 </span>
                                                 <input type="text" className="input-login" name="email" value={_this.state.email} placeholder="email" onChange={_this.handleEmailChange} />
-                                            </div>
-                                            <div className="input-prepend">
-                                                <span className="add-on">
-                                                    <i className="fa fa-leaf"></i>
-                                                </span>
-                                                <input type="text" className="input-login" name="job" value={_this.state.job} placeholder="职位" onChange={_this.handleJobChange} />
                                             </div>
                                         </div>) : null
                                     }
