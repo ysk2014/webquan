@@ -112,7 +112,7 @@ class UserArticle extends Base
      */
     public function getArtCount($uid, $type)
     {
-        return $this->where('uid', $uid)->where('type', $type)->count();
+        return $this->where('uid','=',$uid)->where('type','=',$type)->count();
     }
 
 }
