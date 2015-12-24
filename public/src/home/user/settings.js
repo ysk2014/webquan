@@ -204,7 +204,7 @@
 	        					<select className="col col-sm-10" onChange={_this.handleSelectJob}><option>{jobs}</option></select>
 	        				</div>
 	        				<div className="input-prepend">
-	        					<label className="col col-sm-2">所在地：</label>
+	        					<label className="col col-sm-2">邮箱：</label>
 	        					<input type="text" className="col col-sm-10" name="email" placeholder="请输入地址" onChange={this.handleEmailChange} value={email}/>	
 	        				</div>
 	        				<div className="input-prepend">

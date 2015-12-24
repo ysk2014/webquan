@@ -181,13 +181,13 @@ define(['react',
 					<article key={d.id}>
 						{
 							d.logo_dir ? 
-							(<a className="pic" href={"/article/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
+							(<a className="pic" href={"/user/"+d.uid+"/draft/"+d.id} style={{backgroundImage: 'url('+d.logo_dir+')'}}>
 								<span>{d.cloumn}</span>
 							</a>) : null
 						}
 						
 						<div className="desc">
-							<a className="title" href={"/article/"+d.id}>{d.title}</a>
+							<a className="title" href={"/user/"+d.uid+"/draft/"+d.id}>{d.title}</a>
 							<a href="javascript:void(0)" className="btn btn-default pull-right" data-key={i} onClick={_this.handlePublish}><i className="fa fa-cloud-upload"></i>发布</a>
 							<div className="author">
 								<a href={"/user/"+d.uid}>

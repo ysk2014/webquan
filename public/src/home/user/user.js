@@ -10,7 +10,7 @@ define(['react',
 
     var mixin = {
         init: function() {
-            var _this = this;
+            var _this = this;console.log(_this.state.uid);
             UserModel.getUserInfoById(_this.state.uid,function(data) {
                 if(!data.error) {
                     _this.setState({
@@ -48,14 +48,16 @@ define(['react',
         init: function(nav) {
             var _this = this;
             
-            if (nav != "is_publish") {
-                _this.getAllArticleByUid(nav,0,1);
-            }else{
-                _this.getAllArticleByUid(nav,0,0);
-            };
+            _this.getAllArticleByUid(nav,0);
         },
 
         componentDidMount: function() {
+            this.init(this.state.nav);
+        },
+        componentWillReceiveProps: function(nextProps) {
+            this.setState({
+                uid: nextProps.uid
+            });
             this.init(this.state.nav);
         },
         handleClick: function(nav){
@@ -64,28 +66,19 @@ define(['react',
                 nav: nav,
             })
             if(!_this.state.list[nav]) {
-                if(nav == 'is_publish') {
-                    var is_publish = 0;
-                } else {
-                    var is_publish = 1;
-                }
-                _this.getAllArticleByUid(nav,0,is_publish);
+                _this.getAllArticleByUid(nav,0);
             }
         },
         handleMore: function() {
             var page = $(event.target).data('page');
             var _this = this;
             var nav = _this.state.nav;
-            if(nav!='is_publish') {
-                _this.getAllArticleByUid(nav,page,1);
-            } else {
-                _this.getAllArticleByUid(nav,page,0);
-            }
+            _this.getAllArticleByUid(nav,page);
         },
-        getAllArticleByUid: function(way,page,is_publish) {
+        getAllArticleByUid: function(way,page) {
             var _this = this;
             var uid = _this.state.uid;
-            var params = {uid:uid,way:way,page:page,is_publish:is_publish};
+            var params = {uid:uid,way:way,page:page};
 
             ArticleModel.getAllArticleByUid(params,function(data) {
                 if(!data.error) {
@@ -162,10 +155,6 @@ define(['react',
                     <ul className="nav-orderBy clearfix">
                         <li><a href="javascript:void(0)" className={_this.state.nav == "addtime" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"addtime")}>最新文章</a></li>
                         <li><a href="javascript:void(0)" className={_this.state.nav == "view" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"view")}>热门文章</a></li>
-                        {
-                            (_this.state.uid == WQ.cookie.get('id')) ? (<li><a href="javascript:void(0)" className={_this.state.nav == "is_publish" ? "btn btn-info" : "btn btn-default"} onClick={_this.handleClick.bind(this,"is_publish")}>我的草稿</a></li>) : null
-                        }
-                        
                     </ul>
                     <ReactCSSTransitionGroup transitionName="fadeToTop" transitionAppear={true}>
                         <div className="article-list">
@@ -190,7 +179,13 @@ define(['react',
         componentDidMount: function() {
             this.init();
         },
-        
+        componentWillReceiveProps: function(nextProps) {
+            this.setState({
+                uid: nextProps.uid,
+                newsId: nextProps.params.news
+            });
+            
+        },
         render: function() {
             var _this = this;
             document.title = '我的主页 | Web圈';
