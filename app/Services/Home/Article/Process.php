@@ -536,7 +536,7 @@ class Process extends BaseProcess
 		$articleInfo = $this->userArticleModel->getArticlesByUid($data['uid'],$page,$type);
 		if($articleInfo) {
 
-			$count = $this->userArticleModel->getCount($data['uid'],$type);
+			$count = $this->userArticleModel->getArtCount($data['uid'],$type);
 			if( (intval($data['page'])+1)*20 < $count ) {
 				$next = true;
 			} else {
