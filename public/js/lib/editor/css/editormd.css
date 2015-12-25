@@ -1399,7 +1399,7 @@
 
 .editormd-preview-container, .editormd-html-preview {
   text-align: left;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.6;
   padding: 20px;
   overflow: auto;
@@ -1411,7 +1411,7 @@
   border-left: 4px solid #ddd;
   padding-left: 20px;
   margin-left: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-style: italic;
 }
 .editormd-preview-container p code, .editormd-html-preview p code {
@@ -1432,7 +1432,7 @@
   background: #f6f6f6;
   padding: 3px;
   border-radius: 3px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .editormd-preview-container pre, .editormd-html-preview pre {
   border: 1px solid #ddd;
