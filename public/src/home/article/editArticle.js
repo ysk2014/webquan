@@ -65,7 +65,21 @@ define([
 			return this;
 		},
 		componentDidMount: function() {
+			var _this = this;
 			this.init();
+			//ctrl+s保存到草稿箱
+			$(document).on('keydown', function(event) {
+				if ((event.ctrlKey)&&(event.keyCode==115 || event.keyCode==83)){
+					_this.handleSave(function(data) {
+						Tooltip('已保存到草稿箱');
+						var did = _this.state.did;
+						var uid = WQ.cookie.get('id');
+						setTimeout(function() {
+							window.location.href = '/user/' + uid + '/draft/'+did;
+						},999);
+					});
+				}
+			});
 		},
 		// 展示文章内容
 		showEditor: function(uid){
@@ -152,7 +166,7 @@ define([
 			}
 		},
 		//保存到草稿
-		handleSave: function(event) {
+		handleSave: function(callback) {
 			var _this = this;
 			var uid = WQ.cookie.get('id');
 			var did = _this.state.did;
@@ -169,7 +183,11 @@ define([
 
 			var success = function(data,did) {
 				if (!data.error) {
-					window.location.href = '/user/' + uid + '/draft/'+did;
+					if (callback) {
+						callback(data);
+					} else {
+						window.location.href = '/user/' + uid + '/draft/'+did;
+					}
 				} else {
 					Tooltip(data.msg);
 				}
