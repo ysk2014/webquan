@@ -19,8 +19,7 @@ requirejs.config({
             deps:[ 'jquery'],
             exports:'jqueryextend'
         }
-    },
-    waitSeconds: 30
+    }
 });
 
 requirejs([
