@@ -39,7 +39,7 @@ class Routes
     {
         Route::group(['domain' => $this->adminDomain], function()
         {
-            Route::get('/login', 'Admin\UserController@index');
+            // Route::get('/login', 'Admin\UserController@index');
 
             
         });
