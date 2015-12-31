@@ -23,7 +23,7 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{	
-		return view('home/app');
+		return view('home/home', ['title' => 'Samantha']);
 	}
 
 }
