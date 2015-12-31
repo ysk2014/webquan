@@ -39,11 +39,9 @@ class Routes
     {
         Route::group(['domain' => $this->adminDomain], function()
         {
-            Route::get('/admin/user/login', 'Admin\UserController@index');
+            Route::get('/login', 'Admin\UserController@index');
 
-            Route::group(['middleware' =>  ['auth','']], function(){
-
-            });
+            
         });
         return $this;
     }
