@@ -2,58 +2,75 @@
 
 use Lang;
 use App\Services\Home\Search\Sphinx;
-use App\Libraries\Spliter;
 use App\Services\Home\BaseProcess;
+use App\Models\Home\Article as ArticleModel;
+use App\Models\Home\Cloumn as CloumnModel;
 
 /**
  * 搜索处理
  *
- * @author jiang <mylampblog@163.com>
+ * @author ysk
  */
 class Process extends BaseProcess
 {
     /**
-     * 初始化sphinx客户端
+     * 专题数据模型
+     *
+     * @var object
      */
-    public function sphinxSearch($keyword)
+    private $cloumnModel;
+
+    /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $articleModel;
+
+    /**
+     * 初始化
+     *
+     * @access public
+     */
+    function __construct()
     {
-        $sphinx = (new Sphinx())->initSphinxClient();
-        $result = $sphinx->query($keyword, '*');
-        return $this->prepareSphinxResult($result);
+        if( !$this->articleModel) $this->articleModel = new ArticleModel();
+        if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
     }
 
     /**
-     * 处理sphinx的返回结果
-     */
-    private function prepareSphinxResult($result)
-    {
-        if( ! isset($result['matches'])) return false;
-        $result = arraySort($result['matches'], 'weight', 'desc');
-        $articleIds = [];
-        foreach($result as $key => $value)
-        {
-            $articleIds[] = $value['attrs']['article_id'];
-        }
-        return $articleIds;
-    }
-
-    /**
-     * 取得keyword的unicode码
+     * 文章搜索
      * 
      * @param  string $keyword
-     * @return string        
+     * @return array        
      */
-    public function prepareKeyword($keyword)
+    public function getArticles($keyword)
     {
-        $spliter = new Spliter();
-        $keywords = explode(' ', $keyword);
-        $against = '';
-        foreach($keywords as $kw)
-        {
-            $splitedWords = $spliter->utf8Split($kw);
-            $against .= $splitedWords['words']; 
-        }
-        return $against;
+        if (!isset($keyword)) return array('error' => true, 'msg'=>'没有传关键词');
+        $this->articleModel->getArticlesByKeyword($keyword);
     }
 
+    /**
+     * 专题搜索
+     * 
+     * @param  string $keyword
+     * @return array        
+     */
+    public function getCloumns($keyword)
+    {
+        if (!isset($keyword)) return array('error' => true, 'msg'=>'没有传关键词');
+        $this->articleModel->getCloumnsByKeyword($keyword);
+    }
+
+    /**
+     * 作者搜索
+     * 
+     * @param  string $keyword
+     * @return array        
+     */
+    public function getAuthors($keyword)
+    {
+        if (!isset($keyword)) return array('error' => true, 'msg'=>'没有传关键词');
+        $this->articleModel->getAuthorsByKeyword($keyword);
+    }
 }
