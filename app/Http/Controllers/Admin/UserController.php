@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Services\User\Login\Process as LoginProcess;
-use  App\Services\User\Process as UserActionProcess;
+use App\Services\User\Process as UserActionProcess;
 use App\Services\SC;
 use App\Models\User;
 use Request;
