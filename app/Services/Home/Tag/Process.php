@@ -107,5 +107,29 @@ class Process extends BaseProcess
         
         return array('error'=>false, 'data'=>$result);
     }
+    /**
+     * 获取所有标签
+     *
+     * @access public
+     * @return array
+     */
+    public function getAllTags()
+    {
+        $count = $this->tagModel->getCount();
+        if (!empty($count)) {
+            $result = $this->tagModel->getAllTags();
 
+            if (!empty($result)) {
+                if ($count>18) {
+                    return array('error'=>false, 'data'=>$result,'next'=>true);
+                } else {
+                    return array('error'=>false, 'data'=>$result, 'next'=>false);
+                }
+            } else {
+                return array('error'=>true, 'msg'=>'查询所有标签失败');
+            }
+        } else {
+            return array('error'=>true, 'count'=>0);
+        }
+    }
 }

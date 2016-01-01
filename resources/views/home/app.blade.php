@@ -12,10 +12,11 @@
 	<link href="{{ asset('image/web.ico') }}" rel="shortcut icon">
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 </head>
 
-<body style="background-color: #f2f2f2;">
+<body>
 	<div class="navbar navbar-default" id="header">
 		<div class="container">
 			<a class="logo" href="/">
@@ -40,12 +41,11 @@
 			</div>
 		</div>
 	</div>
-    <div class="container">
+    <div class="container" id="main">
     	<div class="row">
-    		<div class="col-md-9">@yield('content')</div>
-    		<div class="col-md-3">dsadsa</div>
+    		<div class="col-md-8">@yield('content')</div>
+    		<div class="col-md-4 sidebar">@yield('aside')</div>
     	</div>
-        
     </div>
 </body>
 </html>

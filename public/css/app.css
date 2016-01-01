@@ -1,0 +1,151 @@
+body{
+	background: #f2f2f2;
+	font-size: 12px;
+	font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+}
+
+a{
+	color: #555;
+}
+a:hover {
+	color: #16a085;
+}
+i.fa{
+	margin-right: 5px;
+}
+#header .logo {
+	display: block;
+	float: left;
+	height: 62px;
+	padding: 7px 15px;
+	margin-left: -15px;
+}
+#header .logo img{
+	height: 48px;
+	vertical-align: middle;
+}
+#header .navbar-nav li.active a{
+	font-weight: 600;
+}
+#header .search{
+	background-color: #1abc9c;
+	color: #fff;
+}
+#header .search a {
+	color: #fff;
+	width: 62px;
+	text-align: center;
+}
+#header .search:hover {
+	background-color: #b9b9b9;
+}
+#header .search a:hover {
+	color: #fff;
+}
+#header .login a {
+	color: #1abc9c;
+} 
+
+#main .sidebar .widget{
+	background: #fff;
+	padding: 15px 20px;
+	margin-bottom: 20px;
+}
+#main .sidebar .widget .title {
+	position: relative;
+	padding-left: 15px; 
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: 600;
+}
+#main .sidebar .widget .title:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	width: 6px;
+	height: 20px;
+	background: #1abc9c;
+	border-radius: 3px;
+}
+#main .sidebar .widget .content {
+	padding: 10px 0;
+}
+#main .sidebar .widget .media-left a {
+	display: block;
+	width: 80px;
+	height: 60px;
+	background: #666 center no-repeat;
+	background-size: cover;
+}
+#main .sidebar .widget .media-heading {
+	max-height: 60px;
+	line-height: 20px;
+	font-weight: 600;
+	overflow: hidden;
+	font-size: 13px;
+}
+.widget .tag-cloud a.tag {
+    border: 1px solid #ebebeb;
+    padding: 4px 8px;
+    color: #959595;
+    line-height: 1.5em;
+    display: inline-block;
+    margin: 0 7px 7px 0;
+    border-radius: 4px;
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+.widget .tag-cloud a.tag:hover {
+	color: #fff;
+	background: #1abc9c;
+}
+
+#main .article {
+	padding: 35px 40px;
+	background: #fff;
+	margin-bottom: 35px;
+	position: relative;
+}
+#main .article .top .title{
+	font-size: 18px;
+	font-weight: 600;
+}
+#main .article .top .desc {
+	color: #959595;
+	margin: 14px 0 10px;
+}
+#main .article .top .desc span {
+	margin: 0 7px;
+	white-space: nowrap;
+}
+#main .article .top .author{
+	color: #1abc9c;
+}
+#main .article .top .author:hover{
+	color: #48c9b0;
+}
+#main .article .top .author img {
+	height: 20px;
+	position: relative;
+	top: -3px;
+}
+#main .article .top span.tags a{
+	color: #1abc9c;
+}
+#main .article .top hr{
+	margin: 10px 0;
+}
+#main .article > .banner img{
+	width: 100%;
+}
+#main .article > .content {
+	margin: 15px 0 0;
+	font-size: 14px;
+	color: #666;
+	line-height: 20px;
+}
+
+

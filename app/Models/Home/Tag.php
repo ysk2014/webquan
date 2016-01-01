@@ -54,6 +54,24 @@ class Tag extends Base
     }
 
     /**
+     * 获取所有标签信息
+     * 
+     */
+    public function getAllTags()
+    {
+        return $this->skip(0)->take(18)->get()->toArray();
+    }
+
+    /**
+     * 获取所有标签信息
+     * 
+     */
+    public function getCount()
+    {
+        return $this->count();
+    }
+
+    /**
      * 根据标签name获取标签信息
      * 
      * @param string $name

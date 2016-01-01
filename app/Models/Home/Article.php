@@ -131,9 +131,8 @@ class Article extends Base
      */
     public function getAllArticle($data='addtime',$page)
     {
-        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
-                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
                     ->skip($page*20)->take(20)
                     ->get()
@@ -147,9 +146,8 @@ class Article extends Base
      */
     public function getArtsLikeTagName($data)
     {
-        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
-                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.addtime','desc')
                     ->where('article.tags','like','%'.$data['name'].'%')
                     ->skip($data['page']*20)->take(20)
@@ -158,15 +156,19 @@ class Article extends Base
     }
 
     /**
-     * 获取专题is_publish
+     * 获取热门文章的前几个
      * 
-     * @param intval $id 专题的ID
+     * @param intval $num
      */
-    public function getPublishById($id)
+    public function getArtsByView($num)
     {
-        return $this->select('is_publish')
-                    ->where('id','=', intval($id))
-                    ->first();
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->where('article.logo_dir', '!=', '')
+                    ->orderBy('article.view','desc')
+                    ->skip(0)->take($num)
+                    ->get()
+                    ->toArray();
     }
 
 

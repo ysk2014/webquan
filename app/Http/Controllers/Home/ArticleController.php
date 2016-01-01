@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
+use App\Services\User\Login\Process as LoginProcess;
+use App\Services\Home\Tag\Process as TagProcess;
 use Request,Cache,Redis;
 
 class ArticleController extends Controller {
@@ -19,9 +21,41 @@ class ArticleController extends Controller {
 	 * article
 	 *
 	 */
-	public function index()
-	{
-		return view('home.app');
+	public function index(ArticleProcess $articleProcess)
+	{	
+		// 判断用户是否登录
+		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		if (empty($isLogin)) {
+			$userinfo = false;
+		} else {
+			$userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+		}
+		//获取文章列表数据
+		$articleList = $articleProcess->getAllArticle(array('way'=>'addtime','page'=>0));
+		//获取热门文章数据
+		$hotsArt = $articleProcess->getArtsByView(3);
+
+		$title = 'Web圈';
+		//获取所标签列表
+		$tags = (new TagProcess())->getAllTags();
+
+		//缓存
+		$cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+		return response()->view('home/article/index', compact('title','articleList','hotsArt','tags','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+	}
+
+
+	/**
+	 * article
+	 *
+	 */
+	public function pagination(ArticleProcess $articleProcess,$page) {
+		//获取文章列表数据
+		$articleList = $articleProcess->getAllArticle(array('way'=>'addtime','page'=>$page));
+		
+		return response()->view('home/widget/articles',compact('articleList'));
 	}
 
 	/**

@@ -55,7 +55,8 @@ class Routes
     public function www() {
         Route::group(['domain' =>  $this->wwwDomain], function() {
             // 主页
-            Route::get('/', 'Home\HomeController@index');
+            Route::get('/', 'Home\ArticleController@index');
+            Route::get('/article/{page}', 'Home\ArticleController@pagination');
 
             // 邮件
             Route::get('/email', 'Email\EmailController@index');

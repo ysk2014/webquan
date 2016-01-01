@@ -314,28 +314,53 @@ class Process extends BaseProcess
 	public function getAllArticle($data)
 	{
 		$page = isset($data['page']) ? $data['page'] : 0;
-		$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
 
-		if($articleInfo) {
+		$count = $this->articleModel->countArticle();
 
-			$count = $this->articleModel->countArticle();
-			if( (intval($page)+1)*20 < $count ) {
-				$next = true;
+		if ($count) {
+			$articleInfo = $this->articleModel->getAllArticle($data['way'],$page);
+
+			if ($articleInfo) {
+			
+				$articleData = array();
+				foreach ($articleInfo as $key => $value) {
+					unset($value['content']);
+					array_push($articleData,$value);
+				}
+
+				if ($count > ($data['page']+1)*20) {
+					$next = true;
+				} else {
+					$next = false;
+				}
+
+				return array('error'=>false,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
 			} else {
-				$next = false;
+				return array('error'=>true,'msg'=>'没有更多的文章了');
 			}
-
-			$articleData = array();
-			foreach ($articleInfo as $key => $value) {
-				unset($value['content']);
-				array_push($articleData,$value);
-			}
-
-			return array('error'=>false,'data'=>$articleData, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'没有更多的文章了');
+			return array('error'=>true,'count'=>0);
 		}
 	}
+
+
+	/**
+	* 获取热门文章的前几个
+	*
+	* @access public
+	* @return array
+	*/
+	public function getArtsByView($num)
+	{
+		$num = $num ? $num : 3;
+		$hots = $this->articleModel->getArtsByView($num);
+		if ($hots) {
+			return array('error'=>false,'hotsArticle'=>$hots);
+		} else {
+			return array('error'=>true,'msg'=>'热门文章查询失败');
+		}
+	}
+
 
 	/**
 	* 根据专题id获取文章列表
