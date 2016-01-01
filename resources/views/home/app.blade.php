@@ -60,8 +60,32 @@
 
 		    waitSeconds: 30
 		});	  
-		requirejs(['WQ',''],function(WQ,) {
-
+		requirejs(['$','WQ','editormd'],function($,WQ,editormd) {
+			editormd("article-editormd", {
+                width   : "100%",
+                height  : 640,
+                markdown : content,
+                imageUpload: 'true',
+                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL : "/upload",
+                path    : "/js/lib/editor/lib/",
+                toolbarIcons: function() {
+                    return [
+                        "undo", "redo", "clear", "|", 
+                        "bold", "italic", "quote", "uppercase", "lowercase", "|", 
+                        "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+                        "list-ul", "list-ol", "hr", "|",
+                        "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
+                        "watch", "preview", "fullscreen", "help"
+                    ];
+                },
+                onchange: function() {
+                	_this.state.info.content = this.getValue();
+                	_this.setState({
+                		info: _this.state.info
+                	});
+                }
+	        });
 		});
 	</script>
 </body>
