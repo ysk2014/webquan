@@ -45,7 +45,24 @@
     	
     </div>
     <script>
-	  
+		requirejs.config({
+		    baseUrl: '/js/lib',
+		    paths: {
+		        jquery          : "jquery-1.11.3.min",
+		        WQ              : "wq",
+		        prettify        : 'editor/lib/prettify.min',
+		        codemirror      : 'editor/lib/codemirror/codemirror.min',
+		        marked          : 'editor/lib/marked.min',
+		        editormd        : 'editor/editormd',
+		        plugins         : 'editor/plugins',
+		        editorlib       : 'editor/lib'
+		    },
+
+		    waitSeconds: 30
+		});	  
+		requirejs(['WQ',''],function(WQ,) {
+
+		});
 	</script>
 </body>
 </html>
