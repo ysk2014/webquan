@@ -13,7 +13,7 @@
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
+	<script src="{{ asset('js/lib/require.js') }}"></script>
 </head>
 
 <body>
@@ -42,10 +42,10 @@
 		</div>
 	</div>
     <div class="container" id="main">
-    	<div class="row">
-    		<div class="col-md-8">@yield('content')</div>
-    		<div class="col-md-4 sidebar">@yield('aside')</div>
-    	</div>
+    	
     </div>
+    <script>
+	  
+	</script>
 </body>
 </html>
