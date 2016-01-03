@@ -478,30 +478,38 @@ a.text-info:hover {
   background-color: #34495e;
 }
 a.bg-primary:hover {
+  color: #ffffff;
   background-color: #222f3d;
 }
 .bg-success {
+  color: #ffffff;
   background-color: #dff0d8;
 }
 a.bg-success:hover {
   background-color: #c1e2b3;
 }
 .bg-info {
+  color: #ffffff;
   background-color: #d9edf7;
 }
 a.bg-info:hover {
+  color: #ffffff;
   background-color: #afd9ee;
 }
 .bg-warning {
+  color: #ffffff;
   background-color: #fcf8e3;
 }
 a.bg-warning:hover {
+  color: #ffffff;
   background-color: #f7ecb5;
 }
 .bg-danger {
-  background-color: #f2dede;
+  color: #ffffff;
+  background-color: #e74c3c;
 }
 a.bg-danger:hover {
+  color: #ffffff;
   background-color: #e4b9b9;
 }
 .page-header {

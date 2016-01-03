@@ -118,14 +118,14 @@ class Process extends BaseProcess
 
 		$content = $this->redis->hget('article_'.$data->id,'content');
 
-		$status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$content,$imgArr);
+		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$content,$imgArr);
 
 		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
 
 		if($status) {
 			foreach ($imgArr[0] as $key => $value) {
-				$value = str_ireplace('![](','',$value);
-				$value = str_ireplace(')','',$value);
+				$value = str_ireplace('src=\"','',$value);
+				$value = str_ireplace('\"','',$value);
 				$this->redis->lpush($cache,$value);
 			}
 		}
@@ -144,15 +144,15 @@ class Process extends BaseProcess
 	private function dealData(\App\Services\Home\Article\ArticleSave $data)
 	{
 		// 匹配文章内容中所有的图片
-		$status = preg_match_all('/!\[\]\(\/upload_path\/.+[png|gif|jpg|jpeg]{1}\)/',$data->content,$imgArr);
+		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
 		
 		if(count($imgArr[0])) {
 			$logo_dir = $imgArr[0][0];
-			$logo_dir = preg_replace('/!\[\]\(/', '', $logo_dir);
-			$logo_dir = preg_replace('/\)/', '', $logo_dir);
+			$logo_dir = preg_replace('/src=\"/', '', $logo_dir);
+			$logo_dir = preg_replace('/\"/', '', $logo_dir);
 			$data->setLogoDir($logo_dir);
 		}
 

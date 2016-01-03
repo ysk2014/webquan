@@ -13,6 +13,20 @@ a:hover {
 i.fa{
 	margin-right: 5px;
 }
+#mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	display: none;
+}
+#mask .container {
+	border-radius: 6px;
+	margin: 0 auto;
+}
+#mask .container p {
+	padding: 15px 20px;
+}
 .select-box {
 	display: inline-block;
 }

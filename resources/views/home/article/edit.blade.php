@@ -14,11 +14,11 @@
 		</div>
 		<div class="form-group">
 			<label for="myDesc" class="sr-only">文章简介</label>
-    		<textarea class="form-control" id="myDesc" placeholder="文章简介,最多140个字"></textarea>
+    		<textarea class="form-control" id="myDesc" placeholder="文章简介,最多140个字" maxLength="140"></textarea>
 		</div>
 		<div class="form-group">
 			<span class="select-box">
-				<select class="form-control">
+				<select class="form-control" id="myCloumn">
 					<option value="1" style="background: #000">webquan</option>
 				</select>
 			</span>
@@ -40,22 +40,5 @@
 	<script type="text/javascript" src="{{ asset('js/lib/uploader.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/simditor.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/simditor-extension.js') }}"></script>
-	<script type="text/javascript">
-		$(function() {
-			var toolbar = ['title','bold','italic','underline','strikethrough','fontScale','color','|','ol','ul','blockquote','code','table','|','link','image','hr','|','indent','outdent','alignment','fullscreen','preview'];
-			var editor = new Simditor({
-			  	textarea: $('#editor'),
-			  	toolbar: toolbar,
-			    upload: {
-			      	url: '/upload',
-			      	fileKey: 'editor-image-file',
-			      	leaveConfirm: '正在上传文件，如果离开上传会自动取消'
-			    },
-			    pasteImage: true
-			});
-			$('#editor').show();
-			
-		});
-		
-	</script>
+	<script type="text/javascript" src="{{ asset('js/edit-article.js') }}"></script>
 @endsection

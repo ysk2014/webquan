@@ -248,12 +248,16 @@ WQ.cookie = {
 
 
 //提示框
-WQ.tooltip = function(content) {
-    var tpl = '<div ref="alertBox" class="alert-box"><p>' + content + '</p></div>';
-    $('#mask').append(tpl).slideDown(1000);
-    setTimeout(function() {
-        $('#mask').slideUp(1000,function() {
+WQ.tooltipTimer = null;
+WQ.tooltip = function(content,cls) {
+    var tpl = '<div ref="alertBox" class="container"><p class="bg-'+cls+'">' + content + '</p></div>';
+    if (WQ.tooltipTimer) clearTimeout(WQ.tooltipTimer);
+    $('#mask').html(tpl).stop().slideDown();
+    
+    WQ.tooltipTimer = setTimeout(function() {
+        $('#mask').stop().slideUp(function() {
             $('#mask').html('');
+            WQ.tooltipTimer = null;
         });
     },1000);
 };
