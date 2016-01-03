@@ -13,7 +13,7 @@
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<script src="{{ asset('js/lib/require.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 </head>
 
 <body>
@@ -42,51 +42,7 @@
 		</div>
 	</div>
     <div class="container" id="main">
-    	
+    	@yield('content')
     </div>
-    <script>
-		requirejs.config({
-		    baseUrl: '/js/lib',
-		    paths: {
-		        jquery          : "jquery-1.11.3.min",
-		        WQ              : "wq",
-		        prettify        : 'editor/lib/prettify.min',
-		        codemirror      : 'editor/lib/codemirror/codemirror.min',
-		        marked          : 'editor/lib/marked.min',
-		        editormd        : 'editor/editormd',
-		        plugins         : 'editor/plugins',
-		        editorlib       : 'editor/lib'
-		    },
-
-		    waitSeconds: 30
-		});	  
-		requirejs(['$','WQ','editormd'],function($,WQ,editormd) {
-			editormd("article-editormd", {
-                width   : "100%",
-                height  : 640,
-                markdown : content,
-                imageUpload: 'true',
-                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "/upload",
-                path    : "/js/lib/editor/lib/",
-                toolbarIcons: function() {
-                    return [
-                        "undo", "redo", "clear", "|", 
-                        "bold", "italic", "quote", "uppercase", "lowercase", "|", 
-                        "h1", "h2", "h3", "h4", "h5", "h6", "|", 
-                        "list-ul", "list-ol", "hr", "|",
-                        "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "|",
-                        "watch", "preview", "fullscreen", "help"
-                    ];
-                },
-                onchange: function() {
-                	_this.state.info.content = this.getValue();
-                	_this.setState({
-                		info: _this.state.info
-                	});
-                }
-	        });
-		});
-	</script>
 </body>
 </html>

@@ -56,7 +56,10 @@ class Routes
         Route::group(['domain' =>  $this->wwwDomain], function() {
             // 主页
             Route::get('/', 'Home\ArticleController@index');
-            Route::get('/article/{page}', 'Home\ArticleController@pagination');
+            Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
+            Route::get('/article/add', 'Home\ArticleController@editPage');
+
+            Route::post('/upload', 'Home\UploadController@upload');
 
             // 邮件
             Route::get('/email', 'Email\EmailController@index');
@@ -65,7 +68,7 @@ class Routes
 
             $this->user();
 
-            $this->article();
+            // $this->article();
 
             $this->cloumn();
 
@@ -84,7 +87,7 @@ class Routes
             Route::group(['middleware' =>  'auth'], function() {
 
                 //图片上传upload
-                Route::post('/upload', 'Home\UploadController@upload');
+                
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
 

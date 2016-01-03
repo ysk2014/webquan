@@ -1322,7 +1322,7 @@ label {
 .form-control {
   display: block;
   border: 1px solid #bdc3c7;
-  color: #34495e;
+  color: #555;
   font-family: "Lato", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.467;
@@ -1845,7 +1845,7 @@ fieldset[disabled] a.btn {
 }
 .btn-default {
   color: #959595;
-  border: 1px solid #ebebeb;
+  border: 1px solid #bdc3c7;
 }
 .btn-default:hover,
 .btn-default.hover,

@@ -169,7 +169,7 @@ class Process extends BaseProcess
 
         if ($success == 1)
         {
-            $array['url']    = $message;
+            $array['file_path']    = $message;
         }
         else
         {

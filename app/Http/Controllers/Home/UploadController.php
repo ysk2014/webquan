@@ -15,7 +15,7 @@ class UploadController extends Controller {
 	 */
 	public function __construct()
 	{
-		if( !$this->redis ) $this->redis = Redis::connection();
+		// if( !$this->redis ) $this->redis = Redis::connection();
 	}
 
 	/**
@@ -42,23 +42,23 @@ class UploadController extends Controller {
 
         $uploadObject->setParam($config);
         //开始处理上传
-        $file = Request::file('editormd-image-file');
+        $file = Request::file('editor-image-file');
         
         $result = $uploadObject->setFile($file)->upload();
 
-        $user = SC::getLoginSession();
+        // $user = SC::getLoginSession();
 
-        $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
+        // $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
 
-        if($this->redis->exists($cache))
-        {
-        	$this->redis->lpush($cache,$result['url']);
-        } 
-        else 
-        {
-        	$this->redis->lpush($cache,$result['url']);
-        	$this->redis->expire($cache,60*60);
-        }
+        // if($this->redis->exists($cache))
+        // {
+        // 	$this->redis->lpush($cache,$result['url']);
+        // } 
+        // else 
+        // {
+        // 	$this->redis->lpush($cache,$result['url']);
+        // 	$this->redis->expire($cache,60*60);
+        // }
 
         return response()->json($result);
 	}

@@ -64,7 +64,13 @@ class ArticleController extends Controller {
 	 */
 	public function editPage()
 	{
-		return view('home.app');
+		//缓存
+		$cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+        $title = '添加文章 | Web圈';
+
+		return response()->view('home.article.edit',compact('title'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 

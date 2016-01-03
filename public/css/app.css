@@ -13,6 +13,9 @@ a:hover {
 i.fa{
 	margin-right: 5px;
 }
+.select-box {
+	display: inline-block;
+}
 #header .logo {
 	display: block;
 	float: left;
@@ -102,7 +105,9 @@ i.fa{
 	color: #fff;
 	background: #1abc9c;
 }
-
+#main {
+	margin-bottom: 35px;
+}
 #main .article {
 	padding: 35px 40px;
 	background: #fff;
@@ -146,6 +151,11 @@ i.fa{
 	font-size: 14px;
 	color: #666;
 	line-height: 20px;
+}
+
+#editArt #myDesc {
+	height: 100px;
+	resize: none;
 }
 
 
