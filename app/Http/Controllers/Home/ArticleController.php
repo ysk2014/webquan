@@ -209,6 +209,7 @@ class ArticleController extends Controller {
 		}else if($method=='POST') {
 
 			$data = Request::input('data');
+
 			$data['addtime'] = time();
 				
 			$data['update_time'] = time();
