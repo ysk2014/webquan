@@ -24,13 +24,18 @@ $(function() {
 			    pasteImage: true
 			});
 			$('#editor').show();
+			
+
 			this.bindEvent();
 		},
 		bindEvent: function() {
 			var _this = this;
+
+			_this.el.form.find('.tagsinput').tagsInput({});
+
 			// 标题验证
 			_this.el.title.on('blur',function() {
-				if ($(this).parent().hasClass('has-error')) {
+				if ($(this).parent().hasClass('has-error') && WQ.trim($(this).val())!='') {
 					$(this).parent().removeClass('has-error');
 				}
 			});

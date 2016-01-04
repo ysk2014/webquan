@@ -16,6 +16,13 @@
 			<label for="myDesc" class="sr-only">文章简介</label>
     		<textarea class="form-control" id="myDesc" placeholder="文章简介,最多140个字" maxLength="140" name="data[description]"></textarea>
 		</div>
+		<div class="form-group tagsinput">
+			<label for="myTags" class="sr-only">文章标签</label>
+			<input type="hidden" name="data[tags]" id="myTags">
+			<div class="tagsinput-add-container">
+				<input type="text" name="tag" autocomplete="off" class="" id="myTag" placeholder="文章标签，最多三个">
+			</div> 
+		</div>
 		<div class="form-group">
 			<span class="select-box">
 				<select class="form-control" id="myCloumn" name="data[cloumn]">
@@ -40,5 +47,6 @@
 	<script type="text/javascript" src="{{ asset('js/lib/uploader.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/simditor.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/simditor-extension.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/lib/tagsinput.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/edit-article.js') }}"></script>
 @endsection
