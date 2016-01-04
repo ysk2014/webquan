@@ -25,7 +25,6 @@ $(function() {
 			});
 			$('#editor').show();
 			
-
 			this.bindEvent();
 		},
 		bindEvent: function() {
