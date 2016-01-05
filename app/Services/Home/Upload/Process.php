@@ -125,7 +125,7 @@ class Process extends BaseProcess
         if( ! is_dir($savePath))
         {
             //如果保存路径不存在，那么建立它
-            dir_create($savePath);
+            dir_create($savePath, 0777);
         }
         return $savePath;
     }

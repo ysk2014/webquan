@@ -19,13 +19,14 @@
 		<div class="form-group tagsinput">
 			<label for="myTags" class="sr-only">文章标签</label>
 			<input type="hidden" name="data[tags]" id="myTags">
+			<input type="hidden" name="data[uid]" value="2">
 			<div class="tagsinput-add-container">
 				<input type="text" name="tag" autocomplete="off" class="" id="myTag" placeholder="文章标签，最多三个">
 			</div> 
 		</div>
 		<div class="form-group">
 			<span class="select-box">
-				<select class="form-control" id="myCloumn" name="data[cloumn]">
+				<select class="form-control" id="myCloumn" name="data[cid]">
 					<option value="1" style="background: #000">webquan</option>
 				</select>
 			</span>

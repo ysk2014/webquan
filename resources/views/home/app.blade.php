@@ -15,6 +15,7 @@
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
 </head>
 
 <body>
@@ -37,7 +38,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="search"><a href=""><i class="fa fa-search"></i></a></li>
-					<li class="login"><a href="">登录/注册</a></li>
+					@include('home.widget.login',['title'=>$title])
 				</ul>
 			</div>
 		</div>

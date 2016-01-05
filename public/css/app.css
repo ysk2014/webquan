@@ -59,9 +59,31 @@ i.fa{
 #header .search a:hover {
 	color: #fff;
 }
-#header .login a {
+#header .login > a {
 	color: #1abc9c;
+	padding-top: 8px;
+	padding-bottom: 8px;
 } 
+#header .open > a,#header .dropdown > a {
+	border-color: transparent; 
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+#header .img-circle{
+	height: 40px;
+	border: 2px solid transparent;
+	-webkit-transition: border-color 0.25s, color 0.25s;
+          transition: border-color 0.25s, color 0.25s;
+}
+#header .dropdown > a:hover .img-circle {
+	border: 2px solid #1abc9c;
+}
+#header .dropdown > a:hover .caret{
+	border-top: 5px solid #1abc9c;
+}
+
+
+
 
 #main .sidebar .widget{
 	background: #fff;

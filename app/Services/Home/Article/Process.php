@@ -179,7 +179,6 @@ class Process extends BaseProcess
 			}
 			$this->redis->del($cache);
 		}
-
 		return $data;
 	}
 

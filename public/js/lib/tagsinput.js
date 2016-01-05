@@ -134,6 +134,7 @@
 			
 			$el.children('.tag:last').remove();
 			_this.itemsArray.splice(len-1,1);
+			$el.find('input[type=hidden]').val(_this.itemsArray.join(','));
 		}
 
 	};
