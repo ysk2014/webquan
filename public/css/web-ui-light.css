@@ -4651,6 +4651,7 @@ button.close {
   left: 0;
   z-index: 1040;
   background-color: #000;
+  display: none;
 }
 .modal-backdrop.fade {
   filter: alpha(opacity=0);
@@ -4720,7 +4721,6 @@ button.close {
 .dropdown-menu{
   position: absolute;
   top: 100%;
-  left: 0;
   z-index: 1000;
   display: none;
   float: left;
@@ -4736,7 +4736,7 @@ button.close {
 .dropdown-menu:before, .dropdown-menu:after {
   position: absolute;
   top: -10px;
-  left: 50%;
+  right: 24%;
   content: '';
   display: inline-block;
   border-left: 9px solid transparent;
@@ -4759,6 +4759,7 @@ button.close {
   color: #3f3f3f;
   white-space: nowrap;
   cursor: pointer;
+  font-size: 14px;
 }
 .dropdown-menu > li > a:hover{
   background-color: #1abc9c;

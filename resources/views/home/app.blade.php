@@ -15,7 +15,6 @@
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
 </head>
 
 <body>
@@ -32,7 +31,7 @@
 		    </a>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="">首页</a></li>
+					<li class="active"><a href="/">首页</a></li>
 					<li><a href="">问答</a></li>
 					<li><a href="">文章</a></li>
 				</ul>
@@ -46,6 +45,6 @@
     <div class="container" id="main">
     	@yield('content')
     </div>
-    <div id="mask"></div>
+    <div id="mask" class="modal-backdrop fade"></div>
 </body>
 </html>
