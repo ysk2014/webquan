@@ -83,6 +83,29 @@ i.fa{
 	right: 0;
 }
 
+#header .modal-login {
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	margin-left: -240px;
+	width: 480px;
+	overflow: hidden;
+}
+#header .modal-content {
+	padding: 30px 40px;
+}
+#header .modal-content .close {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+#header .modal-content .tab-nav{
+	margin-bottom: 20px;
+	font-size: 16px;
+	text-align: center;
+	font-weight: 600;
+}
+
 
 
 
@@ -193,6 +216,9 @@ i.fa{
 #editArt #myDesc {
 	height: 100px;
 	resize: none;
+}
+#editArt #myCloumn {
+	height: 34px;
 }
 
 

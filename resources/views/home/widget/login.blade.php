@@ -5,18 +5,36 @@
 		<a href="javascript:;" data-toggle="modal" data-target="#myModal">登录/注册</a>
 
 		<div class="modal fade" id="myModal">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-login">
 				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">登录</h4>
+					<a class="close fa fa-close" data-dismiss="modal"></a>
+					<div class="tab-nav clearfix">
+						<a href="#sign_in">登录</a>
+						<b>·</b>
+						<a href="#sign_up">注册</a>
 					</div>
-					<div class="modal-body">
-						<p>One fine body&hellip;</p>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-default" data-dismiss="modal">Close</a>
-						<a class="btn btn-primary">Save changes</a>
+					<!-- Tab panes -->
+					<div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active" id="sign_in">
+					    	<form>
+							  	<div class="form-group">
+								    <label class="sr-only"><i class="fa fa-user"></i></label>
+								    <div class="input-group">
+								      	<div class="input-group-addon"><i class="fa fa-user"></i></div>
+								      	<input type="text" class="form-control" name="username" placeholder="用户名">
+								    </div>
+							  	</div>
+							  	<div class="form-group">
+								    <label class="sr-only"><i class="fa fa-unlock"></i></label>
+								    <div class="input-group">
+								      	<div class="input-group-addon"><i class="fa fa-lock"></i></div>
+								      	<input type="password" class="form-control" name="password" placeholder="密码">
+								    </div>
+							  	</div>
+							  	<button type="submit" class="btn btn-primary">登录</button>
+							</form>
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="sign_up">dshaudhsua</div>
 					</div>
 				</div>
 			</div>
