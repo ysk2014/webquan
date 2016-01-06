@@ -9,7 +9,7 @@
 				<div class="modal-content">
 					<a class="close fa fa-close" data-dismiss="modal"></a>
 					<div class="tab-nav clearfix">
-						<a href="#sign_in">登录</a>
+						<a href="#sign_in" class="active">登录</a>
 						<b>·</b>
 						<a href="#sign_up">注册</a>
 					</div>
@@ -18,23 +18,65 @@
 					    <div role="tabpanel" class="tab-pane active" id="sign_in">
 					    	<form>
 							  	<div class="form-group">
-								    <label class="sr-only"><i class="fa fa-user"></i></label>
 								    <div class="input-group">
-								      	<div class="input-group-addon"><i class="fa fa-user"></i></div>
-								      	<input type="text" class="form-control" name="username" placeholder="用户名">
+								      	<div class="input-group-addon input-lg"><i class="fa fa-user" style="margin-right:0px"></i></div>
+								      	<input type="text" class="form-control input-lg" name="username" placeholder="用户名">
 								    </div>
 							  	</div>
 							  	<div class="form-group">
-								    <label class="sr-only"><i class="fa fa-unlock"></i></label>
 								    <div class="input-group">
-								      	<div class="input-group-addon"><i class="fa fa-lock"></i></div>
-								      	<input type="password" class="form-control" name="password" placeholder="密码">
+								      	<div class="input-group-addon input-lg"><i class="fa fa-lock" style="margin-right:0px"></i></div>
+								      	<input type="password" class="form-control input-lg" name="password" placeholder="密码">
 								    </div>
 							  	</div>
-							  	<button type="submit" class="btn btn-primary">登录</button>
+							  	<button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 100%;">登录</button>
+							  	<div class="clearfix" style="margin: 10px 0;">
+							  		<a class="pull-right forget" href="">忘记密码</a>
+							  	</div>
+							  	<div class="login-other">
+							  		<p>您还可以通过以下方式直接登录</p>
+							  		<ul class="clearfix">
+							  			<li class="qq"><a href=""><i class="fa fa-qq"></i></a></li>
+							  			<li class="weibo"><a href=""><i class="fa fa-weibo"></i></a></li>
+							  			<li class="weixin"><a href=""><i class="fa fa-weixin"></i></a></li>
+							  		</ul>
+							  	</div>
 							</form>
 					    </div>
-					    <div role="tabpanel" class="tab-pane" id="sign_up">dshaudhsua</div>
+					    <div role="tabpanel" class="tab-pane" id="sign_up">
+					    	<form>
+							  	<div class="form-group">
+								    <div class="input-group">
+								      	<div class="input-group-addon input-lg"><i class="fa fa-user" style="margin-right:0px"></i></div>
+								      	<input type="text" class="form-control input-lg" name="username" placeholder="用户名">
+								    </div>
+							  	</div>
+							  	<div class="form-group">
+								    <div class="input-group">
+								      	<div class="input-group-addon input-lg"><i class="fa fa-lock" style="margin-right:0px"></i></div>
+								      	<input type="password" class="form-control input-lg" name="password" placeholder="密码">
+								    </div>
+							  	</div>
+							  	<div class="form-group">
+								    <div class="input-group">
+								      	<div class="input-group-addon input-lg"><i class="fa fa-envelope-o" style="margin-right:0px"></i></div>
+								      	<input type="text" class="form-control input-lg" name="email" placeholder="邮箱">
+								    </div>
+							  	</div>
+							  	<button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 100%;">登录</button>
+							  	<div class="clearfix" style="margin: 10px 0;">
+							  		<a class="pull-right forget" href="">忘记密码</a>
+							  	</div>
+							  	<div class="login-other">
+							  		<p>您还可以通过以下方式直接登录</p>
+							  		<ul class="clearfix">
+							  			<li class="qq"><a href=""><i class="fa fa-qq"></i></a></li>
+							  			<li class="weibo"><a href=""><i class="fa fa-weibo"></i></a></li>
+							  			<li class="weixin"><a href=""><i class="fa fa-weixin"></i></a></li>
+							  		</ul>
+							  	</div>
+							</form>
+					    </div>
 					</div>
 				</div>
 			</div>

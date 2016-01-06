@@ -85,14 +85,14 @@ i.fa{
 
 #header .modal-login {
 	position: absolute;
-	top: 20%;
+	top: 15%;
 	left: 50%;
-	margin-left: -240px;
-	width: 480px;
+	margin-left: -200px;
+	width: 440px;
 	overflow: hidden;
 }
 #header .modal-content {
-	padding: 30px 40px;
+	padding: 30px 60px;
 }
 #header .modal-content .close {
 	position: absolute;
@@ -101,12 +101,69 @@ i.fa{
 }
 #header .modal-content .tab-nav{
 	margin-bottom: 20px;
-	font-size: 16px;
+	font-size: 18px;
 	text-align: center;
 	font-weight: 600;
 }
-
-
+#header .modal-content .tab-nav a{
+	color: #b1b1b1;
+}
+#header .modal-content .tab-nav a:hover, #header .modal-content .tab-nav a.active{
+	color: #555;
+}
+#header .modal-login .form-group {
+	width: 318px;
+}
+#header .modal-login .input-group-addon {
+	background-color: #fff;
+	color: #555;
+	font-size: 14px;
+	width: 46px;
+}
+#header .modal-login .form-control {
+	font-size: 14px;
+	width: 272px;
+}
+.login .forget {
+	color: #999;
+}
+.login a.forget:hover {
+	color: #16a085;
+}
+.login .login-other p {
+    margin-bottom: 15px;
+    color: #999999;
+    text-align: center;
+}
+.login .login-other li {
+	float: left;
+	margin: 0 20px;
+}
+.login .login-other li a {
+    width: 44px;
+    height: 44px;
+    display: inline-block;
+    border-radius: 50%;
+    line-height: 44px;
+    font-size: 20px;
+    background: #eeeeee;
+    text-align: center;
+}
+.login .login-other li a i{
+	margin-right: 0px;
+}
+.login .login-other li.qq a:hover {
+    background-color: #15a7f0;
+    color: #fff;
+}
+.login .login-other li.weixin a:hover {
+    background-color: #49be38;
+    color: #fff;
+}
+.login .login-other li.weibo a:hover {
+    background-color: #f57e42;
+    color: #fff;
+}
 
 
 #main .sidebar .widget{

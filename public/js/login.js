@@ -38,7 +38,16 @@ $(function() {
 			}
 
 			if (_this.$login.length>0) {
-				_this.$login.children('a').modal();				
+				_this.$login.children('a').modal();
+
+				_this.$login.find('.tab-nav a').on('click',function() {
+					if ($(this).hasClass('active')) {
+						return false;
+					}
+					$(this).addClass('active').siblings().removeClass('active');
+					var target = $(this).attr('href');
+					$(target).addClass('active').siblings().removeClass('active');
+				})
 			}
 		},
 	};
