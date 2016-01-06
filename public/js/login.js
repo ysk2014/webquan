@@ -6,8 +6,13 @@ $(function() {
 
 	var Login = {
 
-		login: $('#header .login'),
-		dropdown: $('#header .dropdown'),
+		$login: $('#header .login'),
+		$dropdown: $('#header .dropdown'),
+		$body: $('body'),
+		$mask: $('#mask'),
+
+		scrollbarWidth: 0,
+		bodyIsOverflowing: false,
 
 		init: function() {
 			this.bindEvent();
@@ -16,8 +21,8 @@ $(function() {
 			var _this = this;
 
 			//登录后的下拉菜单
-			if (_this.dropdown.length>0) {
-				_this.dropdown.children('a').on('click',function(e) {
+			if (_this.$dropdown.length>0) {
+				_this.$dropdown.children('a').on('click',function(e) {
 					e.preventDefault();
 					e.stopPropagation();
 					var $this = $(this);
@@ -26,45 +31,14 @@ $(function() {
 					} else {
 						$(this).parent().addClass('open');
 					};
-					$('body').on('click',function() {
+					_this.$body.on('click',function() {
 						$this.parent().removeClass('open');
 					});
 				})
 			}
 
-			if (_this.login.length>0) {
-				_this.login.children('a').on('click', function(e) {
-
-					e.preventDefault();
-					e.stopPropagation();
-
-					var target = $(this).data('target');
-					$('body').addClass('modal-open');
-					$(target).show();
-					$('#mask').show();
-
-					setTimeout(function() {
-						$(target).addClass('in');
-						$('#mask').addClass('in');
-					},0);
-
-					$(target).on('click', function(ev) {
-
-						if (ev.target !== $(target)[0]) {
-							return false;
-						}
-						
-						$('body').removeClass('modal-open');
-						$('#mask').removeClass('in');
-						$(target).removeClass('in');
-
-						setTimeout(function() {
-							$(target).hide();
-							$('#mask').hide();
-						},150);
-
-					});
-				});
+			if (_this.$login.length>0) {
+				_this.$login.children('a').modal();				
 			}
 		},
 	};

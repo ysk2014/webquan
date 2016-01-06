@@ -165,7 +165,7 @@
 
 	$.fn.tagsInput = function(options) {
 		return this.each(function() {
-			$(this).data('tagsInput', new TagsInput($(this)[0], options));
+			$(this).data('tagsInput', new TagsInput($(this)[0], options || {}));
 		});
     }
 
