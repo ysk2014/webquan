@@ -16,66 +16,74 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 					    <div role="tabpanel" class="tab-pane active" id="sign_in">
-					    	<form>
+					    	<form autocomplete="off">
+					    		<p class="help-block"></p>
 							  	<div class="form-group">
 								    <div class="input-group">
 								      	<div class="input-group-addon input-lg"><i class="fa fa-user" style="margin-right:0px"></i></div>
 								      	<input type="text" class="form-control input-lg" name="username" placeholder="用户名">
 								    </div>
+								    <p class="help-block"></p>
 							  	</div>
 							  	<div class="form-group">
 								    <div class="input-group">
 								      	<div class="input-group-addon input-lg"><i class="fa fa-lock" style="margin-right:0px"></i></div>
 								      	<input type="password" class="form-control input-lg" name="password" placeholder="密码">
 								    </div>
+								    <p class="help-block"></p>
 							  	</div>
-							  	<button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 100%;">登录</button>
+							  	<a class="btn btn-primary btn-lg btn-block sign-in" style="width: 100%;">登录</a>
 							  	<div class="clearfix" style="margin: 10px 0;">
 							  		<a class="pull-right forget" href="">忘记密码</a>
 							  	</div>
-							  	<div class="login-other">
-							  		<p>您还可以通过以下方式直接登录</p>
-							  		<ul class="clearfix">
-							  			<li class="qq"><a href=""><i class="fa fa-qq"></i></a></li>
-							  			<li class="weibo"><a href=""><i class="fa fa-weibo"></i></a></li>
-							  			<li class="weixin"><a href=""><i class="fa fa-weixin"></i></a></li>
-							  		</ul>
-							  	</div>
 							</form>
+						  	<div class="login-other">
+						  		<p>您还可以通过以下方式直接登录</p>
+						  		<ul class="clearfix">
+						  			<li class="qq"><a href="/auth/qq"><i class="fa fa-qq"></i></a></li>
+						  			<li class="weibo"><a href="/auth/weibo"><i class="fa fa-weibo"></i></a></li>
+						  			<li class="weixin"><a href="/auth/weixin"><i class="fa fa-weixin"></i></a></li>
+						  		</ul>
+						  	</div>
 					    </div>
 					    <div role="tabpanel" class="tab-pane" id="sign_up">
-					    	<form>
+					    	<form autocomplete="off">
+					    		<p class="help-block"></p>
 							  	<div class="form-group">
 								    <div class="input-group">
 								      	<div class="input-group-addon input-lg"><i class="fa fa-user" style="margin-right:0px"></i></div>
 								      	<input type="text" class="form-control input-lg" name="username" placeholder="用户名">
 								    </div>
+								    <p class="help-block"></p>
 							  	</div>
 							  	<div class="form-group">
 								    <div class="input-group">
 								      	<div class="input-group-addon input-lg"><i class="fa fa-lock" style="margin-right:0px"></i></div>
 								      	<input type="password" class="form-control input-lg" name="password" placeholder="密码">
 								    </div>
+								    <p class="help-block"></p>
 							  	</div>
 							  	<div class="form-group">
 								    <div class="input-group">
 								      	<div class="input-group-addon input-lg"><i class="fa fa-envelope-o" style="margin-right:0px"></i></div>
 								      	<input type="text" class="form-control input-lg" name="email" placeholder="邮箱">
 								    </div>
+								    <p class="help-block"></p>
 							  	</div>
-							  	<button type="submit" class="btn btn-primary btn-lg btn-block" style="width: 100%;">登录</button>
+							  	<a class="btn btn-primary btn-lg btn-block sign-up" style="width: 100%;">注册</a>
 							  	<div class="clearfix" style="margin: 10px 0;">
 							  		<a class="pull-right forget" href="">忘记密码</a>
 							  	</div>
-							  	<div class="login-other">
-							  		<p>您还可以通过以下方式直接登录</p>
-							  		<ul class="clearfix">
-							  			<li class="qq"><a href=""><i class="fa fa-qq"></i></a></li>
-							  			<li class="weibo"><a href=""><i class="fa fa-weibo"></i></a></li>
-							  			<li class="weixin"><a href=""><i class="fa fa-weixin"></i></a></li>
-							  		</ul>
-							  	</div>
 							</form>
+						  	<div class="login-other">
+						  		<p>您还可以通过以下方式直接登录</p>
+						  		<ul class="clearfix">
+						  			<li class="qq"><a href="/auth/qq"><i class="fa fa-qq"></i></a></li>
+						  			<li class="weibo"><a href="/auth/weibo"><i class="fa fa-weibo"></i></a></li>
+						  			<li class="weixin"><a href="/auth/weixin"><i class="fa fa-weixin"></i></a></li>
+						  		</ul>
+						  	</div>
+							
 					    </div>
 					</div>
 				</div>

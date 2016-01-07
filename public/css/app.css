@@ -82,7 +82,9 @@ i.fa{
 #header .dropdown-menu{
 	right: 0;
 }
-
+#header .login .help-block {
+	color: #e74c3c;
+}
 #header .modal-login {
 	position: absolute;
 	top: 15%;

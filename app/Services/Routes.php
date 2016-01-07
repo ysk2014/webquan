@@ -71,7 +71,7 @@ class Routes
 
             // $this->article();
 
-            $this->cloumn();
+            // $this->cloumn();
 
             //标签页面
             Route::get('/t/{name}', 'Home\TagController@index');
@@ -270,8 +270,6 @@ class Routes
      * @access public
      */
     public function user() {
-            // 登录页
-            Route::get('/login/{way}', 'Home\UserController@login');
             // 登录处理
             Route::post('/sign_in', 'Home\UserController@getProc');
             // 注册处理

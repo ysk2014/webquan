@@ -68,10 +68,9 @@
 
                 _this.$target.on('click', function(ev) {
 
-                    if (ev.target !== _this.$target[0]) {
-                        return false;
+                    if (ev.target == _this.$target[0]) {
+                        _this.hide();
                     }
-                    _this.hide();
                 });
                 _this.$target.on('click','[data-dismiss="modal"]', function() {
                     _this.hide();
