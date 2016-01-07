@@ -7,6 +7,8 @@ use Request,Cache,Redis;
 
 class ArticleController extends Controller {
 
+	private $userinfo;
+
 	/**
 	 * Create a new controller instance.
 	 *
@@ -14,7 +16,13 @@ class ArticleController extends Controller {
 	 */
 	public function __construct()
 	{
-
+		// 判断用户是否登录
+		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
+		if (empty($isLogin)) {
+			$this->userinfo = false;
+		} else {
+			$this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+		}
 	}
 
 	/**
@@ -23,13 +31,7 @@ class ArticleController extends Controller {
 	 */
 	public function index(ArticleProcess $articleProcess)
 	{	
-		// 判断用户是否登录
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if (empty($isLogin)) {
-			$userinfo = false;
-		} else {
-			$userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
-		}
+		
 		//获取文章列表数据
 		$articleList = $articleProcess->getAllArticle(array('way'=>'addtime','page'=>0));
 		//获取热门文章数据
@@ -38,6 +40,8 @@ class ArticleController extends Controller {
 		$title = 'Web圈';
 		//获取所标签列表
 		$tags = (new TagProcess())->getAllTags();
+
+		$userinfo = $this->userinfo;
 
 		//缓存
 		$cacheSecond = config('home.cache_control');
@@ -70,7 +74,9 @@ class ArticleController extends Controller {
 
         $title = '添加文章 | Web圈';
 
-		return response()->view('home.article.edit',compact('title'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        $userinfo = $this->userinfo;
+
+		return response()->view('home.article.edit',compact('title','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 
@@ -79,13 +85,27 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getArticleById($id)
+	public function info($id)
 	{
 		$articleProcess = new ArticleProcess();
 
-		$data = $articleProcess->getArticleById(intval($id));
+		$articleInfo = $articleProcess->getArticleById(intval($id));
+
+		//获取热门文章数据
+		$hotsArt = $articleProcess->getArtsByView(3);
+
+		//获取所标签列表
+		$tags = (new TagProcess())->getAllTags();
+
+		//缓存
+		$cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+        $title = $articleInfo['data']['title'].' | Web圈';
+
+        $userinfo = $this->userinfo;
 		
-		return response()->json($data);
+		return response()->view('home.article.article',compact('title','userinfo','articleInfo','hotsArt','tags'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 	/**

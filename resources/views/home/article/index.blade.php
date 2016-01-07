@@ -2,10 +2,12 @@
 @extends('home.app')
 
 <!-- 侧边栏 -->
-@include('home.aside',['userinfo'=>$userinfo,'articles'=>$hotsArt,'tags'=>$tags])
+@include('home.aside',['author'=>'','articles'=>$hotsArt,'tags'=>$tags])
 
 
 @section('title', $title)
+
+@section('userinfo', $userinfo)
 
 
 @section('content')

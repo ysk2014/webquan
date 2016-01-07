@@ -1,6 +1,6 @@
 
 
-@if (!empty($title))
+@if (empty($userinfo))
 	<li class="login">
 		<a href="javascript:;" data-toggle="modal" data-target="#myModal">登录/注册</a>
 
@@ -92,16 +92,16 @@
 	</li>
 @else 
 	<li class="dropdown">
-		<a href="javascript:;"><img class="img-circle" src="{{ asset('image/user-default.png') }}"><b class="caret"></b></a>
+		<a href="javascript:;"><img class="img-circle" src="{{ $userinfo['userUrl'] }}"><b class="caret"></b></a>
 		<ul class="dropdown-menu">
 			<li><a href="/article/add">写文章</a></li>
-			<li><a href="#">我的首页</a></li>
+			<li><a href="{{ '/user/'.$userinfo['id'] }}">我的首页</a></li>
 			<li><a href="#">我的专栏</a></li>
 			<li><a href="#">我的笔记</a></li>
 			<li><a href="#">草稿箱</a></li>
 			<li><a href="#">帐号设置</a></li>
 			<li><a href="#">意见反馈</a></li>
-			<li><a href="#">退出</a></li>
+			<li><a href="/sign_out">退出</a></li>
 		</ul>
 	</li>
 @endif

@@ -18,7 +18,7 @@ class Authenticate
     {
         $isLogin = (new LoginProcess())->getProcess()->hasLogin();
         if(empty($isLogin)) {
-            return redirect('/login/sign_in');
+            return redirect('/');
         }
         return $next($request);
     }

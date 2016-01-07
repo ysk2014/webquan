@@ -227,50 +227,65 @@ i.fa{
 #main {
 	margin-bottom: 35px;
 }
-#main .article {
+.article {
 	padding: 35px 40px;
 	background: #fff;
 	margin-bottom: 35px;
 	position: relative;
 }
-#main .article .top .title{
+.article .top .title{
 	font-size: 18px;
 	font-weight: 600;
 }
-#main .article .top .desc {
+.desc {
 	color: #959595;
 	margin: 14px 0 10px;
 }
-#main .article .top .desc span {
+.desc span {
 	margin: 0 7px;
 	white-space: nowrap;
 }
-#main .article .top .author{
+.desc .author{
 	color: #1abc9c;
 }
-#main .article .top .author:hover{
+.desc .author:hover{
 	color: #48c9b0;
 }
-#main .article .top .author img {
+.desc .author img {
 	height: 20px;
 	position: relative;
 	top: -3px;
 }
-#main .article .top span.tags a{
+.desc span.tags a{
 	color: #1abc9c;
 }
-#main .article .top hr{
+.article .top hr{
 	margin: 10px 0;
 }
-#main .article > .banner img{
+.article > .banner img{
 	width: 100%;
 }
-#main .article > .content {
+.article > .content {
 	margin: 15px 0 0;
 	font-size: 14px;
 	color: #666;
 	line-height: 20px;
 }
+
+#main .content-wrapper {
+	background-color: #fff;
+	padding: 25px;
+	margin-bottom: 20px;
+}
+.content-wrapper h3{
+	font-weight: 600;
+	margin: 0;
+}
+.content-wrapper .content {
+	font-size: 14px;
+}
+
+
 
 #editArt #myDesc {
 	height: 100px;

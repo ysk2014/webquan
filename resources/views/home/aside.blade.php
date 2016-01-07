@@ -1,5 +1,5 @@
 @section('aside')
-	@if ($userinfo) 
+	@if (isset($author))
 		<div class="widget">
 			<h4 class="title">用户中心</h4>
 			<div class="content">

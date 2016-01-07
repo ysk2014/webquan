@@ -181,8 +181,7 @@ class UserController extends Controller {
     public function getOut(LoginProcess $loginProcess)
     {
         $loginProcess->getProcess()->logout();
-        $result = array('error'=>false,'msg'=>'退出');
-        return response()->json($result);
+        return redirect('/');
     }
 
     /**

@@ -59,6 +59,7 @@ class Routes
             Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
             Route::get('/article/add', 'Home\ArticleController@editPage');
             Route::post('/article/add', 'Home\ArticleController@dealArticle');
+            Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
 
             Route::post('/upload', 'Home\UploadController@upload');
 

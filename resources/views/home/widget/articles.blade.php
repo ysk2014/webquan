@@ -3,9 +3,9 @@
 @foreach ($articleList['data'] as $article)
 	<div class="article" data-id="{{ $article['id'] }}">
 		<div class="top">
-			<a href="" class="title">{{ $article['title'] }}</a>
+			<a href="{{ '/article/'.$article['id'] }}" class="title">{{ $article['title'] }}</a>
 			<div class="desc">
-				<a href="" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
+				<a href="{{ '/user/'.$article['uid'] }}" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
             	<span class="time">{{ $article['addtime'] }}</span>
             	<span class="view">浏览：{{ $article['view'] }}</span>
             	<span class="praise">推荐：{{ $article['praise'] }}</span>
@@ -17,7 +17,7 @@
 		</div>
 		@if (!empty($article['logo_dir']))
 			<div class="banner">
-				<a href="">
+				<a href="{{ '/article/'.$article['id'] }}">
 					<img src="{{ $article['logo_dir'] }}">
 				</a>
 			</div>

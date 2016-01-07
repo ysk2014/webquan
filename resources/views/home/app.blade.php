@@ -37,7 +37,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="search"><a href=""><i class="fa fa-search"></i></a></li>
-					@include('home.widget.login',['title'=>$title])
+					@include('home.widget.login',['userinfo'=>$userinfo])
 				</ul>
 			</div>
 		</div>
