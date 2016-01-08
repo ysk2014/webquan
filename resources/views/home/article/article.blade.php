@@ -22,15 +22,8 @@
 	            	<span class="tags"><i class="fa fa-tags"></i><a href="">{{ $articleInfo['data']['tags'] }}</a></span>
 	            	@endif
 				</div>
-				@if (!empty($articleInfo['data']['logo_dir']))
-					<div class="banner">
-						<a href="{{ '/article/'.$articleInfo['data']['id'] }}">
-							<img src="{{ $articleInfo['data']['logo_dir'] }}">
-						</a>
-					</div>
-				@endif
 				<div class="content">
-					{{ htmlspecialchars($articleInfo['data']['content']) }}
+					<?php echo $articleInfo['data']['content']; ?>
 				</div>
     		</div>
     		
@@ -39,3 +32,6 @@
     </div>
 @endsection
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github-gist.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>

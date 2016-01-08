@@ -1,13 +1,10 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
-use App\Services\User\Login\Process as LoginProcess;
 use App\Services\Home\Tag\Process as TagProcess;
 use Request,Cache,Redis;
 
 class ArticleController extends Controller {
-
-	private $userinfo;
 
 	/**
 	 * Create a new controller instance.
@@ -16,13 +13,7 @@ class ArticleController extends Controller {
 	 */
 	public function __construct()
 	{
-		// 判断用户是否登录
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if (empty($isLogin)) {
-			$this->userinfo = false;
-		} else {
-			$this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
-		}
+		parent::__construct();
 	}
 
 	/**
@@ -238,6 +229,10 @@ class ArticleController extends Controller {
 			$param->setAttributes($data); 
 
 			$result = $articleProcess->addArticle($param);
+
+			if (!$result['error']) {
+				return redirect('/article/'.$result['data']);
+			}
 
 		} else if($method== "DELETE") {            //删除文章
 			$ids = [$id];

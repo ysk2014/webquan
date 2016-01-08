@@ -146,6 +146,7 @@ class Process extends BaseProcess
 		// 匹配文章内容中所有的图片
 		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
+		// echo '<pre>';var_dump($imgArr);die();
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
 		
@@ -153,6 +154,7 @@ class Process extends BaseProcess
 			$logo_dir = $imgArr[0][0];
 			$logo_dir = preg_replace('/src=\"/', '', $logo_dir);
 			$logo_dir = preg_replace('/\"/', '', $logo_dir);
+
 			$data->setLogoDir($logo_dir);
 		}
 
@@ -165,7 +167,7 @@ class Process extends BaseProcess
 			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
 
 			foreach ($uploadImg as $key => $value) {
-				$value1 = '![]('.$value.')';
+				$value1 = 'src="'.$value.'"';
 				if(!in_array($value1, $imgArr[0]))
 				{
 					@unlink(dirname(dirname($savePath)).$value);

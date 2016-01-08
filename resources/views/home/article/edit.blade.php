@@ -8,6 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/simditor.css') }}" />
 	<h4>写文章</h4>
 	<form id="editArt" method="post" role="form">
+		<input type="hidden" name="data[uid]" value="{{ $userinfo['id'] }}">
+
 		<div class="form-group">
 			<label for="myTitle" class="sr-only">文章标题</label>
     		<input type="text" name="data[title]" class="form-control input-lg" id="myTitle" placeholder="文章标题">
@@ -19,7 +21,6 @@
 		<div class="form-group tagsinput">
 			<label for="myTags" class="sr-only">文章标签</label>
 			<input type="hidden" name="data[tags]" id="myTags">
-			<input type="hidden" name="data[uid]" value="2">
 			<div class="tagsinput-add-container">
 				<input type="text" name="tag" autocomplete="off" class="" id="myTag" placeholder="文章标签，最多三个">
 			</div> 
