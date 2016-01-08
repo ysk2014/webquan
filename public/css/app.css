@@ -284,6 +284,9 @@ i.fa{
 .content-wrapper .content {
 	font-size: 14px;
 }
+.content-wrapper .content img {
+	max-width: 100%;
+}
 
 
 
