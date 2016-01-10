@@ -2,10 +2,15 @@
 
 namespace App\Widget\Home;
 
+use App\Services\User\Login\Process as LoginProcess;
+use App\Services\Home\Article\Process as ArticleProcess;
+use App\Services\Home\Comment\Process as CommentProcess;
+use App\Services\Home\Tag\Process as TagProcess;
+
 /**
- * 小组件
+ * 页面组件
  *
- * @author jiang <mylampblog@163.com>
+ * @author ysk
  */
 class Common
 {
@@ -20,63 +25,70 @@ class Common
     /**
      * header
      */
-    public function header($headerObject = false)
+    public function header($title = 'web圈')
     {
-        return view('home.widget.header', compact('headerObject'));
+        return view('home.widget.header', compact('title'));
     }
 
     /**
      * top
      */
-    public function top()
+    public function top($userinfo)
     {
-        $object = new \stdClass();
-        $object->keyword = \Request::input('keyword');
-        return view('home.widget.top', compact('object'));
+        $login = $this->login($userinfo);
+        return view('home.widget.top', compact('login'));
     }
 
     /**
-     * right
+     * login
      */
-    public function right()
+    public function login($userinfo)
     {
-        $classifyModel = new \App\Models\Home\Classify();
-        $tagsModel = new \App\Models\Home\Tags();
-        $classifyInfo = $classifyModel->activeCategory();
-        $tagsInfo = $tagsModel->activeTags();
-        return view('home.widget.right', compact('classifyInfo', 'tagsInfo'));
+        return view('home.widget.login', compact('userinfo'));
     }
 
     /**
-     * comment
+     * aside
      */
-    public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE)
+    public function aside()
     {
-        $commemtModel = new \App\Models\Home\Comment();
-        $commentProcess = new \App\Services\Home\Comment\Process();
-        $commentList = $commemtModel->getContentByObjectId($objectID, $objectType);
-        $replyIds = $commentProcess->prepareReplyIds($commentList);
-        $replyComments = $commemtModel->getContentsByObjectIds($replyIds, $objectType);
-        $commentList = $commentProcess->joinReplyComments($commentList, $replyComments);
-        //dd($commentList);
-        return view('home.widget.comment', compact('commentList', 'objectID', 'objectType'));
+        //获取热门文章数据
+        $hotsArt = (new ArticleProcess())->getArtsByView(3);
+        //获取所标签列表
+        $tags = (new TagProcess())->getAllTags();
+
+        return view('home.widget.aside', compact('hotsArt', 'tags'));
+    }
+
+    /**
+     * articles
+     */
+    public function articles($page=0,$way='addtime')
+    {
+        //文章数据列表
+        $articles = (new ArticleProcess())->getAllArticle(array('way'=>$way,'page'=>$page));
+
+        return view('home.widget.articles', compact('articles','page'));
+    }
+
+    /**
+     * comments
+     */
+    public function comments($aid,$userinfo,$page=0)
+    {
+        $comments = (new CommentProcess())->getCommentsByAid($aid,$page);
+
+        return view('home.widget.comments', compact('comments','userinfo','aid','page'));
     }
 
     /**
      * comment ajax
      */
-    public function commentAjax($objectId)
+    public function commentAjax($comment)
     {
-        return view('home.widget.commentAjax', compact('objectId'));
+        return view('home.widget.commentAjax', compact('comment'));
     }
 
-    /**
-     * htmlend
-     */
-    public function htmlend()
-    {
-        return '</body></html>';
-    }
 
 
 }

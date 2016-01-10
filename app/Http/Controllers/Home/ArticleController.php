@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
-use App\Services\Home\Tag\Process as TagProcess;
+use App\Services\Home\Comment\Process as CommentProcess;
+use App\Widget\Home\Common as WidgetCommon;
 use Request,Cache,Redis;
 
 class ArticleController extends Controller {
+
+	protected $widget;
 
 	/**
 	 * Create a new controller instance.
@@ -14,6 +17,7 @@ class ArticleController extends Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->widget = new WidgetCommon();
 	}
 
 	/**
@@ -23,34 +27,31 @@ class ArticleController extends Controller {
 	public function index(ArticleProcess $articleProcess)
 	{	
 		
-		//获取文章列表数据
-		$articleList = $articleProcess->getAllArticle(array('way'=>'addtime','page'=>0));
-		//获取热门文章数据
-		$hotsArt = $articleProcess->getArtsByView(3);
+		$header = $this->widget->header();
 
-		$title = 'Web圈';
-		//获取所标签列表
-		$tags = (new TagProcess())->getAllTags();
+		$footer = $this->widget->footer();
 
-		$userinfo = $this->userinfo;
+		$top = $this->widget->top($this->userinfo);
 
+		$aside = $this->widget->aside();
+
+		$articles = $this->widget->articles();
+		
 		//缓存
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-		return response()->view('home/article/index', compact('title','articleList','hotsArt','tags','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home/article/index', compact('header', 'top', 'articles', 'aside', 'footer'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 
 	/**
-	 * article
+	 * 分页
 	 *
 	 */
-	public function pagination(ArticleProcess $articleProcess,$page) {
+	public function pagination($page) {
 		//获取文章列表数据
-		$articleList = $articleProcess->getAllArticle(array('way'=>'addtime','page'=>$page));
-		
-		return response()->view('home/widget/articles',compact('articleList'));
+		return $this->widget->articles($page);
 	}
 
 	/**
@@ -59,15 +60,21 @@ class ArticleController extends Controller {
 	 */
 	public function editPage()
 	{
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$aside = $this->widget->aside();
+
+		$userinfo = $this->userinfo;
+
 		//缓存
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-        $title = '添加文章 | Web圈';
-
-        $userinfo = $this->userinfo;
-
-		return response()->view('home.article.edit',compact('title','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 
@@ -76,27 +83,29 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function info($id)
+	public function info(ArticleProcess $articleProcess,$id)
 	{
-		$articleProcess = new ArticleProcess();
-
 		$articleInfo = $articleProcess->getArticleById(intval($id));
 
-		//获取热门文章数据
-		$hotsArt = $articleProcess->getArtsByView(3);
-
-		//获取所标签列表
-		$tags = (new TagProcess())->getAllTags();
-
-		//缓存
-		$cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+		$comments = (new CommentProcess())->getCommentsByAid($id,0);
 
         $title = $articleInfo['data']['title'].' | Web圈';
 
+		$header = $this->widget->header($title);
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$aside = $this->widget->aside();
+
         $userinfo = $this->userinfo;
-		
-		return response()->view('home.article.article',compact('title','userinfo','articleInfo','hotsArt','tags'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+
+        //缓存
+        $cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+		return response()->view('home.article.article',compact('header','top','userinfo','articleInfo','aside','footer','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 	/**

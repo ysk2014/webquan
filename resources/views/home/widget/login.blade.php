@@ -106,5 +106,3 @@
 	</li>
 @endif
 
-<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/login.js') }}"></script>

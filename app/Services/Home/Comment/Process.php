@@ -109,12 +109,13 @@ class Process extends BaseProcess
         unset($data['receive_id']);
 
         $result = $this->commentModel->addComment($data);
-        if($result['id'])
+        if($result)
         {
             $this->articelModel->incrementById('comment',$data['aid']);
             $this->redis->hincrby('article_'.$data['aid'],'comment',1);
 
             $this->sendNews($data,$receive_id);
+
             return array('error'=>false,'data'=>$result);
         }
         else
@@ -193,23 +194,21 @@ class Process extends BaseProcess
      * 
      * @return array
      */
-    public function getCommentsByAid($data)
+    public function getCommentsByAid($aid,$page=0)
     {
-        if(!isset($data['aid'])) return array('error'=>true,'msg'=>'没有文章id');
+        if(!isset($aid)) return array('error'=>true,'msg'=>'没有文章id');
 
-        $page = isset($data['page']) ? $data['page'] : 0;
-
-        $result = $this->commentModel->getCommentsByAid($data['aid'],$page);
+        $result = $this->commentModel->getCommentsByAid($aid,$page);
 
         if($result)
         {
-            $count = $this->commentModel->countCommentByAid($data['aid']);
+            $count = $this->commentModel->countCommentByAid($aid);
             if( (intval($page)+1)*8 < $count ) {
                 $next = true;
             } else {
                 $next = false;
             }
-            return array('error'=>false, 'data'=>$this->dealCommentData($result), 'next'=>$next);
+            return array('error'=>false, 'data'=>$this->dealCommentData($result), 'next'=>$next, 'count'=>$count);
         }
         else
         {

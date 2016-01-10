@@ -58,7 +58,11 @@ class Comment extends Model
      */
     public function addComment(array $data)
     {
-        return array('id'=>$this->insertGetId($data),'addtime'=>$data['addtime']);
+        $id = $this->insertGetId($data);
+        return $this->select(array('comment.*','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','comment.uid','=','user.id')
+                    ->where('comment.id', $id)
+                    ->first();
     }
 
     /**

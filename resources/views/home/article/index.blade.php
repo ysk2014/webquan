@@ -1,21 +1,16 @@
 
-@extends('home.app')
+<?php echo $header; ?>
 
-<!-- 侧边栏 -->
-@include('home.aside',['author'=>'','articles'=>$hotsArt,'tags'=>$tags])
+<?php echo $top; ?>
 
-
-@section('title', $title)
-
-@section('userinfo', $userinfo)
-
-
-@section('content')
+<div class="container" id="main">
 	<div class="row">
     	<div class="col-md-8">
-    		@include('home.widget.articles',['articleList'=>$articleList])
+			<?php echo $articles; ?>
     	</div>
-    	<div class="col-md-4 sidebar">@yield('aside')</div>
+    	<div class="col-md-4 sidebar">
+    		<?php echo $aside ?>
+    	</div>
     </div>
 	<script type="text/javascript">
 		$(function() {
@@ -29,5 +24,6 @@
 			});
 		});
 	</script>
-@endsection
+</div>
 
+<?php echo $footer; ?>

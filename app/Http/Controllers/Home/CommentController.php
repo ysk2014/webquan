@@ -1,10 +1,12 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Comment\Process as CommentProcess;
+use App\Widget\Home\Common as WidgetCommon;
 use Request;
 
 class CommentController extends Controller {
 
+	protected $widget;
 
 	/**
 	 * Create a new controller instance.
@@ -13,16 +15,8 @@ class CommentController extends Controller {
 	 */
 	public function __construct()
 	{
-
-	}
-
-	/**
-	 * article
-	 *
-	 */
-	public function index()
-	{
-		return view('home.app');
+		parent::__construct();
+		$this->widget = new WidgetCommon();
 	}
 
 
@@ -40,6 +34,15 @@ class CommentController extends Controller {
 
 
 	/**
+	 * 分页
+	 *
+	 */
+	public function pagination($aid,$page) {
+		//获取文章列表数据
+		return $this->widget->comments($aid,$this->userinfo,$page);
+	}
+
+	/**
 	 * 评论添加与删除处理
 	 *
 	 * @return Response
@@ -51,14 +54,19 @@ class CommentController extends Controller {
 		if($method=="POST") {
 
 			$data = Request::input('data');
+			$data['aid'] = $aid;
 			$data['addtime'] = time();
 
 			$result = $commentProcess->addComment($data);
 
+			if(!$result['error']) {
+				return $this->widget->commentAjax($result['data']);
+			}
+
 		} else if($method=="DELETE") {
 
-			$cids = Request::input('cids');
-			$result = $commentProcess->delComment($cids,$aid);
+			$cid = Request::input('cid');
+			$result = $commentProcess->delComment($cid,$aid);
 
 		} else {
 			$result = array('error'=>true,'msg'=>'路由匹配失败');

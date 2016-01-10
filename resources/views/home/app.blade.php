@@ -13,38 +13,13 @@
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
 </head>
 
 <body>
-	<div class="navbar navbar-default" id="header">
-		<div class="container">
-			<a class="logo" href="/">
-				<img alt="web圈" src="{{ asset('image/logo.png') }}">
-			</a>
-			<a class="navbar-toggle collapsed" type="button" data-toggle="collapse" aria-expanded="false">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		    </a>
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">首页</a></li>
-					<li><a href="">问答</a></li>
-					<li><a href="">文章</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="search"><a href=""><i class="fa fa-search"></i></a></li>
-					@include('home.widget.login',['userinfo'=>$userinfo])
-				</ul>
-			</div>
-		</div>
-	</div>
+	
     <div class="container" id="main">
     	@yield('content')
     </div>
-    <div id="mask" class="modal-backdrop fade"></div>
+    
 </body>
 </html>

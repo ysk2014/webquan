@@ -15,12 +15,12 @@ abstract class Controller extends BaseController {
 	public function __construct()
 	{
 		// 判断用户是否登录
-		$isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		if (empty($isLogin)) {
-			$this->userinfo = false;
-		} else {
-			$this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
-		}
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $this->userinfo = false;
+        } else {
+            $this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
 	}
 
 }
