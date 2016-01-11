@@ -9,7 +9,13 @@ $(function() {
 
 		// 回复模板
 		replyTpl: function(data) {
-			return ''
+			return '<form class="new-child-comment" data-action="/notes/2804652/comments" accept-charset="UTF-8" data-remote="true" data-type="json" method="post">'
+					+'<input type="hidden" name="data[uid]" value="1204821">'
+					+'<input type="hidden" name="data[receive_id]" value="1204821">'
+					+'<div class="comment-text">'
+						+'<textarea maxlength="1000" placeholder="写下你的评论…" class="mousetrap" name="data[content]">@</textarea>'
+						+'<a class="btn btn-primary btn-sm submit" >发表</a>'
+					+'</div></form>'
 		},
 
 		//发表评论
@@ -73,6 +79,22 @@ $(function() {
 					})
 				} else {
 					return false;
+				}
+			});
+		},
+
+		reply: function() {
+			var _this = this;
+			_this.$el.on('click','.comment-footer .reply',function() {
+				var $childComment = $(this).parent().siblings(".child-comment-list");
+
+				var action = $(this).data('action');
+				var fid = $(this).data('id');
+				var pid = fid;
+				if ($childComment.find('form').length>0) {
+
+				} else {
+					$childComment.append(_this.replyTpl());
 				}
 			});
 		},

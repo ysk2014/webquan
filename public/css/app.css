@@ -401,7 +401,20 @@ i.fa{
 .comment-list p.load-more a {
 	color: #1abc9c;
 }
-
+.comment-list .child-comment-list {
+    padding-bottom: 30px;
+    margin-top: 10px;
+    border-top: 1px dashed #eeeeee;
+}
+.post .comment-list .child-comment {
+    padding: 15px 0 15px 10px;
+    border-bottom: 1px dashed #d9d9d9;
+    border-left: 3px solid #d9d9d9;
+    font-size: 12px;
+}
+.comment-list .child-comment p {
+    margin-bottom: 0;
+}
 
 
 #editArt #myDesc {

@@ -36,12 +36,14 @@
 									</div>
 									<p>{{ $comment['content'] }}</p>
 									<div class="comment-footer clearfix text-right">
-										<a class="reply" data-id="{{ $comment['id'] }}" data-nick="{{ $comment['username'] }}" href="javascript:;">回复</a>
+										<a class="reply" data-id="{{ $comment['id'] }}" data-nick="{{ $comment['username'] }}" data-action="{{ '/article/'.$articleInfo['data']['id'].'/comment' }}" href="javascript:;">回复</a>
 										@if ($userinfo['id']==$comment['uid'])
 											<a data-confirm="确定要删除评论么?" class="delete" data-comment-id="{{ $comment['id'] }}" data-url="{{ '/article/'.$articleInfo['data']['id'].'/comment' }}"  href="javascript:;">删除</a>
 										@endif
 									</div>
-									<div class="child-comment-list hide"></div>
+									<div class="child-comment-list hide">
+										<div data-state="remaining-child-comments"></div>
+									</div>
 								</div>
 							</div>
 						@endforeach
