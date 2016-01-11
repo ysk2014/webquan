@@ -22,7 +22,12 @@ $(function() {
 				var params = $parent.serialize();
 
 				$.post(url,params,function(data) {
-					_this.$el.find('p.load-more').before(data);
+					if (_this.$el.find('p.load-more').length>0) {
+						_this.$el.find('p.load-more').before(data);
+					} else {
+						$parent.before(data);
+					}
+					
 					var count = parseInt(_this.$count.html());
 					_this.$count.html(count+1);
 					$this.siblings('textarea').val('');					

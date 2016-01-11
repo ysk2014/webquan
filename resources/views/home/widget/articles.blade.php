@@ -29,7 +29,7 @@
 		</div>		
 	@endforeach
 	@if ($articles['next'])
-		<a class="btn btn-primary btn-sm btn-block article-more" style="margin-bottom: 35px;" data-page="{{ $articleList['page'] }}">更多</a>
+		<a class="btn btn-primary btn-sm btn-block article-more" style="margin-bottom: 35px;" data-page="{{ $articles['page'] }}">更多</a>
 	@endif
 @else 
 	<div>还没有文章数据</div>

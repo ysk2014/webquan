@@ -13,7 +13,6 @@
 	            	<span class="time">{{ date('Y.m.d H:i',$articleInfo['data']['addtime']) }}</span>
 	            	<span class="view">浏览：{{ $articleInfo['data']['view'] }}</span>
 	            	<span class="praise">推荐：{{ $articleInfo['data']['praise'] }}</span>
-	            	<span class="comment">评论：{{ $articleInfo['data']['comment'] }}</span>
 	            	@if (!empty($articleInfo['data']['tags']))
 	            	<span class="tags"><i class="fa fa-tags"></i><a href="">{{ $articleInfo['data']['tags'] }}</a></span>
 	            	@endif
