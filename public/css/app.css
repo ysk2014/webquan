@@ -360,8 +360,8 @@ i.fa{
 .comment-item .comment-footer {
 	margin-bottom: 10px;
 }
-.comment-item .comment-footer .reply,.comment-item .comment-footer .delete {
-	margin-left: 14px;
+.comment-item .reply,.comment-item .delete {
+	margin-left: 12px;
 	font-size: 12px;
 }
 
@@ -406,7 +406,7 @@ i.fa{
     margin-top: 10px;
     border-top: 1px dashed #eeeeee;
 }
-.post .comment-list .child-comment {
+.comment-list .child-comment {
     padding: 15px 0 15px 10px;
     border-bottom: 1px dashed #d9d9d9;
     border-left: 3px solid #d9d9d9;
@@ -414,7 +414,9 @@ i.fa{
 }
 .comment-list .child-comment p {
     margin-bottom: 0;
+    font-size: 13px;
 }
+
 
 
 #editArt #myDesc {

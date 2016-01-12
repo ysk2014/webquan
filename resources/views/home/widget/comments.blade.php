@@ -10,7 +10,7 @@
 				</div>
 				<p>{{ $comment['content'] }}</p>
 				<div class="comment-footer clearfix text-right">
-					<a class="reply" data-id="{{ $comment['id'] }}" data-nick="{{ $comment['username'] }}" data-pid="{{ $comment['pid'] }}" data-fid="{{ $comment['fid'] }}" data-action="{{ '/article/'.$aid.'/comment' }}" href="javascript:;">回复</a>
+					<a class="reply" data-id="{{ $comment['id'] }}" data-nick="{{ $comment['username'] }}" data-pid="{{ $comment['id'] }}" data-fid="{{ $comment['id'] }}" data-action="{{ '/article/'.$aid.'/comment' }}" href="javascript:;">回复</a>
 					@if ($userinfo['id']==$comment['uid'])
 						<a data-confirm="确定要删除评论么?" class="delete" data-comment-id="{{ $comment['id'] }}" data-method="delete" data-url="{{ '/article/'.$aid.'/comment' }}" href="javascript:;">删除</a>
 					@endif

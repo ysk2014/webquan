@@ -21,7 +21,7 @@ $(function() {
 		//发表评论
 		send: function() {
 			var _this = this;
-			_this.$el.find('.btn.submit').on('click',function() {
+			_this.$el.on('click','.btn.submit',function() {
 				var $this = $(this);
 				var $parent = $this.parents('form');
 				var url = $parent.data('action');
