@@ -69,6 +69,16 @@ class Article extends Base
     }
 
     /**
+     * 根据文章id获取作者信息
+     * 
+     * @param intval $id 文章的ID
+     */
+    public function getAuthorById($id)
+    {
+        return $this->select('uid')->where('id','=', intval($id))->first();
+    }
+
+    /**
      * 根据用户id获取文章信息列表
      * 
      * @param intval $cid 专题的ID

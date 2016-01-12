@@ -3,6 +3,7 @@
 use Lang;
 use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
+use App\Models\User as UserModel;
 use App\Models\Home\News as NewsModel;
 use App\Services\Home\Comment\CommentValidate;
 use App\Services\BaseProcess;
@@ -98,6 +99,21 @@ class Process extends BaseProcess
     }
 
     /**
+     * 对评论内容处理
+     *
+     * @param $content   
+     */
+    public function dealContent($content) {
+        $arr = explode(' ',$content);
+        $replyName = str_replace('@','',$arr[0]);
+        $replyInfo = (new UserModel())->infoByName($replyName);
+
+        $tpl = '<a href="/users/"'.$replyInfo['id'].' class="maleskine-author" target="_blank">'.$arr[0].'</a> ';
+        
+        return str_replace($arr[0],$tpl,$content);
+    }
+
+    /**
      * 增加评论
      */
     public function addComment($data)
@@ -105,16 +121,18 @@ class Process extends BaseProcess
         
         if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
 
-        $receive_id = $data['receive_id'];
-        unset($data['receive_id']);
+        if (isset($data['pid']) && !empty($data['pid'])) {
+            $data['content'] = $this->dealContent($data['content']);
+        }
 
         $result = $this->commentModel->addComment($data);
+
         if($result)
         {
             $this->articelModel->incrementById('comment',$data['aid']);
             $this->redis->hincrby('article_'.$data['aid'],'comment',1);
 
-            $this->sendNews($data,$receive_id);
+            $this->sendNews($data);
 
             return array('error'=>false,'data'=>$result);
         }
@@ -127,12 +145,13 @@ class Process extends BaseProcess
     /**
      * 发送消息
      */
-    public function sendNews($data,$receive_id)
+    public function sendNews($data)
     {
+        $author_id = $this->articelModel->getAuthorById($data['aid']);
         $newsData = [];
         $newsData['aid'] = $data['aid']; 
         $newsData['send_id'] = $data['uid']; 
-        $newsData['receive_id'] = $receive_id; 
+        $newsData['receive_id'] = $author_id; 
         $newsData['addtime'] = $data['addtime']; 
 
         $this->newsModel->addNew($newsData);

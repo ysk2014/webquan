@@ -28,7 +28,7 @@ class User extends Base
      * 
      * @param string $username 用户名
      */
-    public function InfoByName($username)
+    public function infoByName($username)
     {
         return $this->where('username', $username)->first();
     }

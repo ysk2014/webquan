@@ -9,7 +9,7 @@
 		<p>{{ $comment['content'] }}</p>
 		<div class="comment-footer clearfix text-right">
 			<a class="reply" data-id="{{ $comment['id'] }}" data-nick="{{ $comment['username'] }}" href="javascript:;">回复</a>
-			<a data-confirm="确定要删除评论么?" class="delete" data-remote="true" data-comment-id="{{ $comment['id'] }}" data-method="delete" data-type="json" href="javascript:;">删除</a>
+			<a data-confirm="确定要删除评论么?" class="delete"  data-comment-id="{{ $comment['id'] }}" data-method="delete" data-url="{{ '/article/'.$aid.'/comment' }}"  href="javascript:;">删除</a>
 		</div>
 		<div class="child-comment-list hide"></div>
 	</div>

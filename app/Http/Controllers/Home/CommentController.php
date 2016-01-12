@@ -55,12 +55,13 @@ class CommentController extends Controller {
 
 			$data = Request::input('data');
 			$data['aid'] = $aid;
+			$data['uid'] = $this->userinfo['id'];
 			$data['addtime'] = time();
 
 			$result = $commentProcess->addComment($data);
 
 			if(!$result['error']) {
-				return $this->widget->commentAjax($result['data']);
+				return $this->widget->commentAjax($aid,$result['data']);
 			}
 
 		} else if($method=="DELETE") {

@@ -9,11 +9,11 @@ $(function() {
 
 		// 回复模板
 		replyTpl: function(data) {
-			return '<form class="new-child-comment" data-action="/notes/2804652/comments" accept-charset="UTF-8" data-remote="true" data-type="json" method="post">'
-					+'<input type="hidden" name="data[uid]" value="1204821">'
-					+'<input type="hidden" name="data[receive_id]" value="1204821">'
+			return '<form class="new-child-comment" data-action="'+data.action+'" accept-charset="UTF-8" data-remote="true" data-type="json" method="post">'
+					+'<input type="hidden" name="data[pid]" value="'+data.pid+'">'
+					+'<input type="hidden" name="data[fid]" value="'+data.fid+'">'
 					+'<div class="comment-text">'
-						+'<textarea maxlength="1000" placeholder="写下你的评论…" class="mousetrap" name="data[content]">@</textarea>'
+						+'<textarea maxlength="1000" placeholder="写下你的评论…" class="mousetrap" name="data[content]">@'+data.nick+' </textarea>'
 						+'<a class="btn btn-primary btn-sm submit" >发表</a>'
 					+'</div></form>'
 		},
@@ -28,16 +28,20 @@ $(function() {
 				var params = $parent.serialize();
 
 				$.post(url,params,function(data) {
-					if (_this.$el.find('p.load-more').length>0) {
-						_this.$el.find('p.load-more').before(data);
+					if ($parent.find('input[name="pid"]').length>0) {
+						
 					} else {
-						$parent.before(data);
+						if (_this.$el.find('p.load-more').length>0) {
+							_this.$el.find('p.load-more').before(data);
+						} else {
+							$parent.before(data);
+						}
 					}
 					
 					var count = parseInt(_this.$count.html());
 					_this.$count.html(count+1);
 					$this.siblings('textarea').val('');					
-				})
+				});
 			});
 		},
 		//更多评论
@@ -76,7 +80,7 @@ $(function() {
 								alert(data.msg);
 							}
 						}
-					})
+					});
 				} else {
 					return false;
 				}
@@ -88,14 +92,30 @@ $(function() {
 			_this.$el.on('click','.comment-footer .reply',function() {
 				var $childComment = $(this).parent().siblings(".child-comment-list");
 
-				var action = $(this).data('action');
-				var fid = $(this).data('id');
-				var pid = fid;
-				if ($childComment.find('form').length>0) {
+				var data = {};
+				data.action = $(this).data('action');
+				data.fid = $(this).data('pid');
+				data.pid = $(this).data('fid');
+				data.nick = $(this).data('nick');
 
+
+				if (_this.replyData && _this.replyData.fid == data.fid && _this.replyData.pid == data.pid && $childComment.find('form').length>0) {
+					if ($childComment.find('form').hasClass('hide')) {
+						$childComment.find('form').removeClass('hide');
+					} else {
+						$childComment.find('form').addClass('hide');
+					}
+					return false;
 				} else {
-					$childComment.append(_this.replyTpl());
+					if ($childComment.find('form').length>0) {
+						$childComment.find('form').remove();
+					}
+					$childComment.append(_this.replyTpl(data));
 				}
+
+				$childComment.removeClass('hide');
+
+				_this.replyData = data;
 			});
 		},
 
@@ -109,6 +129,8 @@ $(function() {
 			this.pagination();
 
 			this.delComment();
+
+			this.reply();
 		},
 
 	};
