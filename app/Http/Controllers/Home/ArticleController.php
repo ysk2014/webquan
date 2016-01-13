@@ -67,17 +67,15 @@ class ArticleController extends Controller {
 
 		$top = $this->widget->top($this->userinfo);
 
-		$aside = $this->widget->aside();
-
 		$userinfo = $this->userinfo;
 
 		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
 
 		if ($id) {
 			$articleInfo = $articleProcess->getArticleById(intval($id));
-			return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo','cloumns','articleInfo','id'));
+			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','articleInfo','id'));
 		} else {
-			return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo','cloumns'));
+			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
 		}
 
 		

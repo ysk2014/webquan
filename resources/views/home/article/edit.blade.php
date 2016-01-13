@@ -5,7 +5,7 @@
 
 <div class="container" id="main">
 	<div class="row">
-    	<div class="col-md-8">
+    	<div class="col-md-12">
 			<link rel="stylesheet" type="text/css" href="{{ asset('css/simditor.css') }}" />
 			<h4>写文章</h4>
 			<form id="editArt" method="post" role="form">
@@ -65,9 +65,7 @@
 			<script type="text/javascript" src="{{ asset('js/edit-article.js') }}"></script>
 			
     	</div>
-    	<div class="col-md-4 sidebar">
-    		<?php echo $aside ?>
-    	</div>
+
     </div>
 </div>
 	
