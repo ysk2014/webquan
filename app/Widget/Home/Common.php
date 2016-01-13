@@ -84,9 +84,9 @@ class Common
     /**
      * comment ajax
      */
-    public function commentAjax($aid,$comment)
+    public function commentAjax($aid,$comment,$fid)
     {
-        return view('home.widget.commentAjax', compact('aid','comment'));
+        return view('home.widget.commentAjax', compact('aid','comment','fid'));
     }
 
 

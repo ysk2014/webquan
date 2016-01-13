@@ -12,13 +12,19 @@
 					<a href="{{ '/user/'.$articleInfo['data']['uid'] }}" class="author"><img class="img-circle" src="{{ $articleInfo['data']['userUrl'] }}"/><span>{{ $articleInfo['data']['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$articleInfo['data']['addtime']) }}</span>
 	            	<span class="view">浏览：{{ $articleInfo['data']['view'] }}</span>
-	            	<span class="praise">推荐：{{ $articleInfo['data']['praise'] }}</span>
 	            	@if (!empty($articleInfo['data']['tags']))
 	            	<span class="tags"><i class="fa fa-tags"></i><a href="">{{ $articleInfo['data']['tags'] }}</a></span>
 	            	@endif
 				</div>
 				<div class="content">
 					<?php echo $articleInfo['data']['content']; ?>
+				</div>
+				<div class="single-share">
+					<ul class="clearfix">
+						<li><a href=""><i class="fa fa-star" style="position: relative;top: 1px;margin-left: 1px;"></i><span>{{ $articleInfo['data']['store'] }}</span></a></li>
+						<li><a href=""><i class="fa fa-thumbs-up" style="position: relative;top: 1px;margin-left: 2px;"></i><span>{{ $articleInfo['data']['praise'] }}</span></a></li>
+						<li><a href="{{ '/article/'.$articleInfo['data']['id'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
+					</ul>
 				</div>
     		</div>
 			<div class="comment-wrapper">
@@ -48,7 +54,7 @@
 													<p><a href="{{ '/user/'.$childComment['uid'] }}">{{ $childComment['username'] }}</a>: <?php echo $childComment['content']; ?></p>
 													<div class="child-comment-footer text-right clearfix">
 														<span class="reply-time pull-left">{{ date('Y.m.d H:i',$childComment['addtime']) }}</span>
-														<a data-id="{{ $childComment['id'] }}" data-nickname="{{ $childComment['username'] }}" class="reply" data-pid="{{ $comment['pid'] }}" data-fid="{{ $comment['fid'] }}" data-action="{{ '/article/'.$articleInfo['data']['id'].'/comment' }}" href="javascript:void(null)">回复</a>
+														<a data-id="{{ $childComment['id'] }}" data-nick="{{ $childComment['username'] }}" class="reply" data-pid="{{ $childComment['id'] }}" data-fid="{{ $childComment['fid'] }}" data-action="{{ '/article/'.$articleInfo['data']['id'].'/comment' }}" href="javascript:void(null)">回复</a>
 														@if ($userinfo['id']==$childComment['uid'])
 															<a data-confirm="确定要删除评论么?" class="delete" data-comment-id="{{ $childComment['id'] }}" data-url="{{ '/article/'.$articleInfo['data']['id'].'/comment' }}"  href="javascript:;">删除</a>
 														@endif

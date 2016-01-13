@@ -69,36 +69,6 @@ class Process extends BaseProcess
 
 
     /**
-     * 递归评论数据
-     *
-     * @param $d   单个数据
-     * @param $data  数据数组
-     */
-    public function dealData($data,$result) {
-        foreach ($data as $key => $value) {
-            if($value['fid'] == $result['id']) {
-                $result['children'][] = $this->dealData($data,$value);
-            } 
-        }
-        return $result;
-    }
-
-    /**
-     * 评论数据重组处理
-     *
-     * @param $data   从数据库取出的数据
-     */
-    public function dealCommentData($data) {
-        $result = [];
-        foreach ($data as $key => $value) {
-            if($value['fid']==0) {
-                $result[] = $this->dealData($data,$value);
-            }
-        }
-        return $result;
-    }
-
-    /**
      * 对评论内容处理
      *
      * @param $content   
@@ -108,7 +78,7 @@ class Process extends BaseProcess
         $replyName = str_replace('@','',$arr[0]);
         $replyInfo = (new UserModel())->infoByName($replyName);
 
-        $tpl = '<a href="/users/"'.$replyInfo['id'].' class="maleskine-author" target="_blank">'.$arr[0].'</a> ';
+        $tpl = '<a href="/user/'.$replyInfo['id'].'" class="maleskine-author" target="_blank">'.$arr[0].'</a> ';
         
         return str_replace($arr[0],$tpl,$content);
     }
@@ -227,7 +197,7 @@ class Process extends BaseProcess
             } else {
                 $next = false;
             }
-            return array('error'=>false, 'data'=>$this->dealCommentData($result), 'next'=>$next, 'count'=>$count);
+            return array('error'=>false, 'data'=>$result, 'next'=>$next, 'count'=>$count);
         }
         else
         {

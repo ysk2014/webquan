@@ -441,6 +441,8 @@ class Process extends BaseProcess
 			}	
 		}
 		
+		$articleInfo['tags'] = explode(',', $articleInfo['tags']);
+		
 		return array('error'=>false,'data'=>$articleInfo);
 		
 	}

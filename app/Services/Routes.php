@@ -56,17 +56,7 @@ class Routes
         Route::group(['domain' =>  $this->wwwDomain], function() {
             // 主页
             Route::get('/', 'Home\ArticleController@index');
-            Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
-            Route::get('/article/add', 'Home\ArticleController@editPage');
-            Route::post('/article/add', 'Home\ArticleController@dealArticle');
-            Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
-            //添加评论
-            Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');
-            // 更多评论
-            Route::post('/article/{id}/comment/page/{page}', 'Home\CommentController@pagination')->where('id', '[0-9]+');
-            Route::delete('/article/{aid}/comment', 'Home\CommentController@dealComment')->where('aid', '[0-9]+');
-
-
+            // 上传图片
             Route::post('/upload', 'Home\UploadController@upload');
 
             // 邮件
@@ -76,7 +66,7 @@ class Routes
 
             $this->user();
 
-            // $this->article();
+            $this->article();
 
             // $this->cloumn();
 
@@ -142,7 +132,6 @@ class Routes
         });
         return $this;
     }
-
     /**
      * 前端文章路由
      * 
@@ -150,6 +139,31 @@ class Routes
      * @access public
      */
     public function article() {
+        //文章列表
+        Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
+        //添加文章页面
+        Route::get('/article/add', 'Home\ArticleController@editPage');
+        //添加文章
+        Route::post('/article/add', 'Home\ArticleController@dealArticle');
+        //编辑文章页面
+        Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+        // 单个文章页面
+        Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
+        //添加评论
+        Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');
+        // 更多评论
+        Route::post('/article/{id}/comment/page/{page}', 'Home\CommentController@pagination')->where('id', '[0-9]+');
+        // 删除评论
+        Route::delete('/article/{aid}/comment', 'Home\CommentController@dealComment')->where('aid', '[0-9]+');
+    }
+
+    /**
+     * 前端文章路由
+     * 
+     *
+     * @access public
+     */
+    public function article1() {
 
 
         Route::group(['prefix' => 'article/{id}'], function() {
@@ -219,7 +233,7 @@ class Routes
      *
      * @access public
      */
-    public function cloumn() {
+    public function cloumn1() {
 
         Route::group(['prefix' => 'cloumn/{id}'], function() {
             // 专题详情页
