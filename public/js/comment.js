@@ -29,7 +29,7 @@ $(function() {
 
 				$.post(url,params,function(data) {
 					if ($parent.find('input[name="pid"]').length>0) {
-						
+						$parent.before(data);
 					} else {
 						if (_this.$el.find('p.load-more').length>0) {
 							_this.$el.find('p.load-more').before(data);
@@ -61,11 +61,21 @@ $(function() {
 		//删除评论
 		delComment: function() {
 			var _this = this;
-			_this.$el.on('click','.comment-footer .delete',function() {
+			_this.$el.on('click','.delete',function() {
 				var $this = $(this);
+				var status = false;
+
+				if ($this.parent().hasClass('comment-footer')) {
+					var $parent = $this.parents('.comment-item');
+					status = true;
+				} else {
+					var $parent = $this.parents('.child-comment');
+				}
+
 				var confirm = $(this).data('confirm');
 				var cid = $(this).data('comment-id');
 				var url = $(this).data('url');
+				
 				if (window.confirm(confirm)) {
 					$.ajax({
 						type: 'delete',
@@ -73,9 +83,11 @@ $(function() {
 						data: {cid:cid},
 						success: function(data) {
 							if(!data.error) {
-								$this.parents('.comment-item').remove();
-								var count = parseInt(_this.$count.html());
-								_this.$count.html(count-1);
+								$parent.hide().remove();
+								if (status) {
+									var count = parseInt(_this.$count.html());
+									_this.$count.html(count-1);
+								}
 							} else {
 								alert(data.msg);
 							}
@@ -86,34 +98,37 @@ $(function() {
 				}
 			});
 		},
-
+		// 显示回复
 		reply: function() {
 			var _this = this;
-			_this.$el.on('click','.comment-footer .reply',function() {
-				var $childComment = $(this).parent().siblings(".child-comment-list");
+			_this.$el.on('click','.reply',function() {
+
+				if ($(this).parent().hasClass('comment-footer')) {
+					var $childList = $(this).parent().siblings(".child-comment-list");
+				} else {
+					var $childList = $(this).parents(".child-comment-list");
+				}
+				
 
 				var data = {};
 				data.action = $(this).data('action');
-				data.fid = $(this).data('pid');
-				data.pid = $(this).data('fid');
+				data.fid = $(this).data('fid');
+				data.pid = $(this).data('pid');
 				data.nick = $(this).data('nick');
 
-
-				if (_this.replyData && _this.replyData.fid == data.fid && _this.replyData.pid == data.pid && $childComment.find('form').length>0) {
-					if ($childComment.find('form').hasClass('hide')) {
-						$childComment.find('form').removeClass('hide');
+				if (_this.replyData && _this.replyData.fid == data.fid && _this.replyData.pid == data.pid && $childList.find('form').length>0) {
+					if ($childList.find('form').hasClass('hide')) {
+						$childList.find('form').removeClass('hide');
 					} else {
-						$childComment.find('form').addClass('hide');
+						$childList.find('form').addClass('hide');
 					}
 					return false;
 				} else {
-					if ($childComment.find('form').length>0) {
-						$childComment.find('form').remove();
-					}
-					$childComment.append(_this.replyTpl(data));
+					$childList.find('form').remove();
+					$childList.append(_this.replyTpl(data));
 				}
 
-				$childComment.removeClass('hide');
+				$childList.removeClass('hide');
 
 				_this.replyData = data;
 			});

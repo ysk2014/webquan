@@ -82,6 +82,19 @@ class Cloumn extends Base
     }
 
     /**
+     * 根据用户id获取所有专题
+     * 
+     * @param intval $uid 用户的ID
+     */
+    public function getAllCloumnsByUid($uid)
+    {
+        return $this->where('cloumn.uid','=', intval($uid))
+                    ->orderBy('addtime','desc')
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
      * 获取所有专题信息
      * 
      * @param $data 排序

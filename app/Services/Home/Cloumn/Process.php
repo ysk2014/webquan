@@ -185,6 +185,30 @@ class Process extends BaseProcess
     }
 
     /**
+     * 获取用户创建的所有专题
+     *
+     * @param intval $uid
+     * @access public
+     * @return boolean true|false
+     */
+    public function getAllCloumnsByUid($uid)
+    {
+        if(!isset($uid)) return array('error'=>true, 'msg'=>'参数没有设置');
+
+
+        $result = $this->cloumnModel->getAllCloumnsByUid($uid);
+        if($result) 
+        {
+            return array('error'=>false, 'data'=>$result);
+        } 
+        else 
+        {
+            return array('error'=>true, 'msg'=>'没有专题');
+        }
+
+    }
+
+    /**
      * 获取所有专题，并排序
      *
      * @param intval $data

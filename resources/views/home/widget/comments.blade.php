@@ -22,7 +22,7 @@
 								<p><a href="{{ '/user/'.$childComment['uid'] }}">{{ $childComment['username'] }}</a>: {{ $childComment['content'] }}</p>
 								<div class="child-comment-footer text-right clearfix">
 									<span class="reply-time pull-left">{{ date('Y.m.d H:i',$childComment['addtime']) }}</span>
-									<a data-id="{{ $childComment['id'] }}" data-nickname="{{ $childComment['nickname'] }}" class="reply" href="javascript:void(null)">回复</a>
+									<a data-id="{{ $childComment['id'] }}" data-nick="{{ $childComment['username'] }}" class="reply" data-pid="{{ $childComment['id'] }}" data-fid="{{ $childComment['fid'] }}" data-action="{{ '/article/'.$aid.'/comment' }}" href="javascript:void(null)">回复</a>
 									@if ($userinfo['id']==$childComment['uid'])
 										<a data-confirm="确定要删除评论么?" class="delete" data-comment-id="{{ $childComment['id'] }}" data-url="{{ '/article/'.$aid.'/comment' }}"  href="javascript:;">删除</a>
 									@endif

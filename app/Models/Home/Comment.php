@@ -32,12 +32,31 @@ class Comment extends Model
      */
     public function getCommentsByAid($aid, $page)
     {
-        return $this->select(array('comment.*','user.username','user.logo_dir as userUrl'))
+        $comments =  $this->select(array('comment.*','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','comment.uid','=','user.id')
                     ->where('aid', $aid)
+                    ->where('fid', 0)
                     ->skip($page*8)->take(8)
                     ->get()
                     ->toArray();
+        $ids = [];
+        foreach ($comments as $key => $value) {
+            array_push($ids,$value['id']);
+        };
+        $child_comments = $this->select(array('comment.*','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','comment.uid','=','user.id')
+                    ->whereIn('fid',$ids)
+                    ->get()
+                    ->toArray();
+        foreach ($comments as $key => $val) {
+            $comments[$key]['children'] = [];
+            foreach ($child_comments as $key1 => $child) {
+                if ($child['fid']==$val['id']) {
+                    array_push($comments[$key]['children'],$child);
+                }
+            }
+        };
+        return $comments;
     }
 
 

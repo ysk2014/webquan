@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\Process as ArticleProcess;
+use App\Services\Home\Cloumn\Process as CloumnProcess;
 use App\Services\Home\Comment\Process as CommentProcess;
 use App\Widget\Home\Common as WidgetCommon;
 use Request,Cache,Redis;
@@ -58,7 +59,7 @@ class ArticleController extends Controller {
 	 * edit article
 	 *
 	 */
-	public function editPage()
+	public function editPage(ArticleProcess $articleProcess,$id=0)
 	{
 		$header = $this->widget->header();
 
@@ -70,11 +71,16 @@ class ArticleController extends Controller {
 
 		$userinfo = $this->userinfo;
 
-		//缓存
-		$cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
 
-		return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		if ($id) {
+			$articleInfo = $articleProcess->getArticleById(intval($id));
+			return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo','cloumns','articleInfo','id'));
+		} else {
+			return response()->view('home.article.edit',compact('header','top','aside','footer','userinfo','cloumns'));
+		}
+
+		
 	}
 
 

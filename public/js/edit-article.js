@@ -3,7 +3,7 @@
 
 $(function() {
 
-	var eidtArt = {
+	var editArticle = {
 		el: {
 			form: $('#editArt'),
 			title: $('#myTitle'),
@@ -61,6 +61,7 @@ $(function() {
 		}
 	};
 
-	eidtArt.init();
-
+	editArticle.init();
+	
+	window.editArticle = editArticle;
 });
