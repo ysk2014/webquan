@@ -21,7 +21,7 @@ $(function() {
 		//发表评论
 		send: function() {
 			var _this = this;
-			_this.$el.find('.btn.submit').on('click',function() {
+			_this.$el.on('click','.btn.submit',function() {
 				var $this = $(this);
 				var $parent = $this.parents('form');
 				var url = $parent.data('action');
@@ -29,7 +29,7 @@ $(function() {
 
 				$.post(url,params,function(data) {
 					if ($parent.find('input[name="pid"]').length>0) {
-						
+
 					} else {
 						if (_this.$el.find('p.load-more').length>0) {
 							_this.$el.find('p.load-more').before(data);
