@@ -147,6 +147,8 @@ class Routes
         Route::post('/article/add', 'Home\ArticleController@dealArticle');
         //编辑文章页面
         Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+        //编辑文章
+        Route::post('/article/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
         // 单个文章页面
         Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
         //添加评论

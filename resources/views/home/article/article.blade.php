@@ -12,10 +12,12 @@
 					<a href="{{ '/user/'.$articleInfo['data']['uid'] }}" class="author"><img class="img-circle" src="{{ $articleInfo['data']['userUrl'] }}"/><span>{{ $articleInfo['data']['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$articleInfo['data']['addtime']) }}</span>
 	            	<span class="view">浏览：{{ $articleInfo['data']['view'] }}</span>
-	            	@if (!empty($articleInfo['data']['tags']))
+	            	@if (!empty($articleInfo['data']['tags'][0]))
 	            	<span class="tags">
 	            		<i class="fa fa-tags"></i>
-	            		<a href="">{{ $articleInfo['data']['tags'] }}</a>
+	            		@foreach ($articleInfo['data']['tags'] as $tag)
+	            			<a href="{{'/'.$tag}}">{{ $tag }}</a>
+	            		@endforeach
 	            	</span>
 	            	@endif
 				</div>

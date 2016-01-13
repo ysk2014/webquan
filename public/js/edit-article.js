@@ -63,5 +63,4 @@ $(function() {
 
 	editArticle.init();
 	
-	window.editArticle = editArticle;
 });

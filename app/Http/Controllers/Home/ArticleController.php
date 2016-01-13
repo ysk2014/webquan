@@ -206,19 +206,30 @@ class ArticleController extends Controller {
 	}
 
 	/**
+	 * 删除文章
+	 *
+	 * @return Response
+	 */
+
+	public function delArticle(ArticleProcess $articleProcess,$id=0)
+	{
+		$ids = [$id];
+		$result = $articleProcess->delArticle($ids);
+		return response()->json($result);
+	}
+
+
+	/**
 	 * 处理文章, 添加、更新和删除操作
 	 *
 	 * @return Response
 	 */
 	public function dealArticle(ArticleProcess $articleProcess,$id=0)
 	{
-		$method = Request::method();
-		
-		if($method=='PUT') {                      //更新文章
-
+		if($id!=0) {                      //更新文章
 			$data = Request::input('data');
 			$data['update_time'] = time();
-
+			$data['id'] = $id;
 			if (isset($data['aid'])) {
 				$did = $data['id'];
 				$data['id'] = $data['aid'];
@@ -232,7 +243,11 @@ class ArticleController extends Controller {
 
 			$result = $articleProcess->editArticle($param,$did);
 
-		}else if($method=='POST') {
+			if (!$result['error']) {
+				return redirect('/article/'.$id);
+			}
+
+		}else {
 
 			$data = Request::input('data');
 
@@ -248,15 +263,7 @@ class ArticleController extends Controller {
 			if (!$result['error']) {
 				return redirect('/article/'.$result['data']);
 			}
-
-		} else if($method== "DELETE") {            //删除文章
-			$ids = [$id];
-			$result = $articleProcess->delArticle($ids);
-		} else {
-			$result = array('error'=>true,'msg'=>'路由匹配失败');
-		}
-		
-		return response()->json($result);
+		} 
 	}
 
 

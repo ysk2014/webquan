@@ -10,7 +10,7 @@
 			<h4>写文章</h4>
 			<form id="editArt" method="post" role="form">
 				<input type="hidden" name="data[uid]" value="{{ $userinfo['id'] }}">
-
+				
 				<div class="form-group">
 					<label for="myTitle" class="sr-only">文章标题</label>
 		    		<input type="text" name="data[title]" class="form-control input-lg" id="myTitle" placeholder="文章标题" @if (isset($id) && !$articleInfo['error']) value="{{ $articleInfo['data']['title'] }}" @endif>
@@ -46,12 +46,12 @@
 				</div>
 				<div class="form-group editor">
 					<label for="editor" class="sr-only">文章内容</label>
-		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;"></textarea>
+		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;">@if (isset($id) && !$articleInfo['error']) {{ $articleInfo['data']['content'] }} @endif</textarea>
 				</div>
 				<div class="form-group clear-fix">
 				    <div class="pull-right">
 				    	<a class="btn btn-default" href="">保存草稿</a>
-				      	<button class="btn btn-primary">发布文章</button>
+				      	<button class="btn btn-primary">@if (isset($id) && !$articleInfo['error']) 更新文章 @else 发布文章 @endif</button>
 				    </div>
 				</div>
 			</form>
@@ -63,14 +63,6 @@
 			<script type="text/javascript" src="{{ asset('js/lib/simditor-extension.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/tagsinput.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/edit-article.js') }}"></script>
-			
-			@if (isset($id) && !$articleInfo['error'])
-				<script type="text/javascript">
-				$(function() {
-					editArticle.editor.setValue("{{ $articleInfo['data']['content'] }}");
-				});
-				</script>
-			@endif
 			
     	</div>
     	<div class="col-md-4 sidebar">
