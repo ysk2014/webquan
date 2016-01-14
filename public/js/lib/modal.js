@@ -66,13 +66,13 @@
                     _this.$mask.addClass('in');
                 },0);
 
-                _this.$target.on('click', function(ev) {
+                _this.$target.one('click', function(ev) {
 
                     if (ev.target == _this.$target[0]) {
                         _this.hide();
                     }
                 });
-                _this.$target.on('click','[data-dismiss="modal"]', function() {
+                _this.$target.one('click','[data-dismiss="modal"]', function() {
                     _this.hide();
                 })
             });
