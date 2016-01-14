@@ -86,7 +86,7 @@ class Tag extends Base
      * 
      * @param string $name
      */
-    public function getTagsByName($name)
+    public function getTagsLikeName($name)
     {
         return $this->where('name','like', '%'.$name.'%')->get()->toArray();
     }

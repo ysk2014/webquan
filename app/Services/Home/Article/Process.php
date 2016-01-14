@@ -135,7 +135,7 @@ class Process extends BaseProcess
 
 
 	/**
-	* 删除上传的没有用到的图片，并把第一张图片作为文章的logo
+	* 删除上传的没有用到的图片，并把第一张图片作为文章的logo，处理文章简介
 	*
 	* @param object $data;
 	* @access private
@@ -143,10 +143,22 @@ class Process extends BaseProcess
 	*/
 	private function dealData(\App\Services\Home\Article\ArticleSave $data)
 	{
+		// 如果文章简介为，则提取文章内容中的文字
+		if (empty($data->description)) {
+			$resultDesc = preg_match_all('/<p>(.*?)<\/p>/',$data->content,$descArr);
+
+			if ($resultDesc) {
+				foreach ($descArr[1] as $key => $value) {
+					if (!strstr($value,'<img')) {
+						$data->setDescription($value);
+					}
+				}
+			}
+		}
+
 		// 匹配文章内容中所有的图片
 		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
-		// echo '<pre>';var_dump($imgArr);die();
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
 		
@@ -181,6 +193,7 @@ class Process extends BaseProcess
 			}
 			$this->redis->del($cache);
 		}
+
 		return $data;
 	}
 

@@ -19,7 +19,7 @@
 					<label for="myDesc" class="sr-only">文章简介</label>
 		    		<textarea class="form-control" id="myDesc" placeholder="文章简介,最多140个字" maxLength="140" name="data[description]">@if (isset($id) && !$articleInfo['error']) {{ $articleInfo['data']['description'] }} @endif</textarea>
 				</div>
-				<div class="form-group tagsinput">
+				<div class="form-group tagsinput" style="position: relative;">
 					<label for="myTags" class="sr-only">文章标签</label>
 					<input type="hidden" name="data[tags]" id="myTags">
 					@if (isset($id) && !$articleInfo['error'])
@@ -29,7 +29,7 @@
 							@endif
 						@endforeach
 					@endif
-					<div class="tagsinput-add-container">
+					<div class="tagsinput-add-container" >
 						<input type="text" name="tag" autocomplete="off" class="" id="myTag" placeholder="文章标签，最多三个">
 					</div> 
 				</div>
@@ -69,4 +69,4 @@
     </div>
 </div>
 	
-	
+<?php echo $footer; ?>

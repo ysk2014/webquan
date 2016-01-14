@@ -487,5 +487,28 @@ i.fa{
 #editArt #myCloumn {
 	height: 34px;
 }
+#editArt .tagsinput ul {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,.15);
+	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    border-radius: 3px;
+    font-size: 13px;
+	z-index: 1000;
+}
+#editArt .tagsinput ul li a {
+	padding: 6px 12px;
+}
+#editArt .tagsinput ul li a:hover{
+	background-color: #1abc9c;
+	color: #fff;
+}
+
 
 

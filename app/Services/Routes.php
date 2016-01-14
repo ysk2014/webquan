@@ -90,7 +90,7 @@ class Routes
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
 
                 // 标签
-                Route::post('/tags/all', 'Home\TagController@getTagsByName');
+                Route::post('/tags/like', 'Home\TagController@getTagsLikeName');
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
 

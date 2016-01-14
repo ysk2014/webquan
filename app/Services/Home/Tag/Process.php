@@ -77,7 +77,7 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取专题
+     * 获取单个标签
      *
      * @param intval $data
      * @access public
@@ -93,17 +93,17 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取专题
+     * 获取
      *
      * @param intval $data
      * @access public
      * @return boolean true|false
      */
-    public function getTagsByName($data)
+    public function getTagsLikeName($data)
     {
         if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
         
-        $result = $this->tagModel->getTagsByName($data);
+        $result = $this->tagModel->getTagsLikeName($data);
         
         return array('error'=>false, 'data'=>$result);
     }

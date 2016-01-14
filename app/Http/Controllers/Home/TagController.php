@@ -104,11 +104,11 @@ class TagController extends Controller {
      * @param App\Services\Tag\Process $process 标签处理
      * @access public
      */
-	public function getTagsByName(TagProcess $manager)
+	public function getTagsLikeName(TagProcess $manager)
 	{
 		$name = Request::input('name');
 		
-		$result = $manager->getTagsByName($name);
+		$result = $manager->getTagsLikeName($name);
 
 		return response()->json($result);
 		
