@@ -27,12 +27,17 @@ $(function() {
 			$('#editor').show();
 			
 			this.bindEvent();
-			this.getTagsList();
 		},
 		bindEvent: function() {
 			var _this = this;
 
-			_this.el.form.find('.tagsinput').tagsInput({});
+			_this.el.form.find('.tagsinput').tagsInput({
+				search: true,
+				url: '/tags/like',
+				newTag: function(tag) {
+
+				}
+			});
 
 			// 标题验证
 			_this.el.title.on('blur',function() {
@@ -54,47 +59,8 @@ $(function() {
 					return false;
 				}
 			});
-		},
-		getTagsList: function() {
-			var _this = this;
-			var timer = null;
-			_this.el.tagsinput.on('keyup',function() {
-				var $input = $(this);
-				if ($input.val() == '') return;
-
-				if (timer) clearTimeout(timer);
-
-				timer = setTimeout(function() {
-					$.post('/tags/like',{name:$input.val()},function(data) {
-						if (!data.error) {
-							_this.showTagsList(data['data'],$input.val());
-							_this.addTag(_this.el.tagsinput);
-						}
-					},'json');
-				},300);
-			});
-		},
-		showTagsList: function(tags,val) {
-			var _this = this,createStatus = false;
-
-			var str = '<ul class="nav">';
-
-			tags.forEach(function(tag,i) {
-				if (tag['name']==val) {
-					createStatus = true;
-				}
-				str += '<li data-id="'+tag['id']+'"><a href="javascript:void(0);" class="active">'+tag['name']+'</a></li>';
-			});
-			if (!createStatus) {
-				str += '<li><a href="javascript:void(0);">创建 '+val+'</a></li>';
-			}
-			str += '</ul>';
-			_this.el.tagsinput.siblings('ul').remove();
-			_this.el.tagsinput.after(str);
-		},
-		addTag: function($el) {
-			$el.parent().before();
 		}
+		
 	};
 
 	editArticle.init();

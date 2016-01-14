@@ -6,6 +6,9 @@
 	var defaults = {
 		maxTags: 3,
 		tags: [],
+		search: false,        //是否支持搜索
+		url: '',			  //搜索的地址
+		newTag: function(tag) {} //创建新tag
 	};
 
 	var TagsInput = function(element,options) {
@@ -20,6 +23,8 @@
 
 		this.$element = $(element);
 		this.$element.hide();
+
+		this.timer = null;
 
 		this.render();
 		this.$element.show();
@@ -79,12 +84,28 @@
 				}
 			});
 			$el.find('.tagsinput-add-container>input').on('keyup',function(e) {
+				var $input = $(this);
 				if (e.which==188) {
 					if (trim($(this).val())!='') {
 						_this.add($el,$(this));
 					} else {
 						$(this).val('');
 					}
+				}
+
+				if (_this.opts.search) {
+					if ($(this).val()=='') return false;
+
+					if (_this.timer) clearTimeout(_this.timer);
+
+					_this.timer = setTimeout(function() {
+						$.post(_this.opts.url,{name:$input.val()},function(data) {
+							if (!data.error) {
+								_this.showTagsList(data['data'],$input.val());
+								// _this.addTag($input);
+							}
+						},'json');
+					},300)
 				}
 			});
 
@@ -107,6 +128,7 @@
 			// 如果按的是『,』键，把『,』去掉
 			if (tag.indexOf(',')==tag.length-1) {
 				tag = tag.substr(0,tag.length-1);
+				if (tag=='') return false;
 			}
 
 			if (_this.itemsArray.length<_this.opts.maxTags) {
@@ -135,7 +157,54 @@
 			$el.children('.tag:last').remove();
 			_this.itemsArray.splice(len-1,1);
 			$el.find('input[type=hidden]').val(_this.itemsArray.join(','));
-		}
+		},
+		// 创建下拉提示菜单
+		showTagsList: function(tags,val) {
+			var _this = this,createStatus = false;
+			var $el = _this.$element;
+
+			var str = '<ul class="nav">';
+
+			tags.forEach(function(tag,i) {
+				if (tag['name']==val) {
+					createStatus = true;
+				}
+				str += '<li data-id="'+tag['id']+'"><a href="javascript:void(0);" class="active">'+tag['name']+'</a></li>';
+			});
+			if (!createStatus) {
+				str += '<li><a href="javascript:void(0);">创建 <span>'+val+'</span></a></li>';
+			}
+			str += '</ul>';
+			$el.find('.tagsinput-add-container').find('ul').remove();
+			$el.find('.tagsinput-add-container').append(str);
+			_this.bindList();
+		},
+		//下拉提示菜单的事件处理
+		bindList: function() {
+			var _this = this;
+			var $el = _this.$element;
+			var input = $el.find('.tagsinput-add-container > input');
+			$el.find('ul li a').on('click',function() {
+
+				if (!$(this).data('id')) {
+					var tag = _this.opts.newTag(input.val());
+				} else {
+					var tag = $(this).html();
+				}
+
+				if (_this.itemsArray.length<_this.opts.maxTags) {
+					if (!checkRepeat($el,tag,_this.itemsArray)) {
+						_this.itemsArray.push(tag);
+						$el.find('input[type=hidden]').val(_this.itemsArray.join(','));
+
+						$el.find('.tagsinput-add-container').before(_this.tpl(tag));
+					}
+				}
+				$(this).parents('ul').remove();
+				input.val('');
+				return false;
+			});
+		},
 
 	};
 
