@@ -266,29 +266,15 @@ class ArticleController extends Controller {
 
 
 	/**
-	 * 添加文章推荐
-	 *
-	 * @return Response
-	 */
-	public function addPraise(ArticleProcess $articleProcess,$id=0)
-	{
-		$data = Request::input('data');
-
-		$data['addtime'] = time();
-		$result = $articleProcess->dealPraiseOrStore($data);
-
-		return response()->json($result);
-	}
-
-	/**
 	 * 处理文章推荐和收藏
 	 *
 	 * @return Response
 	 */
-	public function delPraise(ArticleProcess $articleProcess,$id=0)
+	public function dealPraise(ArticleProcess $articleProcess,$id=0)
 	{
 
 		$data = Request::input('data');
+		$data['addtime'] = time();
 
 		$result = $articleProcess->dealPraiseOrStore($data);
 		
