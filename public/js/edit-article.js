@@ -34,9 +34,8 @@ $(function() {
 			_this.el.form.find('.tagsinput').tagsInput({
 				search: true,
 				url: '/tags/like',
-				newTag: function(tag) {
-
-				}
+				dialog: $('#createTag'),
+				createURL: '/tags/add'
 			});
 
 			// 标题验证

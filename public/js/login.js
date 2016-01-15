@@ -38,7 +38,6 @@ $(function() {
 			};
 
 			if (_this.$login.length>0) {
-				_this.$login.children('a').modal();
 
 				_this.$login.find('.tab-nav a').on('click',function() {
 					if ($(this).hasClass('active')) {

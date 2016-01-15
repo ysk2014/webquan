@@ -55,6 +55,30 @@
 				    </div>
 				</div>
 			</form>
+			
+			<!-- 创建标签模板 -->
+			<div class="modal fade" id="createTag" tabindex="-1" role="dialog">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+					  	<div class="modal-header">
+					    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					    	<h4 class="modal-title" id="myModalLabel">创建标签</h4>
+					  	</div>
+					  	<div class="modal-body">
+					    	<div class="form-group">
+							    <input type="text" class="form-control" placeholder="标签名">
+							</div>
+							<div class="form-group">
+								<textarea class="form-control" cols="4" placeholder="描述" style="resize: none;"></textarea>
+							</div>
+					  	</div>
+					  	<div class="modal-footer">
+						    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						    <button type="button" class="btn btn-primary btn-sm">创建</button>
+					  	</div>
+					</div>
+				</div>
+			</div>
 
 			<script type="text/javascript" src="{{ asset('js/lib/module.min.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/hotkeys.min.js') }}"></script>

@@ -505,7 +505,7 @@ i.fa{
 #editArt .tagsinput ul li a {
 	padding: 6px 12px;
 }
-#editArt .tagsinput ul li a:hover{
+#editArt .tagsinput ul li a:hover,#editArt .tagsinput ul li a.active{
 	background-color: #1abc9c;
 	color: #fff;
 }
