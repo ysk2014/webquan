@@ -141,22 +141,38 @@ class Routes
     public function article() {
         //文章列表
         Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
-        //添加文章页面
-        Route::get('/article/add', 'Home\ArticleController@editPage');
-        //添加文章
-        Route::post('/article/add', 'Home\ArticleController@dealArticle');
-        //编辑文章页面
-        Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
-        //编辑文章
-        Route::post('/article/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
-        // 单个文章页面
-        Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
-        //添加评论
-        Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');
+        
         // 更多评论
         Route::post('/article/{id}/comment/page/{page}', 'Home\CommentController@pagination')->where('id', '[0-9]+');
-        // 删除评论
-        Route::delete('/article/{aid}/comment', 'Home\CommentController@dealComment')->where('aid', '[0-9]+');
+        
+        
+
+        Route::group(['middleware' =>  'auth'], function() {
+            //添加文章页面
+            Route::get('/article/add', 'Home\ArticleController@editPage');
+            //添加文章
+            Route::post('/article/add', 'Home\ArticleController@dealArticle');
+            //编辑文章页面
+            Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+            //编辑文章
+            Route::post('/article/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
+            // 单个文章页面
+            Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
+            //添加评论
+            Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');
+            // 删除评论
+            Route::delete('/article/{aid}/comment', 'Home\CommentController@dealComment')->where('aid', '[0-9]+');
+
+            //添加推荐
+            Route::post('/article/{aid}/praise', 'Home\ArticleController@addPraise')->where('aid', '[0-9]+');
+            //取消推荐
+            Route::post('/praise/{id}', 'Home\ArticleController@delPraise')->where('id', '[0-9]+');
+
+            //添加收藏
+            Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
+            //取消收藏
+            Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
+        });
     }
 
     /**

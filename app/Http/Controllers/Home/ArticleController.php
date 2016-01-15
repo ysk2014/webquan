@@ -266,24 +266,32 @@ class ArticleController extends Controller {
 
 
 	/**
+	 * 添加文章推荐
+	 *
+	 * @return Response
+	 */
+	public function addPraise(ArticleProcess $articleProcess,$id=0)
+	{
+		$data = Request::input('data');
+
+		$data['addtime'] = time();
+		$result = $articleProcess->dealPraiseOrStore($data);
+
+		return response()->json($result);
+	}
+
+	/**
 	 * 处理文章推荐和收藏
 	 *
 	 * @return Response
 	 */
-	public function dealPraiseOrStore(ArticleProcess $articleProcess,$id=0)
+	public function delPraise(ArticleProcess $articleProcess,$id=0)
 	{
-		$method = Request::method();
 
 		$data = Request::input('data');
 
-		if($method=='POST') {
-			$data['addtime'] = time();
-			$result = $articleProcess->dealPraiseOrStore($data,$method);
-		} else if($method=='DELETE') {
-			$result = $articleProcess->dealPraiseOrStore($data,$method);
-		} else {
-			$result = array('error'=>true,'msg'=>'路由匹配失败');
-		}
+		$result = $articleProcess->dealPraiseOrStore($data);
+		
 		return response()->json($result);
 	}
 
