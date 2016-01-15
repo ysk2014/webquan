@@ -1,6 +1,6 @@
 
 
-@if (empty($userinfo))
+@if ($userinfo)
 	<li class="login">
 		<a href="javascript:;" data-toggle="modal" data-target="#myModal">登录/注册</a>
 

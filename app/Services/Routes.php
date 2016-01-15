@@ -141,7 +141,8 @@ class Routes
     public function article() {
         //文章列表
         Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
-        
+        // 单个文章页面
+        Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
         // 更多评论
         Route::post('/article/{id}/comment/page/{page}', 'Home\CommentController@pagination')->where('id', '[0-9]+');
         
@@ -156,8 +157,7 @@ class Routes
             Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
             //编辑文章
             Route::post('/article/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
-            // 单个文章页面
-            Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
+            
             //添加评论
             Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');
             // 删除评论

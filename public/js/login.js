@@ -11,9 +11,6 @@ $(function() {
 		$body: $('body'),
 		$mask: $('#mask'),
 
-		scrollbarWidth: 0,
-		bodyIsOverflowing: false,
-
 		init: function() {
 			this.bindEvent();
 		},
