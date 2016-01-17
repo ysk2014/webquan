@@ -26,7 +26,94 @@ i.fa{
 }
 #mask .container p {
 	padding: 15px 20px;
+	font-size: 14px;
 }
+
+/*登录注册模块*/
+#myLogin .modal-login {
+	position: absolute;
+	top: 15%;
+	left: 50%;
+	margin-left: -200px;
+	width: 440px;
+	overflow: hidden;
+}
+#myLogin .modal-content {
+	padding: 30px 60px;
+}
+#myLogin .modal-content .close {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+#myLogin .modal-content .tab-nav{
+	margin-bottom: 20px;
+	font-size: 18px;
+	text-align: center;
+	font-weight: 600;
+}
+#myLogin .tab-nav a{
+	color: #b1b1b1;
+}
+#myLogin .tab-nav a:hover,#myLogin .tab-nav a.active{
+	color: #555;
+}
+#myLogin .form-group {
+	width: 318px;
+}
+#myLogin .input-group-addon {
+	background-color: #fff;
+	color: #555;
+	font-size: 14px;
+	width: 46px;
+}
+#myLogin .form-control {
+	font-size: 14px;
+	width: 272px;
+}
+#myLogin .forget {
+	color: #999;
+}
+#myLogin a.forget:hover {
+	color: #16a085;
+}
+#myLogin .login-other p {
+    margin-bottom: 15px;
+    color: #999999;
+    text-align: center;
+}
+#myLogin .login-other li {
+	float: left;
+	margin: 0 20px;
+}
+#myLogin .login-other li a {
+    width: 44px;
+    height: 44px;
+    display: inline-block;
+    border-radius: 50%;
+    line-height: 44px;
+    font-size: 20px;
+    background: #eeeeee;
+    text-align: center;
+}
+#myLogin .login-other li a i{
+	margin-right: 0px;
+}
+#myLogin .login-other li.qq a:hover {
+    background-color: #15a7f0;
+    color: #fff;
+}
+#myLogin.login-other li.weixin a:hover {
+    background-color: #49be38;
+    color: #fff;
+}
+#myLogin .login-other li.weibo a:hover {
+    background-color: #f57e42;
+    color: #fff;
+}
+
+
+
 .select-box {
 	display: inline-block;
 }
@@ -89,87 +176,8 @@ i.fa{
 #header .login .help-block {
 	color: #e74c3c;
 }
-#header .modal-login {
-	position: absolute;
-	top: 15%;
-	left: 50%;
-	margin-left: -200px;
-	width: 440px;
-	overflow: hidden;
-}
-#header .modal-content {
-	padding: 30px 60px;
-}
-#header .modal-content .close {
-	position: absolute;
-	top: 15px;
-	right: 15px;
-}
-#header .modal-content .tab-nav{
-	margin-bottom: 20px;
-	font-size: 18px;
-	text-align: center;
-	font-weight: 600;
-}
-#header .modal-content .tab-nav a{
-	color: #b1b1b1;
-}
-#header .modal-content .tab-nav a:hover, #header .modal-content .tab-nav a.active{
-	color: #555;
-}
-#header .modal-login .form-group {
-	width: 318px;
-}
-#header .modal-login .input-group-addon {
-	background-color: #fff;
-	color: #555;
-	font-size: 14px;
-	width: 46px;
-}
-#header .modal-login .form-control {
-	font-size: 14px;
-	width: 272px;
-}
-.login .forget {
-	color: #999;
-}
-.login a.forget:hover {
-	color: #16a085;
-}
-.login .login-other p {
-    margin-bottom: 15px;
-    color: #999999;
-    text-align: center;
-}
-.login .login-other li {
-	float: left;
-	margin: 0 20px;
-}
-.login .login-other li a {
-    width: 44px;
-    height: 44px;
-    display: inline-block;
-    border-radius: 50%;
-    line-height: 44px;
-    font-size: 20px;
-    background: #eeeeee;
-    text-align: center;
-}
-.login .login-other li a i{
-	margin-right: 0px;
-}
-.login .login-other li.qq a:hover {
-    background-color: #15a7f0;
-    color: #fff;
-}
-.login .login-other li.weixin a:hover {
-    background-color: #49be38;
-    color: #fff;
-}
-.login .login-other li.weibo a:hover {
-    background-color: #f57e42;
-    color: #fff;
-}
+
+
 
 
 #main .sidebar .widget{
@@ -262,6 +270,7 @@ i.fa{
 }
 .desc span.tags a{
 	color: #1abc9c;
+	margin-right: 10px;
 }
 .article .top hr{
 	margin: 10px 0;
@@ -280,14 +289,16 @@ i.fa{
 	background-color: #fff;
 	padding: 30px;
 	margin-bottom: 20px;
+	border: none;
 }
 .content-wrapper h3{
 	font-weight: 600;
 	margin: 10px 0px 15px;
 }
-.content-wrapper .content {
-	font-size: 14px;
+#main .content-wrapper .content {
 	margin-top: 20px;
+	padding: 0px;
+	min-height: 0px;
 }
 .content-wrapper .content img {
 	max-width: 100%;
@@ -300,6 +311,7 @@ i.fa{
 }
 .content-wrapper .content p {
 	line-height: 24px;
+	margin-bottom: 16px;
 }
 
 .content-wrapper .single-share{

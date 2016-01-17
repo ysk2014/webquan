@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Home;
 
+use App\Services\Home\Article\NoteProcess as NoteProcess;
 use App\Services\Home\Article\Process as ArticleProcess;
 use App\Services\Home\Cloumn\Process as CloumnProcess;
 use App\Services\Home\Comment\Process as CommentProcess;
@@ -59,7 +60,7 @@ class ArticleController extends Controller {
 	 * edit article
 	 *
 	 */
-	public function editPage(ArticleProcess $articleProcess,$id=0)
+	public function editPage(NoteProcess $noteProcess,$id=0)
 	{
 		$header = $this->widget->header();
 
@@ -72,8 +73,8 @@ class ArticleController extends Controller {
 		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
 
 		if ($id) {
-			$articleInfo = $articleProcess->getArticleById(intval($id));
-			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','articleInfo','id'));
+			$noteInfo = $noteProcess->getNoteById(intval($id));
+			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','noteInfo','id'));
 		} else {
 			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
 		}
@@ -222,45 +223,54 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function dealArticle(ArticleProcess $articleProcess,$id=0)
+	public function dealArticle(NoteProcess $noteProcess,$id=0)
 	{
 		if($id!=0) {                      //更新文章
 			$data = Request::input('data');
 			$data['update_time'] = time();
 			$data['id'] = $id;
-			if (isset($data['aid'])) {
-				$did = $data['id'];
-				$data['id'] = $data['aid'];
-				unset($data['aid']);
-			} else {
-				$did = 0;
-			}
 
 			$param = new \App\Services\Home\Article\ArticleSave();
 			$param->setAttributes($data); 
 
-			$result = $articleProcess->editArticle($param,$did);
+			$result = $noteProcess->editNote($param,$data['way']);
 
-			if (!$result['error']) {
-				return redirect('/article/'.$id);
+			if ($data['way']==1) {
+				if (!$result['error']) {
+					return redirect('/article/'.$result['aid']);
+				} else {
+					return redirect('/');
+				}
+			} else {
+				return response()->json($result);
 			}
+			
 
 		}else {
 
 			$data = Request::input('data');
 
 			$data['addtime'] = time();
-				
-			$data['update_time'] = time();
 
 			$param = new \App\Services\Home\Article\ArticleSave();
 			$param->setAttributes($data); 
-
-			$result = $articleProcess->addArticle($param);
-
-			if (!$result['error']) {
-				return redirect('/article/'.$result['data']);
+			if ($data['id']!=0) {
+				$result = $noteProcess->editNote($param,$data['way']);
+			} else {
+				$result = $noteProcess->addNote($param,$data['way']);
 			}
+			
+
+			if ($data['way']==1) {
+				if (!$result['error']) {
+					return redirect('/article/'.$result['aid']);
+				} else {
+					return redirect('/');
+				}
+			} else {
+				return response()->json($result);
+			}
+
 		} 
 	}
 

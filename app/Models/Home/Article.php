@@ -75,7 +75,17 @@ class Article extends Base
      */
     public function getAuthorById($id)
     {
-        return $this->select('uid')->where('id','=', intval($id))->first();
+        return $this->where('id','=', intval($id))->pluck('uid');
+    }
+
+    /**
+     * 根据nid获取文章信息
+     * 
+     * @param intval $nid 文集的ID
+     */
+    public function getIdByNid($nid)
+    {
+        return $this->where('nid','=', intval($nid))->pluck('id');
     }
 
     /**
@@ -176,7 +186,7 @@ class Article extends Base
                     ->leftJoin('user','article.uid','=','user.id')
                     ->where('article.logo_dir', '!=', '')
                     ->orderBy('article.view','desc')
-                    ->skip(0)->take($num)
+                    ->take($num)
                     ->get()
                     ->toArray();
     }

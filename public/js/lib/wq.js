@@ -245,7 +245,8 @@ WQ.cookie = {
 //提示框
 WQ.tooltipTimer = null;
 WQ.tooltip = function(content,cls) {
-    var tpl = '<div ref="alertBox" class="container"><p class="bg-'+cls+'">' + content + '</p></div>';
+    var className = cls ? cls : 'danger'
+    var tpl = '<div ref="alertBox" class="container"><p class="bg-'+className+'">' + content + '</p></div>';
     if (WQ.tooltipTimer) clearTimeout(WQ.tooltipTimer);
     $('#mask').html(tpl).stop().slideDown();
     

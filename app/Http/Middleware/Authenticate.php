@@ -18,7 +18,11 @@ class Authenticate
     {
         $isLogin = (new LoginProcess())->getProcess()->hasLogin();
         if(empty($isLogin)) {
-            return redirect('/');
+            if (Request::method() == 'GET') {
+                return redirect('/');
+            } else {
+                return response()->json(['error'=>true,'msg'=>'用户没有登录']);
+            }
         }
         return $next($request);
     }

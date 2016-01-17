@@ -3,10 +3,12 @@
 
 <?php echo $top; ?>
 
+<link rel="stylesheet" type="text/css" href="{{ asset('css/simditor.css') }}" />
+
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-8">
-    		<div class="content-wrapper">
+    		<div class="content-wrapper simditor">
     			<h3>{{ $articleInfo['data']['title'] }}</h3>
     			<div class="desc">
 					<a href="{{ '/user/'.$articleInfo['data']['uid'] }}" class="author"><img class="img-circle" src="{{ $articleInfo['data']['userUrl'] }}"/><span>{{ $articleInfo['data']['username'] }}</span></a> •
@@ -21,14 +23,14 @@
 	            	</span>
 	            	@endif
 				</div>
-				<div class="content">
-					<?php echo $articleInfo['data']['content']; ?>
+				<div class="content simditor-body">
+					{!! $articleInfo['data']['content'] !!}
 				</div>
 				<div class="single-share">
 					<ul class="clearfix">
 						<li><a href=""><i class="fa fa-star" style="position: relative;top: 1px;margin-left: 1px;"></i><span>{{ $articleInfo['data']['store'] }}</span></a></li>
 						<li><a href=""><i class="fa fa-thumbs-up" style="position: relative;top: 1px;margin-left: 2px;"></i><span>{{ $articleInfo['data']['praise'] }}</span></a></li>
-						<li><a href="{{ '/article/'.$articleInfo['data']['id'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
+						<li><a href="{{ '/note/'.$articleInfo['data']['nid'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
 					</ul>
 				</div>
     		</div>
@@ -86,7 +88,7 @@
 							</div>
 						</form>
 					@else 
-						<a class="btn btn-primary btn-sm login" href="javascript:;" data-toggle="modal" data-target="#myModal">登录后才能评论</a>
+						<a class="btn btn-primary btn-sm login" href="#myLogin" data-toggle="modal" data-target="#myLogin">登录后才能评论</a>
 					@endif
 				</div>
 			</div>

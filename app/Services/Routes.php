@@ -150,13 +150,15 @@ class Routes
 
         Route::group(['middleware' =>  'auth'], function() {
             //添加文章页面
-            Route::get('/article/add', 'Home\ArticleController@editPage');
+            Route::get('/note/add', 'Home\ArticleController@editPage');
+
             //添加文章
-            Route::post('/article/add', 'Home\ArticleController@dealArticle');
+            Route::post('/note/add', 'Home\ArticleController@dealArticle');
             //编辑文章页面
-            Route::get('/article/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+            Route::get('/note/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+
             //编辑文章
-            Route::post('/article/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
+            Route::post('/note/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
             
             //添加评论
             Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');

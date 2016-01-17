@@ -91,6 +91,11 @@
 			});
 			$el.find('.tagsinput-add-container>input').on('keyup',function(e) {
 				var $input = $(this);
+				if ($(this).val()=='') {
+					$(this).siblings('ul').remove();
+					return false;
+				} 
+				
 				if (e.which==188) {
 					if (trim($(this).val())!='') {
 						_this.add($el,$(this));
@@ -101,17 +106,16 @@
 
 				//如果支持搜索功能
 				if (_this.opts.search) {
-					if ($(this).val()=='') return false;
 
 					var ul = $(this).siblings('ul');
 					var index = ul.find('a.active').parent().index();
 					var li = ul.find('li');
 
 					if (e.which==40) {
-						ul.find('a').removeClass('active');
+						li.children('a').removeClass('active');
 						li.eq(circle(li,index+1)).children('a').addClass('active');
 					} else if (e.which==38) {
-						ul.find('a.active').removeClass('active');
+						li.children('a').removeClass('active');
 						li.eq(circle(li,index-1)).children('a').addClass('active');
 					}else {
 						if (_this.timer) clearTimeout(_this.timer);

@@ -1,7 +1,10 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\Home\Article\DraftProcess;
-use Request;
+use App\Services\Home\Article\Process as ArticleProcess;
+use App\Services\Home\Cloumn\Process as CloumnProcess;
+use App\Widget\Home\Common as WidgetCommon;
+use Request,Cache,Redis;
 
 class DraftController extends Controller {
 
@@ -12,7 +15,8 @@ class DraftController extends Controller {
 	 */
 	public function __construct()
 	{
-
+		parent::__construct();
+		$this->widget = new WidgetCommon();
 	}
 
 	/**
@@ -28,9 +32,24 @@ class DraftController extends Controller {
 	 * draft
 	 *
 	 */
-	public function page($id=0)
+	public function editpage(DraftProcess $draftProcess,$id=0)
 	{
-		return view('home.app');
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$userinfo = $this->userinfo;
+
+		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
+
+		if ($id!=0) {
+			$draftInfo = $DraftProcess->getDraftById(intval($id));
+			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','draftInfo','id'));
+		} else {
+			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
+		}
 	}
 
 

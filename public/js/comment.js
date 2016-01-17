@@ -28,6 +28,12 @@ $(function() {
 				var params = $parent.serialize();
 
 				$.post(url,params,function(data) {
+					if(data.error) {
+						console.log(data);
+						WQ.tooltip(data.msg);
+						return false;
+					};
+
 					if ($parent.find('input[name="pid"]').length>0) {
 						$parent.before(data);
 					} else {
@@ -136,8 +142,6 @@ $(function() {
 
 		render: function() {
 			var _this = this;
-
-			this.$el.find('.btn-primary.login').modal();
 
 			this.send();
 

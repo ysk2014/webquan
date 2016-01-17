@@ -15,7 +15,7 @@
 		<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 		<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
+		
 	</head>
 
 	<body>

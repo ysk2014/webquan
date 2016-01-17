@@ -23,7 +23,7 @@ class ArticleSave extends AbstractParam
 
     protected $uid;
 
-    protected $aid;
+    protected $nid;
 
     protected $view;
 
@@ -83,9 +83,9 @@ class ArticleSave extends AbstractParam
         return $this;
     }
 
-    public function setAid($aid)
+    public function setNid($nid)
     {
-        $this->aid = $this->attributes['aid'] = $aid;
+        $this->aid = $this->attributes['nid'] = $nid;
         return $this;
     }
 

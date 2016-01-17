@@ -121,7 +121,7 @@ class Comment extends Model
      */
     public function countCommentByAid($aid)
     {
-        return $this->where('aid', $aid)->where('fid', 0)->count();
+        return $this->where('aid', $aid)->count();
     }
 
 

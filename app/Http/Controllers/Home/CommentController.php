@@ -61,7 +61,7 @@ class CommentController extends Controller {
 			$result = $commentProcess->addComment($data);
 
 			if(!$result['error']) {
-				return $this->widget->commentAjax($aid,$result['data'],$data['fid']);
+				return $this->widget->commentAjax($aid,$result['data'],isset($data['fid']) ? $data['fid'] : 0);
 			}
 
 		} else if($method=="DELETE") {

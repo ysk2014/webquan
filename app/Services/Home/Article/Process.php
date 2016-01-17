@@ -2,7 +2,7 @@
 namespace App\Services\Home\Article;
 
 use App\Models\Home\Article as ArticleModel;
-use App\Models\Home\Drafts as DraftsModel;
+use App\Models\Home\Notes as NoteModel;
 use App\Services\Home\Article\ArticleValidate;
 use App\Models\Home\Cloumn as CloumnModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
@@ -31,7 +31,7 @@ class Process extends BaseProcess
      * 
      * @var object
      */
-    private $draftsModel;
+    private $noteModel;
 
     /**
      * 文章表单验证对象
@@ -76,7 +76,7 @@ class Process extends BaseProcess
 	function __construct()
 	{
         if( ! $this->articleModel) $this->articleModel = new ArticleModel();
-        if( ! $this->draftsModel) $this->draftsModel = new DraftsModel();
+        if( ! $this->noteModel) $this->noteModel = new NoteModel();
         if( ! $this->articleValidate) $this->articleValidate = new ArticleValidate();
         if( !$this->cloumnModel) $this->cloumnModel = new CloumnModel();
         if( !$this->careModel) $this->careModel = new UCCModel();
@@ -224,12 +224,6 @@ class Process extends BaseProcess
 		$sqlData = $this->articleModel->addArticle($data->toArray());
 		if ($sqlData != false) {
 
-			// 删除草稿箱
-			
-			if (isset($did)) {
-				$dids = [$did];
-				$this->draftsModel->delDrafts($dids);
-			}
 
 			$this->cloumnModel->incrementData('count',$data['cid']);
 			
@@ -303,11 +297,6 @@ class Process extends BaseProcess
 				$this->redis->del('article_'.$id);
 			}
 
-			//删除草稿箱
-			if ($did>0) {
-				$dids = [$did];
-				$this->draftsModel->delDrafts($dids);
-			}
 
 			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
 		} else {
@@ -346,6 +335,11 @@ class Process extends BaseProcess
 					$next = true;
 				} else {
 					$next = false;
+				}
+				foreach ($articleData as $key => $value) {
+					if (!empty($value['tags'])) {
+						$articleData[$key]['tags'] = explode(',', $value['tags']);
+					}
 				}
 
 				return array('error'=>false,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);

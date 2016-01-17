@@ -11,7 +11,11 @@
 	            	<span class="praise">推荐：{{ $article['praise'] }}</span>
 	            	<span class="comment">评论：{{ $article['comment'] }}</span>
 	            	@if (!empty($article['tags']))
-	            	<span class="tags"><i class="fa fa-tags"></i><a href="">{{ $article['tags'] }}</a></span>
+		            	<span class="tags"><i class="fa fa-tags"></i>
+							@foreach ($article['tags'] as $tag)
+			            		<a href="">{{ $tag }}</a>
+			            	@endforeach
+			            </span>
 	            	@endif
 				</div>
 				<hr>
