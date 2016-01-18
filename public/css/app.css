@@ -28,6 +28,9 @@ i.fa{
 	padding: 15px 20px;
 	font-size: 14px;
 }
+#mask .bg-info {
+	background-color: #1abc9c;
+}
 
 /*登录注册模块*/
 #myLogin .modal-login {
@@ -341,6 +344,9 @@ i.fa{
     border-radius: 50%;
     font-size: 17px;
     position: relative;
+}
+.content-wrapper .single-share li a.active {
+	background-color: #e74c3c;
 }
 .content-wrapper .single-share li a span{
 	position: absolute;

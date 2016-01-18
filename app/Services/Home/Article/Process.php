@@ -435,15 +435,14 @@ class Process extends BaseProcess
 		
 		$uid = SC::getLoginSession()['id'];
 		//判断用户是否已推荐和收藏
-		$articleInfo['praiseStatus'] = false;
-		$articleInfo['storeStatus'] = false;
+		
 		$ids = $this->userArticleModel->getIds($id,$uid);
 		if($ids) {
 			foreach ($ids as $key => $value) {
 				if($value['type']==0) {
-					$articleInfo['praiseStatus'] = true;
+					$articleInfo['praise_id'] = $value['id'];
 				} else if($value['type']==1) {
-					$articleInfo['storeStatus'] = true;
+					$articleInfo['store_id'] = $value['id'];
 				}
 			}	
 		}
@@ -593,14 +592,14 @@ class Process extends BaseProcess
 
 
 	/**
-	* 处理文章推荐和收藏
+	* 处理文章推荐或收藏
 	*
 	* @param object $data;
 	* @param string $method;
 	* @access public
 	* @return boolean true|false
 	*/
-	public function dealPraiseOrStore($data,$method)
+	public function addPraiseOrStore($data)
 	{
 		$resultArr = [];
 
@@ -612,28 +611,52 @@ class Process extends BaseProcess
 			$msg ='收藏';
 		}
 
-		if($method=='POST') {
-			$sqlData = $this->userArticleModel->add($data);
-		} else if($method=='DELETE') {
-			$sqlData = $this->userArticleModel->del($data);
-			$msg='取消';
-		}
+		$data['uid'] = SC::getLoginSession()['id'];
+
+		$sqlData = $this->userArticleModel->add($data);
 
 		if($sqlData != false) {
-			if($method=='POST') {
 
-				$this->articleModel->incrementById($status,$data['aid']);
+			$this->articleModel->incrementById($status,$data['aid']);
 
-				$this->redis->hincrby('article_'.$data['aid'],$status,1);
-				$this->redis->hset('article_'.$data['aid'],$status.'Status',true);
-			} else {
-				$this->articleModel->decrementById($status,$data['aid']);
-				$this->redis->hincrby('article_'.$data['aid'],$status,-1);
-				$this->redis->hset('article_'.$data['aid'],$status.'Status',false);
-			}
+			$this->redis->hincrby('article_'.$data['aid'],$status,1);
+			$this->redis->hset('article_'.$data['aid'],$status.'_id',$sqlData);
+
 			$resultArr = array('error'=>false, 'msg'=>$msg.'成功');
 		} else {
 			$resultArr = array('error'=>true, 'msg'=>$msg.'失败');
+		}
+		return $resultArr;
+	}
+
+	/**
+	* 删除文章推荐或收藏
+	*
+	* @param object $data;
+	* @param string $method;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delPraiseOrStore($data)
+	{
+		$resultArr = [];
+
+		if($data['type']==0) {
+			$status ='praise';
+		} else {
+			$status ='store';
+		}
+
+		$sqlData = $this->userArticleModel->del([$data['id']]);
+
+		if($sqlData != false) {
+			$this->articleModel->decrementById($status,$data['aid']);
+			$this->redis->hincrby('article_'.$data['aid'],$status,-1);
+			$this->redis->hset('article_'.$data['aid'],$status.'_id',0);
+
+			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+		} else {
+			$resultArr = array('error'=>true, 'msg'=>'取消失败');
 		}
 		return $resultArr;
 	}

@@ -26,10 +26,10 @@
 				<div class="content simditor-body">
 					{!! $articleInfo['data']['content'] !!}
 				</div>
-				<div class="single-share">
+				<div class="single-share" data-aid="{{ $articleInfo['data']['id'] }}">
 					<ul class="clearfix">
-						<li><a href=""><i class="fa fa-star" style="position: relative;top: 1px;margin-left: 1px;"></i><span>{{ $articleInfo['data']['store'] }}</span></a></li>
-						<li><a href=""><i class="fa fa-thumbs-up" style="position: relative;top: 1px;margin-left: 2px;"></i><span>{{ $articleInfo['data']['praise'] }}</span></a></li>
+						<li><a href="javascript:void(0);" class="store @if (!empty($articleInfo['data']['store_id'])) active @endif" @if (!empty($articleInfo['data']['store_id'])) data-sid="{{ $articleInfo['data']['store_id'] }}" @endif><i class="fa fa-star" style="position: relative;top: 1px;margin-left: 1px;"></i><span>{{ $articleInfo['data']['store'] }}</span></a></li>
+						<li><a href="javascript:void(0);" class="praise @if (!empty($articleInfo['data']['praise_id'])) active @endif" @if (!empty($articleInfo['data']['praise_id'])) data-pid="{{ $articleInfo['data']['praise_id'] }}" @endif><i class="fa fa-thumbs-up" style="position: relative;top: 1px;margin-left: 2px;"></i><span>{{ $articleInfo['data']['praise'] }}</span></a></li>
 						<li><a href="{{ '/note/'.$articleInfo['data']['nid'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
 					</ul>
 				</div>
@@ -102,6 +102,7 @@
 <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github-gist.min.css"> -->
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script> -->
 <!-- // <script>hljs.initHighlightingOnLoad();</script> -->
+<script type="text/javascript" src="{{ asset('js/article.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/comment.js') }}"></script>
 
 <?php echo $footer; ?>

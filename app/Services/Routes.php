@@ -166,14 +166,14 @@ class Routes
             Route::delete('/article/{aid}/comment', 'Home\CommentController@dealComment')->where('aid', '[0-9]+');
 
             //添加推荐
-            Route::post('/article/{id}/praise', 'Home\ArticleController@dealPraise')->where('id', '[0-9]+');
+            Route::post('/article/{id}/praise', 'Home\ArticleController@addPraiseOrStore')->where('id', '[0-9]+');
             //取消推荐
-            Route::post('/praise/{id}', 'Home\ArticleController@dealPraise')->where('id', '[0-9]+');
+            Route::post('/praise/{id}', 'Home\ArticleController@delPraiseOrStore')->where('id', '[0-9]+');
 
             //添加收藏
-            Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
+            Route::post('/article/{id}/store', 'Home\ArticleController@addPraiseOrStore')->where('id', '[0-9]+');
             //取消收藏
-            Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
+            Route::post('/store/{id}', 'Home\ArticleController@delPraiseOrStore');
         });
     }
 

@@ -280,15 +280,30 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function dealPraise(ArticleProcess $articleProcess,$id=0)
+	public function addPraiseOrStore(ArticleProcess $articleProcess,$id=0)
 	{
 
 		$data = Request::input('data');
+		$data['aid'] = $id;
 		$data['addtime'] = time();
 
-		$result = $articleProcess->dealPraiseOrStore($data);
+		$result = $articleProcess->addPraiseOrStore($data);
 		
 		return response()->json($result);
 	}
+	/**
+	 * 删除文章推荐和收藏
+	 *
+	 * @return Response
+	 */
+	public function delPraiseOrStore(ArticleProcess $articleProcess,$id=0)
+	{
 
+		$data = Request::input('data');
+		$data['id'] = $id;
+
+		$result = $articleProcess->delPraiseOrStore($data);
+		
+		return response()->json($result);
+	}
 }

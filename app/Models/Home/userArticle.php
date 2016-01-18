@@ -34,18 +34,16 @@ class UserArticle extends Base
         return $this->create($data);
     }
 
-
     /**
-     * 取消
+     * 删除
      * 
+     * @param array $ids
      */
-    public function del($data)
+    public function del(array $ids)
     {
-        return $this->where('uid','=',intval($data['uid']))
-                    ->where('aid','=',intval($data['aid']))
-                    ->where('type','=',intval($data['type']))
-                    ->delete();
+        return $this->destroy($ids);
     }
+
 
     /**
      * 获取ids

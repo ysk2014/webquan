@@ -61,6 +61,19 @@ class Common
     }
 
     /**
+     * artAside
+     */
+    public function artAside()
+    {
+        //获取热门文章数据
+        $hotsArt = (new ArticleProcess())->getArtsByView(3);
+        //获取所标签列表
+        $tags = (new TagProcess())->getAllTags();
+
+        return view('home.widget.aside', compact('hotsArt', 'tags'));
+    }
+
+    /**
      * articles
      */
     public function articles($page=0,$way='addtime')
