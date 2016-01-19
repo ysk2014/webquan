@@ -61,7 +61,7 @@ class Article extends Base
      */
     public function getArtById($id)
     {
-        return $this->select(array('article.*','user.username','user.logo_dir as userUrl','cloumn.name as cloumnName'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl', 'user.description as uDescription', 'cloumn.name as cloumnName', 'cloumn.description as cDescription'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->where('article.id','=', intval($id))
@@ -231,6 +231,16 @@ class Article extends Base
     public function countArticleByCid($cid)
     {
         return $this->where('cid','=',intval($cid))->count();
+    }
+
+    /**
+     * 获取根据作者id文章总数
+     * 
+     * @param intval $id 作者的ID
+     */
+    public function countArticleByUid($uid)
+    {
+        return $this->where('uid','=',intval($uid))->count();
     }
 
     /**

@@ -191,9 +191,9 @@ i.fa{
 #main .sidebar .widget .title {
 	position: relative;
 	padding-left: 15px; 
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 20px;
-	font-weight: 600;
+	color: #666;
 }
 #main .sidebar .widget .title:before {
 	content: '';
@@ -201,7 +201,7 @@ i.fa{
 	left: 0;
 	top: 0;
 	display: block;
-	width: 6px;
+	width: 4px;
 	height: 20px;
 	background: #1abc9c;
 	border-radius: 3px;
@@ -239,6 +239,37 @@ i.fa{
 	color: #fff;
 	background: #1abc9c;
 }
+.widget .avatar {
+	display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-size: cover;
+    margin-right: 15px;
+    vertical-align: top;
+    overflow: hidden;
+}
+.widget .w-desc {
+	overflow: hidden;
+    display: inline-block;
+    width: 200px;
+    vertical-align: middle;
+    white-space: normal;
+}
+.widget .w-desc .name {
+	font-size: 17px;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 4px;
+    margin-left: 0px;
+}
+.widget .w-desc .brief {
+	margin-top: 5px;
+	color: #666666;
+}
+
+    
+
 #main {
 	margin-bottom: 35px;
 }

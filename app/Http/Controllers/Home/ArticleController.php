@@ -102,7 +102,10 @@ class ArticleController extends Controller {
 
 		$top = $this->widget->top($this->userinfo);
 
-		$aside = $this->widget->aside();
+		$author = ['uid'=>$articleInfo['data']['uid'],'nick'=>$articleInfo['data']['username'],'avatar'=>$articleInfo['data']['userUrl'],'description'=>$articleInfo['data']['uDescription']];
+		$cloumn = ['cid'=>$articleInfo['data']['cid'],'name'=>$articleInfo['data']['cloumnName'],'description'=>$articleInfo['data']['cDescription']];
+		
+		$aside = $this->widget->artAside($author,$cloumn);
 
         $userinfo = $this->userinfo;
 

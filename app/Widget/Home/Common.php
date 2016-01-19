@@ -6,6 +6,7 @@ use App\Services\User\Login\Process as LoginProcess;
 use App\Services\Home\Article\Process as ArticleProcess;
 use App\Services\Home\Comment\Process as CommentProcess;
 use App\Services\Home\Tag\Process as TagProcess;
+use App\Services\User\Process as UserProcess;
 
 /**
  * 页面组件
@@ -63,14 +64,16 @@ class Common
     /**
      * artAside
      */
-    public function artAside()
+    public function artAside($author,$cloumn)
     {
+
         //获取热门文章数据
         $hotsArt = (new ArticleProcess())->getArtsByView(3);
         //获取所标签列表
         $tags = (new TagProcess())->getAllTags();
-
-        return view('home.widget.aside', compact('hotsArt', 'tags'));
+        
+        return view('home.widget.aside', compact('hotsArt', 'tags','author','cloumn'));
+        
     }
 
     /**
