@@ -561,3 +561,22 @@ i.fa{
 
 
 
+#editCloumn {
+	max-width: 600px;
+	margin: 50px auto 0;
+	overflow: hidden;
+}
+#editCloumn h1 {
+	text-align: center;
+	margin: 20px;
+}
+#editCloumn p {
+	font-size: 14px;
+	text-align: center;
+	margin-bottom: 40px;
+}
+#editCloumn textarea {
+	min-height: 200px;
+	resize: none;
+}
+

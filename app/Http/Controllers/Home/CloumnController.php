@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Home;
-use App\Services\User\Login\Process as LoginProcess;
 use  App\Services\Home\Cloumn\Process as CloumnProcess;
+use App\Widget\Home\Common as WidgetCommon;
 use Request;
 
 class CloumnController extends Controller {
@@ -13,20 +13,46 @@ class CloumnController extends Controller {
 	 */
 	public function __construct()
 	{
-		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		// if($isLogin) $this->returnData = ['userInfo'=>$isLogin];
+		parent::__construct();
+		$this->widget = new WidgetCommon();
 	}
 
 	/**
-	 * Show the application dashboard to the user.
+	 * 专栏
 	 *
 	 * @return Response
 	 */
-	public function index($id=0)
+	public function index()
 	{
-		return view('home.app');
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$userinfo = $this->userinfo;
+
+		return response()->view('home.cloumn.index',compact('header','top','footer','userinfo'));
 	}
 
+
+	/**
+	 * 添加专题处理
+	 *
+	 * @return Response
+	 */
+	public function editPage($id=0)
+	{
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$userinfo = $this->userinfo;
+
+		return response()->view('home.cloumn.edit',compact('header','top','footer','userinfo'));
+	}
 
     /**
      * 处理专题

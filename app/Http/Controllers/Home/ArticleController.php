@@ -78,8 +78,6 @@ class ArticleController extends Controller {
 		} else {
 			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
 		}
-
-		
 	}
 
 

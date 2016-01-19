@@ -10,7 +10,7 @@
 		<ul class="dropdown-menu">
 			<li><a href="/note/add">写文章</a></li>
 			<li><a href="{{ '/user/'.$userinfo['id'] }}">我的首页</a></li>
-			<li><a href="#">我的专栏</a></li>
+			<li><a href="/cloums">我的专栏</a></li>
 			<li><a href="#">我的笔记</a></li>
 			<li><a href="#">我的文集</a></li>
 			<li><a href="#">帐号设置</a></li>

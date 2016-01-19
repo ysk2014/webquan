@@ -68,7 +68,7 @@ class Routes
 
             $this->article();
 
-            // $this->cloumn();
+            $this->cloumn();
 
             //标签页面
             Route::get('/t/{name}', 'Home\TagController@index');
@@ -81,7 +81,7 @@ class Routes
             //添加bug
             Route::post('/bug', 'Home\BugController@addBug');
 
-            
+
             Route::group(['middleware' =>  'auth'], function() {
 
                 //图片上传upload
@@ -175,6 +175,20 @@ class Routes
             //取消收藏
             Route::post('/store/{id}', 'Home\ArticleController@delPraiseOrStore');
         });
+    }
+
+    /**
+     * 前端专题路由
+     * 
+     *
+     * @access public
+     */
+    public function cloumn() {
+        
+        Route::get('/cloumn/{}', 'Home\CloumnController@index');
+
+        Route::get('/cloumn/add', 'Home\CloumnController@editPage');
+
     }
 
     /**
