@@ -22,7 +22,7 @@ class CloumnController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(CloumnProcess $manager,$uid=0)
 	{
 		$header = $this->widget->header();
 
@@ -32,7 +32,9 @@ class CloumnController extends Controller {
 
 		$userinfo = $this->userinfo;
 
-		return response()->view('home.cloumn.index',compact('header','top','footer','userinfo'));
+		$cloumnInfo = $manager->getCloumnByUid($uid);
+
+		return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumnInfo'));
 	}
 
 
@@ -60,35 +62,48 @@ class CloumnController extends Controller {
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
+	public function delCloumn(CloumnProcess $manager,$id=0)
+	{
+		$ids = [$id];
+		$result = $manager->delCloumn($ids);
+	}
+    /**
+     * 处理专题
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
 	public function dealCloumn(CloumnProcess $manager,$id=0)
 	{
-		$method = Request::method();
 		$param = new \App\Services\Home\Cloumn\CloumnSave();
 
-		if($method=='POST') {
-
-			$data = (array) Request::input('data');
-			$data['addtime'] = time();
-
-			$param->setAttributes($data);
-			$result = $manager->addCloumn($param);
-
-		} else if($method=='PUT') {
-
+		if ($id!=0) {
 			$data = (array) Request::input('data');
 			$data['update_time'] = time();
 
 			$param->setAttributes($data);
 			$result = $manager->editCloumn($param);
 
-		} else if($method=='DELETE') {
-			$ids = [$id];
-			$result = $manager->delCloumn($ids);
+			if (!$result['error']) {
+				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
+			} else {
+				return redirect('/cloumn/'.$id.'/edit');
+			}
 		} else {
-			$result = array('error'=>true,'msg'=>'路由匹配失败');
+			$data = (array) Request::input('data');
+			$data['addtime'] = time();
+			$data['update_time'] = time();
+			$data['uid'] = $this->userinfo['id'];
+
+			$param->setAttributes($data);
+			$result = $manager->addCloumn($param);
+
+			if (!$result['error']) {
+				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
+			} else {
+				return redirect('/cloumn/add');
+			}
 		}
-		
-		return response()->json($result);
 		
 	}
 

@@ -146,36 +146,14 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function getCloumnsByUid($data)
+    public function getCloumnByUid($uid)
     {
-        if(!isset($data['uid'])) return array('error'=>true, 'msg'=>'参数没有设置');
+        if(!isset($uid)) return array('error'=>true, 'msg'=>'参数没有设置');
 
-        $page = isset($data['page']) ? $data['page'] : 0;
-
-        $result = $this->cloumnModel->getCloumnsByUid($data['uid'],$page);
+        $result = $this->cloumnModel->getCloumnByUid($uid);
         if($result) 
         {
-            $careArr = $this->careModel->getCidsByUid($data['uid']);
-            $cids = [];
-            foreach ($careArr as $key => $value) {
-                array_push($cids, $value['cid']);
-            }
-
-            foreach ($result as $key => $val) {
-                if(in_array($val['id'], $cids)) {
-                    $result[$key]['myCare'] = true;
-                } else {
-                    $result[$key]['myCare'] = false;
-                }
-            }
-
-            $count = $this->cloumnModel->countCloumnByUid($data['uid']);
-            if( (intval($page)+1)*24 < $count ) {
-                $next = true;
-            } else {
-                $next = false;
-            }
-            return array('error'=>false, 'data'=>$result, 'next'=>$next);
+            return array('error'=>false, 'data'=>$result);
         } 
         else 
         {

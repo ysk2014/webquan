@@ -72,13 +72,12 @@ class Cloumn extends Base
      * 
      * @param intval $uid 用户的ID
      */
-    public function getCloumnsByUid($uid,$page)
+    public function getCloumnByUid($uid)
     {
-        return $this->where('cloumn.uid','=', intval($uid))
-                    ->orderBy('addtime','desc')
-                    ->skip($page*24)->take(24)
-                    ->get()
-                    ->toArray();
+        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
+                    ->leftJoin('user','cloumn.uid','=','user.id')
+                    ->where('cloumn.uid','=', intval($uid))
+                    ->first();
     }
 
     /**
