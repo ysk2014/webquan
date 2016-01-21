@@ -185,7 +185,8 @@ class Routes
      */
     public function cloumn() {
         
-        Route::get('/user/{uid}/cloumn', 'Home\CloumnController@index')->where('uid', '[0-9]+');
+        Route::get('/user/{uid}/cloumn', 'Home\CloumnController@myCloumn')->where('uid', '[0-9]+');
+        Route::get('/cloumn/{id}', 'Home\CloumnController@index')->where('id', '[0-9]+');
 
         Route::get('/cloumn/add', 'Home\CloumnController@editPage');
         Route::post('/cloumn/add', 'Home\CloumnController@dealCloumn');

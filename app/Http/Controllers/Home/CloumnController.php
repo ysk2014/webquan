@@ -22,7 +22,32 @@ class CloumnController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(CloumnProcess $manager,$uid=0)
+	public function index(CloumnProcess $manager,$id=0)
+	{
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$userinfo = $this->userinfo;
+
+		$cloumnInfo = $manager->getCloumnById($id,$userinfo['id']);
+
+		if (!$cloumnInfo['error']) {
+			$cloumn = $cloumnInfo['data'];
+			$articles = $this->widget->articlesByCid($cloumn['id']);
+			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+		}
+
+	}
+
+	/**
+	 * 我的专栏
+	 *
+	 * @return Response
+	 */
+	public function myCloumn(CloumnProcess $manager,$uid=0)
 	{
 		$header = $this->widget->header();
 
@@ -34,9 +59,13 @@ class CloumnController extends Controller {
 
 		$cloumnInfo = $manager->getCloumnByUid($uid);
 
-		return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumnInfo'));
-	}
+		if (!$cloumnInfo['error']) {
+			$cloumn = $cloumnInfo['data'];
+			$articles = $this->widget->articlesByCid($cloumn['id']);
+			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+		}
 
+	}
 
 	/**
 	 * 添加专题处理

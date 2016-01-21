@@ -7,6 +7,7 @@
 				<div class="desc">
 					<a href="{{ '/user/'.$article['uid'] }}" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$article['addtime']) }}</span>
+	            	<span class="view">专栏：<a href="/cloumn/{{ $article['cid'] }}">{{ $article['cloumn'] }}</a></span>
 	            	<span class="view">浏览：{{ $article['view'] }}</span>
 	            	<span class="praise">推荐：{{ $article['praise'] }}</span>
 	            	<span class="comment">评论：{{ $article['comment'] }}</span>
@@ -28,7 +29,7 @@
 				</div>
 			@endif
 			<div class="content">
-				<p>{{ $article['description'] }}</p>
+				<p>{!! $article['description'] !!}</p>
 			</div>
 		</div>		
 	@endforeach

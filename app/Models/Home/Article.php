@@ -151,8 +151,9 @@ class Article extends Base
      */
     public function getAllArticle($data='addtime',$page)
     {
-        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl','cloumn.name as cloumn'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.'.$data,'desc')
                     ->skip($page*20)->take(20)
                     ->get()

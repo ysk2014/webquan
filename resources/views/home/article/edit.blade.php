@@ -20,7 +20,7 @@
 				</div>
 				<div class="form-group">
 					<label for="myDesc" class="sr-only">文章简介</label>
-		    		<textarea class="form-control" id="myDesc" placeholder="文章简介,最多140个字" maxLength="140" name="data[description]">@if (isset($id) && !$noteInfo['error']) {{ $noteInfo['data']['description'] }} @endif</textarea>
+		    		<textarea class="form-control" id="myDesc" placeholder="文章简介，最多140个字，如果不填写，会自动截取文章内容" maxLength="140" name="data[description]">@if (isset($id) && !$noteInfo['error']) {{ $noteInfo['data']['description'] }} @endif</textarea>
 				</div>
 				<div class="form-group tagsinput" style="position: relative;">
 					<label for="myTags" class="sr-only">文章标签</label>

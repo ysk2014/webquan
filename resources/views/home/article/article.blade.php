@@ -30,7 +30,9 @@
 					<ul class="clearfix">
 						<li><a href="javascript:void(0);" class="store @if (!empty($articleInfo['data']['store_id'])) active @endif" @if (!empty($articleInfo['data']['store_id'])) data-sid="{{ $articleInfo['data']['store_id'] }}" @endif><i class="fa fa-star" style="position: relative;top: 1px;margin-left: 1px;"></i><span>{{ $articleInfo['data']['store'] }}</span></a></li>
 						<li><a href="javascript:void(0);" class="praise @if (!empty($articleInfo['data']['praise_id'])) active @endif" @if (!empty($articleInfo['data']['praise_id'])) data-pid="{{ $articleInfo['data']['praise_id'] }}" @endif><i class="fa fa-thumbs-up" style="position: relative;top: 1px;margin-left: 2px;"></i><span>{{ $articleInfo['data']['praise'] }}</span></a></li>
-						<li><a href="{{ '/note/'.$articleInfo['data']['nid'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
+						@if ($userinfo['id']==$articleInfo['data']['uid']) 
+							<li><a href="{{ '/note/'.$articleInfo['data']['nid'].'/edit' }}"><i class="fa fa-edit" style="position: relative;top: 2px;margin-left: 2px;"></i></a></li>
+						@endif
 					</ul>
 				</div>
     		</div>

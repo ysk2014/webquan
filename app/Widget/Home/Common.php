@@ -88,6 +88,17 @@ class Common
     }
 
     /**
+     * 专栏下的文章列表
+     */
+    public function articlesByCid($cid,$page=0,$way='addtime')
+    {
+        //文章数据列表
+        $articles = (new ArticleProcess())->getArtsByCid(array('way'=>$way,'page'=>$page,'cid'=>$cid));
+
+        return view('home.widget.articles', compact('articles','page'));
+    }
+
+    /**
      * comments
      */
     public function comments($aid,$userinfo,$page=0)
