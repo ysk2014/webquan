@@ -12,8 +12,8 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="/">首页</a></li>
-				<li><a href="">问答</a></li>
-				<li><a href="">文章</a></li>
+				<li style="display: none;"><a href="">问答</a></li>
+				<li style="display: none;"><a href="">文章</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="search"><a href=""><i class="fa fa-search"></i></a></li>

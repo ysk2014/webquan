@@ -192,7 +192,6 @@ i.fa{
 	position: relative;
 	padding-left: 15px; 
 	font-size: 14px;
-	line-height: 20px;
 	color: #666;
 }
 #main .sidebar .widget .title:before {
@@ -202,7 +201,7 @@ i.fa{
 	top: 0;
 	display: block;
 	width: 4px;
-	height: 20px;
+	height: 16px;
 	background: #1abc9c;
 	border-radius: 3px;
 }
