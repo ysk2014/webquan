@@ -21,7 +21,7 @@
 </head>
 <body class="theme-3">
 	<div id="container">
-		<div class="error-code"><?php echo ! empty($errorCode) ? $errorCode : 500; ?></div>
+		<div class="error-code"><?php echo ! empty($errorCode) ? $errorCode : 404; ?></div>
 		<div class="clear"></div>
 		<div class="error-msg">啊！我们迷路了。快<a href="/">返回首页</a>，快快快！</div>
 	</div>

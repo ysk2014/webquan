@@ -84,228 +84,6 @@ class Process extends BaseProcess
         if( !$this->redis) $this->redis = Redis::connection();
 	}
 
-	/**
-	* 判断上传文件的文件夹是否为空
-	*
-	* @param string 文件夹路径
-	* @access private
-	* @return boolean true|false
-	*/
-	private function is_empty_dir($dir)
-	{
-		$H = @opendir($dir); 
-        $i=0;    
-        while($_file=readdir($H)){    
-            $i++;    
-        }    
-        closedir($H);
-        if($i>2){ 
-            return false; 
-        }else{ 
-            return true;  
-        } 
-	}
-
-
-	/**
-	* 文章图片缓存
-	*
-	* @param array $ids;
-	* @access public
-	* @return boolean true|false
-	*/
-	public function imgCache(\App\Services\Home\Article\ArticleSave $data){
-
-		$content = $this->redis->hget('article_'.$data->id,'content');
-
-		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$content,$imgArr);
-
-		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
-
-		if($status) {
-			foreach ($imgArr[0] as $key => $value) {
-				$value = str_ireplace('src=\"','',$value);
-				$value = str_ireplace('\"','',$value);
-				$this->redis->lpush($cache,$value);
-			}
-		}
-
-		return $data;
-	}
-
-
-	/**
-	* 删除上传的没有用到的图片，并把第一张图片作为文章的logo，处理文章简介
-	*
-	* @param object $data;
-	* @access private
-	* @return object $data
-	*/
-	private function dealData(\App\Services\Home\Article\ArticleSave $data)
-	{
-		// 如果文章简介为，则提取文章内容中的文字
-		if (empty($data->description)) {
-			$resultDesc = preg_match_all('/<p>(.*?)<\/p>/',$data->content,$descArr);
-
-			if ($resultDesc) {
-				foreach ($descArr[1] as $key => $value) {
-					if (!strstr($value,'<img')) {
-						$data->setDescription($value);
-					}
-				}
-			}
-		}
-
-		// 匹配文章内容中所有的图片
-		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
-
-		// 把第一张图片设置为文章的logo
-		if(!$status) return $data;
-		
-		if(count($imgArr[0])) {
-			$logo_dir = $imgArr[0][0];
-			$logo_dir = preg_replace('/src=\"/', '', $logo_dir);
-			$logo_dir = preg_replace('/\"/', '', $logo_dir);
-
-			$data->setLogoDir($logo_dir);
-		}
-
-		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
-		
-
-		if($this->redis->exists($cache))
-		{
-			$uploadImg = $this->redis->lrange($cache,0,-1);
-			$savePath = \Config::get('sys.sys_upload_path'). '/' . date('Y', time()) . date('m', time()) . date('d', time());
-
-			foreach ($uploadImg as $key => $value) {
-				$value1 = 'src="'.$value.'"';
-				if(!in_array($value1, $imgArr[0]))
-				{
-					@unlink(dirname(dirname($savePath)).$value);
-
-					// 判断文件夹是否为空
-					if( $this->is_empty_dir(dirname($savePath)) )
-					{
-						@unlink(dirname($savePath));
-					}
-				}
-			}
-			$this->redis->del($cache);
-		}
-
-		return $data;
-	}
-
-	/**
-	* 增加文章
-	*
-	* @param object $data;
-	* @access public
-	* @return boolean true|false
-	*/
-	public function addArticle(\App\Services\Home\Article\ArticleSave $data)
-	{
-		$resultArr = [];
-		// 进行文章表单验证
-		if ( !$this->articleValidate->add($data) ) 
-			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
-
-		// 对内容进行处理
-		$data = $this->dealData($data);
-
-		//草稿箱处理
-		if ($data->id) {
-			$did = $data->id;
-			unset($data->id);
-			unset($data->aid);
-		}
-
-		$sqlData = $this->articleModel->addArticle($data->toArray());
-		if ($sqlData != false) {
-
-
-			$this->cloumnModel->incrementData('count',$data['cid']);
-			
-			$resultArr = array('error'=>false, 'data'=>$sqlData);
-		} else {
-			$resultArr = array('error'=>true, 'msg'=>'创建失败');
-		}
-		return $resultArr;
-	}
-
-
-	/**
-	* 删除文章
-	*
-	* @param array $ids;
-	* @access public
-	* @return boolean true|false
-	*/
-	public function delArticle($ids)
-	{
-		$resultArr = [];
-		if( !is_array($ids) ) return array('error'=>true,'msg'=>'没有文章id');
-
-		if($this->articleModel->delArticle($ids) != false) {
-			// 删除缓存
-			foreach ($ids as $key => $id) {
-				if ($this->redis->hlen('article_'.$id)>0) {
-					$this->redis->del('article_'.$id);
-				}
-			};
-			
-			$resultArr = array('error'=>false, 'msg'=>'删除成功');
-		} else {
-			$resultArr = array('error'=>true, 'msg'=>'删除失败');
-		}
-		return $resultArr;
-	}
-
-
-
-
-	/**
-	* 编辑文章
-	*
-	* @param array $ids;
-	* @access public
-	* @return boolean true|false
-	*/
-	public function editArticle(\App\Services\Home\Article\ArticleSave $data,$did=0)
-	{	
-
-		$resultArr = [];
-		if( !isset($data->id) ) return array('error'=>true,'msg'=>'没有文章id');
-
-		// 进行文章表单验证
-		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
-
-		// 对内容图片进行缓存处理
-		$data = $this->imgCache($data);
-
-		// 对内容进行处理
-		$data = $this->dealData($data);
-
-
-		$id = intval($data->id);
-		unset($data->id);
-
-		if($this->articleModel->editArticle($data->toArray(), $id) != false) {
-			// 删除redis缓存
-			if ($this->redis->hlen('article_'.$id)>0) {
-				$this->redis->del('article_'.$id);
-			}
-
-
-			$resultArr = array('error'=>false, 'msg'=>'编辑成功');
-		} else {
-			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
-		}
-		return $resultArr;
-	}
-
-
 
 	/**
 	* 获取已公布的文章列表
@@ -396,6 +174,11 @@ class Process extends BaseProcess
 			foreach ($articleInfo as $key => $value) {
 				unset($value['content']);
 				array_push($articleData,$value);
+			}
+			foreach ($articleData as $key => $value) {
+				if (!empty($value['tags'])) {
+					$articleData[$key]['tags'] = explode(',', $value['tags']);
+				}
 			}
 
 			return array('error'=>false,'data'=>$articleData, 'next'=>$next);
@@ -512,6 +295,11 @@ class Process extends BaseProcess
 			foreach ($articleInfo as $key => $value) {
 				unset($value['content']);
 				array_push($articleData,$value);
+			}
+			foreach ($articleData as $key => $value) {
+				if (!empty($value['tags'])) {
+					$articleData[$key]['tags'] = explode(',', $value['tags']);
+				}
 			}
 
 			return array('error'=>false,'data'=>$articleData,'next'=>$next);

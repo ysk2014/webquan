@@ -14,7 +14,7 @@
 	            	@if (!empty($article['tags']))
 		            	<span class="tags"><i class="fa fa-tags"></i>
 							@foreach ($article['tags'] as $tag)
-			            		<a href="">{{ $tag }}</a>
+			            		<a href="{{ '/t/'.$tag }}">{{ $tag }}</a>
 			            	@endforeach
 			            </span>
 	            	@endif

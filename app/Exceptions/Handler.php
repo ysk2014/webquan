@@ -40,26 +40,35 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceof ModelNotFoundException){
+
+            if($request->ajax()){
+
+                return response()->json(['ret'=>'ERROR','msg'=>'Model Not Found'],404);
+
+            }
+
+            return response()->view('errors.404',[],404);
+
+        }
+
+        if($e instanceof TokenMismatchException){
+
+            if($request->ajax()){
+
+                return response()->json(['ret'=>'ERROR','msg'=>'Token Mismatch'],400);
+
+            }
+
+            \Flash::error('表单重复提交，请刷新页面再试！');
+
+            return \Redirect::back()->withInput()->withErrors('表单重复提交，请刷新页面再试！');
+
+        }
+
         return parent::render($request, $e);
     }
 
-    /**
-     * 自定义错误页
-     */
-    protected function renderHttpException(HttpException $e)
-    {
-        if(Request::ajax() and ! config('app.debug'))
-        {
-            return response()->json(['error_code' => $e->getStatusCode()]);
-        }
-        elseif (view()->exists('error.common') and ! config('app.debug'))
-        {
-            return response()->view('error.common', ['errorCode' => $e->getStatusCode()], $e->getStatusCode());
-        }
-        else
-        {
-            return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
-        }
-    }
+
 
 }

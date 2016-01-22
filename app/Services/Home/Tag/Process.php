@@ -89,7 +89,12 @@ class Process extends BaseProcess
         
         $result = $this->tagModel->getTagByName($data);
         
-        return array('error'=>false, 'data'=>$result);
+        if ($result) {
+            return array('error'=>false, 'data'=>$result);
+        } else {
+            return array('error'=>true, 'msg'=>'没有标签');
+        }
+        
     }
 
     /**

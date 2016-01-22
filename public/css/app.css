@@ -581,15 +581,19 @@ i.fa{
 }
 
 
-.cloumn{
+.cloumn-page, .tag-page{
 	overflow: hidden;
 	padding: 15px 40px;
 	text-align: center;
 }
-.cloumn > h3{
+.cloumn-page > h3, .tag-page>h3{
 	color: #1abc9c;
 	font-weight: 600;
 	margin-bottom: 20px;
 }
+.cloumn-page .c-desc, .tag-page .t-desc {
+	font-size: 14px;
+}
+
 
 

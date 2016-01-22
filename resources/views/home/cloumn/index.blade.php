@@ -6,7 +6,7 @@
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-12">
-			<div class="cloumn">
+			<div class="cloumn-page">
 				<h3>{{ $cloumn['name'] }}</h3>
 				
 				<div class="desc">

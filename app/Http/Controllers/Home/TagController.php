@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers\Home;
 use  App\Services\Home\Tag\Process as TagProcess;
+use App\Widget\Home\Common as WidgetCommon;
 use Request;
 
 class TagController extends Controller {
 
+	protected $widget;
 
 	/**
 	 * Create a new controller instance.
@@ -12,8 +14,8 @@ class TagController extends Controller {
 	 */
 	public function __construct()
 	{
-		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		// if($isLogin) $this->returnData = ['userInfo'=>$isLogin];
+		parent::__construct();
+		$this->widget = new WidgetCommon();
 	}
 
 	/**
@@ -21,9 +23,29 @@ class TagController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index($name)
+	public function index(TagProcess $manager,$name)
 	{
-		return view('home.app');
+
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		//缓存
+		$cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+        $taginfo = $manager->getTagByName($name);
+
+        $articles = $this->widget->articlesByTag($name);
+
+        if (!$taginfo['error']) {
+        	$tag = $taginfo['data'];
+        	return response()->view('home/tag/index', compact('header', 'top', 'footer','tag','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        } else {
+        	abort(404);
+        }
 	}
 
 

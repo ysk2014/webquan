@@ -99,6 +99,17 @@ class Common
     }
 
     /**
+     * 标签下的文章列表
+     */
+    public function articlesByTag($tag,$page=0)
+    {
+        //文章数据列表
+        $articles = (new ArticleProcess())->getArtsLikeTagName(array('page'=>$page,'name'=>$tag));
+
+        return view('home.widget.articles', compact('articles','page'));
+    }
+
+    /**
      * comments
      */
     public function comments($aid,$userinfo,$page=0)

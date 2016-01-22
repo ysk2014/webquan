@@ -167,8 +167,9 @@ class Article extends Base
      */
     public function getArtsLikeTagName($data)
     {
-        return $this->select(array('article.*','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl','cloumn.name as cloumn'))
                     ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
                     ->orderBy('article.addtime','desc')
                     ->where('article.tags','like','%'.$data['name'].'%')
                     ->skip($data['page']*20)->take(20)

@@ -38,6 +38,8 @@ class CloumnController extends Controller {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
 			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+		} else {
+			abort(404);
 		}
 
 	}
@@ -63,6 +65,8 @@ class CloumnController extends Controller {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
 			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+		} else {
+			abort(404);
 		}
 
 	}

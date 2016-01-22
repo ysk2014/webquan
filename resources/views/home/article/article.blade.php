@@ -18,7 +18,7 @@
 	            	<span class="tags">
 	            		<i class="fa fa-tags"></i>
 	            		@foreach ($articleInfo['data']['tags'] as $tag)
-	            			<a href="{{'/'.$tag}}">{{ $tag }}</a>
+	            			<a href="{{'/t/'.$tag}}">{{ $tag }}</a>
 	            		@endforeach
 	            	</span>
 	            	@endif

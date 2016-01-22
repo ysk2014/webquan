@@ -90,28 +90,34 @@ class ArticleController extends Controller {
 	{
 		$articleInfo = $articleProcess->getArticleById(intval($id));
 
-		$comments = (new CommentProcess())->getCommentsByAid($id,0);
+		if (!$articleInfo['error']) {
 
-        $title = $articleInfo['data']['title'].' | Web圈';
+			$comments = (new CommentProcess())->getCommentsByAid($id,0);
 
-		$header = $this->widget->header($title);
+	        $title = $articleInfo['data']['title'].' | Web圈';
 
-		$footer = $this->widget->footer();
+			$header = $this->widget->header($title);
 
-		$top = $this->widget->top($this->userinfo);
+			$footer = $this->widget->footer();
 
-		$author = ['uid'=>$articleInfo['data']['uid'],'nick'=>$articleInfo['data']['username'],'avatar'=>$articleInfo['data']['userUrl'],'description'=>$articleInfo['data']['uDescription']];
-		$cloumn = ['cid'=>$articleInfo['data']['cid'],'name'=>$articleInfo['data']['cloumnName'],'description'=>$articleInfo['data']['cDescription']];
-		
-		$aside = $this->widget->artAside($author,$cloumn);
+			$top = $this->widget->top($this->userinfo);
 
-        $userinfo = $this->userinfo;
+			$author = ['uid'=>$articleInfo['data']['uid'],'nick'=>$articleInfo['data']['username'],'avatar'=>$articleInfo['data']['userUrl'],'description'=>$articleInfo['data']['uDescription']];
+			$cloumn = ['cid'=>$articleInfo['data']['cid'],'name'=>$articleInfo['data']['cloumnName'],'description'=>$articleInfo['data']['cDescription']];
+			
+			$aside = $this->widget->artAside($author,$cloumn);
 
-        //缓存
-        $cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+	        $userinfo = $this->userinfo;
 
-		return response()->view('home.article.article',compact('header','top','userinfo','articleInfo','aside','footer','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+	        //缓存
+	        $cacheSecond = config('home.cache_control');
+	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+	        
+			return response()->view('home.article.article',compact('header','top','userinfo','articleInfo','aside','footer','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		} else {
+			abort(404);
+		}
 	}
 
 	/**
