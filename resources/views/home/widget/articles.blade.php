@@ -1,5 +1,5 @@
 
-@if (!$articles['error']) 
+@if ($articles['rc']==0) 
 	@foreach ($articles['data'] as $article)
 		<div class="article" data-id="{{ $article['id'] }}">
 			<div class="top">

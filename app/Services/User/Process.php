@@ -84,9 +84,9 @@ class Process extends BaseProcess
 
 		// 开始保存到数据库
 		if($this->userModel->addUser($data->toArray()) !== false ) {
-            $resultArr = array('error'=> false, 'msg'=>'注册成功');
+            $resultArr = array('rc'=> 0, 'data'=>'注册成功');
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'注册失败');
+            $resultArr = array('rc'=>1004, 'msg'=>'注册失败');
         }
         return $resultArr;
 	}
@@ -101,12 +101,12 @@ class Process extends BaseProcess
 	public function delUser($ids)
 	{
         $resultArr = [];
-		if( !is_array($ids) ) return array('error'=>true, 'msg'=>'没有获取用户id');
+		if( !is_array($ids) ) return array('rc'=>1001, 'msg'=>'没有获取用户id');
 
 		if($this->userModel->deleteUser($ids) !== false) {
-            $resultArr = array('error'=>false, 'msg'=>'删除成功');
+            $resultArr = array('rc'=>0, 'data'=>'删除成功');
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'删除失败');
+            $resultArr = array('rc'=>1005, 'msg'=>'执行删除用户的sql语句失败');
         }
         return $resultArr;
 	}
@@ -121,17 +121,17 @@ class Process extends BaseProcess
     public function editUser(\App\Services\User\Param\UserSave $data)
     {
         $resultArr = [];
-    	if( !isset($data->id)) return array('error'=>true, 'msg'=>'没有获取用户id');
+    	if( !isset($data->id)) return array('rc'=>1001, 'msg'=>'没有获取用户id');
     	// 进行用户表单验证
-    	if( !$this->userValidate->edit($data)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
+    	if( !$this->userValidate->edit($data)) return array('rc'=>1001, 'msg'=>$this->userValidate->getErrorMessage());
 
     	$id = intval($data->id); 
     	unset($data->id);
 
     	if( $this->userModel->editUser($data->toArray(),$id) !== false ) {
-            $resultArr = array('error'=>false, 'msg'=>'保存成功');
+            $resultArr = array('rc'=>0, 'data'=>'保存成功');
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'保存失败');
+            $resultArr = array('rc'=>1005, 'msg'=>'执行更新sql语句失败');
         }
         return $resultArr;
     }
@@ -145,17 +145,17 @@ class Process extends BaseProcess
     {
         $resultArr = [];
     	// 进行用户表单验证
-    	if( !$this->userValidate->pwd($params)) return array('error'=>true, 'msg'=>$this->userValidate->getErrorMessage());
+    	if( !$this->userValidate->pwd($params)) return array('rc'=>1001, 'msg'=>$this->userValidate->getErrorMessage());
 
-    	if( $this->userModel->getUserById($params->id)['password'] != md5($params->oldPassword)) return array('error'=>true, 'msg'=>'旧密码错误');
+    	if( $this->userModel->getUserById($params->id)['password'] != md5($params->oldPassword)) return array('rc'=>1003, 'msg'=>'旧密码错误');
 
     	$updateData = ['password' => md5($params->newPassword)];
 
     	if($this->userModel->editUser($updateData,$params->id) !== false)  {
-            $resultArr = array('error'=>false, 'msg'=>'修改成功');
+            $resultArr = array('rc'=>0, 'data'=>'修改成功');
             \App\Services\SC::delLoginSession();
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'修改失败');
+            $resultArr = array('rc'=>1005, 'msg'=>'执行修改密码sql语句失败');
         }
         return $resultArr;
     }
@@ -172,10 +172,10 @@ class Process extends BaseProcess
         $updateData = ['password' => md5($newPassword)];
 
         if($this->userModel->editUser($updateData,$uid) !== false)  {
-            $resultArr = array('error'=>false, 'msg'=>'修改成功');
+            $resultArr = array('rc'=>0, 'data'=>'修改成功');
             \App\Services\SC::delLoginSession();
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'修改失败');
+            $resultArr = array('rc'=>1005, 'msg'=>'执行修改密码sql语句失败');
         }
         return $resultArr;
     }
@@ -190,14 +190,14 @@ class Process extends BaseProcess
     public function getUserInfoById($uid)
     {
         $resultArr = [];
-        if( !isset($uid) ) return array('error'=>true, 'msg'=>'没有获取用户id');
+        if( !isset($uid) ) return array('rc'=>1001, 'msg'=>'没有获取用户id');
 
         $userInfo = $this->userModel->getUserById($uid);
         if($userInfo !== false) {
             unset($userInfo['password']);
-            $resultArr = array('error'=>false, 'data'=>$userInfo);
+            $resultArr = array('rc'=>0, 'data'=>$userInfo);
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'删除失败');
+            $resultArr = array('rc'=>1005, 'msg'=>'执行getUseByID的sql语句失败');
         }
         return $resultArr;
     }
@@ -213,9 +213,9 @@ class Process extends BaseProcess
     {
         $userInfo = $this->userModel->InfoByName($username);
         if($userInfo !== false) {
-            $resultArr = array('error'=>true, 'msg'=>'用户名已占用');
+            $resultArr = array('rc'=>1006, 'msg'=>'用户名已占用');
         } else {
-            $resultArr = array('error'=>false, 'msg'=>'用户名未占用');
+            $resultArr = array('rc'=>0, 'data'=>'用户名未占用');
         }
         return $resultArr;
     }
@@ -230,7 +230,7 @@ class Process extends BaseProcess
      */
     public function uploadLogo($file,$id)
     {
-        if(!isset($file)) return array('error'=>true,'msg'=>'没有上传文件');
+        if(!isset($file)) return array('rc'=>1001,'msg'=>'没有上传文件');
 
         $config = array('path'=>'logo','fileName'=>'web'.$id);
 
@@ -243,16 +243,16 @@ class Process extends BaseProcess
             if(!$result['status']) {
                 $resultData = $this->userModel->editUser($data,$id);
                 if($resultData) {
-                    $resultArr = array('error'=>false,'data'=>$result['url']);
+                    $resultArr = array('rc'=>0,'data'=>$result['url']);
                 } else {
-                    $resultArr = array('error'=>true,'msg'=>'更新头像失败');
+                    $resultArr = array('rc'=>1005,'msg'=>'执行更新头像sql语句失败');
                 }
             } else {
-                $resultArr = array('error'=>false,'data'=>$result['url']);
+                $resultArr = array('rc'=>0,'data'=>$result['url']);
             }
             
         } else {
-            $resultArr = array('error'=>true,'msg'=>'上传头像失败');
+            $resultArr = array('rc'=>1007,'msg'=>'上传头像失败');
         }
 
         return $resultArr;
@@ -287,9 +287,9 @@ class Process extends BaseProcess
             } else {
                 $next = false;
             }
-            return array('error'=>false,'data'=>$result,'next'=>$next);
+            return array('rc'=>0,'data'=>$result,'next'=>$next);
         } else {
-            return array('error'=>true,'msg'=>'没有消息');
+            return array('rc'=>1008,'msg'=>'没有消息');
         }
     }
 
@@ -305,9 +305,9 @@ class Process extends BaseProcess
         $count = $this->newsModel->countNewsByUid($uid);
 
         if($count) {
-            return array('error'=>false,'data'=>$count);
+            return array('rc'=>0,'data'=>$count);
         } else {
-            return array('error'=>true,'msg'=>'没有消息');
+            return array('rc'=>1008,'msg'=>'没有消息');
         }
     }
 
@@ -327,9 +327,9 @@ class Process extends BaseProcess
         }
 
         if($state) {
-            return array('error'=>false,'msg'=>'更新完成');
+            return array('rc'=>0,'msg'=>'更新完成');
         } else {
-            return array('error'=>true,'msg'=>'没有消息');
+            return array('rc'=>1008,'msg'=>'没有消息');
         }
     }
 

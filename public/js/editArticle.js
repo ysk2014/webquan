@@ -80,17 +80,11 @@ $(function() {
 				var action = $this.data('action');
 				var params = _this.el.form.serialize();
 
-				$.ajax({
-					type: 'post',
+				WQ.ajax({
                     url: action,
                     data: params,
-                    dataType: 'json',
                     success: function(data){
-                    	if (!data.error) {
-                    		_this.el.form.find('input[name="data[id]"]').val(data.data);
-                    	} else {
-                    		WQ.tooltip(data.msg);
-                    	}
+                    	_this.el.form.find('input[name="data[id]"]').val(data.data);
                     }
 				});
 			});

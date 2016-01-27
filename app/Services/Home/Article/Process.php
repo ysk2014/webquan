@@ -120,12 +120,12 @@ class Process extends BaseProcess
 					}
 				}
 
-				return array('error'=>false,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
+				return array('rc'=>0,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
 			} else {
-				return array('error'=>true,'msg'=>'没有更多的文章了');
+				return array('rc'=>2001,'msg'=>'没有更多的文章了');
 			}
 		} else {
-			return array('error'=>true,'count'=>0);
+			return array('rc'=>2001,'count'=>0);
 		}
 	}
 
@@ -141,9 +141,9 @@ class Process extends BaseProcess
 		$num = $num ? $num : 3;
 		$hots = $this->articleModel->getArtsByView($num);
 		if ($hots) {
-			return array('error'=>false,'hotsArticle'=>$hots);
+			return array('rc'=>0,'hotsArticle'=>$hots);
 		} else {
-			return array('error'=>true,'msg'=>'热门文章查询失败');
+			return array('rc'=>2003,'msg'=>'热门文章查询失败');
 		}
 	}
 
@@ -181,9 +181,9 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('error'=>false,'data'=>$articleData, 'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'没有更多的文章了');
+			return array('rc'=>2001,'msg'=>'没有更多的文章了');
 		}
 	}
 
@@ -212,7 +212,7 @@ class Process extends BaseProcess
 				//进行redis缓存
 				$this->redis->hmset('article_'.$id,$articleInfo->toArray());
 			} else {
-				return array('error'=>true,'msg'=>'获取文章失败');
+				return array('rc'=>2004,'msg'=>'获取文章失败');
 			}
 		}
 		
@@ -232,7 +232,7 @@ class Process extends BaseProcess
 		
 		$articleInfo['tags'] = explode(',', $articleInfo['tags']);
 		
-		return array('error'=>false,'data'=>$articleInfo);
+		return array('rc'=>0,'data'=>$articleInfo);
 		
 	}
 
@@ -266,9 +266,9 @@ class Process extends BaseProcess
 				array_push($articleData,$value);
 			}
 
-			return array('error'=>false,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
 	}
 
@@ -302,9 +302,9 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('error'=>false,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
 	}
 
@@ -337,9 +337,9 @@ class Process extends BaseProcess
 				array_push($articleData,$value);
 			}
 
-			return array('error'=>false,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
 	}
 
@@ -371,9 +371,9 @@ class Process extends BaseProcess
 				array_push($articleData,$value);
 			}
 			
-			return array('error'=>false,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>'获取文章失败');
+			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
 	}
 
@@ -410,9 +410,9 @@ class Process extends BaseProcess
 			$this->redis->hincrby('article_'.$data['aid'],$status,1);
 			$this->redis->hset('article_'.$data['aid'],$status.'_id',$sqlData);
 
-			$resultArr = array('error'=>false, 'msg'=>$msg.'成功');
+			$resultArr = array('rc'=>0, 'msg'=>$msg.'成功');
 		} else {
-			$resultArr = array('error'=>true, 'msg'=>$msg.'失败');
+			$resultArr = array('rc'=>2005, 'msg'=>$msg.'失败');
 		}
 		return $resultArr;
 	}
@@ -442,9 +442,9 @@ class Process extends BaseProcess
 			$this->redis->hincrby('article_'.$data['aid'],$status,-1);
 			$this->redis->hset('article_'.$data['aid'],$status.'_id',0);
 
-			$resultArr = array('error'=>false, 'msg'=>'取消成功');
+			$resultArr = array('rc'=>0, 'msg'=>'取消成功');
 		} else {
-			$resultArr = array('error'=>true, 'msg'=>'取消失败');
+			$resultArr = array('rc'=>2005, 'msg'=>'取消失败');
 		}
 		return $resultArr;
 	}

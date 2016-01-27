@@ -60,7 +60,7 @@ class CommentController extends Controller {
 
 			$result = $commentProcess->addComment($data);
 
-			if(!$result['error']) {
+			if($result['rc']==0) {
 				return $this->widget->commentAjax($aid,$result['data'],isset($data['fid']) ? $data['fid'] : 0);
 			}
 
@@ -70,7 +70,7 @@ class CommentController extends Controller {
 			$result = $commentProcess->delComment($cid,$aid);
 
 		} else {
-			$result = array('error'=>true,'msg'=>'路由匹配失败');
+			$result = array('rc'=>405,'msg'=>'路由匹配失败');
 		}
 		
 		return response()->json($result);

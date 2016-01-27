@@ -28,7 +28,7 @@ $(function() {
 					} else {
 						$(this).parent().addClass('open');
 					};
-					_this.$body.on('click',function() {
+					$(document).one('click',function() {
 						$this.parent().removeClass('open');
 					});
 				})
@@ -60,14 +60,17 @@ $(function() {
 				$form.find('a.sign_in').html('登录中...');
 
 				var data = $form.serialize();
-				$.post('/sign_in',data,function(data) {
-
-					$form.find('a.sign_in').html('登录');
-
-					if (!data.error) {
+				
+				WQ.ajax({
+					url:'/sign_in',
+					data:data,
+					success: function(data) {
+						$form.find('a.sign_in').html('登录');
 						window.location.reload();
-					} else {
-						$form.children('.help-block').html(data.msg);
+					},
+					error: function(msg) {
+						$form.find('a.sign_in').html('登录');
+						$form.children('.help-block').html(msg);
 					}
 				});
 			};
@@ -92,13 +95,15 @@ $(function() {
 				$form.find('a.sign_up').html('注册中...');
 
 				var data = $form.serialize();
-				$.post('/sign_up',data,function(data) {
-
-					$form.find('a.sign_up').html('注册');
-
-					if (!data.error) {
+				WQ.post({
+					url:'/sign_up',
+					data: data,
+					success: function(data) {
+						$form.find('a.sign_up').html('注册');
 						window.location.reload();
-					} else {
+					},
+					error: function(msg) {
+						$form.find('a.sign_up').html('注册');
 						$form.children('.help-block').html(data.msg);
 					}
 				});

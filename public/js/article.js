@@ -6,7 +6,7 @@ $(function() {
 		$el: $('#main'),
 
 		model: function(opt) {
-			$.ajax({
+			WQ.ajax({
 				type: opt.type ? opt.type : 'post',
 				url: opt.url,
 				data: {'data':opt.data},
@@ -34,18 +34,14 @@ $(function() {
 				url: url,
 				data: params,
 				callback: function(data) {
-					if (!data.error) {
-						if ($target.hasClass('active')) {
-							$target.find('span').html(num-1);
-							$target.removeClass('active');
-						} else {
-							$target.find('span').html(num+1);
-							$target.addClass('active');
-						}
-						WQ.tooltip(data.msg,'info');
+					if ($target.hasClass('active')) {
+						$target.find('span').html(num-1);
+						$target.removeClass('active');
 					} else {
-						WQ.tooltip(data.msg);
+						$target.find('span').html(num+1);
+						$target.addClass('active');
 					}
+					WQ.tooltip(data.msg,'info');
 				}
 			});
 		},
@@ -67,18 +63,14 @@ $(function() {
 				url: url,
 				data: params,
 				callback: function(data) {
-					if (!data.error) {
-						if ($target.hasClass('active')) {
-							$target.find('span').html(num-1);
-							$target.removeClass('active');
-						} else {
-							$target.find('span').html(num+1);
-							$target.addClass('active');
-						}
-						WQ.tooltip(data.msg,'info');
+					if ($target.hasClass('active')) {
+						$target.find('span').html(num-1);
+						$target.removeClass('active');
 					} else {
-						WQ.tooltip(data.msg);
+						$target.find('span').html(num+1);
+						$target.addClass('active');
 					}
+					WQ.tooltip(data.msg,'info');
 				}
 			});
 		},

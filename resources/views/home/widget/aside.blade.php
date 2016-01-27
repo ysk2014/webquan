@@ -23,7 +23,7 @@
 		</div>
 	@endif
 
-	@if (!$hotsArt['error'])
+	@if ($hotsArt['rc']==0)
 		<div class="widget">
 			<h4 class="title">热门文章</h4>
 			<div class="content">
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 	@endif
-	@if (!$tags['error'])
+	@if ($tags['rc']==0)
 		<div class="widget">
 			<h4 class="title">标签</h4>
 			<div class="content tag-cloud">

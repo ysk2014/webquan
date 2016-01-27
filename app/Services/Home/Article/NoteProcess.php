@@ -191,7 +191,7 @@ class NoteProcess extends BaseProcess
 		$resultArr = [];
 		// 进行文章表单验证
 		if( !$this->articleValidate->add($data) ) 
-			return array('error'=>true,'msg'=>$this->articleValidate->getErrorMessage());
+			return array('rc'=>2006,'msg'=>$this->articleValidate->getErrorMessage());
 
 		// 对内容进行处理
 		$data = $this->dealData($data);
@@ -207,16 +207,16 @@ class NoteProcess extends BaseProcess
 
 				$aid = $this->articleModel->addArticle($data->toArray());
 				if ($aid != false) {
-					$resultArr = array('error'=>false, 'nid'=>$nid, 'aid'=>$aid);
+					$resultArr = array('rc'=>0, 'nid'=>$nid, 'aid'=>$aid);
 				} else {
-					$resultArr = array('error'=>true, 'msg'=>'创建失败');
+					$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
 				}
 			} else {
-				$resultArr = array('error'=>false, 'nid'=>$nid);
+				$resultArr = array('rc'=>0, 'nid'=>$nid);
 			}
 			
 		} else {
-			$resultArr = array('error'=>true, 'msg'=>'创建失败');
+			$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
 		}
 			
 		return $resultArr;
@@ -241,9 +241,9 @@ class NoteProcess extends BaseProcess
 					$this->redis->del('note_'.$value);
 				}
 			}
-			$resultArr = array('error'=>false, 'msg'=>'删除成功');
+			$resultArr = array('rc'=>0, 'msg'=>'删除成功');
 		} else {
-			$resultArr = array('error'=>true, 'msg'=>'删除失败');
+			$resultArr = array('rc'=>2008, 'msg'=>'删除失败');
 		}
 		return $resultArr;
 	}
@@ -262,10 +262,10 @@ class NoteProcess extends BaseProcess
 	{	
 
 		$resultArr = [];
-		if( !isset($data->id) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if( !isset($data->id) ) return array('rc'=>2006,'msg'=>'没有获取到id');
 
 		// 进行文章表单验证
-		if( !$this->articleValidate->edit($data)) return array('error'=>true, 'msg'=>$this->articleValidate->getErrorMessage());
+		if( !$this->articleValidate->edit($data)) return array('rc'=>2006, 'msg'=>$this->articleValidate->getErrorMessage());
 
 		// 对内容图片进行缓存处理
 		$data = $this->imgCache($data);
@@ -297,24 +297,24 @@ class NoteProcess extends BaseProcess
 							$this->redis->del('article_'.$aid);
 						}
 
-						$resultArr = array('error'=>false, 'msg'=>'编辑成功', 'aid'=>$aid);
+						$resultArr = array('rc'=>0, 'msg'=>'编辑成功', 'aid'=>$aid);
 					} else {
-						$resultArr = array('error'=>true, 'msg'=>'编辑失败');
+						$resultArr = array('rc'=>2009, 'msg'=>'编辑失败');
 					}
 				} else {
 					$aid = $this->articleModel->addArticle($data->toArray());
 					if ($aid != false) {
-						$resultArr = array('error'=>false, 'msg'=>'编辑成功', 'aid'=>$aid);
+						$resultArr = array('rc'=>0, 'msg'=>'编辑成功', 'aid'=>$aid);
 					} else {
-						$resultArr = array('error'=>true, 'msg'=>'创建失败');
+						$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
 					}
 				}
 			} else {
-				$resultArr = array('error'=>false, 'msg'=>'编辑成功');
+				$resultArr = array('rc'=>0, 'msg'=>'编辑成功');
 			}
 			
 		} else {
-			$resultArr = array('error'=>true, 'msg'=>'编辑失败');
+			$resultArr = array('rc'=>2009, 'msg'=>'编辑失败');
 		}
 
 		return $resultArr;
@@ -343,14 +343,14 @@ class NoteProcess extends BaseProcess
 				//进行redis缓存
 				$this->redis->hmset('note_'.$id,$noteInfo->toArray());
 			} else {
-				return array('error'=>true,'msg'=>'获取文章失败');
+				return array('rc'=>2001,'msg'=>'获取文章失败');
 			}
 		}
 		
 		
 		$noteInfo['tags'] = explode(',', $noteInfo['tags']);
 		
-		return array('error'=>false,'data'=>$noteInfo);
+		return array('rc'=>0,'data'=>$noteInfo);
 	}
 
 	/**
@@ -361,7 +361,7 @@ class NoteProcess extends BaseProcess
 	 */
 	public function getNotesByUid($data)
 	{	
-		if( !isset($data['id']) ) return array('error'=>true,'msg'=>'没有获取到用户id');
+		if( !isset($data['id']) ) return array('rc'=>2006,'msg'=>'没有获取到用户id');
 
 		$page = isset($data['page']) ? $data['page'] : 0;
 
@@ -381,9 +381,9 @@ class NoteProcess extends BaseProcess
 				array_push($notesData,$value);
 			}
 
-			return array('error'=>false, 'data'=>$notesData, 'next'=>$next);
+			return array('rc'=>0, 'data'=>$notesData, 'next'=>$next);
 		} else {
-			return array('error'=>true,'msg'=>404);
+			return array('rc'=>405,'msg'=>404);
 		}
 	}
 

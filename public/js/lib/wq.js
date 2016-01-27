@@ -300,6 +300,60 @@ WQ.check = {
     }
 };
 
+WQ.ajax = function(opt) {
+
+    var errorCallback = function(msg) {
+        WQ.tooltip(msg)
+    };
+
+    var type = opt.type ? opt.type : 'post',
+        async = opt.async ? opt.async : true,
+        data = opt.data ? opt.data : {},
+        url = opt.url ? opt.url : '',
+        dataType = opt.dataType ? opt.dataType : 'json',
+        timeout = opt.timeout ? opt.timeout : 3000,
+        success = opt.success ? opt.success : function() {},
+        error = opt.error ? opt.error : errorCallback;
+
+    $.ajax({
+        type: type,
+        url: url,
+        data: data,
+        timeout: timeout,
+        async: async,
+        dataType: dataType,
+        success: function(data) {
+            if(data.rc==0) {
+                success && success(data);
+            } else {
+                if (data.rc==1000) {
+                    $('#myLogin').modal('show');
+                } else {
+                    error && error(data.msg);
+                }
+            }
+        },
+        error: function() {
+            WQ.tooltip('请求错误');
+        }
+    });
+};
+WQ.get = function(url,data,callback) {
+    WQ.ajax({
+        type: 'get',
+        url: url,
+        data: data,
+        success: callback
+    });
+};
+WQ.post = function(url,data,success) {
+    WQ.ajax({
+        url: url,
+        data: data,
+        success: callback
+    });
+};
+
 if ( typeof define === "function" && define.amd ) {
     define( "WQ", [], function() {
         return WQ;

@@ -2,12 +2,14 @@
 
 use App\Services\User\Login\Process as LoginProcess;
 use  App\Services\User\Process as UserActionProcess;
+use App\Widget\Home\Common as WidgetCommon;
 use App\Services\SC;
 use App\Models\User;
 use Request;
 
 class UserController extends Controller {
 
+	protected $widget;
 
 	/**
 	 * Create a new controller instance.
@@ -16,7 +18,16 @@ class UserController extends Controller {
 	 */
 	public function __construct()
 	{
-
+		// 判断用户是否登录
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $this->userinfo = false;
+        } else {
+            $this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+        $this->isLogin = $isLogin;
+		
+		$this->widget = new WidgetCommon();
 	}
 
 	/**
@@ -26,7 +37,17 @@ class UserController extends Controller {
 	 */
 	public function index($id=0)
 	{
-		return view('home.app');
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		//缓存
+		$cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+
+		return response()->view('home/user/index', compact('header', 'top', 'footer'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 	/**
@@ -34,8 +55,6 @@ class UserController extends Controller {
 	*/
 	public function login($way)
 	{
-		// $isLogin = (new LoginProcess())->getProcess()->hasLogin();
-		// if($isLogin) return redirect('home.app');
 		return view('home.app');
 	}
 
@@ -59,7 +78,7 @@ class UserController extends Controller {
 		$password = Request::input('password');
 		// 进行表单验证
 		if($error = $loginProcess->getProcess()->validate($username,$password)){
-			 return response()->json(['msg' => $error, 'error' => true]);
+			 return response()->json(['msg' => $error, 'rc' => 1001]);
 		}
 		// 开始登陆验证
 		$userInfo = $loginProcess->getProcess()->check($username,$password);
@@ -92,7 +111,7 @@ class UserController extends Controller {
 			$param->setAttributes($data);
 			$result = $manager->editUser($param);
 		} else {
-			$result = array('error'=>true,'msg'=>'路由匹配失败');
+			$result = array('rc'=>405,'msg'=>'路由匹配失败');
 		}
 
 		return $result;

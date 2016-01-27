@@ -40,7 +40,7 @@ class TagController extends Controller {
 
         $articles = $this->widget->articlesByTag($name);
 
-        if (!$taginfo['error']) {
+        if ($taginfo['rc']==0) {
         	$tag = $taginfo['data'];
         	return response()->view('home/tag/index', compact('header', 'top', 'footer','tag','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
         } else {

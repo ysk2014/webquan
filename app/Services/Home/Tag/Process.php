@@ -38,9 +38,9 @@ class Process extends BaseProcess
     {
         // 保存到数据库
         $id=$this->tagModel->addTag($data->toArray());
-        if($id) return array('error'=>false, 'msg'=>'创建成功', 'data'=>$id);
+        if($id) return array('rc'=>0, 'msg'=>'创建成功', 'data'=>$id);
         // 保存失败
-        return array('error'=>true, 'msg'=>'创建失败');
+        return array('rc'=>5002, 'msg'=>'创建失败');
     }
 
     /**
@@ -52,12 +52,12 @@ class Process extends BaseProcess
      */
     public function editTag(\App\Services\Home\Tag\TagSave $data)
     {
-        if( !isset($data->id) ) return array('error'=>true, 'msg'=>'参数没有设置');
+        if( !isset($data->id) ) return array('rc'=>5001, 'msg'=>'参数没有设置');
 
         $id = intval($data->id); unset($data->id);
         // 更新数据库
         $this->tagModel->edit($data->toArray(),$id);
-        return array('error'=>false, 'msg'=>'更新成功');
+        return array('rc'=>0, 'msg'=>'更新成功');
     }
 
     /**
@@ -69,11 +69,11 @@ class Process extends BaseProcess
      */
     private function delTag($ids)
     {
-        if( !is_array($ids) ) return array('error'=>true, 'msg'=>'参数没有设置');
+        if( !is_array($ids) ) return array('rc'=>5001, 'msg'=>'参数没有设置');
 
-        if($this->tagModel->delTag($ids) !== false) return array('error'=>false, 'msg'=>'删除成功');
+        if($this->tagModel->delTag($ids) !== false) return array('rc'=>0, 'msg'=>'删除成功');
 
-        return array('error'=>true, 'msg'=>'删除失败');
+        return array('rc'=>5003, 'msg'=>'删除失败');
     }
 
     /**
@@ -85,14 +85,14 @@ class Process extends BaseProcess
      */
     public function getTagByName($data)
     {
-        if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
+        if(!isset($data)) return array('rc'=>5001, 'msg'=>'参数没有设置');
         
         $result = $this->tagModel->getTagByName($data);
         
         if ($result) {
-            return array('error'=>false, 'data'=>$result);
+            return array('rc'=>0, 'data'=>$result);
         } else {
-            return array('error'=>true, 'msg'=>'没有标签');
+            return array('rc'=>5005, 'msg'=>'没有标签');
         }
         
     }
@@ -106,11 +106,11 @@ class Process extends BaseProcess
      */
     public function getTagsLikeName($data)
     {
-        if(!isset($data)) return array('error'=>true, 'msg'=>'参数没有设置');
+        if(!isset($data)) return array('rc'=>5001, 'msg'=>'参数没有设置');
         
         $result = $this->tagModel->getTagsLikeName($data);
         
-        return array('error'=>false, 'data'=>$result);
+        return array('rc'=>0, 'data'=>$result);
     }
     /**
      * 获取所有标签
@@ -126,15 +126,15 @@ class Process extends BaseProcess
 
             if (!empty($result)) {
                 if ($count>18) {
-                    return array('error'=>false, 'data'=>$result,'next'=>true);
+                    return array('rc'=>0, 'data'=>$result,'next'=>true);
                 } else {
-                    return array('error'=>false, 'data'=>$result, 'next'=>false);
+                    return array('rc'=>0, 'data'=>$result, 'next'=>false);
                 }
             } else {
-                return array('error'=>true, 'msg'=>'查询所有标签失败');
+                return array('rc'=>5005, 'msg'=>'查询所有标签失败');
             }
         } else {
-            return array('error'=>true, 'count'=>0);
+            return array('rc'=>5005, 'count'=>0);
         }
     }
 }

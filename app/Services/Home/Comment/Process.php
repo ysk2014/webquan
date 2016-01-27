@@ -89,7 +89,7 @@ class Process extends BaseProcess
     public function addComment($data)
     {
         
-        if( ! $this->commentValidate->add($data)) return array('error'=>true,'msg'=>$this->commentValidate->getErrorMessage());
+        if( ! $this->commentValidate->add($data)) return array('rc'=>4001,'msg'=>$this->commentValidate->getErrorMessage());
 
         if (isset($data['pid']) && !empty($data['pid'])) {
             $data['content'] = $this->dealContent($data['content']);
@@ -104,11 +104,11 @@ class Process extends BaseProcess
 
             $this->sendNews($data);
 
-            return array('error'=>false,'data'=>$result);
+            return array('rc'=>0,'data'=>$result);
         }
         else
         {
-            return array('error'=>true, 'msg'=>'添加失败');
+            return array('rc'=>4002, 'msg'=>'添加失败');
         }
     }
 
@@ -136,11 +136,11 @@ class Process extends BaseProcess
         {
             $this->articelModel->decrementById('comment',$aid,count($cids));
             $this->redis->hincrby('article_'.$aid,'comment',-1*count($cids));
-            return array('error'=>false,'msg'=>'删除成功');
+            return array('rc'=>0,'msg'=>'删除成功');
         }
         else
         {
-            return array('error'=>true, 'msg'=>'删除失败');
+            return array('rc'=>4003, 'msg'=>'删除失败');
         }
     }
 
@@ -153,11 +153,11 @@ class Process extends BaseProcess
         
         if($this->commentModel->delCommentByUid($aid,$uid) != false)
         {
-            return array('error'=>false,'msg'=>'删除成功');
+            return array('rc'=>0,'msg'=>'删除成功');
         }
         else
         {
-            return array('error'=>true, 'msg'=>'删除失败');
+            return array('rc'=>4003, 'msg'=>'删除失败');
         }
     }
 
@@ -170,11 +170,11 @@ class Process extends BaseProcess
         
         if($this->commentModel->delCommentsByAid($aid) != false)
         {
-            return array('error'=>false,'msg'=>'删除成功');
+            return array('rc'=>0,'msg'=>'删除成功');
         }
         else
         {
-            return array('error'=>true, 'msg'=>'删除失败');
+            return array('rc'=>4003, 'msg'=>'删除失败');
         }
     }
 
@@ -185,7 +185,7 @@ class Process extends BaseProcess
      */
     public function getCommentsByAid($aid,$page=0)
     {
-        if(!isset($aid)) return array('error'=>true,'msg'=>'没有文章id');
+        if(!isset($aid)) return array('rc'=>4001,'msg'=>'没有文章id');
 
         $result = $this->commentModel->getCommentsByAid($aid,$page);
 
@@ -197,11 +197,11 @@ class Process extends BaseProcess
             } else {
                 $next = false;
             }
-            return array('error'=>false, 'data'=>$result, 'next'=>$next, 'count'=>$count);
+            return array('rc'=>0, 'data'=>$result, 'next'=>$next, 'count'=>$count);
         }
         else
         {
-            return array('error'=>true, 'msg'=>'没有文章评论了', 'next'=>false);
+            return array('rc'=>4005, 'msg'=>'没有文章评论了', 'next'=>false);
         }
     }
 

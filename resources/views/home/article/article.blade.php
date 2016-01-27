@@ -37,10 +37,10 @@
 				</div>
     		</div>
 			<div class="comment-wrapper">
-				<h4>文章评论(<span> @if (!$comments['error']) {{ $comments['count'] }} @else 0 @endif </span>)</h4>
+				<h4>文章评论(<span> @if ($comments['rc']==0) {{ $comments['count'] }} @else 0 @endif </span>)</h4>
 
 				<div class="comment-list">
-					@if (!$comments['error'])
+					@if ($comments['rc']==0)
 						@foreach ($comments['data'] as $comment)
 							<div class="comment-item clearfix" id="comment-{{ $comment['id'] }}" data-id="{{ $comment['id'] }}">
 								<div class="content">

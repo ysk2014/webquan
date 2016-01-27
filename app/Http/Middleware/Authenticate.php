@@ -21,7 +21,7 @@ class Authenticate
             if (Request::method() == 'GET') {
                 return redirect('/');
             } else {
-                return response()->json(['error'=>true,'msg'=>'用户没有登录']);
+                return response()->json(['rc'=>1000,'msg'=>'用户没有登录']);
             }
         }
         return $next($request);

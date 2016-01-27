@@ -24,6 +24,7 @@ i.fa{
 	left: 0;
 	width: 100%;
 	display: none;
+	z-index: 9999;
 }
 #mask .container {
 	border-radius: 6px;
@@ -181,7 +182,7 @@ i.fa{
 #header .dropdown-menu{
 	right: 0;
 }
-#header .login .help-block {
+#myLogin .help-block {
 	color: #e74c3c;
 }
 

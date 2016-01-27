@@ -90,7 +90,7 @@ class ArticleController extends Controller {
 	{
 		$articleInfo = $articleProcess->getArticleById(intval($id));
 
-		if (!$articleInfo['error']) {
+		if ($articleInfo['rc']==0) {
 
 			$comments = (new CommentProcess())->getCommentsByAid($id,0);
 
@@ -120,32 +120,6 @@ class ArticleController extends Controller {
 		}
 	}
 
-	/**
-	 * 获取文章列表
-	 *
-	 * @return Response
-	 */
-	public function getArticles(ArticleProcess $articleProcess,$id=0){
-		$data = Request::input('data');
-		if(!isset($data['is_publish'])) {
-			$data['is_publish'] = 1;
-		}
-		$data = $articleProcess->getArtsByUid($data);
-		return response()->json($data);
-	}
-
-	/**
-	 * 获取已公布的文章列表
-	 *
-	 * @return Response
-	 */
-	public function getAllArticle(ArticleProcess $articleProcess)
-	{
-		// $redis=Redis::connection();
-		$data = Request::input('data');
-		$result = $articleProcess->getAllArticle($data);
-		return response()->json($result);
-	}
 
 	/**
 	 * 根据专题id获取文章列表
@@ -243,7 +217,7 @@ class ArticleController extends Controller {
 			$result = $noteProcess->editNote($param,$data['way']);
 
 			if ($data['way']==1) {
-				if (!$result['error']) {
+				if ($result['rc']==0) {
 					return redirect('/article/'.$result['aid']);
 				} else {
 					return redirect('/');
@@ -269,7 +243,7 @@ class ArticleController extends Controller {
 			
 
 			if ($data['way']==1) {
-				if (!$result['error']) {
+				if ($result['rc']==0) {
 					return redirect('/article/'.$result['aid']);
 				} else {
 					return redirect('/');

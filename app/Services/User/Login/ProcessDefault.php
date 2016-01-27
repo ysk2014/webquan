@@ -54,7 +54,7 @@ class ProcessDefault extends AbstractProcess {
 
         if(count($userInfo) === 0) 
         {
-            $result = ['error'=>true, 'msg'=>'您还没有注册，请先去注册吧'];
+            $result = ['rc'=>1002, 'msg'=>'您还没有注册，请先去注册吧'];
             return $result;
         }
 
@@ -67,9 +67,9 @@ class ProcessDefault extends AbstractProcess {
             SC::setLoginSession($userInfo);
             SC::setUserPermissionSession($userInfo['status']);
             // event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
-            $result = ['error'=>false, 'msg'=>'登录成功'];
+            $result = ['rc'=>0, 'data'=>'登录成功'];
         } else {
-            $result = ['error'=>true, 'msg'=>'密码错误'];
+            $result = ['rc'=>1003, 'msg'=>'密码错误'];
         }
         return $result;
     }

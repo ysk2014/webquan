@@ -28,8 +28,7 @@ $(function() {
 				var params = $parent.serialize();
 
 				$.post(url,params,function(data) {
-					if(data.error) {
-						console.log(data);
+					if(data.rc!=0) {
 						WQ.tooltip(data.msg);
 						return false;
 					};
@@ -83,19 +82,15 @@ $(function() {
 				var url = $(this).data('url');
 				
 				if (window.confirm(confirm)) {
-					$.ajax({
+					WQ.ajax({
 						type: 'delete',
 						url: url,
 						data: {cid:cid},
 						success: function(data) {
-							if(!data.error) {
-								$parent.hide().remove();
-								if (status) {
-									var count = parseInt(_this.$count.html());
-									_this.$count.html(count-1);
-								}
-							} else {
-								alert(data.msg);
+							$parent.hide().remove();
+							if (status) {
+								var count = parseInt(_this.$count.html());
+								_this.$count.html(count-1);
 							}
 						}
 					});

@@ -34,7 +34,7 @@ class CloumnController extends Controller {
 
 		$cloumnInfo = $manager->getCloumnById($id,$userinfo['id']);
 
-		if (!$cloumnInfo['error']) {
+		if ($cloumnInfo['rc']==0) {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
 			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
@@ -61,7 +61,7 @@ class CloumnController extends Controller {
 
 		$cloumnInfo = $manager->getCloumnByUid($uid);
 
-		if (!$cloumnInfo['error']) {
+		if ($cloumnInfo['rc']==0) {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
 			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
@@ -117,7 +117,7 @@ class CloumnController extends Controller {
 			$param->setAttributes($data);
 			$result = $manager->editCloumn($param);
 
-			if (!$result['error']) {
+			if ($result['rc']==0) {
 				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
 			} else {
 				return redirect('/cloumn/'.$id.'/edit');
@@ -131,7 +131,7 @@ class CloumnController extends Controller {
 			$param->setAttributes($data);
 			$result = $manager->addCloumn($param);
 
-			if (!$result['error']) {
+			if ($result['rc']==0) {
 				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
 			} else {
 				return redirect('/cloumn/add');
@@ -233,7 +233,7 @@ class CloumnController extends Controller {
     	} else if($method=="DELETE") {
     		$result = $manager->dealCare($data,$method);
     	} else {
-    		$result = array('error'=>true,'msg'=>'路由匹配失败');
+    		$result = array('rc'=>405,'msg'=>'路由匹配失败');
     	}
 		
 		return response()->json($result);

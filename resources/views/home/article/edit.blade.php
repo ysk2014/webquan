@@ -16,15 +16,15 @@
 
 				<div class="form-group">
 					<label for="myTitle" class="sr-only">文章标题</label>
-		    		<input type="text" name="data[title]" class="form-control input-lg" id="myTitle" placeholder="文章标题" @if (isset($id) && !$noteInfo['error']) value="{{ $noteInfo['data']['title'] }}" @endif>
+		    		<input type="text" name="data[title]" class="form-control input-lg" id="myTitle" placeholder="文章标题" @if (isset($id) && $noteInfo['rc']==0) value="{{ $noteInfo['data']['title'] }}" @endif>
 				</div>
 				<div class="form-group">
 					<label for="myDesc" class="sr-only">文章简介</label>
-		    		<textarea class="form-control" id="myDesc" placeholder="文章简介，最多140个字，如果不填写，会自动截取文章内容" maxLength="140" name="data[description]">@if (isset($id) && !$noteInfo['error']) {{ $noteInfo['data']['description'] }} @endif</textarea>
+		    		<textarea class="form-control" id="myDesc" placeholder="文章简介，最多140个字，如果不填写，会自动截取文章内容" maxLength="140" name="data[description]">@if (isset($id) && $noteInfo['rc']==0) {{ $noteInfo['data']['description'] }} @endif</textarea>
 				</div>
 				<div class="form-group tagsinput" style="position: relative;">
 					<label for="myTags" class="sr-only">文章标签</label>
-					@if (isset($id) && !$noteInfo['error'])
+					@if (isset($id) && $noteInfo['rc']==0)
 						<input type="hidden" name="data[tags]" id="myTags" value="{{ implode(',',$noteInfo['data']['tags']) }}">
 						@foreach ($noteInfo['data']['tags'] as $tag) 
 							@if (!empty($tag))
@@ -41,9 +41,9 @@
 				<div class="form-group">
 					<span class="select-box">
 						<select class="form-control" id="myCloumn" name="data[cid]">
-							@if (!$cloumns['error'])
+							@if ($cloumns['rc']==0)
 								@foreach ($cloumns['data'] as $cloumn)
-									<option value="{{ $cloumn['id'] }}" style="background: #000" @if (isset($id) && !$noteInfo['error'] && $noteInfo['data']['cid']==$cloumn['id']) selected @endif>{{ $cloumn['name'] }}</option>
+									<option value="{{ $cloumn['id'] }}" style="background: #000" @if (isset($id) && $noteInfo['rc']==0 && $noteInfo['data']['cid']==$cloumn['id']) selected @endif>{{ $cloumn['name'] }}</option>
 								@endforeach
 							@endif
 						</select>
@@ -51,12 +51,12 @@
 				</div>
 				<div class="form-group editor">
 					<label for="editor" class="sr-only">文章内容</label>
-		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;">@if (isset($id) && !$noteInfo['error']) {{ $noteInfo['data']['content'] }} @endif</textarea>
+		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;">@if (isset($id) && $noteInfo['rc']==0) {{ $noteInfo['data']['content'] }} @endif</textarea>
 				</div>
 				<div class="form-group clear-fix">
 				    <div class="pull-right">
-				    	<a class="btn btn-default save-draft" href="javascript:void(0);" @if (isset($id) && !$noteInfo['error']) data-action={{ "/note/".$id."/edit" }} @else data-action="/note/add" @endif>保存</a>
-				      	<button class="btn btn-primary">@if (isset($id) && !$noteInfo['error']) 更新文章 @else 发布文章 @endif</button>
+				    	<a class="btn btn-default save-draft" href="javascript:void(0);" @if (isset($id) && $noteInfo['rc']==0) data-action={{ "/note/".$id."/edit" }} @else data-action="/note/add" @endif>保存</a>
+				      	<button class="btn btn-primary">@if (isset($id) && $noteInfo['rc']==0) 更新文章 @else 发布文章 @endif</button>
 				    </div>
 				</div>
 			</form>
