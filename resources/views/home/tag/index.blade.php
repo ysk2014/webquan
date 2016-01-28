@@ -3,13 +3,17 @@
 
 <?php echo $top; ?>
 
+<div class="full-page">
+	<div class="mask"></div>
+	<div class="container tag-page">
+		<h2><i class="fa fa-tags"></i>{{ $tag['name'] }}</h2>
+		<p class="t-desc">{{ $tag['description'] }}</p>
+	</div>
+</div>
+
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-12">
-			<div class="tag-page">
-				<h3><i class="fa fa-tags"></i>{{ $tag['name'] }}</h3>
-				<p class="t-desc">{{ $tag['description'] }}</p>
-			</div>
 			<?php echo $articles;?>
     	</div>
     </div>

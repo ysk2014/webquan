@@ -43,11 +43,16 @@ class UserController extends Controller {
 
 		$top = $this->widget->top($this->userinfo);
 
+		$userInfo = $this->isLogin;
+		unset($userInfo['password']);
+
+		$articles = $this->widget->articlesByUid($userInfo['id']);
+
 		//缓存
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-		return response()->view('home/user/index', compact('header', 'top', 'footer'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home/user/index', compact('header', 'top', 'footer','userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 	/**

@@ -31,7 +31,7 @@ class UserArticle extends Base
      */
     public function add(array $data)
     {
-        return $this->create($data);
+        return $this->insertGetId($data);
     }
 
     /**

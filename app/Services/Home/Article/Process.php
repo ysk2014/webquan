@@ -320,8 +320,7 @@ class Process extends BaseProcess
 	{
 		$way = isset($data['way']) ? $data['way'] : 'addtime'; 
 		$page = isset($data['page']) ? $data['page'] : 0;
-		$is_publish = isset($data['is_publish']) ? $data['is_publish'] : 1;
-		$articleInfo = $this->articleModel->getArtsByUid($data['uid'],$way,$page,$is_publish);
+		$articleInfo = $this->articleModel->getArtsByUid($data['uid'],$way,$page);
 		if($articleInfo) {
 
 			$count = $this->articleModel->getArtsCountByUid($data['uid']);
@@ -335,6 +334,11 @@ class Process extends BaseProcess
 			foreach ($articleInfo as $key => $value) {
 				unset($value['content']);
 				array_push($articleData,$value);
+			}
+			foreach ($articleData as $key => $value) {
+				if (!empty($value['tags'])) {
+					$articleData[$key]['tags'] = explode(',', $value['tags']);
+				}
 			}
 
 			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
@@ -410,7 +414,7 @@ class Process extends BaseProcess
 			$this->redis->hincrby('article_'.$data['aid'],$status,1);
 			$this->redis->hset('article_'.$data['aid'],$status.'_id',$sqlData);
 
-			$resultArr = array('rc'=>0, 'msg'=>$msg.'成功');
+			$resultArr = array('rc'=>0, 'msg'=>$msg.'成功','id'=>$sqlData);
 		} else {
 			$resultArr = array('rc'=>2005, 'msg'=>$msg.'失败');
 		}

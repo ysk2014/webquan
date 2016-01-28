@@ -3,21 +3,24 @@
 
 <?php echo $top; ?>
 
+<div class="full-page">
+	<div class="mask"></div>
+	<div class="container cloumn-page">
+		<h2>{{ $cloumn['name'] }}</h2>
+		<div class="desc">
+			<a href="{{ '/user/'.$cloumn['uid'] }}" class="author"><img class="img-circle" src="{{ $cloumn['userUrl'] }}"/><span>{{ $cloumn['username'] }}</span></a> •
+        	<span class="time">{{ date('Y.m.d H:i',$cloumn['addtime']) }}</span>
+        	<span class="view">文章：{{ $cloumn['count'] }}篇</span>
+        	<span class="care">关注：{{ $cloumn['care'] }}</span>
+		</div>
+		<p>{{ $cloumn['description'] }}</p>
+	</div>
+</div>
+
+
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-12">
-			<div class="cloumn-page">
-				<h3>{{ $cloumn['name'] }}</h3>
-				
-				<div class="desc">
-					<a href="{{ '/user/'.$cloumn['uid'] }}" class="author"><img class="img-circle" src="{{ $cloumn['userUrl'] }}"/><span>{{ $cloumn['username'] }}</span></a> •
-	            	<span class="time">{{ date('Y.m.d H:i',$cloumn['addtime']) }}</span>
-	            	<span class="view">文章：{{ $cloumn['count'] }}篇</span>
-	            	<span class="care">关注：{{ $cloumn['care'] }}</span>
-				</div>
-
-				<p class="c-desc">{{ $cloumn['description'] }}</p>
-			</div>
 			<?php echo $articles;?>
     	</div>
     </div>

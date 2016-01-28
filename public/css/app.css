@@ -126,6 +126,9 @@ i.fa{
 .select-box {
 	display: inline-block;
 }
+#header {
+	margin-bottom: 0px;
+}
 #header .logo {
 	display: block;
 	float: left;
@@ -188,7 +191,9 @@ i.fa{
 
 
 
-
+#main {
+	margin-top: 20px;
+}
 #main .sidebar .widget{
 	background: #fff;
 	padding: 15px 20px;
@@ -586,19 +591,41 @@ i.fa{
 }
 
 
-.cloumn-page, .tag-page{
+.cloumn-page, .tag-page, .user-page{
 	overflow: hidden;
 	padding: 15px 40px;
 	text-align: center;
+	color: #fff;
 }
-.cloumn-page > h3, .tag-page>h3{
-	color: #1abc9c;
+.cloumn-page > h2, .tag-page>h2, .user-page>h2{
 	font-weight: 600;
 	margin-bottom: 20px;
 }
-.cloumn-page .c-desc, .tag-page .t-desc {
-	font-size: 14px;
+.cloumn-page p, .tag-page p, .user-page p{
+	font-size: 16px;
+}
+.cloumn-page .desc {
+	color: #fff;
+}
+.cloumn-page .desc .author{
+	color: #fff;
 }
 
-
+.full-page {
+	width: 100%;
+	padding: 100px 0 94px;
+	background: url('/image/user-bg.jpeg') no-repeat center;
+	background-size: cover;
+	position: relative;
+	z-index: 1;
+}
+.full-page .mask{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(26,188,156,0.4);
+	z-index: -1;
+}
 

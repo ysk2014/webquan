@@ -99,6 +99,18 @@ class Common
     }
 
     /**
+     * 用户下的文章列表
+     */
+    public function articlesByUid($uid,$page=0,$way='addtime')
+    {
+        //文章数据列表
+        $articles = (new ArticleProcess())->getArtsByUid(array('way'=>$way,'page'=>$page,'uid'=>$uid));
+
+        return view('home.widget.articles', compact('articles','page'));
+    }
+
+
+    /**
      * 标签下的文章列表
      */
     public function articlesByTag($tag,$page=0)

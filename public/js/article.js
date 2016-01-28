@@ -7,7 +7,6 @@ $(function() {
 
 		model: function(opt) {
 			WQ.ajax({
-				type: opt.type ? opt.type : 'post',
 				url: opt.url,
 				data: {'data':opt.data},
 				success: function(data) {
@@ -38,6 +37,7 @@ $(function() {
 						$target.find('span').html(num-1);
 						$target.removeClass('active');
 					} else {
+						$target.data('sid',data.id);
 						$target.find('span').html(num+1);
 						$target.addClass('active');
 					}
@@ -67,6 +67,7 @@ $(function() {
 						$target.find('span').html(num-1);
 						$target.removeClass('active');
 					} else {
+						$target.data('pid',data.id);
 						$target.find('span').html(num+1);
 						$target.addClass('active');
 					}
