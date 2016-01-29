@@ -207,6 +207,8 @@ class NoteProcess extends BaseProcess
 
 				$aid = $this->articleModel->addArticle($data->toArray());
 				if ($aid != false) {
+					//更新专题的文章数
+					$this->cloumnModel->incrementData('count',$data->cid);
 					$resultArr = array('rc'=>0, 'nid'=>$nid, 'aid'=>$aid);
 				} else {
 					$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
@@ -218,7 +220,7 @@ class NoteProcess extends BaseProcess
 		} else {
 			$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
 		}
-			
+		
 		return $resultArr;
 	}
 
@@ -304,6 +306,8 @@ class NoteProcess extends BaseProcess
 				} else {
 					$aid = $this->articleModel->addArticle($data->toArray());
 					if ($aid != false) {
+						//更新专题的文章数
+						$this->cloumnModel->incrementData('count',$data->cid);
 						$resultArr = array('rc'=>0, 'msg'=>'编辑成功', 'aid'=>$aid);
 					} else {
 						$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
