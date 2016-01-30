@@ -74,12 +74,13 @@ class Notes extends Base
      * 
      * @param intval $uid 用户的ID
      */
-    public function getNotesByUid($uid,$page)
+    public function getNotesByUid($uid,$nids,$page)
     {
         return $this->select(array('notes.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','notes.uid','=','user.id')
                     ->leftJoin('cloumn','notes.cid','=','cloumn.id')
                     ->where('notes.uid','=', intval($uid))
+                    ->whereNotBetween('notes.id', $nids)
                     ->orderBy('notes.addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()

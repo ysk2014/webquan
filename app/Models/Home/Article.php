@@ -89,6 +89,16 @@ class Article extends Base
     }
 
     /**
+     * 根据uid获取文章id
+     * 
+     * @param intval $uid 用户的ID
+     */
+    public function getNidsByUid($uid)
+    {
+        return $this->where('uid','=', intval($uid))->lists('nid')->toArray();
+    }
+
+    /**
      * 根据用户id获取文章信息列表
      * 
      * @param intval $cid 专题的ID

@@ -16,16 +16,28 @@ $(function() {
 		},
 		changeTabs: function($tab) {
 			var _this = this;
-			var index = $tab.index();
+			var index = $tab.parent().index();
+
 			if (index == 0) {
-				var url = '/articles/user';
+				var url = '/articles/user/pub';
 			} else {
-				var url = '';
+				var url = '/articles/user/draft';
 			}
+
 			$.post(url,{},function(data) {
 				_this.$el.find('.user-page-content').html(data);
 				$tab.parents('.user-nav').find('a').removeClass('active');
 				$tab.addClass('active');
+
+				_this.$el.find('.user-page-content').on('click','.article-more',function() {
+					var page = parseInt($(this).data('page'),10)+1;
+					var $this = $(this);
+					$this.text('加载中...');
+
+					$.post(url,{'page':page},function(htmlData) {
+						$this.before(htmlData).remove();
+					});
+				});
 			});
 		},
 		updateArticle: function($btn) {
@@ -33,7 +45,7 @@ $(function() {
 			var aid = $btn.parent().data('id');
 			var nid = $btn.data('nid');
 			if ($btn.html() == '更新中...') return false;
-			
+
 			$btn.html('更新中...');
 			_this.model({
 				url: '/note/update/article',

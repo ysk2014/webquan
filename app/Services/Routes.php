@@ -175,7 +175,9 @@ class Routes
             Route::post('/store/{id}', 'Home\ArticleController@delPraiseOrStore');
 
             // 获取已发布的文章列表
-            Route::post('/articles/user', 'Home\ArticleController@getPubArtsByUid');
+            Route::post('/articles/user/pub', 'Home\ArticleController@getPubArtsByUid');
+            // 获取草稿箱的文章列表
+            Route::post('/articles/user/draft', 'Home\ArticleController@getDraftsByUid');
 
             // 根据nid更新已发布文章
             Route::post('/note/update/article', 'Home\ArticleController@upadteArtByNid');

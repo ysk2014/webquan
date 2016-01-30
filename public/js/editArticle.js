@@ -88,6 +88,7 @@ $(function() {
                     		WQ.tooltip(data.msg,'info');
                     	} else {
                     		_this.el.form.find('input[name="data[id]"]').val(data.data);
+                    		WQ.tooltip('保存成功','info');
                     	}
                     }
 				});

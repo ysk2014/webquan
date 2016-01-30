@@ -11,9 +11,11 @@
 					<a href="{{ '/user/'.$article['uid'] }}" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$article['addtime']) }}</span>
 	            	<span class="view">专栏：<a href="/cloumn/{{ $article['cid'] }}">{{ $article['cloumn'] }}</a></span>
+	            	@if (isset($article['view'])) 
 	            	<span class="view">浏览：{{ $article['view'] }}</span>
 	            	<span class="praise">推荐：{{ $article['praise'] }}</span>
 	            	<span class="comment">评论：{{ $article['comment'] }}</span>
+	            	@endif
 	            	@if (!empty($article['tags']))
 		            	<span class="tags"><i class="fa fa-tags"></i>
 							@foreach ($article['tags'] as $tag)

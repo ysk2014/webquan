@@ -142,9 +142,21 @@ class ArticleController extends Controller {
 	 */
 	public function getPubArtsByUid()
 	{
-		return $this->widget->articlesByUid($this->userinfo['id']);
+		$page = Request::input('page');
+		return $this->widget->articlesByUid($this->userinfo['id'],$page);
 	}
 
+	/**
+	 * 根据用户id获取草稿的文章列表
+	 *
+	 * @return Response
+	 */
+	public function getDraftsByUid(NoteProcess $noteProcess)
+	{
+		$page = Request::input('page');
+		$articles = $noteProcess->getNotesByUid(array('id'=>$this->userinfo['id'],'page'=>$page));
+		return view('home.widget.articles',compact('articles','page'));
+	}
 
 	/**
 	 * 模糊查询标签名称的文章列表

@@ -367,7 +367,9 @@ class NoteProcess extends BaseProcess
 
 		$page = isset($data['page']) ? $data['page'] : 0;
 
-		$notesInfo = $this->noteModel->getNotesByUid($data['id'],$page);
+		$nids = $this->articleModel->getNidsByUid($data['id']);
+
+		$notesInfo = $this->noteModel->getNotesByUid($data['id'],$nids,$page);
 		if ($notesInfo) {
 
 			$count = $this->noteModel->getNotesCountByUid($data['id']);
@@ -383,12 +385,17 @@ class NoteProcess extends BaseProcess
 				array_push($notesData,$value);
 			}
 
+			foreach ($notesData as $key => $value) {
+				if (!empty($value['tags'])) {
+					$notesData[$key]['tags'] = explode(',', $value['tags']);
+				}
+			}
+
 			return array('rc'=>0, 'data'=>$notesData, 'next'=>$next);
 		} else {
 			return array('rc'=>405,'msg'=>404);
 		}
 	}
-
 
 }
 
