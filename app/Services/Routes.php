@@ -140,12 +140,11 @@ class Routes
      */
     public function article() {
         //文章列表
-        Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('id', '[0-9]+');
+        Route::get('/articles/{page}', 'Home\ArticleController@pagination')->where('page', '[0-9]+');
         // 单个文章页面
         Route::get('/article/{id}', 'Home\ArticleController@info')->where('id', '[0-9]+');
         // 更多评论
         Route::post('/article/{id}/comment/page/{page}', 'Home\CommentController@pagination')->where('id', '[0-9]+');
-        
         
 
         Route::group(['middleware' =>  'auth'], function() {
@@ -174,6 +173,12 @@ class Routes
             Route::post('/article/{id}/store', 'Home\ArticleController@addPraiseOrStore')->where('id', '[0-9]+');
             //取消收藏
             Route::post('/store/{id}', 'Home\ArticleController@delPraiseOrStore');
+
+            // 获取已发布的文章列表
+            Route::post('/articles/user', 'Home\ArticleController@getPubArtsByUid');
+
+            // 根据nid更新已发布文章
+            Route::post('/note/update/article', 'Home\ArticleController@upadteArtByNid');
         });
     }
 

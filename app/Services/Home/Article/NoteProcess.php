@@ -234,7 +234,7 @@ class NoteProcess extends BaseProcess
 	public function delNotes(array $id)
 	{
 		$resultArr = [];
-		if( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if( !isset($id) ) return array('rc'=>2006,'msg'=>'没有获取到id');
 
 		if($this->noteModel->delNotes($id) != false) {
 			//删除草稿缓存
@@ -249,8 +249,6 @@ class NoteProcess extends BaseProcess
 		}
 		return $resultArr;
 	}
-
-
 
 
 	/**
@@ -334,7 +332,7 @@ class NoteProcess extends BaseProcess
 	*/
 	public function getNoteById($id)
 	{	
-		if ( !isset($id) ) return array('error'=>true,'msg'=>'没有获取到id');
+		if ( !isset($id) ) return array('error'=>2006,'msg'=>'没有获取到id');
 
 		if ($this->redis->hlen('note_'.$id)>0) {
 

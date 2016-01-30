@@ -2,8 +2,11 @@
 @if ($articles['rc']==0) 
 	@foreach ($articles['data'] as $article)
 		<div class="article" data-id="{{ $article['id'] }}">
+			@if (isset($article['nUpdate']) && $article['update_time']!=$article['nUpdate']) 
+				<a class="pull-right update" data-nid="{{ $article['nid'] }}" href="javascript:void(0);">更新</a>
+			@endif
 			<div class="top">
-				<a href="{{ '/article/'.$article['id'] }}" class="title">{{ $article['title'] }}</a>
+				<a href="{{ '/article/'.$article['id'] }}" target="_blank" class="title">{{ $article['title'] }}</a>
 				<div class="desc">
 					<a href="{{ '/user/'.$article['uid'] }}" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$article['addtime']) }}</span>
@@ -23,7 +26,7 @@
 			</div>
 			@if (!empty($article['logo_dir']))
 				<div class="banner">
-					<a href="{{ '/article/'.$article['id'] }}">
+					<a href="{{ '/article/'.$article['id'] }}" target="_blank">
 						<img src="{{ $article['logo_dir'] }}">
 					</a>
 				</div>

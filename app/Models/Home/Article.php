@@ -22,7 +22,7 @@ class Article extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'view', 'tags', 'praise', 'store', 'comment', 'update_time', 'addtime');
+    protected $fillable = array('id', 'title', 'content', 'description', 'logo_dir', 'uid', 'cid', 'nid', 'view', 'tags', 'praise', 'store', 'comment', 'update_time', 'addtime');
 
     /**
      * 增加文章
@@ -95,9 +95,10 @@ class Article extends Base
      */
     public function getArtsByUid($uid,$way='addtime',$page)
     {
-        return $this->select(array('article.*','cloumn.name as cloumn','user.username','user.logo_dir as userUrl'))
+        return $this->select(array('article.*','cloumn.name as cloumn','notes.update_time as nUpdate','user.username','user.logo_dir as userUrl'))
                     ->leftJoin('user','article.uid','=','user.id')
                     ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->leftJoin('notes','article.nid','=','notes.id')
                     ->where('article.uid','=', intval($uid))
                     ->orderBy('article.'.$way,'desc')
                     ->skip($page*20)->take(20)

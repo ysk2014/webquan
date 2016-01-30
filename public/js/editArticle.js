@@ -84,7 +84,11 @@ $(function() {
                     url: action,
                     data: params,
                     success: function(data){
-                    	_this.el.form.find('input[name="data[id]"]').val(data.data);
+                    	if (data.msg) {
+                    		WQ.tooltip(data.msg,'info');
+                    	} else {
+                    		_this.el.form.find('input[name="data[id]"]').val(data.data);
+                    	}
                     }
 				});
 			});

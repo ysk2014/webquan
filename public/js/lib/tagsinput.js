@@ -239,8 +239,9 @@
 				}
 				$(this).parents('ul').remove();
 			});
-			input.on('keyup',function(e) {
-
+			$(document).one('click',function(e) {
+				input.val('');
+				$el.find('ul').remove();
 			});
 		},
 

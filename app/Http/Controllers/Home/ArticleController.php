@@ -56,6 +56,8 @@ class ArticleController extends Controller {
 		return $this->widget->articles($page);
 	}
 
+
+
 	/**
 	 * edit article
 	 *
@@ -134,18 +136,13 @@ class ArticleController extends Controller {
 	}
 
 	/**
-	 * 根据用户id获取文章列表
+	 * 根据用户id获取已经发布文章列表
 	 *
 	 * @return Response
 	 */
-	public function getArtsByUid(ArticleProcess $articleProcess)
+	public function getPubArtsByUid()
 	{
-		$data = Request::input('data');
-		if(!isset($data['is_publish'])) {
-			$data['is_publish'] = 1;
-		}
-		$data = $articleProcess->getArtsByUid($data);
-		return response()->json($data);
+		return $this->widget->articlesByUid($this->userinfo['id']);
 	}
 
 
@@ -255,6 +252,20 @@ class ArticleController extends Controller {
 		} 
 	}
 
+
+	/**
+	 * 根据nid更新文章
+	 *
+	 * @return Response
+	 */
+	public function upadteArtByNid(ArticleProcess $articleProcess)
+	{
+
+		$data = Request::input('data');
+		$result = $articleProcess->upadteArtByNid($data);
+		
+		return response()->json($result);
+	}
 
 	/**
 	 * 处理文章推荐和收藏

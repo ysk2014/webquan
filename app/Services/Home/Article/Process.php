@@ -84,6 +84,37 @@ class Process extends BaseProcess
         if( !$this->redis) $this->redis = Redis::connection();
 	}
 
+	/**
+	* 根据文集id更新文章
+	*
+	* @access public
+	* @return array
+	*/
+	public function upadteArtByNid($data)
+	{
+		if (!isset($data['id']) || !isset($data['id'])) return array('rc'=>2006,'msg'=>'文章参数错误');
+
+		$noteInfo = $this->noteModel->getNoteById($data['nid']);
+		if ($noteInfo) {
+			$artData = $noteInfo->toArray();
+			$artData['nid'] = $data['nid'];
+			$artData['update_time'] = time();
+			unset($artData['id']);
+
+			$param = new \App\Services\Home\Article\ArticleSave();
+			$param->setAttributes($artData); 
+
+			if ($this->articleModel->editArticle($param->toArray(),$data['id']) != false) {
+				$this->noteModel->editNote(array('update_time'=>$artData['update_time']),$data['nid']);
+				return array('rc'=>0,'msg'=>'更新成功');
+			} else {
+				return array('rc'=>2009,'msg'=>'更新失败');
+			}
+		} else {
+			return array('rc'=>2001,'msg'=>'获取文集信息失败');
+		}
+		
+	}
 
 	/**
 	* 获取已公布的文章列表

@@ -629,3 +629,56 @@ i.fa{
 	z-index: -1;
 }
 
+
+.user-page-list .user-nav {
+	margin-bottom: 20px;
+	border: none;
+	background: #eaeaea;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.user-page-list .user-nav a{
+	height: 40px;
+	line-height: 40px;
+	padding: 0 13px;
+	border: none;
+	border-radius: inherit;
+	position: relative;
+}
+.user-page-list .user-nav a.active {
+	background-color: #1abc9c;
+	color: #fff;
+}
+.user-page-list .user-nav a.active:before {
+    opacity: 1;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    -webkit-transform: rotate(45deg) translate(0, 0);
+    -ms-transform: rotate(45deg) translate(0, 0);
+    transform: rotate(45deg) translate(0, 0);
+}
+.user-page-list .user-nav a:before {
+    -webkit-transform: translate(0, -8px);
+    -ms-transform: translate(0, -8px);
+    transform: translate(0, -8px);
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: #1abc9c;
+    content: " ";
+    display: block;
+    margin-top: -7px;
+    margin-left: -3px;
+}
+.user-page-content .update {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #1abc9c;
+	display: inline-block;
+	padding: 4px 10px;
+	color: #fff;
+}

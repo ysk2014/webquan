@@ -46,6 +46,7 @@ class UserController extends Controller {
 		$userInfo = $this->isLogin;
 		unset($userInfo['password']);
 
+		// 已经发布的文章列表
 		$articles = $this->widget->articlesByUid($userInfo['id']);
 
 		//缓存
