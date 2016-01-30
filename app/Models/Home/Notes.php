@@ -80,7 +80,7 @@ class Notes extends Base
                     ->leftJoin('user','notes.uid','=','user.id')
                     ->leftJoin('cloumn','notes.cid','=','cloumn.id')
                     ->where('notes.uid','=', intval($uid))
-                    ->whereNotBetween('notes.id', $nids)
+                    ->whereNotIn('notes.id', $nids)
                     ->orderBy('notes.addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()

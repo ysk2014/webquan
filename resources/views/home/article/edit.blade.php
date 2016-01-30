@@ -10,7 +10,7 @@
 			<h4>写文章</h4>
 			<form id="editArt" method="post" role="form">
 
-				<input type="hidden" name="data[id]" value="0">
+				<input type="hidden" name="data[id]" value="@if (isset($id)) {{ $id }} @else 0 @endif">
 				<input type="hidden" name="data[uid]" value="{{ $userinfo['id'] }}">
 				<input type="hidden" name="data[way]" value="1">
 

@@ -84,12 +84,8 @@ $(function() {
                     url: action,
                     data: params,
                     success: function(data){
-                    	if (data.msg) {
-                    		WQ.tooltip(data.msg,'info');
-                    	} else {
-                    		_this.el.form.find('input[name="data[id]"]').val(data.data);
-                    		WQ.tooltip('保存成功','info');
-                    	}
+                		_this.el.form.find('input[name="data[id]"]').val(data.nid);
+                		WQ.tooltip(data.msg,'info');
                     }
 				});
 			});

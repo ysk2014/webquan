@@ -6,7 +6,7 @@
 				<a class="pull-right update" data-nid="{{ $article['nid'] }}" href="javascript:void(0);">更新</a>
 			@endif
 			<div class="top">
-				<a href="{{ '/article/'.$article['id'] }}" target="_blank" class="title">{{ $article['title'] }}</a>
+				<a href="@if (isset($article['view'])) {{ '/article/'.$article['id'] }} @else {{ '/note/'.$article['id'].'/edit' }} @endif" target="_blank" class="title">{{ $article['title'] }}</a>
 				<div class="desc">
 					<a href="{{ '/user/'.$article['uid'] }}" class="author"><img class="img-circle" src="{{ $article['userUrl'] }}"/><span>{{ $article['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$article['addtime']) }}</span>

@@ -214,7 +214,7 @@ class NoteProcess extends BaseProcess
 					$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
 				}
 			} else {
-				$resultArr = array('rc'=>0, 'nid'=>$nid);
+				$resultArr = array('rc'=>0, 'nid'=>$nid, 'msg'=>'保存成功');
 			}
 			
 		} else {
@@ -302,17 +302,19 @@ class NoteProcess extends BaseProcess
 						$resultArr = array('rc'=>2009, 'msg'=>'编辑失败');
 					}
 				} else {
+					$data->setNid($id);
+					$data->setAddTime($data->update_time);
 					$aid = $this->articleModel->addArticle($data->toArray());
 					if ($aid != false) {
 						//更新专题的文章数
 						$this->cloumnModel->incrementData('count',$data->cid);
 						$resultArr = array('rc'=>0, 'msg'=>'编辑成功', 'aid'=>$aid);
 					} else {
-						$resultArr = array('rc'=>2007, 'msg'=>'创建失败');
+						$resultArr = array('rc'=>2007, 'msg'=>'保存失败');
 					}
 				}
 			} else {
-				$resultArr = array('rc'=>0, 'msg'=>'编辑成功');
+				$resultArr = array('rc'=>0, 'msg'=>'保存成功');
 			}
 			
 		} else {
