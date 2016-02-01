@@ -791,6 +791,9 @@ i.fa{
 	.profile-manager .avatar-label {
 	    padding-top: 40px;
 	}
+	.info-group .form-group label {
+		padding-top: 9px;
+	}
 }
 .avatar-wrap .avatar {
     margin-right: 20px;
