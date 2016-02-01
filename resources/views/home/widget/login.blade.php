@@ -11,7 +11,6 @@
 			<li><a href="/note/add">写文章</a></li>
 			<li><a href="{{ '/user/'.$userinfo['id'] }}">我的首页</a></li>
 			<li><a href="{{ '/user/'.$userinfo['id'].'/cloumn' }}">我的专栏</a></li>
-			<li><a href="#">我的笔记</a></li>
 			<li><a href="#">帐号设置</a></li>
 			<li><a href="#">意见反馈</a></li>
 			<li><a href="/sign_out">退出</a></li>
