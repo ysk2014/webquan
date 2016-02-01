@@ -12,10 +12,12 @@
 				<div class="form-group">
 					<label class="sr-only">专栏标题</label>
 		    		<input type="text" name="data[name]" class="form-control input-lg" placeholder="专栏标题">
+		    		<small class="help-block"></small>
 				</div>
 				<div class="form-group">
 					<label class="sr-only">专栏简介</label>
 		    		<textarea class="form-control" placeholder="专栏简介,最多200个字" maxLength="200" name="data[description]"></textarea>
+		    		<small class="help-block"></small>
 				</div>
 				<div class="form-group clear-fix">
 				    <div class="pull-right" style="width: 100%;">

@@ -346,7 +346,7 @@ WQ.get = function(url,data,callback) {
         success: callback
     });
 };
-WQ.post = function(url,data,success) {
+WQ.post = function(url,data,callback) {
     WQ.ajax({
         url: url,
         data: data,

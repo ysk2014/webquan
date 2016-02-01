@@ -114,9 +114,9 @@ class Cloumn extends Base
      * 
      * @param string $title 专题的名称
      */
-    public function getInfoByName($Name)
+    public function getInfoByName($name)
     {
-        return $this->where('title','=', $title)->first();
+        return $this->where('name','=', $name)->first();
     }
 
     /**

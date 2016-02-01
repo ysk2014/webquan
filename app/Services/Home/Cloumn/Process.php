@@ -101,13 +101,34 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    private function delCloumn($ids)
+    public function delCloumn($ids)
     {
         if( !is_array($ids) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
         if($this->cloumnModel->deleteCloumn($ids) !== false) return array('rc'=>0, 'msg'=>'删除成功');
 
         return array('rc'=>3003, 'msg'=>'删除失败');
+    }
+
+    /**
+     * 检查专题名是否唯一
+     *
+     * @param $name
+     * @access public
+     * @return array
+     */
+    public function checkName($name)
+    {
+        if( !isset($name) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
+
+        $result = $this->cloumnModel->getInfoByName($name);
+
+        if ($result !== null) {
+            return array('rc'=>0, 'msg'=>'专题名不唯一', 'unique'=>0);
+        } else {
+            return array('rc'=>0, 'msg'=>'专题名唯一', 'unique'=>1);
+        }
+
     }
 
     /**

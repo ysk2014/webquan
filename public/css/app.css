@@ -589,6 +589,10 @@ i.fa{
 	min-height: 200px;
 	resize: none;
 }
+#editCloumn .help-block {
+	margin: 0;
+	font-size: 12px;
+}
 
 
 .cloumn-page, .tag-page, .user-page{
