@@ -195,11 +195,15 @@ class Routes
         Route::get('/user/{uid}/cloumn', 'Home\CloumnController@myCloumn')->where('uid', '[0-9]+');
         Route::get('/cloumn/{id}', 'Home\CloumnController@index')->where('id', '[0-9]+');
 
-        Route::get('/cloumn/add', 'Home\CloumnController@editPage');
-        Route::post('/cloumn/add', 'Home\CloumnController@dealCloumn');
-        
-        Route::get('/cloumn/{id}/edit', 'Home\CloumnController@editPage');
-        Route::post('/cloumn/{id}/edit', 'Home\CloumnController@dealCloumn');
+        Route::group(['middleware' =>  'auth'], function() {
+            Route::get('/cloumn/add', 'Home\CloumnController@editPage');
+            Route::post('/cloumn/add', 'Home\CloumnController@dealCloumn');
+
+            Route::get('/cloumn/{id}/edit', 'Home\CloumnController@editPage')->where('id', '[0-9]+');
+            Route::post('/cloumn/{id}/edit', 'Home\CloumnController@dealCloumn')->where('id', '[0-9]+');
+
+            Route::post('/cloumn/check/name', 'Home\CloumnController@checkName');
+        });
 
     }
 

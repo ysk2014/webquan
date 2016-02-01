@@ -86,7 +86,28 @@ class CloumnController extends Controller {
 
 		$userinfo = $this->userinfo;
 
-		return response()->view('home.cloumn.edit',compact('header','top','footer','userinfo'));
+		$checkHasCloumn = (new CloumnProcess)->getCloumnByUid($userinfo['id']);
+		
+		if ($checkHasCloumn['rc']==0 && $checkHasCloumn['data']!=null) {
+			return redirect('/');
+		} else {
+			return response()->view('home.cloumn.edit',compact('header','top','footer','userinfo'));
+		}
+	}
+
+	/**
+     * 检查专题名是否唯一
+     *
+     * @param App\Services\Cloumn\Process $process 专题处理
+     * @access public
+     */
+	public function checkName(CloumnProcess $manager)
+	{
+		$name = Request::input('name');
+		
+		$result = $manager->checkName($name);
+
+		return response()->json($result);
 	}
 
     /**
@@ -99,6 +120,8 @@ class CloumnController extends Controller {
 	{
 		$ids = [$id];
 		$result = $manager->delCloumn($ids);
+
+		return response()->json($result);
 	}
     /**
      * 处理专题
