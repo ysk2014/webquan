@@ -57,6 +57,24 @@ class UserController extends Controller {
 	}
 
 	/**
+	* 帐号设置
+	*/
+	public function settings($id=0)
+	{
+		$header = $this->widget->header();
+
+		$footer = $this->widget->footer();
+
+		$top = $this->widget->top($this->userinfo);
+
+		$userInfo = $this->isLogin;
+		unset($userInfo['password']);
+
+		return response()->view('home/user/setting', compact('header', 'top', 'footer','userInfo'));
+	}
+
+
+	/**
 	* 登陆注册页面
 	*/
 	public function login($way)
@@ -190,10 +208,9 @@ class UserController extends Controller {
     /**
      * 更新头像
      */
-    public function updateLogo(UserActionProcess $manager)
+    public function updateLogo(UserActionProcess $manager,$id=0)
     {
-		$file = Request::file('file');
-		$id = Request::input('id');
+		$file = Request::file('logo');
 
 		$result = $manager->uploadLogo($file,$id);
 		

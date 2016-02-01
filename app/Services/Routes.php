@@ -376,7 +376,7 @@ class Routes
                     // 修改密码 
                     Route::put('/password', 'Home\UserController@modifyPassword'); 
                     //设置
-                    Route::get('/settings', 'Home\UserController@index');
+                    Route::get('/settings', 'Home\UserController@settings');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
                     // 收藏页面

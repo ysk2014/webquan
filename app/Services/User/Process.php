@@ -6,6 +6,7 @@ use App\Models\Home\News as NewsModel;
 use App\Services\User\UserValidate;
 use App\Services\BaseProcess;
 use App\Services\Home\Upload\Process as UploadManager;
+use App\Services\SC;
 use Lang,Redis;
 
 /**
@@ -129,7 +130,9 @@ class Process extends BaseProcess
     	unset($data->id);
 
     	if( $this->userModel->editUser($data->toArray(),$id) !== false ) {
-            $resultArr = array('rc'=>0, 'data'=>'保存成功');
+            $userInfo = $this->userModel->getUserById($id);
+            SC::setLoginSession($userInfo);
+            $resultArr = array('rc'=>0, 'msg'=>'保存成功');
         } else {
             $resultArr = array('rc'=>1005, 'msg'=>'执行更新sql语句失败');
         }
@@ -152,7 +155,7 @@ class Process extends BaseProcess
     	$updateData = ['password' => md5($params->newPassword)];
 
     	if($this->userModel->editUser($updateData,$params->id) !== false)  {
-            $resultArr = array('rc'=>0, 'data'=>'修改成功');
+            $resultArr = array('rc'=>0, 'msg'=>'修改成功');
             \App\Services\SC::delLoginSession();
         } else {
             $resultArr = array('rc'=>1005, 'msg'=>'执行修改密码sql语句失败');
@@ -239,16 +242,16 @@ class Process extends BaseProcess
         $result = $this->uploadManager->setFile($file)->upload();
 
         if($result['success']) {
-            $data = array('logo_dir'=>$result['url']);
+            $data = array('logo_dir'=>$result['file_path']);
             if(!$result['status']) {
                 $resultData = $this->userModel->editUser($data,$id);
                 if($resultData) {
-                    $resultArr = array('rc'=>0,'data'=>$result['url']);
+                    $resultArr = array('rc'=>0,'data'=>$result['file_path']);
                 } else {
                     $resultArr = array('rc'=>1005,'msg'=>'执行更新头像sql语句失败');
                 }
             } else {
-                $resultArr = array('rc'=>0,'data'=>$result['url']);
+                $resultArr = array('rc'=>0,'data'=>$result['file_path']);
             }
             
         } else {

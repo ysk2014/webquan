@@ -1709,7 +1709,7 @@ fieldset[disabled] .form-control + .form-control-feedback,
 .form-horizontal .checkbox-inline {
   margin-top: 0px;
   margin-bottom: 0;
-  padding-top: 0;
+  padding-top: 4px;
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
@@ -1719,6 +1719,7 @@ fieldset[disabled] .form-control + .form-control-feedback,
   .form-horizontal .control-label {
     padding-top: 3px;
     padding-bottom: 3px;
+    text-align: right;
   }
 }
 .form-horizontal .form-group {
