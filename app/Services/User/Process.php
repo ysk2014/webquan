@@ -156,7 +156,6 @@ class Process extends BaseProcess
 
     	if($this->userModel->editUser($updateData,$params->id) !== false)  {
             $resultArr = array('rc'=>0, 'msg'=>'修改成功');
-            \App\Services\SC::delLoginSession();
         } else {
             $resultArr = array('rc'=>1005, 'msg'=>'执行修改密码sql语句失败');
         }
@@ -176,10 +175,12 @@ class Process extends BaseProcess
 
         if($this->userModel->editUser($updateData,$uid) !== false)  {
             $resultArr = array('rc'=>0, 'data'=>'修改成功');
+            
             \App\Services\SC::delLoginSession();
         } else {
             $resultArr = array('rc'=>1005, 'msg'=>'执行修改密码sql语句失败');
         }
+
         return $resultArr;
     }
 

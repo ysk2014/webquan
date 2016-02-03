@@ -1,4 +1,10 @@
-		
+		<!-- footer -->
+		<div id="footer">
+			<div class="container">
+				<p>Copyright © 2015-2016 Web圈. 当前呈现版本 2.0</p>
+				<p>京ICP备15054320号-1</p>
+			</div>
+		</div>
 
 		<!-- 登录弹出框 -->
 		<div class="modal fade" id="myLogin">
@@ -31,7 +37,7 @@
 							  	</div>
 							  	<a class="btn btn-primary btn-lg btn-block sign-in" style="width: 100%;">登录</a>
 							  	<div class="clearfix" style="margin: 10px 0;">
-							  		<a class="pull-right forget" href="">忘记密码</a>
+							  		<a class="pull-right forget" target="_blank" href="/page/forget">忘记密码</a>
 							  	</div>
 							</form>
 						  	<div class="login-other">
@@ -88,6 +94,7 @@
 		</div>
 
 		<div id="mask"></div>
+
 		<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/login.js') }}"></script>
 	</body>

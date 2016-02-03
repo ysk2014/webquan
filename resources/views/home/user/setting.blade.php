@@ -17,11 +17,26 @@
 			</div>
 			<div class="card sidebar-nav">
 				<ul class="nav">
-					<li><a class="" href="#profile-manager">个人信息</a></li>
-					<li><a href="#email-manager">Email地址</a></li>
-					<li><a href="#pwd-manager">密码修改</a></li>
-					<li><a href="#oauth-manager">第三方帐号</a></li>
-					<li><a href="#notify-manager">通知提醒</a></li>
+					<li><a class="" href="#profile-manager">
+						<i class="fa fa-user"></i><br>
+						<span class="nav-title">个人信息</span>
+					</a></li>
+					<li><a href="#email-manager">
+						<i class="fa fa-envelope"></i><br>
+						<span class="nav-title">Email</span>
+					</a></li>
+					<li><a href="#pwd-manager">
+						<i class="fa fa-eye"></i><br>
+						<span class="nav-title">密码修改</span>
+					</a></li>
+					<li><a href="#oauth-manager">
+						<i class="fa fa-group"></i><br>
+						<span class="nav-title">Oauth</span>
+					</a></li>
+					<li><a href="#notify-manager">
+						<i class="fa fa-bell"></i><br>
+						<span class="nav-title">通知提醒</span>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -102,20 +117,22 @@
 					<h4 class="card-title">密码修改</h4>
 				</div>
 				<div class="card-content">
-					<form class="form-horizontal info-group">
+					<form class="form-horizontal info-group" data-action="{{ '/user/'.$userInfo['id'].'/password' }}">
+						<input type="hidden" class="hide" name="data[id]" value="{{ $userInfo['id'] }}" /> 
 						<div class="form-group">
 							<label class="col-sm-3 control-label avatar-label">当前密码<i style="color: #e74c3c;">*</i></label>
-							<div class="col-sm-9"><input class="form-control" type="password" name="data[oldPassword]"></div>
+							<div class="col-sm-9"><input class="form-control" type="password" name="data[oldPassword]"><small class="help-block"></small></div>
+							
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label avatar-label">新密码<i style="color: #e74c3c;">*</i></label>
-							<div class="col-sm-9"><input class="form-control" type="password" name="data[newPassword]"></div>
+							<div class="col-sm-9"><input class="form-control" type="password" name="data[newPassword]"><small class="help-block"></small></div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label avatar-label">确认新密码<i style="color: #e74c3c;">*</i></label>
-							<div class="col-sm-9"><input class="form-control" type="password" name="data[newPasswordRepeat]"></div>
+							<div class="col-sm-9"><input class="form-control" type="password" name="data[newPasswordRepeat]"><small class="help-block"></small></div>
 						</div>
-						<div class="form-group"><div class="col-sm-9 col-sm-offset-3"><a class="btn btn-lg btn-primary btn-block save-handler" data-action="{{ '/user/'.$userInfo['id'].'/password' }}">提交</a></div></div>
+						<div class="form-group"><div class="col-sm-9 col-sm-offset-3"><a class="btn btn-lg btn-primary btn-block save-handler">提交</a></div></div>
 					</form>
 				</div>
 			</div>

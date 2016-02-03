@@ -49,40 +49,47 @@ $(function() {
 			var _this = this;
 			var $page = $('#pwd-manager');
 
-			$page.on('click','.save-handler',function() {
-				var $form = $(this).parents('form');
-				if ($form.find('[name="data[oldPassword]"]').val() == '') {
-					WQ.tooltip('当前密码不能为空');
-					$form.find('[name="data[oldPassword]"]').focus();
+			var formSubmit = function($form) {
+				var oldPassword = $form.find('[name="data[oldPassword]"]');
+				var newPassword = $form.find('[name="data[newPassword]"]');
+				var newPasswordRepeat = $form.find('[name="data[newPasswordRepeat]"]');
+
+
+				if (oldPassword.val() == '') {
+					oldPassword.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('当前密码不能为空');
+					oldPassword.focus();
 					return false;
-				} else if ($form.find('[name="data[newPassword]"]').val().length<6) {
-					WQ.tooltip('当前密码不能小于6位数');
-					$form.find('[name="data[oldPassword]"]').focus();
+				} else if (oldPassword.val().length<6) {
+					oldPassword.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('当前密码不能小于6位数');
+					oldPassword.focus();
 					return false;
+				} else {
+					oldPassword.parents('.form-group').addClass('has-success').removeClass('has-error').find('small').hide();
 				}
 
-				if ($form.find('[name="data[newPassword]"]').val() == '') {
-					WQ.tooltip('新密码不能为空');
-					$form.find('[name="data[newPassword]"]').focus();
+				if (newPassword.val() == '') {
+					newPassword.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('新密码不能为空');
+					newPassword.focus();
 					return false;
-				} else if ($form.find('[name="data[newPassword]"]').val().length<6) {
-					WQ.tooltip('新密码不能小于6位数');
-					$form.find('[name="data[newPassword]"]').focus();
+				} else if (newPassword.val().length<6) {
+					newPassword.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('新密码不能小于6位数');
+					newPassword.focus();
 					return false;
+				} else {
+					newPassword.parents('.form-group').addClass('has-success').removeClass('has-error').find('small').hide();
 				}
 
-				if ($form.find('[name="data[newPasswordRepeat]"]').val() == '') {
-					WQ.tooltip('确认新密码不能为空');
-					$form.find('[name="data[newPasswordRepeat]"]').focus();
+				if (newPasswordRepeat.val() != newPassword.val()) {
+					newPasswordRepeat.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('新密码输入不一致');
+					newPasswordRepeat.focus();
 					return false;
-				} else if ($form.find('[name="data[newPasswordRepeat]"]').val().length<6) {
-					WQ.tooltip('确认新密码不能小于6位数');
-					$form.find('[name="data[newPasswordRepeat]"]').focus();
-					return false;
+				} else {
+					newPasswordRepeat.parents('.form-group').addClass('has-success').removeClass('has-error').find('small').hide();
 				}
 
+				$form.find('.save-handler').html('正在提交...');
 				var params = $form.serialize();
-				var url = $(this).data('action');
+				var url = $form.data('action');
 				
 				WQ.ajax({
 					type: 'put',
@@ -90,10 +97,21 @@ $(function() {
 					data: params,
 					success: function(data) {
 						WQ.tooltip(data.msg,'info');
-						window.location.href = '/';
+						$form.find('.save-handler').html('提交');
+					},
+					error: function(msg) {
+						WQ.tooltip(msg);
+						$form.find('.save-handler').html('提交');
 					}
 				});
+			}
 
+			$page.on('click','.save-handler',function() {
+				formSubmit($(this).parents('form'));
+			}).on('keyup','input',function(e) {
+				if(e.which==13) {
+					formSubmit($(this).parents('form'));
+				}
 			});
 		},
 

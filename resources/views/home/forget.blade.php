@@ -7,7 +7,7 @@
 	<title>忘记密码 | Web圈</title>
 	<link href="{{ asset('image/web.ico') }}" rel="shortcut icon">
 	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/base.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/other.css') }}" rel="stylesheet">
 </head>
 	
@@ -18,13 +18,10 @@
 		<div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
 		<div class="title"><span></span><h3>密码重置</h3></div>
 		<div class="content">
-			<div class="input-prepend">
-				<span class="add-on">
-                    <i class="fa fa-envelope-o"></i>
-                </span>
-				<input type="text" class="input-login" name="username"  placeholder="请输入用户绑定的邮箱" />
+			<div class="form-group">
+				<input type="text" class="input-login form-control" name="username"  placeholder="请输入用户绑定的邮箱" />
 			</div>
-			<a class="btn btn-info btn-submit" id="next-1" href="javascript:void(0)">下一步</a>
+			<a class="btn btn-primary btn-block" id="next-1" href="javascript:void(0)">下一步</a>
 		</div>
 	</div>
     <div class="container" id="page-2">
@@ -32,38 +29,31 @@
         <div class="title"><span></span><h3>为了账号安全，需要验证邮箱有效性</h3></div>
         <div class="desc">一封包含有验证码的邮件已经发送至邮箱：<a></a></div>
         <div class="content">
-            <div class="input-prepend">
-                <span id="resend" class="add-on-btn btn btn-info disabled">等待60秒</span>
-                <input type="text" class="input-login check" maxlength="6" name="verifyCode"  placeholder="请输入六位数验证码" />
+            <div class="input-group" style="margin-bottom:15px;">
+                <input type="text" class="input-login check form-control" maxlength="6" name="verifyCode"  placeholder="请输入六位数验证码" />
+                <div class="input-group-addon" id="resend">等待60秒</div>
             </div>
-            <a class="btn btn-info btn-submit" id="next-2" href="javascript:void(0)">下一步</a>
+            <div class="form-group">
+                <a class="btn btn-primary btn-block" id="next-2" href="javascript:void(0)">下一步</a>
+            </div>
         </div>
     </div>
     <div class="container" id="page-3">
         <div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
         <div class="title"><span></span><h3>密码重置</h3></div>
         <div class="content">
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="fa fa-envelope-o"></i>
-                </span>
-                <input type="password" class="input-login" name="newPassword"  placeholder="请输入新密码" />
+            <div class="form-group">
+                <input type="password" class="form-control" name="newPassword"  placeholder="请输入新密码" />
             </div>
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="fa fa-envelope-o"></i>
-                </span>
-                <input type="password" class="input-login" name="newPasswordRepeat"  placeholder="请重复新密码" />
+            <div class="form-group">
+                <input type="password" class="form-control" name="newPasswordRepeat"  placeholder="请重复新密码" />
             </div>
-            <a class="btn btn-info btn-submit" id="next-3" href="javascript:void(0)">提交</a>
+            <a class="btn btn-primary btn-block" id="next-3" href="javascript:void(0)">提交</a>
         </div>
     </div>
 	<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
 	<script type="text/javascript">
-
-        
-
         var forget = {
             init: function() {
                 var _this = this;
@@ -148,7 +138,7 @@
                                 ctx.beginPath();
                                 ctx.lineWidth = ratio/2;
                                 ctx.fillStyle = 'rgba(255,255,255,' + (ratio + 0.1) + ')';
-                                ctx.strokeStyle = 'rgba(134,196,143,' + (ratio + 0.1) + ')';
+                                ctx.strokeStyle = 'rgba(189,251,239,' + (ratio + 0.1) + ')';
                                 ctx.moveTo(dot.x , dot.y);
                                 ctx.lineTo(d2.x , d2.y);
                                 ctx.stroke();
@@ -234,7 +224,7 @@
 
                     if($(this).hasClass('disabled')) return;
 
-                    var verifyCode = $(this).siblings().find('input').val();
+                    var verifyCode = $(this).parent().siblings().find('input').val();
 
                     if(verifyCode.length!=6) {
                         WQ.tooltip('请输入六位数的验证码');

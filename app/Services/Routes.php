@@ -61,7 +61,7 @@ class Routes
 
             // 邮件
             Route::get('/email', 'Email\EmailController@index');
-            //邮件验证码
+            //忘记密码的邮件验证码
             Route::post('/email/verifyCode', 'Email\EmailController@checkVerifyCode');
 
             $this->user();

@@ -48,6 +48,12 @@ class Process extends BaseProcess
 		}
 
 		$verifyCode = rand(100000,999999);
+		// 清空关于这个邮箱的所有数据
+		$cacheArr = $this->redis->get($email.'*');
+		foreach ($cacheArr as $key => $value) {
+			$this->redis->del($value);
+		}
+
 		$this->redis->set($email,$verifyCode);
 		$this->redis->set($email.$verifyCode,$user['id']);
 

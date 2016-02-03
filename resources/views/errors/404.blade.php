@@ -2,12 +2,13 @@
 <head>
     <meta charset="utf-8">
     <style type="text/css">
-    	body {font-family: "微软雅黑","Open Sans",helvetica,arial,sans-serif;}
-    	#container {width: 300px; margin: 0 auto; height: 100%;}
+    	body {font-family: "微软雅黑","Open Sans",helvetica,arial,sans-serif;background-color: #1abc9c;}
+    	#container {width: 300px; margin: 0 auto; height: 100%;overflow: hidden;}
     	.error-code {
+    		margin-top: 100px;
     		font-size: 130px;
-    		color:#ccc;
-			text-shadow: 0 2px 3px #ccc, 0px -2px 1px #fff;
+    		color:#fff;
+			text-shadow: 0 2px 3px #fff, 0px -2px 1px #fff;
 			font-weight: bold;
 			letter-spacing: -4px;
 			text-align: center;
@@ -16,10 +17,12 @@
 			vertical-align: middle;
     	}
     	.clear {clear: both; }
-    	.error-msg {text-align: center;}
+    	.error-msg {text-align: center;color: #fff;}
+    	.error-msg a{color: #fff;}
+    	.error-msg a:hover{color: #fff;}
     </style>
 </head>
-<body class="theme-3">
+<body>
 	<div id="container">
 		<div class="error-code"><?php echo ! empty($errorCode) ? $errorCode : 404; ?></div>
 		<div class="clear"></div>

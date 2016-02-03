@@ -16,6 +16,22 @@ $(function() {
 		},
 		bindEvent: function() {
 			var _this = this;
+			//导航
+			$('#header .logo-min').on('click',function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				var $this = $(this);
+				if ($(this).parent().hasClass('open')) {
+					$(this).parent().removeClass('open');
+				} else {
+					$(this).parent().addClass('open');
+					$(document).one('click',function() {
+						$this.parent().removeClass('open');
+					});
+				}
+				
+			});
 
 			//登录后的下拉菜单
 			if (_this.$dropdown.length>0) {
