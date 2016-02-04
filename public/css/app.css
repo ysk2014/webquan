@@ -86,7 +86,7 @@ i.fa{
 .search-form button {
 	color: #555;
 }
-.search-form .input-group-btn + input:focus {
+.search-form .input-group .input-group-btn + input:focus {
 	border-radius: 0 6px 6px 0;
 	border-color: #bdc3c7;
 	box-shadow: none;
