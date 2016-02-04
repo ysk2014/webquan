@@ -83,7 +83,7 @@ i.fa{
 .search-form .dropdown-menu:after {
 	display: none;
 }
-.search-form button {
+.search-form .input-group button {
 	color: #555;
 }
 .search-form .input-group .input-group-btn + input:focus {
