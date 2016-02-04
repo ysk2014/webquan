@@ -2,7 +2,7 @@
 
 use Lang;
 use App\Services\Home\Search\Sphinx;
-use App\Services\Home\BaseProcess;
+use App\Services\BaseProcess;
 use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Cloumn as CloumnModel;
 
@@ -44,10 +44,35 @@ class Process extends BaseProcess
      * @param  string $keyword
      * @return array        
      */
-    public function getArticles($keyword)
+    public function getArticles($data)
     {
-        if (!isset($keyword)) return array('error' => true, 'msg'=>'没有传关键词');
-        $this->articleModel->getArticlesByKeyword($keyword);
+        if (!isset($data['search'])) return array('rc' => 6001, 'msg'=>'没有传关键词');
+
+        $result = $this->articleModel->getArticlesByKeyword($data);
+        if ($result) {
+
+            $count = $this->articleModel->getArtsCountByKeywords($data['search']);
+            if( (intval($data['page'])+1)*20 < $count ) {
+                $next = true;
+            } else {
+                $next = false;
+            }
+
+            $articleData = array();
+            foreach ($result as $key => $value) {
+                unset($value['content']);
+                array_push($articleData,$value);
+            }
+            foreach ($articleData as $key => $value) {
+                if (!empty($value['tags'])) {
+                    $articleData[$key]['tags'] = explode(',', $value['tags']);
+                }
+            }
+
+            return array('rc'=>0,'data'=>$articleData,'next'=>$next);
+        } else {
+            return array('rc'=>6002,'msg'=>'数据查询失败');
+        }
     }
 
     /**

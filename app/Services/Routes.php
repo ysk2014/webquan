@@ -98,24 +98,8 @@ class Routes
                 //bug页面
                 Route::get('/bug', 'Home\BugController@index');
 
-
-                //草稿详细页面
-                Route::get('user/{id}/draft/{did}', 'Home\DraftController@index');
-                Route::get('/draft/{id}/edit', 'Home\DraftController@page');
-
-                //获取草稿id的信息
-                Route::get('/draft/{id}/info', 'Home\DraftController@getDraftById');
-                //获取用户id的草稿列表
-                Route::get('/drafts/user/{id}', 'Home\DraftController@getDraftsByUid');
-                //添加草稿
-                Route::post('/draft/add', 'Home\DraftController@dealDraft');
-                //更新草稿
-                Route::put('/draft/{id}', 'Home\DraftController@dealDraft');
-                // 删除草稿
-                Route::delete('/draft/{id}', 'Home\DraftController@dealDraft');
-
-
-                Route::post('/draft/to/article', 'Home\DraftController@draftToArt');
+                //search页面
+                Route::get('/search', 'Home\HomeController@getSearch');
 
             });
 

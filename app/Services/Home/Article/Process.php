@@ -339,7 +339,6 @@ class Process extends BaseProcess
 		}
 	}
 
-
 	/**
 	* 获取用户创建的所有文章列表
 	*

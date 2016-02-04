@@ -30,7 +30,26 @@ $(function() {
 						$this.parent().removeClass('open');
 					});
 				}
-				
+			});
+			//搜索
+			$('#header .search a').on('click',function() {
+				$('body>.search-mask').show().on('click',function(e) {
+					if ($(e.target).hasClass('search-mask')) {
+						$(this).hide();
+					}
+				}).on('click','button',function() {
+					var $btn = $(this);
+					$(this).siblings('ul').show().on('click','a',function() {
+						var selected = $(this).html();
+						var type = $(this).data('type');
+						$btn.find('span.text').html(selected);
+						$btn.parent().siblings('input[type="hidden"]').val(type);
+						$btn.siblings('ul').hide();
+					});
+				}).on('submit','form',function(e) {
+					$('body>.search-mask').hide();
+				}).find('input[name="search"]').focus();
+
 			});
 
 			//登录后的下拉菜单

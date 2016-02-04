@@ -189,6 +189,24 @@ class Article extends Base
     }
 
     /**
+     * 模糊搜索的文章列表
+     * 
+     * @param $data 关键字name和page
+     */
+    public function getArticlesByKeyword($data)
+    {
+        return $this->select(array('article.*','user.username','user.logo_dir as userUrl','cloumn.name as cloumn'))
+                    ->leftJoin('user','article.uid','=','user.id')
+                    ->leftJoin('cloumn','article.cid','=','cloumn.id')
+                    ->orderBy('article.addtime','desc')
+                    ->where('article.title','like','%'.$data['search'].'%')
+                    ->orWhere('article.description','like','%'.$data['search'].'%')
+                    ->skip($data['page']*20)->take(20)
+                    ->get()
+                    ->toArray();
+    }
+
+    /**
      * 获取热门文章的前几个
      * 
      * @param intval $num
@@ -286,4 +304,13 @@ class Article extends Base
         return $this->where('tags','like','%'.$name.'%')->count();
     }
 
+    /**
+     * 模糊查询文章总数
+     * 
+     * @param $name 
+     */
+    public function getArtsCountByKeywords($name)
+    {
+        return $this->where('title','like','%'.$name.'%')->orWhere('description','like','%'.$name.'%')->count();
+    }
 }

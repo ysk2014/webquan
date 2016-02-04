@@ -15,15 +15,16 @@ class SearchController extends Controller {
 
 	}
 
-	/**
-	 * search
-	 *
-	 */
-	public function index()
-	{
-		return view('home.app');
-	}
+	public function getSearch() {
+		$search = Request::input('search');
+		$type = Request::input('type');
+		
+		if ($type==0) {
+			$articles = $this->widget->articles();
+		} else if ($type==1) {
 
+		}
+	}
 
 	/**
 	 * 文章搜索
