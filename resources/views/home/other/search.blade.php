@@ -34,13 +34,17 @@
 	$(function() {
 		$('.sidebar .search-form').on('click','button',function() {
 			var $btn = $(this);
-			$(this).siblings('ul').show().on('click','a',function() {
-				var selected = $(this).html();
-				var type = $(this).data('type');
-				$btn.find('span.text').html(selected);
-				$btn.parent().siblings('input[type="hidden"]').val(type);
-				$btn.siblings('ul').hide();
-			});
+			if ($(this).siblings('ul').hasClass('show')) {
+				$(this).siblings('ul').addClass('hide').removeClass('show');
+			} else {
+				$(this).siblings('ul').addClass('show').removeClass('hide').on('click','a',function() {
+					var selected = $(this).html();
+					var type = $(this).data('type');
+					$btn.find('span.text').html(selected);
+					$btn.parent().siblings('input[type="hidden"]').val(type);
+					$btn.siblings('ul').addClass('hide').removeClass('show');
+				});
+			}
 		});
 	});
 </script>
