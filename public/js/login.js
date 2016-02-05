@@ -33,28 +33,37 @@ $(function() {
 			});
 			//搜索
 			$('#header .search a').on('click',function() {
-				$('body>.search-mask').show().on('click',function(e) {
-					if ($(e.target).hasClass('search-mask')) {
-						$(this).hide();
-						$(this).find('ul').addClass('hide').removeClass('show');
-					}
-				}).on('click','button',function() {
-					var $btn = $(this);
-					if ($(this).siblings('ul').hasClass('show')) {
-						$(this).siblings('ul').addClass('hide').removeClass('show');
-					} else {
-						$(this).siblings('ul').addClass('show').removeClass('hide').on('click','a',function() {
-							var selected = $(this).html();
-							var type = $(this).data('type');
-							$btn.find('span.text').html(selected);
-							$btn.parent().siblings('input[type="hidden"]').val(type);
-							$btn.siblings('ul').addClass('hide').removeClass('show');
-						});
-					}
-				}).on('submit','form',function(e) {
-					$('body>.search-mask').hide();
-				}).find('input[name="search"]').focus();
+				$('body>.search-mask').show().find('input[name="search"]').focus();
 
+			});
+			$('body>.search-mask').on('click',function(e) {
+				if ($(e.target).hasClass('search-mask')) {
+					$(this).find('.input-group-btn').removeClass('open');
+					$(this).hide();
+				}
+			}).on('click','button',function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				var $btn = $(this);
+				var $parent = $(this).parent();
+				
+				if ($parent.hasClass('open')) {
+					$parent.removeClass('open');
+				} else {
+					$parent.addClass('open');
+				}
+			}).on('click','ul a',function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				var selected = $(this).html();
+				var type = $(this).data('type');
+				var $btn = $(this).parents('ul.dropdown-menu').siblings('button');
+				$btn.find('span.text').html(selected);
+				$btn.parent().siblings('input[type="hidden"]').val(type);
+				$(this).parents('.input-group-btn').removeClass('open');
+			}).on('submit','form',function(e) {
+				$('body>.search-mask').hide();
 			});
 
 			//登录后的下拉菜单

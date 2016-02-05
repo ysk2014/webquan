@@ -32,19 +32,26 @@
 </div>
 <script type="text/javascript">
 	$(function() {
-		$('.sidebar .search-form').on('click','button',function() {
+		$('.sidebar .search-form').on('click','button',function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
 			var $btn = $(this);
-			if ($(this).siblings('ul').hasClass('show')) {
-				$(this).siblings('ul').addClass('hide').removeClass('show');
+			if ($(this).parent().hasClass('open')) {
+				$(this).parent().removeClass('open');
 			} else {
-				$(this).siblings('ul').addClass('show').removeClass('hide').on('click','a',function() {
-					var selected = $(this).html();
-					var type = $(this).data('type');
-					$btn.find('span.text').html(selected);
-					$btn.parent().siblings('input[type="hidden"]').val(type);
-					$btn.siblings('ul').addClass('hide').removeClass('show');
+				$(this).parent().addClass('open');
+				$(document).one('click',function(e) {
+					$btn.parent().removeClass('open');
 				});
 			}
+		}).on('click','ul a',function() {
+			var selected = $(this).html();
+			var type = $(this).data('type');
+			var $btn = $(this).parents('ul.dropdown-menu').siblings('button');
+			$btn.find('span.text').html(selected);
+			$btn.parent().siblings('input[type="hidden"]').val(type);
+			$btn.parent().removeClass('open');
 		});
 	});
 </script>
