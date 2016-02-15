@@ -28,12 +28,7 @@ class ArticleController extends Controller {
 	 */
 	public function index(ArticleProcess $articleProcess)
 	{	
-		
-		//缓存
-		$cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-
-		return response()->view('home/article/index')->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home/article/index');
 	}
 
 

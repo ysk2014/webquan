@@ -37,18 +37,29 @@ class UserController extends Controller {
 	 */
 	public function index($id=0)
 	{
+		if ($id!=0) {
+			$uid = $id;
+			
+			$userInfo = $this->isLogin;
+			unset($userInfo['password']);
+			if ($userInfo['id'] != $id) {
+				$uid = $id;
+				$userInfo = (new UserActionProcess())->getUserInfoById($id);
+			} else {
+				$uid = $userInfo['id'];
+			}
+		
+			// 已经发布的文章列表
+			$articles = $this->widget->articlesByUid($uid);
 
-		$userInfo = $this->isLogin;
-		unset($userInfo['password']);
+			//缓存
+			$cacheSecond = config('home.cache_control');
+	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-		// 已经发布的文章列表
-		$articles = $this->widget->articlesByUid($userInfo['id']);
-
-		//缓存
-		$cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-
-		return response()->view('home/user/index', compact('userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+			return response()->view('home/user/index', compact('userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		} else {
+			abort(404);
+		}
 	}
 
 	/**
