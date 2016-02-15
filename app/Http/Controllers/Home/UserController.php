@@ -41,13 +41,15 @@ class UserController extends Controller {
 			$uid = $id;
 			
 			$userInfo = $this->isLogin;
-			unset($userInfo['password']);
+			
 			if ($userInfo['id'] != $id) {
 				$uid = $id;
-				$userInfo = (new UserActionProcess())->getUserInfoById($id);
+				$userInfo = (new UserActionProcess())->getUserInfoById($id)['data'];
 			} else {
 				$uid = $userInfo['id'];
 			}
+
+			unset($userInfo['password']);
 		
 			// 已经发布的文章列表
 			$articles = $this->widget->articlesByUid($uid);
