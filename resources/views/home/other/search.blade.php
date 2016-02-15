@@ -1,7 +1,7 @@
 
-<?php echo $header; ?>
+<?php echo widget('Home.Common')->header(); ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="container" id="main">
 	<div class="row">
@@ -45,6 +45,10 @@
 					$btn.parent().removeClass('open');
 				});
 			}
+
+			$(document).on('click',function() {
+				$btn.parent().removeClass('open');
+			});
 		}).on('click','ul a',function() {
 			var selected = $(this).html();
 			var type = $(this).data('type');
@@ -55,4 +59,5 @@
 		});
 	});
 </script>
-<?php echo $footer; ?>
+
+<?php echo widget('Home.Common')->footer(); ?>

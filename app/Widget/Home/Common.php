@@ -15,6 +15,7 @@ use App\Services\User\Process as UserProcess;
  */
 class Common
 {
+
     /**
      * footer
      */
@@ -34,17 +35,26 @@ class Common
     /**
      * top
      */
-    public function top($userinfo)
+    public function top()
     {
-        $login = $this->login($userinfo);
+        $login = $this->login();
         return view('home.widget.top', compact('login'));
     }
 
     /**
      * login
      */
-    public function login($userinfo)
+    public function login()
     {
+        // 判断用户是否登录
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        
+        if (empty($isLogin)) {
+            $userinfo = false;
+        } else {
+            $userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+
         return view('home.widget.login', compact('userinfo'));
     }
 

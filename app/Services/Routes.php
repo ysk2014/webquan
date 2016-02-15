@@ -139,9 +139,13 @@ class Routes
             Route::post('/note/add', 'Home\ArticleController@dealArticle');
             //编辑文章页面
             Route::get('/note/{id}/edit', 'Home\ArticleController@editPage')->where('id', '[0-9]+');
+            //删除文章
+            Route::delete('/article/{id}', 'Home\ArticleController@delArticle')->where('id', '[0-9]+');
 
             //编辑文章
             Route::post('/note/{id}/edit', 'Home\ArticleController@dealArticle')->where('id', '[0-9]+');
+            //删除文集
+            Route::delete('/note/{id}', 'Home\ArticleController@delNote')->where('id', '[0-9]+');
             
             //添加评论
             Route::post('/article/{id}/comment', 'Home\CommentController@dealComment')->where('id', '[0-9]+');

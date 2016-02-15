@@ -1,7 +1,7 @@
 
-<?php echo $header; ?>
+<?php echo widget('Home.Common')->header(); ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="full-page">
 	<div class="mask"></div>
@@ -24,4 +24,5 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ asset('js/user.js') }}"></script>
-<?php echo $footer; ?>
+
+<?php echo widget('Home.Common')->footer(); ?>

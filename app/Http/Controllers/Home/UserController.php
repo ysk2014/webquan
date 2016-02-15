@@ -37,11 +37,6 @@ class UserController extends Controller {
 	 */
 	public function index($id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
 
 		$userInfo = $this->isLogin;
 		unset($userInfo['password']);
@@ -53,7 +48,7 @@ class UserController extends Controller {
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-		return response()->view('home/user/index', compact('header', 'top', 'footer','userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home/user/index', compact('userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 	/**
@@ -61,16 +56,11 @@ class UserController extends Controller {
 	*/
 	public function settings($id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
 
 		$userInfo = $this->isLogin;
 		unset($userInfo['password']);
 
-		return response()->view('home/user/setting', compact('header', 'top', 'footer','userInfo'));
+		return response()->view('home/user/setting', compact('userInfo'));
 	}
 
 

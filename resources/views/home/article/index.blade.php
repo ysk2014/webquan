@@ -1,15 +1,16 @@
 
-<?php echo $header; ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->header(); ?>
+
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-8">
-			<?php echo $articles; ?>
+			<?php echo widget('Home.Common')->articles(); ?>
     	</div>
     	<div class="col-md-4 sidebar">
-    		<?php echo $aside ?>
+    	<?php echo widget('Home.Common')->aside(); ?>
     	</div>
     </div>
 	<script type="text/javascript">
@@ -26,4 +27,5 @@
 	</script>
 </div>
 
-<?php echo $footer; ?>
+
+<?php echo widget('Home.Common')->footer(); ?>

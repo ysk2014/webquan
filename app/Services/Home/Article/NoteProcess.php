@@ -231,17 +231,15 @@ class NoteProcess extends BaseProcess
 	* @access public
 	* @return boolean true|false
 	*/
-	public function delNotes(array $id)
+	public function delNotes($id)
 	{
 		$resultArr = [];
 		if( !isset($id) ) return array('rc'=>2006,'msg'=>'没有获取到id');
 
-		if($this->noteModel->delNotes($id) != false) {
+		if($this->noteModel->delNotes([$id]) != false) {
 			//删除草稿缓存
-			foreach ($id as $key => $value) {
-				if ($this->redis->hlen('note_'.$value)>0) {
-					$this->redis->del('note_'.$value);
-				}
+			if ($this->redis->hlen('note_'.$id)>0) {
+				$this->redis->del('note_'.$id);
 			}
 			$resultArr = array('rc'=>0, 'msg'=>'删除成功');
 		} else {

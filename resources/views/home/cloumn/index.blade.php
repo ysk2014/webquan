@@ -1,7 +1,8 @@
 
-<?php echo $header; ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->header(); ?>
+
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="full-page">
 	<div class="mask"></div>
@@ -37,4 +38,4 @@
 		});
 	});
 </script>
-<?php echo $footer; ?>
+<?php echo widget('Home.Common')->footer(); ?>

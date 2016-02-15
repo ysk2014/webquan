@@ -53,6 +53,10 @@ $(function() {
 				} else {
 					$parent.addClass('open');
 				}
+
+				$(document).on('click',function() {
+					$parent.removeClass('open');
+				})
 			}).on('click','ul a',function(e) {
 				e.preventDefault();
 				e.stopPropagation();

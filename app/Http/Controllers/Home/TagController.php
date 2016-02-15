@@ -25,13 +25,6 @@ class TagController extends Controller {
 	 */
 	public function index(TagProcess $manager,$name)
 	{
-
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
 		//缓存
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
@@ -42,7 +35,7 @@ class TagController extends Controller {
 
         if ($taginfo['rc']==0) {
         	$tag = $taginfo['data'];
-        	return response()->view('home/tag/index', compact('header', 'top', 'footer','tag','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        	return response()->view('home/tag/index', compact('tag','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
         } else {
         	abort(404);
         }

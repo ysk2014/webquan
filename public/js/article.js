@@ -7,6 +7,7 @@ $(function() {
 
 		model: function(opt) {
 			WQ.ajax({
+				type: opt.type ? opt.type : 'post',
 				url: opt.url,
 				data: {'data':opt.data},
 				success: function(data) {
@@ -76,12 +77,35 @@ $(function() {
 			});
 		},
 
+		//删除文章
+		delArt: function($target) {
+			var _this = this;
+			var aid = $target.parents('.single-share').data('aid');
+			var nid = $target.data('nid');
+			$('#delModal').modal('show').on('click','.btn-primary',function() {
+				_this.model({
+					type: 'delete',
+					url: '/article/'+aid,
+					data: {'nid':nid},
+					callback: function(data) {
+						WQ.tooltip(data.msg,'info');
+						setTimeout(function() {
+							window.location.href="/";
+						},500);
+					}
+				});
+			});
+				
+		},
+
 		bindEvent: function() {
 			var _this = this;
 			this.$el.on('click','.single-share .store',function() {
 				_this.store($(this));
 			}).on('click','.single-share .praise',function() {
 				_this.praise($(this));
+			}).on('click','.single-share .del',function() {
+				_this.delArt($(this));
 			});
 		},
 

@@ -34,11 +34,6 @@ class DraftController extends Controller {
 	 */
 	public function editpage(DraftProcess $draftProcess,$id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
 
 		$userinfo = $this->userinfo;
 
@@ -46,9 +41,9 @@ class DraftController extends Controller {
 
 		if ($id!=0) {
 			$draftInfo = $DraftProcess->getDraftById(intval($id));
-			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','draftInfo','id'));
+			return response()->view('home.article.edit',compact('userinfo','cloumns','draftInfo','id'));
 		} else {
-			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
+			return response()->view('home.article.edit',compact('userinfo','cloumns'));
 		}
 	}
 

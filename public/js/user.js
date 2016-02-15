@@ -7,6 +7,7 @@ $(function() {
 
 		model: function(opt) {
 			WQ.ajax({
+				type: opt.type ? opt.type : 'post',
 				url: opt.url,
 				data: {'data':opt.data},
 				success: function(data) {
@@ -56,6 +57,22 @@ $(function() {
 				}
 			});
 		},
+		delDraft: function($btn) {
+			var _this = this;
+			var nid = $btn.data('nid');
+
+			$('#delModal').modal('show').on('click','.btn-primary',function() {
+				_this.model({
+					type: 'delete',
+					url: '/note/'+nid,
+					data: nid,
+					callback: function(data) {
+						WQ.tooltip(data.msg,'info');
+						$btn.parent().remove();
+					}
+				});
+			});
+		},
 		bindEvent: function() {
 			var _this = this;
 			this.$el.on('click','.user-nav a',function() {
@@ -64,6 +81,8 @@ $(function() {
 				_this.changeTabs($(this));
 			}).on('click','.update',function() {
 				_this.updateArticle($(this));
+			}).on('click','.delDraft',function() {
+				_this.delDraft($(this));
 			});
 		},
 

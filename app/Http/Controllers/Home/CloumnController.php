@@ -24,12 +24,6 @@ class CloumnController extends Controller {
 	 */
 	public function index(CloumnProcess $manager,$id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
 		$userinfo = $this->userinfo;
 
 		$cloumnInfo = $manager->getCloumnById($id,$userinfo['id']);
@@ -37,7 +31,7 @@ class CloumnController extends Controller {
 		if ($cloumnInfo['rc']==0) {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
-			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+			return response()->view('home.cloumn.index',compact('userinfo','cloumn','articles'));
 		} else {
 			abort(404);
 		}
@@ -51,11 +45,6 @@ class CloumnController extends Controller {
 	 */
 	public function myCloumn(CloumnProcess $manager,$uid=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
 
 		$userinfo = $this->userinfo;
 
@@ -64,7 +53,7 @@ class CloumnController extends Controller {
 		if ($cloumnInfo['rc']==0) {
 			$cloumn = $cloumnInfo['data'];
 			$articles = $this->widget->articlesByCid($cloumn['id']);
-			return response()->view('home.cloumn.index',compact('header','top','footer','userinfo','cloumn','articles'));
+			return response()->view('home.cloumn.index',compact('userinfo','cloumn','articles'));
 		} else {
 			abort(404);
 		}
@@ -78,12 +67,6 @@ class CloumnController extends Controller {
 	 */
 	public function editPage($id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
 		$userinfo = $this->userinfo;
 
 		$checkHasCloumn = (new CloumnProcess)->getCloumnByUid($userinfo['id']);
@@ -91,7 +74,7 @@ class CloumnController extends Controller {
 		if ($checkHasCloumn['rc']==0 && $checkHasCloumn['data']!=null) {
 			return redirect('/');
 		} else {
-			return response()->view('home.cloumn.edit',compact('header','top','footer','userinfo'));
+			return response()->view('home.cloumn.edit',compact('userinfo'));
 		}
 	}
 

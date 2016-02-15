@@ -1,7 +1,7 @@
 
-<?php echo $header; ?>
+<?php echo widget('Home.Common')->header(); ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="container settings-page" id="main">
 	<div class="row">
@@ -175,4 +175,4 @@
 </div>
 <script type="text/javascript" src="{{ asset('js/settings.js') }}"></script>
 
-<?php echo $footer; ?>
+<?php echo widget('Home.Common')->footer(); ?>

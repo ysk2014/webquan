@@ -1,7 +1,8 @@
 
-<?php echo $header; ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->header(); ?>
+
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="container" id="main">
 	<div class="row">
@@ -31,4 +32,4 @@
 
 <script type="text/javascript" src="{{ asset('js/editCloumn.js') }}"></script>
 
-<?php echo $footer; ?>
+<?php echo widget('Home.Common')->footer(); ?>

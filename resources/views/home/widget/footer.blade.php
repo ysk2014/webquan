@@ -93,6 +93,21 @@
 			</div>
 		</div>
 
+		<!-- 删除modal -->
+		<div class="modal fade" id="delModal">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-body" style="padding: 25px 20px;">
+						<h4 class="modal-title">你确定要删除该文章吗？</h4>
+					</div>
+					<div class="modal-footer">
+				        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+				        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">确定</button>
+				    </div>
+				</div>
+			</div>
+		</div>			
+
 		<div id="mask"></div>
 
 		<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>

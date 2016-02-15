@@ -1,7 +1,8 @@
 
-<?php echo $header; ?>
 
-<?php echo $top; ?>
+<?php echo widget('Home.Common')->header(); ?>
+
+<?php echo widget('Home.Common')->top(); ?>
 
 <div class="container" id="main">
 	<div class="row">
@@ -98,4 +99,5 @@
     </div>
 </div>
 	
-<?php echo $footer; ?>
+
+<?php echo widget('Home.Common')->footer(); ?>

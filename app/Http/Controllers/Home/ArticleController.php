@@ -29,21 +29,11 @@ class ArticleController extends Controller {
 	public function index(ArticleProcess $articleProcess)
 	{	
 		
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
-		$aside = $this->widget->aside();
-
-		$articles = $this->widget->articles();
-		
 		//缓存
 		$cacheSecond = config('home.cache_control');
         $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-		return response()->view('home/article/index', compact('header', 'top', 'articles', 'aside', 'footer'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+		return response()->view('home/article/index')->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 	}
 
 
@@ -64,21 +54,15 @@ class ArticleController extends Controller {
 	 */
 	public function editPage(NoteProcess $noteProcess,$id=0)
 	{
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
 		$userinfo = $this->userinfo;
 
 		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
 
 		if ($id) {
 			$noteInfo = $noteProcess->getNoteById(intval($id));
-			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns','noteInfo','id'));
+			return response()->view('home.article.edit',compact('userinfo','cloumns','noteInfo','id'));
 		} else {
-			return response()->view('home.article.edit',compact('header','top','footer','userinfo','cloumns'));
+			return response()->view('home.article.edit',compact('userinfo','cloumns'));
 		}
 	}
 
@@ -96,27 +80,17 @@ class ArticleController extends Controller {
 
 			$comments = (new CommentProcess())->getCommentsByAid($id,0);
 
-	        $title = $articleInfo['data']['title'].' | Web圈';
-
-			$header = $this->widget->header($title);
-
-			$footer = $this->widget->footer();
-
-			$top = $this->widget->top($this->userinfo);
-
 			$author = ['uid'=>$articleInfo['data']['uid'],'nick'=>$articleInfo['data']['username'],'avatar'=>$articleInfo['data']['userUrl'],'description'=>$articleInfo['data']['uDescription']];
 			$cloumn = ['cid'=>$articleInfo['data']['cid'],'name'=>$articleInfo['data']['cloumnName'],'description'=>$articleInfo['data']['cDescription']];
 			
-			$aside = $this->widget->artAside($author,$cloumn);
-
-	        $userinfo = $this->userinfo;
+			$userinfo = $this->userinfo;
 
 	        //缓存
 	        $cacheSecond = config('home.cache_control');
 	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
 	        
-			return response()->view('home.article.article',compact('header','top','userinfo','articleInfo','aside','footer','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+			return response()->view('home.article.article',compact('userinfo','author','cloumn','articleInfo','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 		} else {
 			abort(404);
 		}
@@ -131,8 +105,14 @@ class ArticleController extends Controller {
 	public function getArtsByCid(ArticleProcess $articleProcess,$cid)
 	{
 		$data = Request::input('data');
-		$data = $articleProcess->getArtsByCid($data);
-		return response()->json($data);
+		$page = isset($data['page']) ? $data['page'] : 0;
+		$way = isset($data['way']) ? $data['way'] : 'addtime';
+		//文章数据列表
+        $articles = $articleProcess->getArtsByCid(array('way'=>$way,'page'=>$page,'cid'=>$data['cid']));
+
+        $result = view('home.widget.articles', compact('articles','page'));
+
+		return response()->json($result);
 	}
 
 	/**
@@ -143,7 +123,13 @@ class ArticleController extends Controller {
 	public function getPubArtsByUid()
 	{
 		$page = Request::input('page');
-		return $this->widget->articlesByUid($this->userinfo['id'],$page);
+
+		$way = 'addtime';
+
+		//文章数据列表
+        $articles = (new ArticleProcess())->getArtsByUid(array('way'=>$way,'page'=>$page,'uid'=>$this->userinfo['id']));
+
+        return view('home.widget.articles', compact('articles','page'));
 	}
 
 	/**
@@ -202,11 +188,23 @@ class ArticleController extends Controller {
 
 	public function delArticle(ArticleProcess $articleProcess,$id=0)
 	{
-		$ids = [$id];
-		$result = $articleProcess->delArticle($ids);
+		$data = Request::input('data');
+		$nid = $data['nid'];
+		$result = $articleProcess->delArticle($id,$nid);
 		return response()->json($result);
 	}
 
+	/**
+	 * 删除文集
+	 *
+	 * @return Response
+	 */
+
+	public function delNote(NoteProcess $noteProcess,$id=0)
+	{
+		$result = $noteProcess->delNotes($id);
+		return response()->json($result);
+	}
 
 	/**
 	 * 处理文章, 添加、更新和删除操作

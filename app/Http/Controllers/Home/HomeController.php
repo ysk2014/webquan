@@ -37,16 +37,10 @@ class HomeController extends Controller {
 		$data['type'] = Request::input('type');
 		$data['page'] = 0;
 
-		$header = $this->widget->header();
-
-		$footer = $this->widget->footer();
-
-		$top = $this->widget->top($this->userinfo);
-
 		if ($data['type']==0) {
 			$result = (new SearchProcess())->getArticles($data);
 			$articles = view('home.widget.articles',array('articles'=>$result,'page'=>0));
-			return response()->view('home/other/search', compact('header', 'top', 'articles', 'aside', 'footer'));
+			return response()->view('home/other/search', compact('articles'));
 		} else if ($data['type']==1) {
 			$result = $searchProcess->getCloumns($data);
 		}

@@ -2,9 +2,15 @@
 @if ($articles['rc']==0) 
 	@foreach ($articles['data'] as $article)
 		<div class="article" data-id="{{ $article['id'] }}">
+			<!-- 更新文章 -->
 			@if (isset($article['nUpdate']) && $article['update_time']!=$article['nUpdate']) 
 				<a class="pull-right update" data-nid="{{ $article['nid'] }}" href="javascript:void(0);">更新</a>
 			@endif
+			<!-- 删除草稿 -->
+			@if (!isset($article['nid'])) 
+				<a class="pull-right delDraft" data-nid="{{ $article['id'] }}" href="javascript:void(0);"><i class="fa fa-trash-o" style="font-size: 16px;"></i></a>
+			@endif
+
 			<div class="top">
 				<a href="@if (isset($article['view'])) {{ '/article/'.$article['id'] }} @else {{ '/note/'.$article['id'].'/edit' }} @endif" target="_blank" class="title">{{ $article['title'] }}</a>
 				<div class="desc">

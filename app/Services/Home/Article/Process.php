@@ -84,6 +84,42 @@ class Process extends BaseProcess
         if( !$this->redis) $this->redis = Redis::connection();
 	}
 
+
+	/**
+	* 删除文章
+	*
+	* @param array $ids;
+	* @access public
+	* @return boolean true|false
+	*/
+	public function delArticle($aid,$nid)
+	{
+		$resultArr = [];
+		if( !isset($aid) ) return array('rc'=>2006,'msg'=>'没有获取到文章id');
+		if( !isset($nid) ) return array('rc'=>2006,'msg'=>'没有获取到nid');
+
+		if($this->articleModel->delArticle([$aid]) !== false) {
+			//删除草稿缓存
+			if ($this->redis->hlen('article_'.$aid)>0) {
+				$this->redis->del('article_'.$aid);
+			}
+
+			if($this->noteModel->delNotes([$nid]) != false) {
+			//删除草稿缓存
+				if ($this->redis->hlen('note_'.$nid)>0) {
+					$this->redis->del('note_'.$nid);
+				}
+				return array('rc'=>0, 'msg'=>'删除成功');
+			} else {
+				return array('rc'=>2008, 'msg'=>'删除失败');
+			}
+		}
+		else {
+			return array('rc'=>2008, 'msg'=>'删除失败');
+		}
+
+	}
+
 	/**
 	* 根据文集id更新文章
 	*
