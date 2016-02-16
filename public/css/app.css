@@ -1041,4 +1041,7 @@ i.fa{
     text-decoration: none;
     text-align: center;
 }
-
+#fixedTools a:hover {
+    background: #f3f3f3;
+    text-decoration: none;
+}
