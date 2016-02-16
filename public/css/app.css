@@ -411,6 +411,7 @@ i.fa{
 	color: #48c9b0;
 }
 .desc .author img {
+	width: 20px;
 	height: 20px;
 	position: relative;
 	top: -3px;
