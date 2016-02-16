@@ -109,6 +109,11 @@
 		</div>			
 
 		<div id="mask"></div>
+		
+		<!-- 浮动工具 -->
+		<div id="fixedTools" style="display: none;" class="hidden-xs hidden-sm">
+			<a id="backtop" class="border-bottom" href="javascript:void(0);"><span class="fa fa-chevron-up"></span></a>
+		</div>
 
 		<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/login.js') }}"></script>
