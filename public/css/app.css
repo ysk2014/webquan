@@ -365,7 +365,6 @@ i.fa{
 .widget .w-desc {
 	overflow: hidden;
     display: inline-block;
-    width: 200px;
     vertical-align: middle;
     white-space: normal;
 }
