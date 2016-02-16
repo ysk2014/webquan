@@ -256,7 +256,7 @@ class Process extends BaseProcess
             }
             
         } else {
-            $resultArr = array('rc'=>1007,'msg'=>'上传头像失败');
+            $resultArr = array('rc'=>1007,'msg'=>'上传头像失败','data'=>$result);
         }
 
         return $resultArr;

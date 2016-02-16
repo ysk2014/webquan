@@ -21,7 +21,7 @@ $(function() {
 	                json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
 	                if (json.rc === 0) {
-	                    $('.avatar.img-100').css('background-image','url('+ json.data +')').find('input').val(json.data);
+	                    $('.avatar.img-100').css('background-image','url('+ json.data +'?date='+(new Date()).getTime()+')').find('input').val(json.data);
 	                } else {
 	                    WQ.tooltip(json.msg);
 	                }

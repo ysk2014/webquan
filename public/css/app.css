@@ -257,6 +257,7 @@ i.fa{
 	padding-bottom: 10px;
 }
 #header .img-circle{
+	width: 40px;
 	height: 40px;
 	border: 2px solid transparent;
 	-webkit-transition: border-color 0.25s, color 0.25s;

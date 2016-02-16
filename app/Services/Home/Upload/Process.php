@@ -228,13 +228,16 @@ class Process extends BaseProcess
         //保存的文件名
         $saveFileName = $this->getSaveFileName().'.'.$this->file->getClientOriginalExtension();
 
-        $status = 0;
-        //文件是否存在
         $realFile = $savePath.'/'.$saveFileName;
-        if(file_exists($realFile)) {
-            @unlink($realFile);
-            $status = 1;
+
+        //文件是否存在
+        foreach ($this->formats as $key => $format) {
+            $repeatFile = $savePath.'/'.$this->getSaveFileName().'.'.$format;
+            if(file_exists($repeatFile)) {
+                @unlink($repeatFile);
+            }
         }
+        
         //保存
         $this->file->move($savePath, $saveFileName);
 
@@ -258,7 +261,7 @@ class Process extends BaseProcess
         $returnFileUrl = implode('|', array_merge($realFileUrl, $thumbRealFileUrl));
 
 
-        return $this->message($returnFileUrl,1,$status);
+        return $this->message($returnFileUrl,1,1);
     }
 
 
