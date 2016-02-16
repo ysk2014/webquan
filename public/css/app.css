@@ -1021,4 +1021,24 @@ i.fa{
 	font-weight: 400;
 }
 
+/*浮动工具*/
+#fixedTools {
+	position: absolute;
+	bottom: 40px;
+	right: 40px;
+	border: 1px solid #ddd;
+    background: #fff;
+    width: 40px;
+    text-align: center;
+    border-radius: 2px;
+    line-height: 40px;
+    z-index: 1000;
+}
+#fixedTools a {
+    display: block;
+    color: #999;
+    font-size: 20px;
+    text-decoration: none;
+    text-align: center;
+}
 

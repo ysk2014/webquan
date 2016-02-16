@@ -3,15 +3,18 @@ var WQ = WQ || {};
 
 // 到页面顶部
 WQ.goTop = function(){
-	if($(document).scrollTop()>100){
-		$('.fixed-btn .go-top').removeClass('hide-go-top');
-	}else{
-		$('.fixed-btn .go-top').addClass('hide-go-top');
-	}
-	$('.fixed-btn .go-top').on('click',function(){
-		$(document).scrollTop(0);
+    $(document).on('scroll',function() {
+        if($(document).scrollTop()>100){
+            $('#fixedTools').show();
+        }else{
+            $('#fixedTools').hide();
+        }
+    });
+	
+	$('#fixedTools #backtop').on('click',function(){
+		$('body,html').animate({scrollTop:0},200);
 	});
-}
+};
 
 //时间转化
 WQ.timeFormat = function(time) {
@@ -353,6 +356,11 @@ WQ.post = function(url,data,callback) {
         success: callback
     });
 };
+
+$(function() {
+
+    WQ.goTop();
+});
 
 if ( typeof define === "function" && define.amd ) {
     define( "WQ", [], function() {
