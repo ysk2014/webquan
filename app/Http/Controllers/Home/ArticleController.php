@@ -53,12 +53,17 @@ class ArticleController extends Controller {
 
 		$cloumns = (new CloumnProcess())->getAllCloumnsByUid($userinfo['id']);
 
-		if ($id) {
-			$noteInfo = $noteProcess->getNoteById(intval($id));
-			return response()->view('home.article.edit',compact('userinfo','cloumns','noteInfo','id'));
+		if($cloumns['rc']!=0) {
+			return redirect('/cloumn/add');
 		} else {
-			return response()->view('home.article.edit',compact('userinfo','cloumns'));
+			if ($id!=0) {
+				$noteInfo = $noteProcess->getNoteById(intval($id));
+				return response()->view('home.article.edit',compact('userinfo','cloumns','noteInfo','id'));
+			} else {
+				return response()->view('home.article.edit',compact('userinfo','cloumns'));
+			}
 		}
+		
 	}
 
 
