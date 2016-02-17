@@ -27,5 +27,4 @@
 	</script>
 </div>
 
-
 <?php echo widget('Home.Common')->footer(); ?>

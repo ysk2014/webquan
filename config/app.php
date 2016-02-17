@@ -14,7 +14,7 @@ return [
     */
 
 
-    'debug' => env('APP_DEBUG'),
+    'debug' => env('APP_DEBUG')
     //'debug' => true,
 
     /*
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Shanghai',
 
     /*
     |--------------------------------------------------------------------------
