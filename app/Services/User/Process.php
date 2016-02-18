@@ -216,8 +216,13 @@ class Process extends BaseProcess
     public function checkUserName($username)
     {
         $userInfo = $this->userModel->InfoByName($username);
-        if($userInfo !== false) {
-            $resultArr = array('rc'=>1006, 'msg'=>'用户名已占用');
+
+        if($userInfo) {
+            if (SC::getLoginSession()['id'] == $userInfo['id']) {
+                $resultArr = array('rc'=>0, 'data'=>'用户名未占用');
+            } else {
+                $resultArr = array('rc'=>1006, 'msg'=>'用户名已占用');
+            }
         } else {
             $resultArr = array('rc'=>0, 'data'=>'用户名未占用');
         }

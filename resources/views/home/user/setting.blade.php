@@ -69,7 +69,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">姓名</label>
-							<div class="col-sm-10"><input class="form-control" type="text" name="data[username]" value="{{ $userInfo['username'] }}"></div>
+							<div class="col-sm-10"><input class="form-control" type="text" name="data[username]" value="{{ $userInfo['username'] }}"><small class="help-block"></small></div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">职位</label>

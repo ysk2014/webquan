@@ -27,17 +27,42 @@ $(function() {
 	                }
 	                return false;
 	            });
+			}).on('blur','[name="data[username]"]',function() {
+				var $username = $(this);
+				if ($(this).val()=='') {
+					$(this).parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('用户名不能为空');
+					$(this).focus();
+					return false;
+				} else {
+					WQ.ajax({
+						url:'/user/name/check',
+						data: {'username':$username.val()},
+						success: function(data) {
+							$username.parents('.form-group').addClass('has-success').removeClass('has-error').find('small').hide();
+						},
+						error: function(msg) {
+							$username.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('用户名已被占用');
+						}
+					});
+				}
 			}).on('click','.save-handler',function() {
 				var params = $(this).parents('form').serialize();
 				var url = $(this).data('action');
-				WQ.ajax({
-					type: 'put',
-					url: url,
-					data: params,
-					success: function(data) {
-						WQ.tooltip(data.msg,'info');
-					}
-				});
+				var $username = $(this).parents('form').find('[name="data[username]"]');
+				if ($username.val() == '') {
+					$username.parents('.form-group').addClass('has-error').removeClass('has-success').find('small').show().html('用户名不能为空');
+					$username.focus();
+					return false;
+				} else {
+					WQ.ajax({
+						type: 'put',
+						url: url,
+						data: params,
+						success: function(data) {
+							WQ.tooltip(data.msg,'info');
+						}
+					});
+				}
 			});
 		},
 
