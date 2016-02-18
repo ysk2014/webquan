@@ -339,6 +339,8 @@ class Routes
             Route::get('/page/forget', 'Home\UserController@forget');
             // 密码重置
             Route::post('/password/reset', 'Home\UserController@resetPassword');
+            // 第三方帐号绑定
+            Route::get('/user/auth/bind', 'Home\UserController@authPage');
 
 
             // 个人首页

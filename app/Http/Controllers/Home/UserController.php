@@ -93,6 +93,15 @@ class UserController extends Controller {
 		return view('home.forget');
 	}
 
+	/**
+     * 第三方登录绑定页面
+     */
+    public function authPage(UserActionProcess $manager)
+    {
+    	
+		return view('home.user.auth');
+    }
+
     /**
      * 开始登录处理
      *
@@ -219,6 +228,8 @@ class UserController extends Controller {
 		
 		return response()->json($result);
     }
+
+    
 
     /**
      * 登录退出

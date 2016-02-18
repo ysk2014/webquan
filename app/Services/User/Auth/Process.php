@@ -64,12 +64,12 @@ class Process extends BaseProcess
 
                 SC::setLoginSession($userInfo);
 
-                $resultArr = ['error'=>false, 'msg'=>'登录成功'];
+                $resultArr = ['rc'=>0, 'msg'=>'登录成功'];
             } else {
-                $resultArr = array('error'=>true, 'msg'=>'查询user表失败');
+                $resultArr = array('rc'=>1005, 'msg'=>'查询user表失败');
             }
         } else {
-            $resultArr = $this->addUser($data);
+            $resultArr = array('rc'=>1004, 'msg'=>'该用户没有注册');
         }
         return $resultArr;
     }

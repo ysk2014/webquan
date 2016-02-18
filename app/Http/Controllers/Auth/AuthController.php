@@ -39,8 +39,10 @@ class AuthController extends BaseController {
 
         $result = $manager->checkUser($data);
         
-        if (!$result['error']) {
+        if ($result['rc']==0) {
             return redirect('/');
+        } else {
+            return view('home.user.auth',array('authData'=>$data));
         }
     }
 
