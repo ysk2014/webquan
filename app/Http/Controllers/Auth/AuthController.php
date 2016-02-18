@@ -51,12 +51,6 @@ class AuthController extends BaseController {
     public function weiboCallback(AuthProcss $manager) {
         $oauthUser = \Socialite::with('weibo')->user();
 
-        // var_dump($oauthUser->getId());
-        // var_dump($oauthUser->getNickname());
-        // var_dump($oauthUser->getName());
-        // var_dump($oauthUser->getEmail());
-        // var_dump($oauthUser->getAvatar());
-
         $data = [
             'openid'=>$oauthUser->getId(),
             'nick'=>$oauthUser->getNickname(),
@@ -78,12 +72,6 @@ class AuthController extends BaseController {
 
     public function weixinCallback(AuthProcss $manager) {
         $oauthUser = \Socialite::with('weibo')->user();
-
-        // var_dump($oauthUser->getId());
-        // var_dump($oauthUser->getNickname());
-        // var_dump($oauthUser->getName());
-        // var_dump($oauthUser->getEmail());
-        // var_dump($oauthUser->getAvatar());
 
         $data = [
             'openid'=>$oauthUser->getId(),

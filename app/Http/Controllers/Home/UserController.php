@@ -203,7 +203,7 @@ class UserController extends Controller {
      */
     public function checkUserName(UserActionProcess $manager)
     {
-		$username = intval(Request::input('username'));
+		$username = Request::input('username');
 		$result = $manager->checkUserName($username);
 		return response()->json($result);
     }
