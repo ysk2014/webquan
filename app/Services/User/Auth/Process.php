@@ -75,7 +75,7 @@ class Process extends BaseProcess
     }
 
 	/**
-	* 增加新的用户
+	* 绑定新的用户
 	*
 	* @param object $data;
 	* @access public
@@ -85,25 +85,26 @@ class Process extends BaseProcess
 	{
         $resultArr = [];
         $userInfo = [];
-		// 检测改用户名是否已存在
-		if ($this->userModel->getUserByName($data['nick'])) {
-            $userInfo['username'] = $data['openid'];
-        } else {
-            $userInfo['username'] = $data['nick'];
+
+        $validate = $this->validate($data['username'],$data['password'])
+        if ($validate['rc']!=0) {
+            return $validate;
         }
 
-        $userInfo['logo_dir'] = $data['avatar'];
-		$userInfo['password'] = md5('webquan');
+        $userInfo['logo_dir'] = $data['auth']['avatar'];
+        $userInfo['username'] = $data['username'];
+		$userInfo['password'] = md5($data['password']);
         $userInfo['addtime'] = time();
 
 		// 开始保存到数据库
         $uid = $this->userModel->addUser($userInfo);
 
 		if ( $uid ) {
-            unset($data['nick']);
-            unset($data['avatar']);
-            $data['uid'] = $uid;
-            if( $this->userAuthModel->addUserAuth($data) != false ) {
+            $authData = $data['auth'];
+            unset($data['auth']['nick']);
+            unset($data['auth']['avatar']);
+            $authData['uid'] = $uid;
+            if( $this->userAuthModel->addUserAuth($authData) != false ) {
 
                 $arr = [];
                 $arr['last_login_time'] = time();
@@ -111,21 +112,99 @@ class Process extends BaseProcess
                 $this->userModel->updateLastLoginInfo($uid, $arr);
 
                 $userInfo['id'] = $uid;
-                $userInfo['openid'] = $data['openid'];
-                $userInfo['type'] = $data['type'];
+                $userInfo['openid'] = $authData['openid'];
+                $userInfo['type'] = $authData['type'];
+
+                $userInfo['last_login_time'] = $arr['last_login_time'];
+                $userInfo['last_login_ip'] = $arr['last_login_ip'];
+
                 SC::setLoginSession($userInfo);
 
-                $resultArr = ['error'=>false, 'msg'=>'登录成功'];
+                $resultArr = ['rc'=>0, 'msg'=>'登录成功'];
             } else {
-                $resultArr = array('error'=>true, 'msg'=>'user表添加数据失败');
+                $resultArr = array('rc'=>1005, 'msg'=>'user表添加数据失败');
             }
         } else {
-            $resultArr = array('error'=>true, 'msg'=>'登录失败');
+            $resultArr = array('rc'=>1004, 'msg'=>'登录失败');
         }
 
         return $resultArr;
 	}
 
+    // 绑定老用户
+    public function bindUser($data)
+    {
+        $resultArr = [];
+
+        $userInfo = $this->userModel->InfoByName($data['username']);
+
+        if(count($userInfo) === 0) 
+        {
+            $result = ['rc'=>1002, 'msg'=>'您还没有注册，请先去注册吧'];
+            return $result;
+        }
+
+        $sign = $userInfo['password'];
+        if($sign == strtolower(md5($password)))
+        {
+
+            if (empty($userInfo->logo_dir)) {
+                $this->userModel->editUser($userInfo->id,array('logo_dir'=>$data['auth']['avatar']));
+            }
+
+            $authData = $data['auth'];
+            unset($data['auth']['nick']);
+            unset($data['auth']['avatar']);
+            $authData['uid'] = $userInfo->id;
+
+            if( $this->userAuthModel->addUserAuth($authData) != false ) {
+                $data['last_login_time'] = time();
+                $data['last_login_ip'] = Request::ip();
+                $this->userModel->updateLastLoginInfo($userInfo->id, $data);
+
+                $userInfo['openid'] = $authData['openid'];
+
+                SC::setLoginSession($userInfo);
+                SC::setUserPermissionSession($userInfo['status']);
+                $result = ['rc'=>0, 'data'=>'登录成功'];
+            } else {
+                $result = ['rc'=>1005, 'msg'=>'绑定老用户sql语句执行错误'];
+            }
+            
+        } else {
+            $result = ['rc'=>1003, 'msg'=>'密码错误'];
+        }
+        return $result;
+        
+    }
+
+    /**
+     * 检测post过来的数据
+     * 
+     * @param string $username 用户名
+     * @param string $password 密码
+     * @access public
+     * @return false|string
+     */
+    public function validate($username, $password)
+    {
+        // $this->checkCsrfToken();
+        $data = array( 'name' => $username, 'password' => $password );
+        $rules = array( 'name' => 'required|min:1', 'password' => 'required|min:6', 'email' => 'required' );
+        $messages = array(
+            'name.required' => Lang::get('请输入用户名'),
+            'name.min' => Lang::get('login.please_input_name'),
+            'password.required' => Lang::get('请输入密码'),
+            'password.min' => Lang::get('密码不能小于6位'),
+            'email.required' => Lang::get('邮箱不能为空')
+        );
+        $validator = Validator::make($data, $rules, $messages);
+        if ($validator->fails())
+        {
+            return array('rc'=>1003, 'msg'=>$validator->messages()->first());
+        }
+        return array('rc'=>0, 'msg'=>'检查正确');
+    }
 
 }
 ?>

@@ -342,6 +342,12 @@ class Routes
             // 第三方帐号绑定
             Route::get('/user/auth/bind', 'Home\UserController@authPage');
 
+            // 第三方帐号绑定新用户
+            Route::post('/user/auth/new', 'Home\AuthController@addUser');
+            // 第三方帐号绑定老用户
+            Route::post('/user/auth/old', 'Home\AuthController@bindUser');
+
+
 
             // 个人首页
             Route::get('/user/{id}', 'Home\UserController@index')->where('id', '[0-9]+');

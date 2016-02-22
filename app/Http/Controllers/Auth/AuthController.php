@@ -16,6 +16,21 @@ class AuthController extends BaseController {
 
 	}
 
+
+    public function addUser(AuthProcss $manager)
+    {
+        $data = Request::input('data');
+        $result = $manager->addUser($data);
+        return response()->json($result);
+    }
+
+    public function bindUser()
+    {
+        $data = Request::input('data');
+        $result = $manager->bindUser($data);
+        return response()->json($result);
+    }
+
 	public function qq() {
         return \Socialite::with('qq')->redirect();
     }
@@ -88,5 +103,6 @@ class AuthController extends BaseController {
             return redirect('/');
         }
     }
+
 
 }
