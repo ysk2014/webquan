@@ -42,7 +42,7 @@
 				var data = $form.serialize();
 				
 				WQ.ajax({
-					url:'/sign_in',
+					url:'/user/auth/old',
 					data:data,
 					success: function(data) {
 						$form.find('a.sign_in').html('登录');
@@ -81,11 +81,11 @@
 
 				var data = $form.serialize();
 				WQ.post({
-					url:'/sign_up',
+					url:'/user/auth/new',
 					data: data,
 					success: function(data) {
 						$form.find('a.sign_up').html('注册');
-						window.location.reload();
+						window.location.href='\\';
 					},
 					error: function(msg) {
 						$form.find('a.sign_up').html('注册');
