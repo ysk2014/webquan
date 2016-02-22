@@ -12,7 +12,7 @@ return [
     'sys_admin_domain' => 'admin.web-engineer.cn',
 
     //博客访问域名
-    'sys_blog_domain' => 'web-engineer.cn',
+    'sys_blog_domain' => 'webquan.com',
 
     //上传的路径，包括ueditor的上传路径也在这里定义了，因为修改了ueditor，重新加载了这个文件。
     'sys_upload_path' => __DIR__ . '/../public/upload_path',
