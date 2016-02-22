@@ -24,7 +24,7 @@ class AuthController extends BaseController {
         return response()->json($result);
     }
 
-    public function bindUser()
+    public function bindUser(AuthProcss $manager)
     {
         $data = Request::input('data');
         $result = $manager->bindUser($data);
