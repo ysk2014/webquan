@@ -136,9 +136,9 @@ class Process extends BaseProcess
     {
         $resultArr = [];
 
-        $userInfo = $this->userModel->InfoByName($data['username']);
+        $userInfo = $this->userModel->infoByName($data['username']);
 
-        if(!$userInfo) 
+        if(count($userInfo) === 0) 
         {
             $result = ['rc'=>1002, 'msg'=>'您还没有注册，请先去注册吧'];
             return $result;
