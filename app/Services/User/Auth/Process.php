@@ -86,7 +86,7 @@ class Process extends BaseProcess
         $resultArr = [];
         $userInfo = [];
 
-        $validate = $this->validate($data['username'],$data['password'])
+        $validate = $this->validate($data['username'],$data['password']);
         if ($validate['rc']!=0) {
             return $validate;
         }
