@@ -46,7 +46,7 @@
 					data:data,
 					success: function(data) {
 						$form.find('a.sign_in').html('登录');
-						window.location.reload();
+						window.location.href='\\';
 					},
 					error: function(msg) {
 						$form.find('a.sign_in').html('登录');
