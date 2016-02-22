@@ -19,7 +19,9 @@
 	            	<span class="tags">
 	            		<i class="fa fa-tags"></i>
 	            		@foreach ($articleInfo['data']['tags'] as $tag)
+	            			@if (!empty($tag))
 	            			<a href="{{'/t/'.$tag}}">{{ $tag }}</a>
+	            			@endif
 	            		@endforeach
 	            	</span>
 	            	@endif
