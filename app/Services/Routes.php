@@ -196,76 +196,6 @@ class Routes
     }
 
     /**
-     * 前端文章路由
-     * 
-     *
-     * @access public
-     */
-    public function article1() {
-
-
-        Route::group(['prefix' => 'article/{id}'], function() {
-            //文章详情页面
-            Route::get('/', 'Home\ArticleController@index');
-            //获取单个文章数据
-            Route::get('info', 'Home\ArticleController@getArticleById')->where('id', '[0-9]+');
-            //根据文章ID取得评论的内容
-            Route::get('/comments', 'Home\CommentController@getCommentsByAid');
-            //添加评论
-            Route::post('/comment', 'Home\CommentController@dealComment');
-            //删除评论
-            Route::delete('/comment', 'Home\CommentController@dealComment');
-        });
-
-        Route::group(['middleware' =>  'auth'], function() {
-            // 添加文章页面
-            Route::get('/article/add', 'Home\ArticleController@editPage');
-
-            //添加文章
-            Route::post('/article/add', 'Home\ArticleController@dealArticle');
-
-            Route::group(['prefix' => 'article/{id}'], function() {
-                // 编辑文章页面
-                Route::get('edit', 'Home\ArticleController@editPage');
-                // 更新文章
-                Route::put('/', 'Home\ArticleController@dealArticle');
-                // 删除文章
-                Route::delete('/', 'Home\ArticleController@dealArticle');
-
-                //添加推荐
-                Route::post('praise', 'Home\ArticleController@dealPraiseOrStore');
-                //取消推荐
-                Route::delete('praise', 'Home\ArticleController@dealPraiseOrStore');
-
-                //添加收藏
-                Route::post('store', 'Home\ArticleController@dealPraiseOrStore');
-                //取消收藏
-                Route::delete('store', 'Home\ArticleController@dealPraiseOrStore');
-            });
-
-            Route::group(['prefix' => 'articles'], function() {
-                // 用户的文章
-                Route::get('user/{id}', 'Home\ArticleController@getArticles');
-                //用户收藏和推荐的文章
-                Route::get('user/{id}/{type}', 'Home\ArticleController@getArtsByPraiseOrStore');
-            });
-        });
-
-        Route::group(['prefix' => 'articles'], function() {
-            // 获取已公布的文章列表
-            Route::get('/', 'Home\ArticleController@getAllArticle');
-            // 根据专题id获取文章列表
-            Route::get('/cloumn/{cid}', 'Home\ArticleController@getArtsByCid');
-            // 获取用户关注专题的文章列表
-            Route::get('/care/cloumns', 'Home\ArticleController@getArtsByCare');
-            //标签名称的文章列表
-            Route::get('/tag/{name}', 'Home\ArticleController@getArtsLikeTagName');
-        });
-
-        return $this;
-    }
-
-    /**
      * 前端专题路由
      * 
      *
@@ -339,8 +269,6 @@ class Routes
             Route::get('/page/forget', 'Home\UserController@forget');
             // 密码重置
             Route::post('/password/reset', 'Home\UserController@resetPassword');
-            // 第三方帐号绑定
-            Route::get('/user/auth/bind', 'Home\UserController@authPage');
 
             // 第三方帐号绑定新用户
             Route::post('/user/auth/new', 'Auth\AuthController@addUser');
