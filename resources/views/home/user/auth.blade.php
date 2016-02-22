@@ -17,16 +17,16 @@
     				<div class="name">{{ $authData['nick'] }}</div>
     				<div class="desc">您尚未关联Web圈帐号</div>
     				<div class="links">
-    					<a href="javascript:void(0);" class="btn btn-primary btn-block bind-login" style="margin-bottom: 10px;">关联新帐号</a>
-    					<a href="javascript:void(0);" class="btn btn-default btn-block register">关联已有帐号</a>
+    					<a href="javascript:void(0);" class="btn btn-primary btn-block bind-login" style="margin-bottom: 10px;">关联已有帐号</a>
+    					<a href="javascript:void(0);" class="btn btn-default btn-block register">关联新帐号</a>
     				</div>
     			</div>
     			<form autocomplete="off" class="sign-in-page" style="display: none;">
 		    		<p class="help-block"></p>
-		    		<input type="hidden" name="auth[nick]">
-		    		<input type="hidden" name="auth[avatar]">
-		    		<input type="hidden" name="auth[openid]">
-		    		<input type="hidden" name="auth[type]">
+		    		<input type="hidden" name="auth[nick]" value="{{ $authData['nick'] }}">
+		    		<input type="hidden" name="auth[avatar]" value="{{ $authData['avatar'] }}">
+		    		<input type="hidden" name="auth[openid]" value="{{ $authData['openid'] }}">
+		    		<input type="hidden" name="auth[type]" value="{{ $authData['type'] }}">
 				  	<div class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon input-lg"><i class="fa fa-user" style="margin-right:0px"></i></div>
@@ -47,10 +47,10 @@
 				  	</div>
 				</form>
 				<form autocomplete="off" class="sign-up-page" style="display: none;">
-					<input type="hidden" name="auth[nick]">
-		    		<input type="hidden" name="auth[avatar]">
-		    		<input type="hidden" name="auth[openid]">
-		    		<input type="hidden" name="auth[type]">
+					<input type="hidden" name="auth[nick]" value="{{ $authData['nick'] }}">
+		    		<input type="hidden" name="auth[avatar]" value="{{ $authData['avatar'] }}">
+		    		<input type="hidden" name="auth[openid]" value="{{ $authData['openid'] }}">
+		    		<input type="hidden" name="auth[type]" value="{{ $authData['type'] }}">
 		    		<p class="help-block"></p>
 				  	<div class="form-group">
 					    <div class="input-group">
