@@ -36,6 +36,7 @@ class Process extends BaseProcess
     */
     public function addTag(\App\Services\Home\Tag\TagSave $data)
     {
+        if (empty($data->name)) return array('rc'=>5001,'msg'=>'标签名不能为空');
         // 保存到数据库
         $id=$this->tagModel->addTag($data->toArray());
         if($id) return array('rc'=>0, 'msg'=>'创建成功', 'data'=>$id);

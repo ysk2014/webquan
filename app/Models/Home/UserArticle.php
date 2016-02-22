@@ -26,7 +26,7 @@ class UserArticle extends Base
 
     /**
      * 增加
-     * 
+     *
      * @param array $data 所需要插入的信息
      */
     public function add(array $data)
@@ -37,6 +37,7 @@ class UserArticle extends Base
     /**
      * 删除
      * 
+     *
      * @param array $ids
      */
     public function del(array $ids)
@@ -48,6 +49,7 @@ class UserArticle extends Base
     /**
      * 获取ids
      * 
+     *
      */
     public function getIds($aid,$uid)
     {
@@ -60,7 +62,7 @@ class UserArticle extends Base
 
     /**
      * 获取id
-     * 
+     *
      */
     public function getId($aid,$uid,$type)
     {
@@ -73,7 +75,8 @@ class UserArticle extends Base
 
     /**
      * 获取用户推荐的所有文章
-     * 
+     *
+     *
      * @param intval $id 用户的ID
      */
     public function getArticlesByUid($uid,$page,$type=0)
@@ -92,6 +95,7 @@ class UserArticle extends Base
     /**
      * 获取推荐文章的所有用户id
      * 
+     *
      * @param intval $id 文章的ID
      */
     public function getUidsByAid($aid,$type=0)
