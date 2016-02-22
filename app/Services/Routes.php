@@ -343,9 +343,9 @@ class Routes
             Route::get('/user/auth/bind', 'Home\UserController@authPage');
 
             // 第三方帐号绑定新用户
-            Route::post('/user/auth/new', 'Home\AuthController@addUser');
+            Route::post('/user/auth/new', 'Auth\AuthController@addUser');
             // 第三方帐号绑定老用户
-            Route::post('/user/auth/old', 'Home\AuthController@bindUser');
+            Route::post('/user/auth/old', 'Auth\AuthController@bindUser');
 
 
 
