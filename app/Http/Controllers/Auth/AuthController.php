@@ -19,14 +19,18 @@ class AuthController extends BaseController {
 
     public function addUser(AuthProcss $manager)
     {
-        $data = Request::input('data');
+        $data['username'] = Request::input('username');
+        $data['password'] = Request::input('password');
+        $data['auth'] = Request::input('auth');
         $result = $manager->addUser($data);
         return response()->json($result);
     }
 
     public function bindUser(AuthProcss $manager)
     {
-        $data = Request::input('data');
+        $data['username'] = Request::input('username');
+        $data['password'] = Request::input('password');
+        $data['auth'] = Request::input('auth');
         $result = $manager->bindUser($data);
         return response()->json($result);
     }
