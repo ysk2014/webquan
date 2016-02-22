@@ -47,7 +47,7 @@
 			<h4 class="title">标签</h4>
 			<div class="content tag-cloud">
 				@foreach ($tags['data'] as $tag)
-					<a class="tag" href="{{ '/t/'.$tag['name'] }}">{{ $tag['name'] }}</a>
+					@if (!empty($tag['name']))<a class="tag" href="{{ '/t/'.$tag['name'] }}">{{ $tag['name'] }}</a>@endif
 				@endforeach
 				@if ($tags['next'])
 					<a class="tag" href="#">...</a>

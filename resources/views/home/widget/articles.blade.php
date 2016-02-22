@@ -25,7 +25,9 @@
 	            	@if (!empty($article['tags']))
 		            	<span class="tags"><i class="fa fa-tags"></i>
 							@foreach ($article['tags'] as $tag)
+								@if (!empty($tag))
 			            		<a href="{{ '/t/'.$tag }}">{{ $tag }}</a>
+			            		@endif
 			            	@endforeach
 			            </span>
 	            	@endif
