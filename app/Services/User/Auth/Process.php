@@ -145,7 +145,7 @@ class Process extends BaseProcess
         }
 
         $sign = $userInfo['password'];
-        if($sign == strtolower(md5($password)))
+        if($sign == strtolower(md5($data['password'])))
         {
 
             if (empty($userInfo->logo_dir)) {
