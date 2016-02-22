@@ -29,11 +29,11 @@
 						<i class="fa fa-eye"></i><br>
 						<span class="nav-title">密码修改</span>
 					</a></li>
-					<li><a href="#oauth-manager">
+					<li><a href="#oauth-manager" style="display: none;">
 						<i class="fa fa-group"></i><br>
 						<span class="nav-title">Oauth</span>
 					</a></li>
-					<li><a href="#notify-manager">
+					<li><a href="#notify-manager" style="display: none;">
 						<i class="fa fa-bell"></i><br>
 						<span class="nav-title">通知提醒</span>
 					</a></li>
