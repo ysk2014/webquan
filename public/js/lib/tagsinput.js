@@ -224,12 +224,12 @@
 					_this.opts.dialog.modal('show');
 
 					_this.opts.dialog.on('click','.btn-primary',function() {
-						$.post(_this.opts.createURL,{'data':{name:input.val()}},function(data) {
-							if (!data.error) {
-								_this.add($el,input);
-							} else {
-								input.val('');
-							}
+						var tagName = _this.opts.dialog.find('input').val();
+						var tagDesc = _this.opts.dialog.find('textarea').val();
+
+						$.post(_this.opts.createURL,{'data':{name:tagName,'description':tagDesc}},function(data) {
+							input.val(tagName);
+							_this.add($el,input);
 							_this.opts.dialog.modal('hide');
 						},'json');
 					});
