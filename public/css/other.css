@@ -1,4 +1,23 @@
-
+#mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 9999;
+}
+#mask .container {
+  border-radius: 6px;
+  margin: 0 auto;
+}
+#mask .container p {
+  padding: 15px 20px;
+  font-size: 14px;
+}
+#mask .bg-info {
+  background-color: #1abc9c;
+}
 #cas-bc{
     position: fixed;
     top: 0;
@@ -18,7 +37,7 @@
     z-index: 2;
 }
 
-.container {
+.contain {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -31,18 +50,18 @@
     display: none;
     opacity: 0;
 }
-.container .logo {
+.contain .logo {
     text-align: center;
     margin-top: 20px;
 }
-.container .logo img {
+.contain .logo img {
     height: 90px;
 }
-.container .title {
+.contain .title {
     margin: 20px;
     height: 20px;
 }
-.container .title>span{
+.contain .title>span{
     float: left;
     width: 4px;
     height: 24px;
@@ -50,22 +69,22 @@
     margin-right: 10px;
     border-radius: 4px;
 }
-.container .title>h3 {
+.contain .title>h3 {
     float: left;
     line-height: 24px;
     font-size: 18px;
     margin: 0;
 }
-.container .content{
+.contain .content{
     padding: 0 20px;
 }
 
 
-.container .desc {
+.contain .desc {
     font-size: 12px;
     padding: 0px 20px 10px;
 }
-.container .desc a{
+.contain .desc a{
     color: #3498db;
 }
 
