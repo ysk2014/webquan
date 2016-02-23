@@ -49,6 +49,7 @@
     background: #fff;
     display: none;
     opacity: 0;
+    border-radius: 4px;
 }
 .contain .logo {
     text-align: center;
