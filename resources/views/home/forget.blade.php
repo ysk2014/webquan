@@ -12,19 +12,20 @@
 </head>
 	
 <body>
-    <div id="mask"></div>
+    <div id="mask" style="z-index: 9999;"></div>
 	<canvas id="cas-bc"></canvas>
-	<div class="container page-show" id="page-1">
+	<div class="contain page-show" id="page-1">
 		<div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
 		<div class="title"><span></span><h3>密码重置</h3></div>
 		<div class="content">
 			<div class="form-group">
 				<input type="text" class="input-login form-control" name="username"  placeholder="请输入用户绑定的邮箱" />
+                <small class="help-block"></small>
 			</div>
 			<a class="btn btn-primary btn-block" id="next-1" href="javascript:void(0)">发送</a>
 		</div>
 	</div>
-    <div class="container" id="page-2">
+    <div class="contain" id="page-2">
         <div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
         <div class="title"><span></span><h3>为了账号安全，需要验证邮箱有效性</h3></div>
         <div class="desc">一封包含有验证码的邮件已经发送至邮箱：<a></a></div>
@@ -38,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="page-3">
+    <div class="contain" id="page-3">
         <div class="logo"><a href="/"><img src="{{ asset('image/logo.png') }}"></a></div>
         <div class="title"><span></span><h3>密码重置</h3></div>
         <div class="content">
