@@ -21,7 +21,7 @@
 			<div class="form-group">
 				<input type="text" class="input-login form-control" name="username"  placeholder="请输入用户绑定的邮箱" />
 			</div>
-			<a class="btn btn-primary btn-block" id="next-1" href="javascript:void(0)">下一步</a>
+			<a class="btn btn-primary btn-block" id="next-1" href="javascript:void(0)">发送</a>
 		</div>
 	</div>
     <div class="container" id="page-2">
@@ -184,16 +184,18 @@
                     _this.email = $(this).siblings().find('input').val();
                     if(WQ.trim(_this.email) == '') {
                         WQ.tooltip('邮箱不能为空');
-                        $(this).siblings().find('input').focus();
+                        $(this).siblings().find('input').focus().parent().addClass('has-error');
                         return;
                     }
                     if(!WQ.check.email(_this.email)) {
                         WQ.tooltip('邮箱格式不正确');
-                        $(this).siblings().find('input').focus();
+                        $(this).siblings().find('input').focus().parent().addClass('has-error');
                         return;
                     }
+                    $(this).html('发送中...').siblings('.input-group').removeClass('has-error');
                     $.get('/email',{email:_this.email},function(data) {
                         if(!data.error) {
+                            $(this).html('发送');
                             _this.page1.addClass('fadeOutLeft animated');
                             _this.page2.addClass('fadeInRight animated page-show').find('.desc a').html(_this.email);
 
