@@ -28,7 +28,7 @@ $(function() {
 				var params = $parent.serialize();
 
 				$.post(url,params,function(data) {
-					if(data.rc!=0) {
+					if(data.rc && data.rc!=0) {
 						WQ.tooltip(data.msg);
 						return false;
 					};
