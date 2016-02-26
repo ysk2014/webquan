@@ -85,12 +85,7 @@ class ArticleController extends Controller {
 			
 			$userinfo = $this->userinfo;
 
-	        //缓存
-	        $cacheSecond = config('home.cache_control');
-	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-
-	        
-			return response()->view('home.article.article',compact('userinfo','author','cloumn','articleInfo','comments'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+			return response()->view('home.article.article',compact('userinfo','author','cloumn','articleInfo','comments'));
 		} else {
 			abort(404);
 		}
