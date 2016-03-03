@@ -106,9 +106,9 @@
     </div>
 </div>
 
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/github-gist.min.css"> -->
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script> -->
-<!-- // <script>hljs.initHighlightingOnLoad();</script> -->
+<link rel="stylesheet" href="{{ asset('css/github-gist.min.css') }}">
+<script src="{{ asset('js/lib/highlight.min.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript" src="{{ asset('js/article.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/comment.js') }}"></script>
 
