@@ -106,7 +106,7 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="{{ asset('css/github-gist.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/github-gist.css') }}">
 <script src="{{ asset('js/lib/highlight.min.js') }}"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript" src="{{ asset('js/article.js') }}"></script>
