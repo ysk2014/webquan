@@ -3,7 +3,7 @@
 
 <?php echo widget('Home.Common')->top(); ?>
 
-<div class="full-page">
+<div class="full-page" style="background: url('https://source.unsplash.com/random') center no-repeat;background-size: cover;">
 	<div class="mask"></div>
 	<div class="container tag-page">
 		<h2><i class="fa fa-tags"></i>{{ $tag['name'] }}</h2>

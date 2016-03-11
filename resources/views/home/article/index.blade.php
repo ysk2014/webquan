@@ -4,6 +4,9 @@
 
 <?php echo widget('Home.Common')->top(); ?>
 
+<div class="full-page" style="background: url('https://source.unsplash.com/random') center no-repeat;background-size: cover;padding: 200px 0;">
+	<div class="mask"></div>
+</div>
 <div class="container" id="main">
 	<div class="row">
     	<div class="col-md-8">
