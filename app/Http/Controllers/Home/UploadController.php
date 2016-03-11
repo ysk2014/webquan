@@ -78,22 +78,21 @@ class UploadController extends Controller {
 		//开始远程图片下载到服务器
         $result = $uploadObject->downloadImage($url);
 
-        $user = SC::getLoginSession();
-
-        $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
-        
-        if($this->redis->exists($cache)) 
-        {
-        	$this->redis->lpush($cache,$result['url']);
-        } 
-        else 
-        {
-        	$this->redis->lpush($cache,$result['url']);
-        	$this->redis->expire($cache,60*60);
-        }
-
-        $result['rc']=0;
         if ($result['success']) {
+	        $user = SC::getLoginSession();
+
+	        $cache = 'article_img_uid_'.$user['id'].'_'.date('Y', time()) . date('m', time()) . date('d', time());
+	        
+	        if($this->redis->exists($cache)) 
+	        {
+	        	$this->redis->lpush($cache,$result['file_path']);
+	        } 
+	        else 
+	        {
+	        	$this->redis->lpush($cache,$result['file_path']);
+	        	$this->redis->expire($cache,60*60);
+	        }
+        
         	$result['rc'] = 0;
         } else {
         	$result['rc'] = 801;
