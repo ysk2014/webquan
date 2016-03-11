@@ -92,6 +92,12 @@ class UploadController extends Controller {
         	$this->redis->expire($cache,60*60);
         }
 
+        $result['rc']=0;
+        if ($result['success']) {
+        	$result['rc'] = 0;
+        } else {
+        	$result['rc'] = 801;
+        }
         return response()->json($result);
 	}
 }

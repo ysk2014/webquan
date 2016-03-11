@@ -84,8 +84,6 @@ class Routes
 
             Route::group(['middleware' =>  'auth'], function() {
 
-                //图片上传upload
-                
                 // 远程图片下载
                 Route::post('/download_image', 'Home\UploadController@downloadImage');
 

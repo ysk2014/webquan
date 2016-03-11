@@ -112,9 +112,6 @@ class NoteProcess extends BaseProcess
 			}
 		}
 
-
-
-
 		return $data;
 	}
 

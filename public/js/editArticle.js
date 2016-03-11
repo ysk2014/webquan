@@ -31,6 +31,27 @@ $(function() {
 		bindEvent: function() {
 			var _this = this;
 
+			//远程图片下载
+			_this.editor.on('pasting',function(e,$pasteContent) {
+				if ($pasteContent.find('img').length>0) {
+					$pasteContent.find('img').each(function() {
+						var $img = $(this),old_src  = $img.attr('src');
+						$img.attr('src','/image/loading@3x.gif');
+
+						WQ.ajax({
+							url: '/download_image',
+		                    data: {url: old_src},
+		                    success: function(data){
+		                		$img.attr('src',data.file_path);
+		                    },
+		                    error: function(msg) {
+		                    	$img.attr('src',old_src);
+		                    }
+						})
+					});
+				};
+			});
+
 			_this.el.form.find('.tagsinput').tagsInput({
 				search: true,
 				url: '/tags/like',
