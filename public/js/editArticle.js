@@ -36,7 +36,7 @@ $(function() {
 				if ($pasteContent.find('img').length>0) {
 					$pasteContent.find('img').each(function() {
 						var $img = $(this),old_src  = $img.attr('src');
-						$img.attr('src','/image/loading@3x.gif');
+						$img.attr('src','/image/loading.gif');
 
 						WQ.ajax({
 							url: '/download_image',
