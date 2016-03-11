@@ -138,6 +138,16 @@ class NoteProcess extends BaseProcess
 			}
 		}
 
+		// $otherImg = preg_match_all('/src=\"[!\/upload_path\/].+[png|gif|jpg|jpeg]{1}\"/',$data->content,$otherImgArr);
+
+		// if (count($otherImg[0])) {
+		// 	foreach ($otherImgArr as $key => $value) {
+		// 		$value = str_ireplace('src=\"','',$value);
+		// 		$value = str_ireplace('\"','',$value);
+		// 		$result = (new UploadManager())->downloadImage($value);
+		// 	}
+		// }
+
 		// 匹配文章内容中所有的图片
 		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
@@ -151,6 +161,7 @@ class NoteProcess extends BaseProcess
 
 			$data->setLogoDir($logo_dir);
 		}
+
 
 		$cache = 'article_img_uid_'.$data->uid.'_'.date('Y', time()) . date('m', time()) . date('d', time());
 		
