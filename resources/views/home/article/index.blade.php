@@ -4,7 +4,7 @@
 
 <?php echo widget('Home.Common')->top(); ?>
 
-<div class="full-page" style="background: url('https://source.unsplash.com/random') center no-repeat;background-size: cover;padding: 200px 0;">
+<div class="full-page" style="background: url('https://source.unsplash.com/daily?mac') center no-repeat;background-size: cover;padding: 200px 0;">
 	<div class="mask" style="background-color: rgba(26,188,156,0.1);"></div>
 </div>
 <div class="container" id="main">
