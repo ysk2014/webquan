@@ -284,7 +284,10 @@ class Process extends BaseProcess
         $defaultFileName = basename($url);
      
         // 获取文件类型
-        $suffix = substr(strrchr($url, '.'), 1);
+        $new_url = explode('?',$url)[0];
+        
+        $suffix = substr(strrchr($new_url, '.'), 1);
+        
         $suffix = preg_replace('/!heading/','',$suffix);
 
         $formats = implode(',', $this->formats);
