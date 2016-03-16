@@ -89,9 +89,6 @@ class Process extends BaseProcess
         // 更新数据库
         $this->cloumnModel->edit($data->toArray(),$id);
         return array('rc'=>0, 'msg'=>'更新成功');
-        // if( $this->cloumnModel->edit($data->toArray(),$id) !== false) return array('error'=>false, 'msg'=>'更新成功');
-        // // 更新失败
-        // return array('error'=>true, 'msg'=>'更新失败');
     }
 
     /**
@@ -117,13 +114,13 @@ class Process extends BaseProcess
      * @access public
      * @return array
      */
-    public function checkName($name)
+    public function checkName($name,$id=0)
     {
         if( !isset($name) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
         $result = $this->cloumnModel->getInfoByName($name);
 
-        if ($result !== null) {
+        if ($result !== null && $id==0) {
             return array('rc'=>0, 'msg'=>'专题名不唯一', 'unique'=>0);
         } else {
             return array('rc'=>0, 'msg'=>'专题名唯一', 'unique'=>1);
@@ -132,7 +129,7 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取专题
+     * 获取专题信息和作者信息
      *
      * @param intval $data
      * @access public
@@ -161,17 +158,36 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取用户创建的专题
+     * 获取用户创建的专题列表
      *
      * @param intval $uid
      * @access public
-     * @return boolean true|false
+     * @return array
      */
-    public function getCloumnByUid($uid)
+    public function getInfoById($cid) {
+        if (!isset($cid)) return array('rc'=>3001, 'msg'=>'参数没有设置');
+
+        $result = $this->cloumnModel->getInfoById($cid);
+
+        if ($result) {
+            return array('rc'=>0, 'data'=>$result);
+        } else {
+            return array('rc'=>3006, 'msg'=>'没有专题');
+        }
+    }
+
+    /**
+     * 获取用户创建的专题列表
+     *
+     * @param intval $uid
+     * @access public
+     * @return array
+     */
+    public function getCloumnsByUid($uid)
     {
         if(!isset($uid)) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
-        $result = $this->cloumnModel->getCloumnByUid($uid);
+        $result = $this->cloumnModel->getCloumnsByUid($uid);
         if($result) 
         {
             return array('rc'=>0, 'data'=>$result);

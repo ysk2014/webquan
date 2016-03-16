@@ -213,9 +213,9 @@ i.fa{
 	height: 48px;
 	vertical-align: middle;
 }
-#header .navbar-nav li.active a{
+/*#header .navbar-nav li.active a{
 	font-weight: 600;
-}
+}*/
 
 #header .navbar-user {
 	float: right;
