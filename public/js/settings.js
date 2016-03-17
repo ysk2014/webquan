@@ -78,14 +78,20 @@ $(function() {
 			$page.on('click','.btn-del',function() {
 				var $tr = $(this).parents('tr');
 				var cid = $(this).data('id');
-				WQ.ajax({
-					type: 'delete',
-					url: '/cloumn/'+cid,
-					success: function(data) {
-						WQ.tooltip(data.msg,'info');
-						$tr.remove();
-					}
+				
+				$('#delModal').find('.modal-title').html('删除此专栏的话，会同时删除专栏下的文章和草稿，你确定要删除吗？');
+				$('#delModal').find('.modal-dialog').removeClass('modal-sm');
+				$('#delModal').modal('show').on('click','.btn-primary',function() {
+					WQ.ajax({
+						type: 'delete',
+						url: '/cloumn/'+cid,
+						success: function(data) {
+							WQ.tooltip(data.msg,'info');
+							$tr.remove();
+						}
+					});
 				});
+				
 			});
 
 		},

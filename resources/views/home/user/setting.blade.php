@@ -33,7 +33,7 @@
 						<i class="fa fa-eye"></i><br>
 						<span class="nav-title">密码修改</span>
 					</a></li>
-					<li><a href="#oauth-manager" style="display: none;">
+					<li><a href="#oauth-manager">
 						<i class="fa fa-group"></i><br>
 						<span class="nav-title">Oauth</span>
 					</a></li>
