@@ -55,6 +55,16 @@ class Article extends Base
     }
 
     /**
+     * 删除专题id的所有文章
+     * 
+     * @param array $ids 文章的ID
+     */
+    public function delArticleByCid($cid)
+    {
+        return $this->where('cid', '=', $cid)->delete();
+    }
+
+    /**
      * 根据文章id获取文章信息
      * 
      * @param intval $id 文章的ID

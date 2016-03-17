@@ -2,7 +2,7 @@
 
 <?php echo widget('Home.Common')->header(); ?>
 
-<?php echo widget('Home.Common')->top(); ?>
+<?php echo widget('Home.Common')->top($cloumn['id']); ?>
 
 <div class="full-page" style="background: url('https://source.unsplash.com/category/buildings/daily') center no-repeat;background-size: cover;">
 	<div class="mask"></div>

@@ -2,6 +2,8 @@
 
 use Lang;
 use App\Models\Home\Cloumn as CloumnModel;
+use App\Models\Home\Article as ArticleModel;
+use App\Models\Home\Notes as NoteModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
 use App\Services\Home\Upload\Process as UploadManager;
@@ -21,6 +23,20 @@ class Process extends BaseProcess
      * @var object
      */
     private $cloumnModel;
+
+    /**
+     * 文章数据模型
+     *
+     * @var object
+     */
+    private $articleModel;
+
+    /**
+     * 草稿数据模型
+     *
+     * @var object
+     */
+    private $noteModel;
 
     /**
      * 专题表单验证对象
@@ -52,6 +68,8 @@ class Process extends BaseProcess
         if( !$this->cloumnValidate ) $this->cloumnValidate = new CloumnValidate();
         if( !$this->uploadManager) $this->uploadManager = new UploadManager();
         if( !$this->careModel) $this->careModel = new UCCModel();
+        if (!$this->articleModel) $this->articleModel = new ArticleModel();
+        if (!$this->noteModel) $this->noteModel = new NoteModel();
     }
 
     /**
@@ -89,9 +107,6 @@ class Process extends BaseProcess
         // 更新数据库
         $this->cloumnModel->edit($data->toArray(),$id);
         return array('rc'=>0, 'msg'=>'更新成功');
-        // if( $this->cloumnModel->edit($data->toArray(),$id) !== false) return array('error'=>false, 'msg'=>'更新成功');
-        // // 更新失败
-        // return array('error'=>true, 'msg'=>'更新失败');
     }
 
     /**
@@ -105,9 +120,16 @@ class Process extends BaseProcess
     {
         if( !is_array($ids) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
-        if($this->cloumnModel->deleteCloumn($ids) !== false) return array('rc'=>0, 'msg'=>'删除成功');
+        if($this->cloumnModel->deleteCloumn($ids) !== false) {
+            // 删除文章
+            $this->articleModel->delArticleByCid($ids[0]);
+            // 删除note草稿
+            $this->noteModel->delNotesByCid($ids[0]);
 
-        return array('rc'=>3003, 'msg'=>'删除失败');
+            return array('rc'=>0, 'msg'=>'删除成功');
+        } else {
+            return array('rc'=>3003, 'msg'=>'删除失败');
+        }
     }
 
     /**
@@ -117,13 +139,13 @@ class Process extends BaseProcess
      * @access public
      * @return array
      */
-    public function checkName($name)
+    public function checkName($name,$id=0)
     {
         if( !isset($name) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
         $result = $this->cloumnModel->getInfoByName($name);
 
-        if ($result !== null) {
+        if ($result !== null && $id==0) {
             return array('rc'=>0, 'msg'=>'专题名不唯一', 'unique'=>0);
         } else {
             return array('rc'=>0, 'msg'=>'专题名唯一', 'unique'=>1);
@@ -132,7 +154,7 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取专题
+     * 获取专题信息和作者信息
      *
      * @param intval $data
      * @access public
@@ -161,17 +183,38 @@ class Process extends BaseProcess
     }
 
     /**
-     * 获取用户创建的专题
+     * 获取用户创建的专题列表
      *
      * @param intval $uid
      * @access public
-     * @return boolean true|false
+     * @return array
      */
-    public function getCloumnByUid($uid)
-    {
-        if(!isset($uid)) return array('rc'=>3001, 'msg'=>'参数没有设置');
+    public function getInfoById($cid) {
+        if (!isset($cid)) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
-        $result = $this->cloumnModel->getCloumnByUid($uid);
+        $result = $this->cloumnModel->getInfoById($cid);
+
+        if ($result) {
+            return array('rc'=>0, 'data'=>$result);
+        } else {
+            return array('rc'=>3006, 'msg'=>'没有专题');
+        }
+    }
+
+    /**
+     * 获取用户创建的专题列表
+     *
+     * @param intval $uid
+     * @access public
+     * @return array
+     */
+    public function getCloumnsByUid($data)
+    {
+        if(!isset($data['uid'])) return array('rc'=>3001, 'msg'=>'参数没有设置');
+
+        $limit = $data['limit'] ? $data['limit'] : 0;
+
+        $result = $this->cloumnModel->getCloumnsByUid($data['uid'],$limit);
         if($result) 
         {
             return array('rc'=>0, 'data'=>$result);

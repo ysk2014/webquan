@@ -213,9 +213,9 @@ i.fa{
 	height: 48px;
 	vertical-align: middle;
 }
-#header .navbar-nav li.active a{
+/*#header .navbar-nav li.active a{
 	font-weight: 600;
-}
+}*/
 
 #header .navbar-user {
 	float: right;
@@ -381,8 +381,23 @@ i.fa{
 	margin-top: 5px;
 	color: #666666;
 }
+.widget .content .btn-add {
+	display: inline-block;
+	width: 49%;
+	text-align: center;
+	line-height: 20px;
+	font-size: 13px;
+	border-right: 1px solid #ccc;
+}
+.widget .content .btn-add:last-child{
+	border: 0px;
+}
+.widget .content .btn-add i {
+	font-size: 24px;
+	margin-bottom: 4px;
+}
 
-    
+
 
 #main {
 	margin-bottom: 35px;
@@ -840,6 +855,10 @@ i.fa{
 }
 .card .card-content {
 	padding: 20px;
+}
+
+.cloumn-manager {
+	font-size: 14px;
 }
 
 

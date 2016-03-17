@@ -21,6 +21,10 @@
 						<i class="fa fa-user"></i><br>
 						<span class="nav-title">个人信息</span>
 					</a></li>
+					<li><a class="" href="#cloumn-manager">
+						<i class="fa fa-th"></i><br>
+						<span class="nav-title">专栏管理</span>
+					</a></li>
 					<li><a href="#email-manager">
 						<i class="fa fa-envelope"></i><br>
 						<span class="nav-title">Email</span>
@@ -96,6 +100,15 @@
 						</div>
 						<div class="form-group"><div class="col-sm-10 col-sm-offset-2"><a class="btn btn-lg btn-primary btn-block save-handler" data-action="{{ '/user/'.$userInfo['id'] }}">保存</a></div></div>
 					</form>
+				</div>
+			</div>
+			<div class="card hide" id="cloumn-manager">
+				<div class="card-header">
+					<h4 class="card-title">专栏管理</h4>
+					<a class="pull-right" style="position: relative;top: -10px;" href="/cloumn/add"><i class="fa fa-plus"></i>添加专题</a>
+				</div>
+				<div class="card-content">
+					
 				</div>
 			</div>
 			<div class="card hide" id="email-manager">

@@ -10,15 +10,43 @@ $(function() {
 			var _this = this;
 			var $el = _this.$el;
 
-			$el.find('input[name="data[name]"]').on('blur',function() {
-				if (WQ.trim($(this).val())=='') {
-					$(this).parent().addClass('has-error').find('.help-block').html('专栏标题不能为空').show();
+			var last_val = false, wait_timer = false;
+
+			$el.find('input[name="data[name]"]').on('input propertychange',function(e) {
+				if (wait_timer) clearTimeout(wait_timer);
+
+				var name = $.trim($(this).val());
+				var $input = $(this);
+
+				if (name == '') {
+					$input.parent().addClass('has-error').find('.help-block').html('专栏标题不能为空').show();
 					return false;
 				} else {
-					_this.checkName($(this));
-					$(this).parent().removeClass('has-error').find('small').hide();
-					return true;
+					$input.parent().removeClass('has-error').find('.help-block').hide();
 				}
+
+				if (name==last_val) return false;
+
+				last_val = name;
+
+				wait_timer = setTimeout(function() {console.log(111);
+					wait_timer = false;
+					name = last_val;
+					if ($el.find('[name="data[id]"]').length>0) {
+						var params = {data:{name: name,id:$el.find('[name="data[id]"]').val()}};
+					} else {
+						var params = {data:{name: name}};
+					}
+
+					WQ.post('/cloumn/check/name',params,function(data) {
+						if (data.unique) {
+							$input.parent().removeClass('has-error').find('.help-block').hide();
+						} else {
+							$input.parent().addClass('has-error').find('.help-block').html(data.msg).show();
+						}
+					});
+				},1000);
+
 			});
 
 			$el.find('textarea').on('blur',function() {
@@ -29,29 +57,48 @@ $(function() {
 					$(this).parent().removeClass('has-error').find('small').hide();
 					return true;
 				}
-			});
-
-			$el.submit(function() {
-				if (WQ.trim($el.find('input[name="data[name]"]').val())=='') {
-					$el.find('input[name="data[name]"]').parent().addClass('has-error').find('.help-block').html('专栏标题不能为空').show();
-					return false;
-				}
-
-				if (WQ.trim($el.find('textarea').val())=='') {
-					$el.find('textarea').parent().addClass('has-error').find('.help-block').html('专栏描述不能为空').show();
+			}).on('keyup',function() {
+				if ($.trim($(this).val())!='') {
+					$(this).parent().removeClass('has-error').find('small').hide();
 					return false;
 				}
 			});
-		},
-		checkName: function($input) {
-			var name = $input.val();
-			WQ.post('/cloumn/check/name',{'name':name},function(data) {
-				if (data.unique) {
-					$input.parent().removeClass('has-error').find('.help-block').hide();
+
+			$el.find('.btn-submit').on('click',function() {
+				$el.find('textarea').trigger('blur');
+
+				var $input = $el.find('input[name="data[name]"]');
+				var name = $input.val();
+				if ($.trim(name)=='') {
+					$input.parent().addClass('has-error').find('.help-block').html('专栏标题不能为空').show();
+					return false;
+				}
+
+				if ($el.find('[name="data[id]"]').length>0) {
+					var params = {data:{name: name,id:$el.find('[name="data[id]"]').val()}};
 				} else {
-					$input.parent().addClass('has-error').find('.help-block').html(data.msg).show();
+					var params = {data:{name: name}};
 				}
-				return false;
+
+				WQ.post('/cloumn/check/name',params,function(data) {
+					if (data.unique) {
+						$input.parent().removeClass('has-error').find('.help-block').hide();
+					} else {
+						$input.parent().addClass('has-error').find('.help-block').html(data.msg).show();
+					}
+
+					if ($el.find('.form-group').hasClass('has-error')) {
+						return false;
+					} else {
+						$el.submit();
+					}
+				});
+
+			});
+			$el.submit(function(e) {
+				if (e.which==13) {
+	        		return false;
+	        	}
 			});
 		},
 		init: function() {

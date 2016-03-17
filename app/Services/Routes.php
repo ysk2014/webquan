@@ -40,7 +40,6 @@ class Routes
         Route::group(['domain' => $this->adminDomain], function()
         {
             // Route::get('/login', 'Admin\UserController@index');
-
             
         });
         return $this;
@@ -178,76 +177,25 @@ class Routes
      */
     public function cloumn() {
         
-        Route::get('/user/{uid}/cloumn', 'Home\CloumnController@myCloumn')->where('uid', '[0-9]+');
         Route::get('/cloumn/{id}', 'Home\CloumnController@index')->where('id', '[0-9]+');
 
         Route::group(['middleware' =>  'auth'], function() {
             Route::get('/cloumn/add', 'Home\CloumnController@editPage');
             Route::post('/cloumn/add', 'Home\CloumnController@dealCloumn');
 
+            Route::get('/cloumn/{cid}/edit', 'Home\CloumnController@editPage');
+            Route::post('/cloumn/{cid}/edit', 'Home\CloumnController@dealCloumn');
+
             Route::get('/cloumn/{id}/edit', 'Home\CloumnController@editPage')->where('id', '[0-9]+');
             Route::post('/cloumn/{id}/edit', 'Home\CloumnController@dealCloumn')->where('id', '[0-9]+');
 
             Route::post('/cloumn/check/name', 'Home\CloumnController@checkName');
+
+            Route::post('/cloumns/list', 'Home\CloumnController@getCloumnsByUid');
+
+            Route::delete('/cloumn/{cid}', 'Home\CloumnController@delCloumn');
         });
 
-    }
-
-    /**
-     * 前端专题路由
-     * 
-     *
-     * @access public
-     */
-    public function cloumn1() {
-
-        Route::group(['prefix' => 'cloumn/{id}'], function() {
-            // 专题详情页
-            Route::get('/', 'Home\CloumnController@index')->where('id', '[0-9]+');
-            // 获取单个专题的信息
-            Route::get('/info', 'Home\CloumnController@getCloumnById');
-        });
-
-        Route::group(['prefix' => 'cloumns'], function() {
-            // 专题列表页
-            Route::get('/', 'Home\CloumnController@index');
-            // 专题列表
-            Route::get('/info', 'Home\CloumnController@getAllCloumns');
-        });
-
-        Route::group(['middleware' =>  'auth'], function() {
-
-            Route::group(['prefix' => 'cloumn'], function() {
-                //编辑专题页面
-                Route::get('/add', 'Home\CloumnController@index');
-                //创建专题
-                Route::post('/add', 'Home\CloumnController@dealCloumn');
-                // 上传头像
-                Route::post('/logo', 'Home\CloumnController@updateLogo');
-            });
-            
-
-            Route::group(['prefix' => 'cloumn/{id}'], function() {
-                //编辑专题页面
-                Route::get('/edit', 'Home\CloumnController@index');
-                //编辑专题
-                Route::put('/', 'Home\CloumnController@dealCloumn');
-                // 删除专题
-                Route::delete('/', 'Home\CloumnController@dealCloumn');
-                // 添加关注
-                Route::post('/care', 'Home\CloumnController@dealCare');
-                // 取消关注
-                Route::delete('/care', 'Home\CloumnController@dealCare');
-            });
-
-            Route::group(['prefix' => 'cloumns'], function() {
-                // 根据用户获取专题
-                Route::get('/user/{uid}', 'Home\CloumnController@getCloumnsByUid');
-                // 获取用户关注的专题
-                Route::get('/care/user/{uid}', 'Home\CloumnController@getCareCloumnsByUid');
-            });
-            
-        });
     }
 
     /**
