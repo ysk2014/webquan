@@ -2,6 +2,8 @@
 
 use Lang;
 use App\Models\Home\Cloumn as CloumnModel;
+use App\Models\Home\Article as ArticleModel;
+use App\Models\Home\Notes as NoteModel;
 use App\Models\Home\UserCareCloumn as UCCModel;
 use App\Services\Home\Cloumn\Cloumn as CloumnValidate;
 use App\Services\Home\Upload\Process as UploadManager;
@@ -21,6 +23,20 @@ class Process extends BaseProcess
      * @var object
      */
     private $cloumnModel;
+
+    /**
+     * 文章数据模型
+     *
+     * @var object
+     */
+    private $articleModel;
+
+    /**
+     * 草稿数据模型
+     *
+     * @var object
+     */
+    private $noteModel;
 
     /**
      * 专题表单验证对象
@@ -52,6 +68,8 @@ class Process extends BaseProcess
         if( !$this->cloumnValidate ) $this->cloumnValidate = new CloumnValidate();
         if( !$this->uploadManager) $this->uploadManager = new UploadManager();
         if( !$this->careModel) $this->careModel = new UCCModel();
+        if (!$this->articleModel) $this->articleModel = new ArticleModel();
+        if (!$this->noteModel) $this->noteModel = new NoteModel();
     }
 
     /**
@@ -102,9 +120,16 @@ class Process extends BaseProcess
     {
         if( !is_array($ids) ) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
-        if($this->cloumnModel->deleteCloumn($ids) !== false) return array('rc'=>0, 'msg'=>'删除成功');
+        if($this->cloumnModel->deleteCloumn($ids) !== false) {
+            // 删除文章
+            $this->articleModel->delArticleByCid($ids[0]);
+            // 删除note草稿
+            $this->noteModel->delNotesByCid($ids[0]);
 
-        return array('rc'=>3003, 'msg'=>'删除失败');
+            return array('rc'=>0, 'msg'=>'删除成功');
+        } else {
+            return array('rc'=>3003, 'msg'=>'删除失败');
+        }
     }
 
     /**
@@ -183,11 +208,13 @@ class Process extends BaseProcess
      * @access public
      * @return array
      */
-    public function getCloumnsByUid($uid)
+    public function getCloumnsByUid($data)
     {
-        if(!isset($uid)) return array('rc'=>3001, 'msg'=>'参数没有设置');
+        if(!isset($data['uid'])) return array('rc'=>3001, 'msg'=>'参数没有设置');
 
-        $result = $this->cloumnModel->getCloumnsByUid($uid);
+        $limit = $data['limit'] ? $data['limit'] : 0;
+
+        $result = $this->cloumnModel->getCloumnsByUid($data['uid'],$limit);
         if($result) 
         {
             return array('rc'=>0, 'data'=>$result);

@@ -44,7 +44,8 @@ class Common
         $login = $this->login($isLogin);
 
         if (!empty($isLogin)) {
-            $cloumns = (new CloumnProcess())->getCloumnsByUid($isLogin['id']);
+            $data = ['uid'=>$isLogin['id'],'limit'=>6];
+            $cloumns = (new CloumnProcess())->getCloumnsByUid($data);
             return view('home.widget.top', compact('login','cloumns','cid'));
         } else {
             return view('home.widget.top', compact('login','cid'));
@@ -76,7 +77,14 @@ class Common
         //获取所标签列表
         $tags = (new TagProcess())->getAllTags();
 
-        return view('home.widget.aside', compact('hotsArt', 'tags'));
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $userinfo = false;
+        } else {
+            $userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+
+        return view('home.widget.aside', compact('hotsArt', 'tags','userinfo'));
     }
 
     /**
@@ -90,7 +98,14 @@ class Common
         //获取所标签列表
         $tags = (new TagProcess())->getAllTags();
         
-        return view('home.widget.aside', compact('hotsArt', 'tags','author','cloumn'));
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $userinfo = false;
+        } else {
+            $userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+
+        return view('home.widget.aside', compact('hotsArt', 'tags','author','cloumn','userinfo'));
         
     }
 

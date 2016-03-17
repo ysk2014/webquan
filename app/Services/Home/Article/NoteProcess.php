@@ -138,16 +138,6 @@ class NoteProcess extends BaseProcess
 			}
 		}
 
-		// $otherImg = preg_match_all('/src=\"[!\/upload_path\/].+[png|gif|jpg|jpeg]{1}\"/',$data->content,$otherImgArr);
-
-		// if (count($otherImg[0])) {
-		// 	foreach ($otherImgArr as $key => $value) {
-		// 		$value = str_ireplace('src=\"','',$value);
-		// 		$value = str_ireplace('\"','',$value);
-		// 		$result = (new UploadManager())->downloadImage($value);
-		// 	}
-		// }
-
 		// 匹配文章内容中所有的图片
 		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
@@ -303,7 +293,15 @@ class NoteProcess extends BaseProcess
 					if($this->articleModel->editArticle($data->toArray(), $aid) != false) {
 						// 删除redis缓存
 						if ($this->redis->hlen('article_'.$aid)>0) {
+							
+							$articleCache = $this->redis->hgetall('article_'.$aid);
+
 							$this->redis->del('article_'.$aid);
+							
+							if ($articleCache['cid']!=$data->cid) {
+								$this->cloumnModel->incrementData('count',$data->cid);
+								$this->cloumnModel->decrementData('count',$articleCache['cid']);
+							}
 						}
 
 						$resultArr = array('rc'=>0, 'msg'=>'编辑成功', 'aid'=>$aid);

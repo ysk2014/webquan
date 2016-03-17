@@ -168,14 +168,14 @@ class CloumnController extends Controller {
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
-	public function getCloumnsByUid(CloumnProcess $manager,$uid=0)
+	public function getCloumnsByUid(CloumnProcess $manager)
 	{
 		$data = Request::input('data');
+		$data['uid'] = $this->userinfo['id'];
 		
-		$result = $manager->getCloumnsByUid($data);
+		$cloumns = $manager->getCloumnsByUid($data);
 
-		return response()->json($result);
-		
+		return response()->view('home.widget.cloumnManager',compact('cloumns'));
 	}
 
 

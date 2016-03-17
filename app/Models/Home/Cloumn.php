@@ -84,12 +84,20 @@ class Cloumn extends Base
      * 
      * @param intval $uid 用户的ID
      */
-    public function getCloumnsByUid($uid)
+    public function getCloumnsByUid($uid,$limit=0)
     {
-        return $this->select('*')
+        if ($limit==0) {
+            return $this->select('*')
                     ->where('uid','=', intval($uid))
                     ->get()
                     ->toArray();
+        } else {
+            return $this->select('*')
+                    ->where('uid','=', intval($uid))
+                    ->take($limit)
+                    ->get()
+                    ->toArray();
+        }
     }
 
     /**

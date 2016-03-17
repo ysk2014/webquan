@@ -190,6 +190,10 @@ class Routes
             Route::post('/cloumn/{id}/edit', 'Home\CloumnController@dealCloumn')->where('id', '[0-9]+');
 
             Route::post('/cloumn/check/name', 'Home\CloumnController@checkName');
+
+            Route::post('/cloumns/list', 'Home\CloumnController@getCloumnsByUid');
+
+            Route::delete('/cloumn/{cid}', 'Home\CloumnController@delCloumn');
         });
 
     }

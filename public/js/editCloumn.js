@@ -10,8 +10,43 @@ $(function() {
 			var _this = this;
 			var $el = _this.$el;
 
-			$el.find('input[name="data[name]"]').on('keyup',function(e) {
-				$(this).parent().removeClass('has-error').find('.help-block').hide();
+			var last_val = false, wait_timer = false;
+
+			$el.find('input[name="data[name]"]').on('input propertychange',function(e) {
+				if (wait_timer) clearTimeout(wait_timer);
+
+				var name = $.trim($(this).val());
+				var $input = $(this);
+
+				if (name == '') {
+					$input.parent().addClass('has-error').find('.help-block').html('专栏标题不能为空').show();
+					return false;
+				} else {
+					$input.parent().removeClass('has-error').find('.help-block').hide();
+				}
+
+				if (name==last_val) return false;
+
+				last_val = name;
+
+				wait_timer = setTimeout(function() {console.log(111);
+					wait_timer = false;
+					name = last_val;
+					if ($el.find('[name="data[id]"]').length>0) {
+						var params = {data:{name: name,id:$el.find('[name="data[id]"]').val()}};
+					} else {
+						var params = {data:{name: name}};
+					}
+
+					WQ.post('/cloumn/check/name',params,function(data) {
+						if (data.unique) {
+							$input.parent().removeClass('has-error').find('.help-block').hide();
+						} else {
+							$input.parent().addClass('has-error').find('.help-block').html(data.msg).show();
+						}
+					});
+				},1000);
+
 			});
 
 			$el.find('textarea').on('blur',function() {
@@ -21,6 +56,11 @@ $(function() {
 				} else {
 					$(this).parent().removeClass('has-error').find('small').hide();
 					return true;
+				}
+			}).on('keyup',function() {
+				if ($.trim($(this).val())!='') {
+					$(this).parent().removeClass('has-error').find('small').hide();
+					return false;
 				}
 			});
 
