@@ -40,7 +40,7 @@ class HomeController extends Controller {
 		if ($data['type']==0) {
 			$result = (new SearchProcess())->getArticles($data);
 			$articles = view('home.widget.articles',array('articles'=>$result,'page'=>0));
-			return response()->view('home/other/search', compact('articles'));
+			return response()->view('home/other/search', compact('articles','data'));
 		} else if ($data['type']==1) {
 			$result = $searchProcess->getCloumns($data);
 		}
