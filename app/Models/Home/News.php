@@ -22,7 +22,7 @@ class News extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'rid', 'content', 'type', 'addtime');
+    protected $fillable = array('id', 'rid', 'content', 'type', 'status', 'addtime');
 
 
     /**

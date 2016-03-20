@@ -129,21 +129,20 @@ class Process extends BaseProcess
     {
         
         $newsData = [];
-        // $newsData['aid'] = $data['aid']; 
-        // $newsData['send_id'] = $data['uid']; 
-        $newsData['rid'] = $author_id; 
+
+        $article = $this->redis->hgetall('article_'.$data['aid']);
+
         $newsData['addtime'] = $data['addtime']; 
 
         $newsData['content'] = '<a href="/user/'.$data['uid'].'">'.$data['username'].'</a>'; 
         if (isset($data['reply'])) {
             $newsData['rid'] = $data['reply']['id'];
-            $newsData['content'] .= '在<a href="/articel/'.$data['aid'].'"></a>回复了你';
+            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 回复了你';
         } else {
-            $author_id = $this->articelModel->getAuthorById($data['aid']);
-            $newsData['rid'] = $author_id; 
-            $newsData['content'] .= '评论了你  <a href="/articel/'.$data['aid'].'"></a>';
+            $newsData['rid'] = $article['uid']; 
+            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 评论了你';
         }
-        
+
 
         $this->newsModel->addNew($newsData);
     }
