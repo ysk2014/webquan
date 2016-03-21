@@ -32,29 +32,25 @@ class News extends Base
      */
     public function getNewsByUid($uid, $page)
     {
-        return $this->select(array('news.*','user.username','article.title'))
-                    ->leftJoin('user','news.send_id','=','user.id')
-                    ->leftJoin('article','news.aid','=','article.id')
-                    ->where('receive_id', $uid)
-                    ->orderBy('news.addtime','desc')
+        return $this->select('*')
+                    ->where('rid', $uid)
+                    ->orderBy('addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
     }
 
     /**
-     * 根据用户ID取得已读和未读消息
+     * 根据消息分类取得消息列表
      * 
      * @return array
      */
-    public function getNewsByUnread($uid , $unread, $page)
+    public function getNewsByType($uid , $type, $page)
     {
-        return $this->select(array('news.*','user.username','article.title'))
-                    ->leftJoin('user','news.send_id','=','user.id')
-                    ->leftJoin('article','news.aid','=','article.id')
-                    ->where('receive_id', $uid)
-                    ->where('unread', $unread)
-                    ->orderBy('news.addtime','desc')
+        return $this->select('*')
+                    ->where('rid', $uid)
+                    ->where('type', $type)
+                    ->orderBy('addtime','desc')
                     ->skip($page*20)->take(20)
                     ->get()
                     ->toArray();
@@ -65,11 +61,11 @@ class News extends Base
      * 
      * @return array
      */
-    public function getNewsIdsByUnread($uid)
+    public function getNewsIdsByStatus($uid)
     {
         return $this->select('id')
-                    ->where('receive_id', $uid)
-                    ->where('unread', 1)
+                    ->where('rid', $uid)
+                    ->where('status', 0)
                     ->get()
                     ->toArray();
     }
@@ -101,7 +97,7 @@ class News extends Base
      */
     public function updateNew($id)
     {
-        return $this->where('id','=', intval($id))->update(['unread'=>0]);
+        return $this->where('id','=', intval($id))->update(['status'=>1]);
     }
 
     /**
@@ -111,7 +107,7 @@ class News extends Base
      */
     public function updateNews(array $ids)
     {
-        return $this->whereIn('id', $ids)->update(['unread'=>0]);
+        return $this->whereIn('id', $ids)->update(['status'=>1]);
     }
 
     /**
@@ -131,19 +127,28 @@ class News extends Base
      */
     public function countNews($uid)
     {
-        return $this->where('receive_id', $uid)->count();
+        return $this->where('rid', $uid)->count();
     }
 
+
+    /**
+     * 获取类型的消息数
+     * 
+     * @param $aid
+     */
+    public function countNewsByType($uid,$type)
+    {
+        return $this->where('rid', $uid)->where('type', $type)->count();
+    }
 
     /**
      * 获取未读的消息数
      * 
      * @param $aid
      */
-    public function countNewsByUid($uid)
+    public function countNewsByStatus($uid,$status)
     {
-        return $this->where('receive_id', $uid)->where('unread', 1)->count();
+        return $this->where('rid', $uid)->where('status', $status)->count();
     }
-
 
 }

@@ -234,7 +234,7 @@ class Routes
             //消息列表
             Route::get('/user/news', 'Home\UserController@getNews');
             // 未读消息数量
-            Route::get('/user/news/count', 'Home\UserController@getNewsCountByUnread');
+            Route::get('/user/news/count', 'Home\UserController@getNewsCountByStatus');
             //标记已读
             Route::post('/user/news', 'Home\UserController@updateNews');
 
@@ -249,14 +249,6 @@ class Routes
                     Route::get('/settings', 'Home\UserController@settings');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
-                    // 收藏页面
-                    Route::get('/store', 'Home\UserController@index');
-                    //草稿箱
-                    Route::get('/draft', 'Home\UserController@index');
-                    //消息
-                    Route::get('/news', 'Home\UserController@index');
-                    //bug
-                    Route::get('/bugs', 'Home\UserController@index');
                 });
 
             });

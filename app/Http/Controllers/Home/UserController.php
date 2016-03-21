@@ -241,7 +241,7 @@ class UserController extends Controller {
     }
 
     /**
-     * 我的消息
+     * 我的消息页
      */
     public function getNews(UserActionProcess $manager) 
     {
@@ -250,12 +250,12 @@ class UserController extends Controller {
     	return response()->json($result);
     }
     /**
-     * 未读消息
+     * 未读消息总数
      */
-    public function getNewsCountByUnread(UserActionProcess $manager) 
+    public function getNewsCountByStatus(UserActionProcess $manager) 
     {
     	$uid = Request::input('uid');
-    	$result = $manager->getNewsCountByUnread($uid);
+    	$result = $manager->getNewsCountByStatus($uid);
     	return response()->json($result);
     }
 

@@ -277,16 +277,16 @@ class Process extends BaseProcess
     public function getNews($data) {
         $page = isset($data['page']) ? $data['page'] : 0;
 
-        if(isset($data['unread'])) {
-            $result = $this->newsModel->getNewsByUnread($data['uid'],$data['unread'],$page);
+        if(isset($data['type'])) {
+            $result = $this->newsModel->getNewsByType($data['uid'],$data['type'],$page);
         } else {
             $result = $this->newsModel->getNewsByUid($data['uid'],$page);
         }
 
         if($result) {
 
-            if(isset($data['unread'])) {
-                $count = $this->newsModel->countNewsByUid($data['uid']);
+            if(isset($data['type'])) {
+                $count = $this->newsModel->countNewsByType($data['uid']);
             } else {
                 $count = $this->newsModel->countNews($data['uid']);
             }
@@ -302,23 +302,6 @@ class Process extends BaseProcess
         }
     }
 
-    /**
-     * 获取消息列表
-     * 
-     * @param intval $uid
-     * @access public
-     * @return array
-     */
-    public function getNewsCountByUnread($uid) {
-
-        $count = $this->newsModel->countNewsByUid($uid);
-
-        if($count) {
-            return array('rc'=>0,'data'=>$count);
-        } else {
-            return array('rc'=>1008,'msg'=>'没有消息');
-        }
-    }
 
     /**
      * 更新消息
@@ -329,7 +312,7 @@ class Process extends BaseProcess
      */
     public function updateNews($data) {
         if(isset($data['uid'])) {
-            $ids = $this->newsModel->getNewsIdsByUnread($data['uid']);
+            $ids = $this->newsModel->getNewsIdsByStatus($data['uid']);
             $state = $this->newsModel->updateNews($ids);
         } else {
             $state = $this->newsModel->updateNew($data['id']);
