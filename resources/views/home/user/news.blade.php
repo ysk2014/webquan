@@ -9,7 +9,7 @@
     		@if ($news['rc']==0)
 				<ul>
 					@foreach ($news['data'] as $new)
-						<li>{{$new}}</li>
+						<li><?php echo $new['content']; ?></li>
 					@endforeach
 				</ul>
 			@else
