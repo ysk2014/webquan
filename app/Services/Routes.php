@@ -231,8 +231,7 @@ class Routes
             Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
             //检查用户名是否存在
             Route::post('/user/name/check', 'Home\UserController@checkUserName');
-            //消息列表
-            Route::get('/user/news', 'Home\UserController@getNews');
+            
             // 未读消息数量
             Route::get('/user/news/count', 'Home\UserController@getNewsCountByStatus');
             //标记已读
@@ -249,6 +248,8 @@ class Routes
                     Route::get('/settings', 'Home\UserController@settings');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
+                    //消息列表
+                    Route::get('/news', 'Home\UserController@getNews')->where('id', '[0-9]+');
                 });
 
             });

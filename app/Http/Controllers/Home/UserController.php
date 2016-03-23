@@ -243,11 +243,14 @@ class UserController extends Controller {
     /**
      * 我的消息页
      */
-    public function getNews(UserActionProcess $manager) 
+    public function getNews(UserActionProcess $manager,$id=0) 
     {
     	$data = Request::input('data');
-    	$result = $manager->getNews($data);
-    	return response()->json($result);
+    	if (empty($data)) {
+    		$data = ['uid'=>$id];
+    	}
+    	$news = $manager->getNews($data);
+    	return response()->view('home/user/news', compact('news'));
     }
     /**
      * 未读消息总数
