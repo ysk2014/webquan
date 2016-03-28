@@ -80,7 +80,7 @@ class Process extends BaseProcess
 
         $tpl = '<a href="/user/'.$replyInfo['id'].'" class="maleskine-author" target="_blank">'.$arr[0].'</a> ';
         
-        return str_replace($arr[0],$tpl,$content);
+        return array('content'=>str_replace($arr[0],$tpl,$content),'replyInfo'=>$replyInfo);
     }
 
     /**
@@ -92,8 +92,15 @@ class Process extends BaseProcess
         if( ! $this->commentValidate->add($data)) return array('rc'=>4001,'msg'=>$this->commentValidate->getErrorMessage());
 
         if (isset($data['pid']) && !empty($data['pid'])) {
-            $data['content'] = $this->dealContent($data['content']);
+            $dealData=$this->dealContent($data['content']);
+            $data['content'] = $dealData['content'];
+            $data['reply'] = $dealData['replyInfo'];
         }
+        $newsParams = $data;
+        unset($data['username']);
+        if (isset($data['reply'])) {
+            unset($data['reply']);
+        } 
 
         $result = $this->commentModel->addComment($data);
 
@@ -102,7 +109,7 @@ class Process extends BaseProcess
             $this->articelModel->incrementById('comment',$data['aid']);
             $this->redis->hincrby('article_'.$data['aid'],'comment',1);
 
-            $this->sendNews($data);
+            $this->sendNews($newsParams);
 
             return array('rc'=>0,'data'=>$result);
         }
@@ -114,15 +121,28 @@ class Process extends BaseProcess
 
     /**
      * 发送消息
+     *
+     * @param $data
+     * 
      */
     public function sendNews($data)
     {
-        $author_id = $this->articelModel->getAuthorById($data['aid']);
+        
         $newsData = [];
-        $newsData['aid'] = $data['aid']; 
-        $newsData['send_id'] = $data['uid']; 
-        $newsData['receive_id'] = $author_id; 
+
+        $article = $this->redis->hgetall('article_'.$data['aid']);
+
         $newsData['addtime'] = $data['addtime']; 
+
+        $newsData['content'] = '<a href="/user/'.$data['uid'].'">'.$data['username'].'</a>'; 
+        if (isset($data['reply'])) {
+            $newsData['rid'] = $data['reply']['id'];
+            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 回复了你';
+        } else {
+            $newsData['rid'] = $article['uid']; 
+            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 评论了你';
+        }
+
 
         $this->newsModel->addNew($newsData);
     }

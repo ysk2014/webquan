@@ -89,6 +89,16 @@ class Article extends Base
     }
 
     /**
+     * 根据文章id获取文章数据
+     * 
+     * @param intval $id 文章的ID
+     */
+    public function getInfoById($id)
+    {
+        return $this->select(array('title','description','uid'))->where('id','=', intval($id))->first();
+    }
+
+    /**
      * 根据nid获取文章信息
      * 
      * @param intval $nid 文集的ID
