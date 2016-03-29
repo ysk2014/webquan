@@ -4,7 +4,7 @@
 
 <?php echo widget('Home.Common')->top($cloumn['id']); ?>
 
-<div class="full-page" style="background: url('https://source.unsplash.com/category/buildings/daily') center no-repeat;background-size: cover;">
+<div class="full-page" style="background: url('{{ asset('upload_path/banner/3.jpg') }}') center no-repeat;background-size: cover;">
 	<div class="mask"></div>
 	<div class="container cloumn-page">
 		<h2>{{ $cloumn['name'] }}</h2>

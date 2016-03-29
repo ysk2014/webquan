@@ -3,7 +3,7 @@
 
 <?php echo widget('Home.Common')->top(); ?>
 
-<div class="full-page" style="background: url('https://source.unsplash.com/category/technology/daily') center no-repeat;background-size: cover;">
+<div class="full-page" style="background: url('{{ asset('upload_path/banner/2.jpg') }}') center no-repeat;background-size: cover;">
 	<div class="mask"></div>
 	<div class="container user-page">
 		<h2>{{ $userInfo['username'] }}</h2>
