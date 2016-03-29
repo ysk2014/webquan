@@ -455,9 +455,10 @@ i.fa{
 	margin-bottom: 20px;
 	border: none;
 }
-.content-wrapper h3{
+.content-wrapper h1{
 	font-weight: 600;
 	margin: 10px 0px 30px;
+	font-size: 24px;
 }
 #main .content-wrapper .content {
 	margin-top: 20px;

@@ -10,7 +10,7 @@
 	<div class="row">
     	<div class="col-md-8">
     		<div class="content-wrapper simditor">
-    			<h3>{{ $articleInfo['data']['title'] }}</h3>
+    			<h1>{{ $articleInfo['data']['title'] }}</h1>
     			<div class="desc">
 					<a href="{{ '/user/'.$articleInfo['data']['uid'] }}" class="author"><img class="img-circle" src="{{ $articleInfo['data']['userUrl'] }}"/><span>{{ $articleInfo['data']['username'] }}</span></a> •
 	            	<span class="time">{{ date('Y.m.d H:i',$articleInfo['data']['addtime']) }}</span>
