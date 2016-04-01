@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Admin\ActionLog' => [
-            'App\Listeners\Admin\ActionLog',
+        'App\Events\SendNews' => [
+            'App\Listeners\SendNews'
         ],
         'SocialiteProviders\Manager\SocialiteWasCalled' => [
             'SocialiteProviders\Qq\QqExtendSocialite@handle',
