@@ -21,8 +21,11 @@
 
 <div class="container" id="main">
 	<div class="row">
-    	<div class="col-md-12">
+    	<div class="col-md-8">
 			<?php echo $articles;?>
+    	</div>
+    	<div class="col-md-4 sidebar">
+    		<?php echo widget('Home.Common')->aside(); ?>
     	</div>
     </div>
 </div>
