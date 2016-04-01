@@ -4,9 +4,9 @@ use Lang;
 use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
 use App\Models\User as UserModel;
-use App\Models\Home\News as NewsModel;
 use App\Services\Home\Comment\CommentValidate;
 use App\Services\BaseProcess;
+use App\Events\SendNews;
 use Redis;
 
 /**
@@ -38,12 +38,6 @@ class Process extends BaseProcess
      */
     private $articelModel;
 
-    /**
-     * 消息模型
-     * 
-     * @var object
-     */
-    private $newsModel;
 
     /**
      * redis缓存链接
@@ -62,7 +56,6 @@ class Process extends BaseProcess
     {
         if( ! $this->articelModel) $this->articelModel = new ArticleModel();
         if( ! $this->commentModel) $this->commentModel = new CommentModel();
-        if( ! $this->newsModel) $this->newsModel = new NewsModel();
         if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
         if( ! $this->redis) $this->redis = Redis::connection();
     }
@@ -109,8 +102,9 @@ class Process extends BaseProcess
             $this->articelModel->incrementById('comment',$data['aid']);
             $this->redis->hincrby('article_'.$data['aid'],'comment',1);
 
-            $this->sendNews($newsParams);
-
+            //触发发送消息事件
+            event(new SendNews($newsParams));
+            
             return array('rc'=>0,'data'=>$result);
         }
         else
@@ -119,34 +113,7 @@ class Process extends BaseProcess
         }
     }
 
-    /**
-     * 发送消息
-     *
-     * @param $data
-     * 
-     */
-    public function sendNews($data)
-    {
-        
-        $newsData = [];
-
-        $article = $this->redis->hgetall('article_'.$data['aid']);
-
-        $newsData['addtime'] = $data['addtime']; 
-
-        $newsData['content'] = '<a href="/user/'.$data['uid'].'">'.$data['username'].'</a>'; 
-        if (isset($data['reply'])) {
-            $newsData['rid'] = $data['reply']['id'];
-            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 回复了你';
-        } else {
-            $newsData['rid'] = $article['uid']; 
-            $newsData['content'] .= '在<a href="/article/'.$data['aid'].'">《'.$article['title'].'》</a> 评论了你';
-        }
-
-
-        $this->newsModel->addNew($newsData);
-    }
-
+    
     /**
      * 删除评论
      */
