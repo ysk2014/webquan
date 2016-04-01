@@ -7,9 +7,9 @@
 	<div class="row">
     	<div class="col-md-8">
     		@if ($news['rc']==0)
-				<ul>
+				<ul class="list-group">
 					@foreach ($news['data'] as $new)
-						<li><?php echo $new['content']; ?></li>
+						<li class="list-group-item"><?php echo $new['content']; ?></li>
 					@endforeach
 				</ul>
 			@else
