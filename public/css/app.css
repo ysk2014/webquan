@@ -745,6 +745,15 @@ i.fa{
 	font-weight: 600;
 	margin-bottom: 20px;
 }
+.cloumn-page > h2 >a, .tag-page>h2>a, .user-page>h2>a {
+	color: #fff;
+	font-size: 20px;
+	position: relative;
+	top: -20px;
+}
+.cloumn-page > h2 >a:hover, .tag-page>h2>a:hover, .user-page>h2>a:hover {
+	color: #1abc9c;
+}
 .cloumn-page p, .tag-page p, .user-page p{
 	font-size: 16px;
 }
