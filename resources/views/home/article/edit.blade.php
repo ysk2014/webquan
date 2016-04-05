@@ -91,7 +91,7 @@
 			<script type="text/javascript" src="{{ asset('js/lib/module.min.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/hotkeys.min.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/uploader.min.js') }}"></script>
-			<script type="text/javascript" src="{{ asset('js/lib/simditor.min.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('js/lib/simditor.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/simditor-extension.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/tagsinput.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/editArticle.js') }}"></script>

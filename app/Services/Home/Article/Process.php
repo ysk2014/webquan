@@ -99,11 +99,13 @@ class Process extends BaseProcess
 		if( !isset($nid) ) return array('rc'=>2006,'msg'=>'没有获取到nid');
 
 		if($this->articleModel->delArticle([$aid]) !== false) {
-			//删除草稿缓存
+			//删除文章缓存
 			if ($this->redis->hlen('article_'.$aid)>0) {
+				$articleCache = $this->redis->hgetall('article_'.$aid);
 				$this->redis->del('article_'.$aid);
+				$this->cloumnModel->decrementData('count',$articleCache['cid']);
 			}
-
+			
 			if($this->noteModel->delNotes([$nid]) != false) {
 			//删除草稿缓存
 				if ($this->redis->hlen('note_'.$nid)>0) {
@@ -117,7 +119,6 @@ class Process extends BaseProcess
 		else {
 			return array('rc'=>2008, 'msg'=>'删除失败');
 		}
-
 	}
 
 	/**
