@@ -7,15 +7,22 @@
 	<div class="row">
     	<div class="col-md-8">
     		<div class="news-page">
-    			@if ($news['rc']==0)
-					<ul class="list-group">
-						@foreach ($news['data'] as $new)
-							<li class="list-group-item"><?php echo $new['content']; ?></li>
-						@endforeach
-					</ul>
-				@else
-					没有消息
-				@endif
+    			<ul class="nav nav-tabs">
+    				<li><a href="" class="active">全部消息</a></li>
+    			</ul>
+    			<div class="tabs-content">
+    				<div class="content-item">
+    					@if ($news['rc']==0)
+							<ul class="list-group">
+								@foreach ($news['data'] as $new)
+									<li class="list-group-item"><?php echo $new['content']; ?><span class="pull-right">{{ date('Y.m.d H:i',$new['addtime']) }}</span></li>
+								@endforeach
+							</ul>
+						@else
+							没有消息
+						@endif
+    				</div>
+    			</div>
     		</div>
     	</div>
 
