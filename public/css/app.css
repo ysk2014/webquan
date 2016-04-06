@@ -755,7 +755,7 @@ i.fa{
 	color: #1abc9c;
 }
 .cloumn-page p, .tag-page p, .user-page p{
-	font-size: 16px;
+	font-size: 12px;
 }
 .cloumn-page .desc {
 	color: #fff;
@@ -766,7 +766,7 @@ i.fa{
 
 .full-page {
 	width: 100%;
-	padding: 150px 0 150px;
+	padding: 90px 0 90px;
 	background: url('/image/user-bg.jpeg') no-repeat center;
 	background-size: cover;
 	position: relative;
