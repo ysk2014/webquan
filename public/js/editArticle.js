@@ -33,7 +33,8 @@ $(function() {
 
 			//远程图片下载
 			_this.editor.on('pasting',function(e,$pasteContent) {
-				if (Object.prototype.toString.call($pasteContent)!='[object String]'&&$pasteContent.find('img').length>0) {
+				console.log($pasteContent instanceof Blob);
+				if (($pasteContent instanceof jQuery && $pasteContent.find('img').length>0) ) {
 					$pasteContent.find('img').each(function() {
 						var $img = $(this),old_src  = $img.attr('src');
 						$img.attr('src','/image/loading.gif');
