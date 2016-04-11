@@ -1173,3 +1173,14 @@ i.fa{
 	margin-bottom: 0px;
 }
 
+
+@media (max-width: 767px) {
+	.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    	margin: 0;
+    	padding: 0;
+  	}
+  	#main .col-md-8 .content-wrapper{
+  		padding-left: 10px;
+  		padding-right: 10px;
+  	}
+}
