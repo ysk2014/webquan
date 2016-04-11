@@ -139,7 +139,7 @@ class NoteProcess extends BaseProcess
 		}
 
 		// 匹配文章内容中所有的图片
-		$status = preg_match_all('/src=\"\/upload_path\/.+[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
+		$status = preg_match_all('/src=\"\/upload_path\/.+?[png|gif|jpg|jpeg]{1}\"/',$data->content,$imgArr);
 
 		// 把第一张图片设置为文章的logo
 		if(!$status) return $data;
