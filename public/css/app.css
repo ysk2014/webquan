@@ -397,6 +397,7 @@ i.fa{
     margin-left: 0px;
 }
 .widget .w-desc .brief {
+	max-width: 240px;
 	margin-top: 5px;
 	color: #666666;
 }
