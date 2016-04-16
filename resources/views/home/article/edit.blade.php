@@ -40,6 +40,7 @@
 					</div> 
 				</div>
 				<div class="form-group">
+					<label>所属专栏：</label>
 					<span class="select-box">
 						<select class="form-control" id="myCloumn" name="data[cid]">
 							@if ($cloumns['rc']==0)
