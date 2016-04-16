@@ -19,7 +19,7 @@ abstract class Controller extends BaseController {
         if (empty($isLogin)) {
             $this->userinfo = false;
         } else {
-            $this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+            $this->userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['username'],'userUrl'=>$isLogin['logo_dir']];
         }
 	}
 

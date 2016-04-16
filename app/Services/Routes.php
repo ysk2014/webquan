@@ -40,7 +40,6 @@ class Routes
         Route::group(['domain' => $this->adminDomain], function()
         {
             // Route::get('/login', 'Admin\UserController@index');
-
             
         });
         return $this;
@@ -92,14 +91,13 @@ class Routes
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
 
-
                 //bug页面
                 Route::get('/bug', 'Home\BugController@index');
 
-                //search页面
-                Route::get('/search', 'Home\HomeController@getSearch');
-
             });
+
+            //search页面
+            Route::get('/search', 'Home\HomeController@getSearch');
 
             //第三方登录
             Route::get('auth/qq', 'Auth\AuthController@qq');
@@ -178,76 +176,25 @@ class Routes
      */
     public function cloumn() {
         
-        Route::get('/user/{uid}/cloumn', 'Home\CloumnController@myCloumn')->where('uid', '[0-9]+');
         Route::get('/cloumn/{id}', 'Home\CloumnController@index')->where('id', '[0-9]+');
 
         Route::group(['middleware' =>  'auth'], function() {
             Route::get('/cloumn/add', 'Home\CloumnController@editPage');
             Route::post('/cloumn/add', 'Home\CloumnController@dealCloumn');
 
+            Route::get('/cloumn/{cid}/edit', 'Home\CloumnController@editPage');
+            Route::post('/cloumn/{cid}/edit', 'Home\CloumnController@dealCloumn');
+
             Route::get('/cloumn/{id}/edit', 'Home\CloumnController@editPage')->where('id', '[0-9]+');
             Route::post('/cloumn/{id}/edit', 'Home\CloumnController@dealCloumn')->where('id', '[0-9]+');
 
             Route::post('/cloumn/check/name', 'Home\CloumnController@checkName');
+
+            Route::post('/cloumns/list', 'Home\CloumnController@getCloumnsByUid');
+
+            Route::delete('/cloumn/{cid}', 'Home\CloumnController@delCloumn');
         });
 
-    }
-
-    /**
-     * 前端专题路由
-     * 
-     *
-     * @access public
-     */
-    public function cloumn1() {
-
-        Route::group(['prefix' => 'cloumn/{id}'], function() {
-            // 专题详情页
-            Route::get('/', 'Home\CloumnController@index')->where('id', '[0-9]+');
-            // 获取单个专题的信息
-            Route::get('/info', 'Home\CloumnController@getCloumnById');
-        });
-
-        Route::group(['prefix' => 'cloumns'], function() {
-            // 专题列表页
-            Route::get('/', 'Home\CloumnController@index');
-            // 专题列表
-            Route::get('/info', 'Home\CloumnController@getAllCloumns');
-        });
-
-        Route::group(['middleware' =>  'auth'], function() {
-
-            Route::group(['prefix' => 'cloumn'], function() {
-                //编辑专题页面
-                Route::get('/add', 'Home\CloumnController@index');
-                //创建专题
-                Route::post('/add', 'Home\CloumnController@dealCloumn');
-                // 上传头像
-                Route::post('/logo', 'Home\CloumnController@updateLogo');
-            });
-            
-
-            Route::group(['prefix' => 'cloumn/{id}'], function() {
-                //编辑专题页面
-                Route::get('/edit', 'Home\CloumnController@index');
-                //编辑专题
-                Route::put('/', 'Home\CloumnController@dealCloumn');
-                // 删除专题
-                Route::delete('/', 'Home\CloumnController@dealCloumn');
-                // 添加关注
-                Route::post('/care', 'Home\CloumnController@dealCare');
-                // 取消关注
-                Route::delete('/care', 'Home\CloumnController@dealCare');
-            });
-
-            Route::group(['prefix' => 'cloumns'], function() {
-                // 根据用户获取专题
-                Route::get('/user/{uid}', 'Home\CloumnController@getCloumnsByUid');
-                // 获取用户关注的专题
-                Route::get('/care/user/{uid}', 'Home\CloumnController@getCareCloumnsByUid');
-            });
-            
-        });
     }
 
     /**
@@ -283,10 +230,11 @@ class Routes
             Route::get('/user/me', 'Home\UserController@getUserInfoByLogin');
             //检查用户名是否存在
             Route::post('/user/name/check', 'Home\UserController@checkUserName');
-            //消息列表
-            Route::get('/user/news', 'Home\UserController@getNews');
+            
             // 未读消息数量
-            Route::get('/user/news/count', 'Home\UserController@getNewsCountByUnread');
+            Route::post('/user/news/count', 'Home\UserController@getNewsCountByStatus');
+            //更新消息状态
+            Route::put('/user/news/count', 'Home\UserController@updateNews');
             //标记已读
             Route::post('/user/news', 'Home\UserController@updateNews');
 
@@ -301,14 +249,8 @@ class Routes
                     Route::get('/settings', 'Home\UserController@settings');
                     // 上传头像
                     Route::post('/logo', 'Home\UserController@updateLogo');
-                    // 收藏页面
-                    Route::get('/store', 'Home\UserController@index');
-                    //草稿箱
-                    Route::get('/draft', 'Home\UserController@index');
-                    //消息
-                    Route::get('/news', 'Home\UserController@index');
-                    //bug
-                    Route::get('/bugs', 'Home\UserController@index');
+                    //消息列表
+                    Route::get('/news', 'Home\UserController@getNews')->where('id', '[0-9]+');
                 });
 
             });

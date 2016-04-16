@@ -3,6 +3,7 @@
 namespace App\Widget\Home;
 
 use App\Services\User\Login\Process as LoginProcess;
+use App\Services\Home\Cloumn\Process as CloumnProcess;
 use App\Services\Home\Article\Process as ArticleProcess;
 use App\Services\Home\Comment\Process as CommentProcess;
 use App\Services\Home\Tag\Process as TagProcess;
@@ -35,19 +36,27 @@ class Common
     /**
      * top
      */
-    public function top()
+    public function top($cid=0)
     {
-        $login = $this->login();
-        return view('home.widget.top', compact('login'));
+        // 判断用户是否登录
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+
+        $login = $this->login($isLogin);
+
+        if (!empty($isLogin)) {
+            $data = ['uid'=>$isLogin['id'],'limit'=>6];
+            $cloumns = (new CloumnProcess())->getCloumnsByUid($data);
+            return view('home.widget.top', compact('login','cloumns','cid'));
+        } else {
+            return view('home.widget.top', compact('login','cid'));
+        }
     }
 
     /**
      * login
      */
-    public function login()
+    public function login($isLogin)
     {
-        // 判断用户是否登录
-        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
         
         if (empty($isLogin)) {
             $userinfo = false;
@@ -68,7 +77,14 @@ class Common
         //获取所标签列表
         $tags = (new TagProcess())->getAllTags();
 
-        return view('home.widget.aside', compact('hotsArt', 'tags'));
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $userinfo = false;
+        } else {
+            $userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+
+        return view('home.widget.aside', compact('hotsArt', 'tags','userinfo'));
     }
 
     /**
@@ -82,7 +98,14 @@ class Common
         //获取所标签列表
         $tags = (new TagProcess())->getAllTags();
         
-        return view('home.widget.aside', compact('hotsArt', 'tags','author','cloumn'));
+        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        if (empty($isLogin)) {
+            $userinfo = false;
+        } else {
+            $userinfo = ['id'=>$isLogin['id'],'nick'=>$isLogin['name'],'userUrl'=>$isLogin['logo_dir']];
+        }
+
+        return view('home.widget.aside', compact('hotsArt', 'tags','author','cloumn','userinfo'));
         
     }
 

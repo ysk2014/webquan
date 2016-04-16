@@ -52,7 +52,9 @@
 				</div>
 				<div class="form-group editor">
 					<label for="editor" class="sr-only">文章内容</label>
-		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;">@if (isset($id) && $noteInfo['rc']==0) {{ $noteInfo['data']['content'] }} @endif</textarea>
+		    		<textarea class="form-control" id="editor" placeholder="" name="data[content]" autofocus style="display: none;" >
+		    			@if (isset($id) && $noteInfo['rc']==0) {{htmlspecialchars($noteInfo['data']['content'])}} @endif
+		    		</textarea>
 				</div>
 				<div class="form-group clear-fix">
 				    <div class="pull-right">
@@ -89,7 +91,7 @@
 			<script type="text/javascript" src="{{ asset('js/lib/module.min.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/hotkeys.min.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/uploader.min.js') }}"></script>
-			<script type="text/javascript" src="{{ asset('js/lib/simditor.min.js') }}"></script>
+			<script type="text/javascript" src="{{ asset('js/lib/simditor.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/simditor-extension.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/lib/tagsinput.js') }}"></script>
 			<script type="text/javascript" src="{{ asset('js/editArticle.js') }}"></script>

@@ -45,8 +45,10 @@ class UserController extends Controller {
 			if ($userInfo['id'] != $id) {
 				$uid = $id;
 				$userInfo = (new UserActionProcess())->getUserInfoById($id)['data'];
+				$isAuthor = false;
 			} else {
 				$uid = $userInfo['id'];
+				$isAuthor = true;
 			}
 
 			unset($userInfo['password']);
@@ -58,7 +60,7 @@ class UserController extends Controller {
 			$cacheSecond = config('home.cache_control');
 	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-			return response()->view('home/user/index', compact('userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+			return response()->view('home/user/index', compact('userInfo','articles','isAuthor'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 		} else {
 			abort(404);
 		}
@@ -241,21 +243,24 @@ class UserController extends Controller {
     }
 
     /**
-     * 我的消息
+     * 我的消息页
      */
-    public function getNews(UserActionProcess $manager) 
+    public function getNews(UserActionProcess $manager,$id=0) 
     {
     	$data = Request::input('data');
-    	$result = $manager->getNews($data);
-    	return response()->json($result);
+    	if (empty($data)) {
+    		$data = ['uid'=>$id];
+    	}
+    	$news = $manager->getNews($data);
+    	return response()->view('home/user/news', compact('news'));
     }
     /**
-     * 未读消息
+     * 未读消息总数
      */
-    public function getNewsCountByUnread(UserActionProcess $manager) 
+    public function getNewsCountByStatus(UserActionProcess $manager) 
     {
     	$uid = Request::input('uid');
-    	$result = $manager->getNewsCountByUnread($uid);
+    	$result = $manager->getNewsCountByStatus($uid);
     	return response()->json($result);
     }
 

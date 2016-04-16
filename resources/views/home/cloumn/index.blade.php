@@ -2,12 +2,12 @@
 
 <?php echo widget('Home.Common')->header(); ?>
 
-<?php echo widget('Home.Common')->top(); ?>
+<?php echo widget('Home.Common')->top($cloumn['id']); ?>
 
-<div class="full-page" style="background: url('https://source.unsplash.com/category/buildings/daily') center no-repeat;background-size: cover;">
+<div class="full-page" style="background: url('{{ asset('upload_path/banner/3.jpg') }}') center no-repeat;background-size: cover;">
 	<div class="mask"></div>
 	<div class="container cloumn-page">
-		<h2>{{ $cloumn['name'] }}</h2>
+		<h2>{{ $cloumn['name'] }} @if ($cloumn['uid'] == $userinfo['id'])<a href="/cloumn/{{$cloumn['id']}}/edit"><i class="fa fa-pencil"></i></a>@endif</h2>
 		<div class="desc">
 			<a href="{{ '/user/'.$cloumn['uid'] }}" class="author"><img class="img-circle" src="{{ $cloumn['userUrl'] }}"/><span>{{ $cloumn['username'] }}</span></a> •
         	<span class="time">{{ date('Y.m.d H:i',$cloumn['addtime']) }}</span>
@@ -21,8 +21,11 @@
 
 <div class="container" id="main">
 	<div class="row">
-    	<div class="col-md-12">
+    	<div class="col-md-8">
 			<?php echo $articles;?>
+    	</div>
+    	<div class="col-md-4 sidebar">
+    		<?php echo widget('Home.Common')->aside(); ?>
     	</div>
     </div>
 </div>

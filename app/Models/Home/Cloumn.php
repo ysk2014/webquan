@@ -60,6 +60,18 @@ class Cloumn extends Base
      * 
      * @param intval $id 专题的ID
      */
+    public function getInfoById($id)
+    {
+        return $this->select('*')
+                    ->where('id','=', intval($id))
+                    ->first();
+    }
+
+    /**
+     * 获取专题信息及其作者信息
+     * 
+     * @param intval $id 专题的ID
+     */
     public function getCloumnById($id)
     {
         return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
@@ -68,16 +80,24 @@ class Cloumn extends Base
                     ->first();
     }
     /**
-     * 根据用户id获取专题信息
+     * 根据用户id获取专题列表
      * 
      * @param intval $uid 用户的ID
      */
-    public function getCloumnByUid($uid)
+    public function getCloumnsByUid($uid,$limit=0)
     {
-        return $this->select(array('cloumn.*','user.username','user.logo_dir as userUrl'))
-                    ->leftJoin('user','cloumn.uid','=','user.id')
-                    ->where('cloumn.uid','=', intval($uid))
-                    ->first();
+        if ($limit==0) {
+            return $this->select('*')
+                    ->where('uid','=', intval($uid))
+                    ->get()
+                    ->toArray();
+        } else {
+            return $this->select('*')
+                    ->where('uid','=', intval($uid))
+                    ->take($limit)
+                    ->get()
+                    ->toArray();
+        }
     }
 
     /**

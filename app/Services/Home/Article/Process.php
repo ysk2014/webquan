@@ -99,11 +99,13 @@ class Process extends BaseProcess
 		if( !isset($nid) ) return array('rc'=>2006,'msg'=>'没有获取到nid');
 
 		if($this->articleModel->delArticle([$aid]) !== false) {
-			//删除草稿缓存
+			//删除文章缓存
 			if ($this->redis->hlen('article_'.$aid)>0) {
+				$articleCache = $this->redis->hgetall('article_'.$aid);
 				$this->redis->del('article_'.$aid);
+				$this->cloumnModel->decrementData('count',$articleCache['cid']);
 			}
-
+			
 			if($this->noteModel->delNotes([$nid]) != false) {
 			//删除草稿缓存
 				if ($this->redis->hlen('note_'.$nid)>0) {
@@ -117,7 +119,6 @@ class Process extends BaseProcess
 		else {
 			return array('rc'=>2008, 'msg'=>'删除失败');
 		}
-
 	}
 
 	/**
@@ -141,7 +142,21 @@ class Process extends BaseProcess
 			$param->setAttributes($artData); 
 
 			if ($this->articleModel->editArticle($param->toArray(),$data['id']) != false) {
+				
 				$this->noteModel->editNote(array('update_time'=>$artData['update_time']),$data['nid']);
+
+				// 删除redis缓存
+				if ($this->redis->hlen('article_'.$data['id'])>0) {
+					
+					$articleCache = $this->redis->hgetall('article_'.$data['id']);
+
+					$this->redis->del('article_'.$data['id']);
+					
+					if ($articleCache['cid']!=$artData['cid']) {
+						$this->cloumnModel->incrementData('count',$artData['cid']);
+						$this->cloumnModel->decrementData('count',$articleCache['cid']);
+					}
+				}
 				return array('rc'=>0,'msg'=>'更新成功');
 			} else {
 				return array('rc'=>2009,'msg'=>'更新失败');

@@ -56,6 +56,7 @@ class CommentController extends Controller {
 			$data = Request::input('data');
 			$data['aid'] = $aid;
 			$data['uid'] = $this->userinfo['id'];
+			$data['username'] = $this->userinfo['nick'];
 			$data['addtime'] = time();
 
 			$result = $commentProcess->addComment($data);

@@ -63,7 +63,6 @@ class ArticleController extends Controller {
 				return response()->view('home.article.edit',compact('userinfo','cloumns'));
 			}
 		}
-		
 	}
 
 

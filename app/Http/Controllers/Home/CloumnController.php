@@ -38,27 +38,6 @@ class CloumnController extends Controller {
 
 	}
 
-	/**
-	 * 我的专栏
-	 *
-	 * @return Response
-	 */
-	public function myCloumn(CloumnProcess $manager,$uid=0)
-	{
-
-		$userinfo = $this->userinfo;
-
-		$cloumnInfo = $manager->getCloumnByUid($uid);
-
-		if ($cloumnInfo['rc']==0) {
-			$cloumn = $cloumnInfo['data'];
-			$articles = $this->widget->articlesByCid($cloumn['id']);
-			return response()->view('home.cloumn.index',compact('userinfo','cloumn','articles'));
-		} else {
-			abort(404);
-		}
-
-	}
 
 	/**
 	 * 添加专题处理
@@ -69,12 +48,13 @@ class CloumnController extends Controller {
 	{
 		$userinfo = $this->userinfo;
 
-		$checkHasCloumn = (new CloumnProcess)->getCloumnByUid($userinfo['id']);
+		$cloumnInfo = (new CloumnProcess)->getInfoById($id);
 		
-		if ($checkHasCloumn['rc']==0 && $checkHasCloumn['data']!=null) {
-			return redirect('/');
+		if ($cloumnInfo['rc']==0 && $cloumnInfo['data']!=null) {
+			$cloumn = $cloumnInfo['data'];
+			return response()->view('home.cloumn.edit',compact('cloumn'));
 		} else {
-			return response()->view('home.cloumn.edit',compact('userinfo'));
+			return response()->view('home.cloumn.edit');
 		}
 	}
 
@@ -86,15 +66,19 @@ class CloumnController extends Controller {
      */
 	public function checkName(CloumnProcess $manager)
 	{
-		$name = Request::input('name');
+		$data = Request::input('data');
+		if (isset($data['id'])) {
+			$result = $manager->checkName($data['name'],$data['id']);
+		} else {
+			$result = $manager->checkName($data['name']);
+		}
 		
-		$result = $manager->checkName($name);
 
 		return response()->json($result);
 	}
 
     /**
-     * 处理专题
+     * 删除专题
      *
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
@@ -119,12 +103,13 @@ class CloumnController extends Controller {
 		if ($id!=0) {
 			$data = (array) Request::input('data');
 			$data['update_time'] = time();
+			$data['uid'] = $this->userinfo['id'];
 
 			$param->setAttributes($data);
 			$result = $manager->editCloumn($param);
 
 			if ($result['rc']==0) {
-				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
+				return redirect('/cloumn/'.$id);
 			} else {
 				return redirect('/cloumn/'.$id.'/edit');
 			}
@@ -138,7 +123,7 @@ class CloumnController extends Controller {
 			$result = $manager->addCloumn($param);
 
 			if ($result['rc']==0) {
-				return redirect('/user/'.$this->userinfo['id'].'/cloumn');
+				return redirect('/cloumn/'.$result['data']);
 			} else {
 				return redirect('/cloumn/add');
 			}
@@ -183,14 +168,14 @@ class CloumnController extends Controller {
      * @param App\Services\Cloumn\Process $process 专题处理
      * @access public
      */
-	public function getCloumnsByUid(CloumnProcess $manager,$uid=0)
+	public function getCloumnsByUid(CloumnProcess $manager)
 	{
 		$data = Request::input('data');
+		$data['uid'] = $this->userinfo['id'];
 		
-		$result = $manager->getCloumnsByUid($data);
+		$cloumns = $manager->getCloumnsByUid($data);
 
-		return response()->json($result);
-		
+		return response()->view('home.widget.cloumnManager',compact('cloumns'));
 	}
 
 

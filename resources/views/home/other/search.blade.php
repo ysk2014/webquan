@@ -15,14 +15,14 @@
 					<form class="form-horizontal search-form" action="/search" method="get">
 						<div class="input-group">
 							<span class="input-group-btn">
-					        	<button type="button" class="btn btn-primary"><span class="text">文章</span> <span class="caret"></span></button>
+					        	<button type="button" class="btn btn-primary"><span class="text">@if ($data['type']==0) 文章 @else 专题 @endif</span> <span class="caret"></span></button>
 					        	<ul class="dropdown-menu">
 						          	<li><a data-type="0" href="javascript:void(0);">文章</a></li>
 						          	<li><a data-type="1" href="javascript:void(0);">专题</a></li>
 						        </ul>
 					      	</span>
-							<input class="form-control" type="text" name="search" placeholder="搜索">
-							<input type="hidden" name="type" value="0" />
+							<input class="form-control" type="text" name="search" placeholder="搜索" value="{{$data['search']}}">
+							<input type="hidden" name="type" value="{{$data['type']}}" />
 						</div>
 					</form>
 				</div>

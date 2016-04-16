@@ -1,3 +1,12 @@
+	@if (!empty($userinfo))
+		<div class="widget">
+			<div class="content">
+				<a class="btn-add" href="/note/add"><i class="fa fa-pencil"></i><br>写文章</a>
+				<a class="btn-add" href="/cloumn/add"><i class="fa fa-plus"></i><br>添加专栏</a>
+			</div>
+		</div>
+	@endif
+
 	@if (isset($author))
 		<div class="widget">
 			<h4 class="title">本文作者</h4>

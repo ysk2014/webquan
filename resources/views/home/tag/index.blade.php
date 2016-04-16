@@ -3,7 +3,7 @@
 
 <?php echo widget('Home.Common')->top(); ?>
 
-<div class="full-page" style="background: url('https://source.unsplash.com/user/jackie/likes') center no-repeat;background-size: cover;">
+<div class="full-page" style="background: url('{{ asset('upload_path/banner/1.jpg') }}') center no-repeat;background-size: cover;">
 	<div class="mask"></div>
 	<div class="container tag-page">
 		<h2><i class="fa fa-tags"></i>{{ $tag['name'] }}</h2>
@@ -13,8 +13,11 @@
 
 <div class="container" id="main">
 	<div class="row">
-    	<div class="col-md-12">
+    	<div class="col-md-8">
 			<?php echo $articles;?>
+    	</div>
+    	<div class="col-md-4 sidebar">
+    		<?php echo widget('Home.Common')->aside(); ?>
     	</div>
     </div>
 </div>

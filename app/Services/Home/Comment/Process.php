@@ -4,9 +4,9 @@ use Lang;
 use App\Models\Home\Article as ArticleModel;
 use App\Models\Home\Comment as CommentModel;
 use App\Models\User as UserModel;
-use App\Models\Home\News as NewsModel;
 use App\Services\Home\Comment\CommentValidate;
 use App\Services\BaseProcess;
+use App\Events\SendNews;
 use Redis;
 
 /**
@@ -38,12 +38,6 @@ class Process extends BaseProcess
      */
     private $articelModel;
 
-    /**
-     * 消息模型
-     * 
-     * @var object
-     */
-    private $newsModel;
 
     /**
      * redis缓存链接
@@ -62,7 +56,6 @@ class Process extends BaseProcess
     {
         if( ! $this->articelModel) $this->articelModel = new ArticleModel();
         if( ! $this->commentModel) $this->commentModel = new CommentModel();
-        if( ! $this->newsModel) $this->newsModel = new NewsModel();
         if( ! $this->commentValidate) $this->commentValidate = new CommentValidate();
         if( ! $this->redis) $this->redis = Redis::connection();
     }
@@ -80,7 +73,7 @@ class Process extends BaseProcess
 
         $tpl = '<a href="/user/'.$replyInfo['id'].'" class="maleskine-author" target="_blank">'.$arr[0].'</a> ';
         
-        return str_replace($arr[0],$tpl,$content);
+        return array('content'=>str_replace($arr[0],$tpl,$content),'replyInfo'=>$replyInfo);
     }
 
     /**
@@ -92,8 +85,15 @@ class Process extends BaseProcess
         if( ! $this->commentValidate->add($data)) return array('rc'=>4001,'msg'=>$this->commentValidate->getErrorMessage());
 
         if (isset($data['pid']) && !empty($data['pid'])) {
-            $data['content'] = $this->dealContent($data['content']);
+            $dealData=$this->dealContent($data['content']);
+            $data['content'] = $dealData['content'];
+            $data['reply'] = $dealData['replyInfo'];
         }
+        $newsParams = $data;
+        unset($data['username']);
+        if (isset($data['reply'])) {
+            unset($data['reply']);
+        } 
 
         $result = $this->commentModel->addComment($data);
 
@@ -102,8 +102,9 @@ class Process extends BaseProcess
             $this->articelModel->incrementById('comment',$data['aid']);
             $this->redis->hincrby('article_'.$data['aid'],'comment',1);
 
-            $this->sendNews($data);
-
+            //触发发送消息事件
+            event(new SendNews($newsParams));
+            
             return array('rc'=>0,'data'=>$result);
         }
         else
@@ -112,21 +113,7 @@ class Process extends BaseProcess
         }
     }
 
-    /**
-     * 发送消息
-     */
-    public function sendNews($data)
-    {
-        $author_id = $this->articelModel->getAuthorById($data['aid']);
-        $newsData = [];
-        $newsData['aid'] = $data['aid']; 
-        $newsData['send_id'] = $data['uid']; 
-        $newsData['receive_id'] = $author_id; 
-        $newsData['addtime'] = $data['addtime']; 
-
-        $this->newsModel->addNew($newsData);
-    }
-
+    
     /**
      * 删除评论
      */

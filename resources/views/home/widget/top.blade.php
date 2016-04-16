@@ -8,16 +8,22 @@
 				<img alt="web圈" src="{{ asset('image/logo.png') }}">
 			</a>
 			<ul class="dropdown-menu">
-				<li class="active"><a href="/">首页</a></li>
-				<li style="display: none;"><a href="">问答</a></li>
-				<li style="display: none;"><a href="">文章</a></li>
+				<li  class="@if ($cid==0) active @endif"><a href="/">首页</a></li>
+				@if (isset($cloumns) && count($cloumns)>0 && $cloumns['rc']==0) 
+					@foreach ($cloumns['data'] as $cloumn)
+						<li class="@if ($cid==$cloumn['id']) active @endif"><a href="{{'/cloumn/'.$cloumn['id']}}">{{$cloumn['name']}}</a></li>
+					@endforeach
+				@endif
 			</ul>
 		</div>
 		<div class="collapse navbar-collapse pull-left">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">首页</a></li>
-				<li style="display: none;"><a href="">问答</a></li>
-				<li style="display: none;"><a href="">文章</a></li>
+				<li class="@if ($cid==0) active @endif"><a href="/">首页</a></li>
+				@if (isset($cloumns) && count($cloumns)>0 && $cloumns['rc']==0) 
+					@foreach ($cloumns['data'] as $cloumn)
+						<li class="@if ($cid==$cloumn['id']) active @endif"><a href="{{'/cloumn/'.$cloumn['id']}}">{{$cloumn['name']}}</a></li>
+					@endforeach
+				@endif
 			</ul>
 		</div>
 		<ul class="nav navbar-nav navbar-right navbar-user">

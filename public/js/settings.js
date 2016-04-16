@@ -66,6 +66,36 @@ $(function() {
 			});
 		},
 
+		//专题管理
+		cloumnManager: function() {
+			var _this = this;
+			var $page = $('#cloumn-manager');
+
+			$.post('/cloumns/list',{data:{limit:0}},function(data) {
+				$page.find('.card-content').html(data);
+			});
+
+			$page.on('click','.btn-del',function() {
+				var $tr = $(this).parents('tr');
+				var cid = $(this).data('id');
+				
+				$('#delModal').find('.modal-title').html('删除此专栏的话，会同时删除专栏下的文章和草稿，你确定要删除吗？');
+				$('#delModal').find('.modal-dialog').removeClass('modal-sm');
+				$('#delModal').modal('show').on('click','.btn-primary',function() {
+					WQ.ajax({
+						type: 'delete',
+						url: '/cloumn/'+cid,
+						success: function(data) {
+							WQ.tooltip(data.msg,'info');
+							$tr.remove();
+						}
+					});
+				});
+				
+			});
+
+		},
+
 		email: function() {
 
 		},
@@ -156,7 +186,30 @@ $(function() {
 				var target = $(this).attr('href');
 				$(this).addClass('active').parent().siblings().find('a').removeClass('active');
 				$(target).removeClass('hide').addClass('show').siblings('.card').removeClass('show').addClass('hide');
+
+				_this.checkCtrl(target);
 			});
+		},
+
+		checkCtrl: function(target) {
+			var _this = this;
+
+			switch(target) {
+				case '#profile-manager':
+					_this.profile();
+					break;
+				case '#cloumn-manager':
+					_this.cloumnManager();
+					break;
+				case '#email-manager':
+					_this.email();    //email
+					break;
+				case '#pwd-manager':
+					_this.pwd();      //修改密码
+					break;
+				default: 
+					_this.profile();
+			}
 		},
 
 		init: function() {
@@ -169,12 +222,10 @@ $(function() {
 			}
 			$(target).addClass('show').removeClass('hide');
 			
+			this.checkCtrl(target);
+
 			this.bindEvent();
-			this.profile();  //个人信息
-			this.email();    //email
-			this.pwd();      //修改密码
-			this.oauth();    //第三方登录
-			this.notify();   //通知
+			
 		}
 	};
 

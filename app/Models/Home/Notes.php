@@ -55,6 +55,16 @@ class Notes extends Base
     }
 
     /**
+     * 根据专题id删除文集
+     * 
+     * @param array $ids 文章的ID
+     */
+    public function delNotesByCid($cid)
+    {
+        return $this->where('cid', '=', $cid)->delete();
+    }
+
+    /**
      * 根据文集id获取信息
      * 
      * @param intval $id 文集的ID
