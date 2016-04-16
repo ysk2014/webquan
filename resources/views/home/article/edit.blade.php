@@ -40,6 +40,7 @@
 					</div> 
 				</div>
 				<div class="form-group">
+					<label>所属专栏：</label>
 					<span class="select-box">
 						所属专栏：
 						<select class="form-control" id="myCloumn" name="data[cid]">
