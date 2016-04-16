@@ -433,6 +433,12 @@ i.fa{
 	margin-bottom: 35px;
 	position: relative;
 }
+@media (max-width: 767px) {
+	.article {
+		padding: 35px 20px;
+		margin-bottom: 16px;
+	}
+}
 .article .top .title{
 	font-size: 18px;
 	font-weight: 600;
