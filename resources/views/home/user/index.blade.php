@@ -16,7 +16,7 @@
 			<div class="col-md-12">
 				<ul class="nav nav-tabs user-nav">
 					<li><a class="active" href="javascript:void(0);">已发布</a></li>
-					<li><a href="javascript:void(0);">草稿箱</a></li>
+					@if ($isAuthor) <li><a href="javascript:void(0);">草稿箱</a></li> @endif
 				</ul>
 			</div>
 	    	<div class="col-md-12 user-page-content">

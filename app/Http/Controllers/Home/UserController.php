@@ -45,8 +45,10 @@ class UserController extends Controller {
 			if ($userInfo['id'] != $id) {
 				$uid = $id;
 				$userInfo = (new UserActionProcess())->getUserInfoById($id)['data'];
+				$isAuthor = false;
 			} else {
 				$uid = $userInfo['id'];
+				$isAuthor = true;
 			}
 
 			unset($userInfo['password']);
@@ -58,7 +60,7 @@ class UserController extends Controller {
 			$cacheSecond = config('home.cache_control');
 	        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
 
-			return response()->view('home/user/index', compact('userInfo','articles'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+			return response()->view('home/user/index', compact('userInfo','articles','isAuthor'))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
 		} else {
 			abort(404);
 		}
