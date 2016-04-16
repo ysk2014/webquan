@@ -13,12 +13,14 @@
 <div class="container user-page-list" id="main">
 	<div class="row">
 		<div class="col-md-8">
+			@if ($isAuthor) 
 			<div class="col-md-12">
 				<ul class="nav nav-tabs user-nav">
 					<li><a class="active" href="javascript:void(0);">已发布</a></li>
-					@if ($isAuthor) <li><a href="javascript:void(0);">草稿箱</a></li> @endif
+					<li><a href="javascript:void(0);">草稿箱</a></li>
 				</ul>
 			</div>
+			@endif
 	    	<div class="col-md-12 user-page-content">
 	    		<?php echo $articles ?>
 	    	</div>
