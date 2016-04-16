@@ -12,7 +12,7 @@
     	<div class="col-md-8">
 			<?php echo widget('Home.Common')->articles(); ?>
     	</div>
-    	<div class="col-md-4 sidebar">
+    	<div class="col-md-4 sidebar hidden-xs">
     	<?php echo widget('Home.Common')->aside(); ?>
     	</div>
     </div>

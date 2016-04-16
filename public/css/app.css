@@ -422,6 +422,11 @@ i.fa{
 #main {
 	margin-bottom: 35px;
 }
+@media (max-width: 768px) {
+	#main {
+		margin-bottom: 0px;
+	}
+}
 .article {
 	padding: 35px 40px;
 	background: #fff;

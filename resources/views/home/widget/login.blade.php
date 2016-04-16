@@ -1,7 +1,7 @@
 
 
 @if (empty($userinfo))
-	<li class="login">
+	<li class="login hidden-xs">
 		<a href="#myLogin" data-toggle="modal" data-target="#myLogin">登录/注册</a>
 	</li>
 @else 

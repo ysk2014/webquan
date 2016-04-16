@@ -27,7 +27,7 @@
 			</ul>
 		</div>
 		<ul class="nav navbar-nav navbar-right navbar-user">
-			<li class="search"><a href="javascript:void(0)"><i class="fa fa-search"></i></a></li>
+			<li class="search hidden-xs"><a href="javascript:void(0)"><i class="fa fa-search"></i></a></li>
 			<?php echo $login;?>
 		</ul>
 	</div>
