@@ -41,6 +41,7 @@
 				</div>
 				<div class="form-group">
 					<span class="select-box">
+						所属专栏：
 						<select class="form-control" id="myCloumn" name="data[cid]">
 							@if ($cloumns['rc']==0)
 								@foreach ($cloumns['data'] as $cloumn)
