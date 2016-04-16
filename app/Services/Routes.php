@@ -233,6 +233,8 @@ class Routes
             
             // 未读消息数量
             Route::post('/user/news/count', 'Home\UserController@getNewsCountByStatus');
+            //更新消息状态
+            Route::put('/user/news/count', 'Home\UserController@updateNews');
             //标记已读
             Route::post('/user/news', 'Home\UserController@updateNews');
 

@@ -92,10 +92,17 @@ $(function() {
 							_this.$dropdown.find('.badge').html(data.data).show();
 							_this.$dropdown.find('.news a').off('click').on('click',function() {
 								_this.$dropdown.find('.badge').hide();
+								WQ.ajax({
+									type: 'put',
+									url: '/user/news/count',
+									data: {data:{uid: uid}},
+									success: function(data) {}
+								});
 							});
 						}
 					});
-				}
+				};
+				getNews();
 				setInterval(getNews,10*60*1000);
 			};
 
