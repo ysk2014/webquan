@@ -302,6 +302,23 @@ class Process extends BaseProcess
         }
     }
 
+    /**
+     * 获取未读消息
+     * 
+     * @param intval $id
+     * @access public
+     * @return array
+     */
+    public function getNewsCountByStatus($uid) {
+        if (!isset($uid)) return array('rc'=>0, 'msg'=>'没有用户id');
+
+        $data = $this->newsModel->countNewsByStatus($uid,0);
+        if ($data) {
+            return array('rc'=>0,'data'=>$data);
+        } else {
+            return array('rc'=>0,'msg'=>'查询失败');
+        }
+    }
 
     /**
      * 更新消息

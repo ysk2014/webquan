@@ -84,7 +84,19 @@ $(function() {
 					$(document).one('click',function() {
 						$this.parent().removeClass('open');
 					});
-				})
+				});
+				var getNews = function() {
+					var uid = _this.$dropdown.data('uid');
+					WQ.post('/user/news/count',{uid:uid},function(data) {
+						if (data.data) {
+							_this.$dropdown.find('.badge').html(data.data).show();
+							_this.$dropdown.find('.news a').off('click').on('click',function() {
+								_this.$dropdown.find('.badge').hide();
+							});
+						}
+					});
+				}
+				setInterval(getNews,10*60*1000);
 			};
 
 			if (_this.$login.length>0) {
