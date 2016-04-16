@@ -14,6 +14,7 @@
 						<li class="@if ($cid==$cloumn['id']) active @endif"><a href="{{'/cloumn/'.$cloumn['id']}}">{{$cloumn['name']}}</a></li>
 					@endforeach
 				@endif
+				<li  class="@if ($cid==0) active @endif"><a href="/">BUG反馈</a></li>
 			</ul>
 		</div>
 		<div class="collapse navbar-collapse pull-left">
@@ -24,6 +25,7 @@
 						<li class="@if ($cid==$cloumn['id']) active @endif"><a href="{{'/cloumn/'.$cloumn['id']}}">{{$cloumn['name']}}</a></li>
 					@endforeach
 				@endif
+				<li  class="@if ($cid==0)  @endif"><a href="/">BUG反馈</a></li>
 			</ul>
 		</div>
 		<ul class="nav navbar-nav navbar-right navbar-user">

@@ -91,14 +91,13 @@ class Routes
                 //创建标签
                 Route::post('/tags/add', 'Home\TagController@addTag');
 
-
                 //bug页面
                 Route::get('/bug', 'Home\BugController@index');
 
-                //search页面
-                Route::get('/search', 'Home\HomeController@getSearch');
-
             });
+
+            //search页面
+            Route::get('/search', 'Home\HomeController@getSearch');
 
             //第三方登录
             Route::get('auth/qq', 'Auth\AuthController@qq');
