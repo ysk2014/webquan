@@ -111,8 +111,12 @@
 		<div id="mask"></div>
 		
 		<!-- 浮动工具 -->
-		<div id="fixedTools" style="display: none;" class="hidden-xs hidden-sm">
-			<a id="backtop" class="border-bottom" href="javascript:void(0);"><span class="fa fa-chevron-up"></span></a>
+		<div id="fixedTools" class="hidden-xs hidden-sm">
+			<a id="backtop" style="display: none;" class="border-bottom" href="javascript:void(0);"><span class="fa fa-chevron-up"></span></a>
+			<a id="share-qrcode" class="border-bottom" href="javascript:void(0);">
+				<span class="fa fa-share-alt"></span>
+			</a>
+			<div id="qrcode"></div>
 		</div>
 
 		<script type="text/javascript" src="{{ asset('js/lib/modal.js') }}"></script>

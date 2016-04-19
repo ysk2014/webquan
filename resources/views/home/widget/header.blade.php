@@ -14,8 +14,8 @@
 		<link href="{{ asset('css/web-ui-light.css') }}" rel="stylesheet">
 		<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 		<script type="text/javascript" src="{{ asset('js/lib/jquery-1.11.3.min.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/lib/jquery.qrcode.min.js') }}"></script> 
 		<script type="text/javascript" src="{{ asset('js/lib/wq.js') }}"></script>
-		
 	</head>
 
 	<body>

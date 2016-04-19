@@ -5,9 +5,9 @@ var WQ = WQ || {};
 WQ.goTop = function(){
     $(document).on('scroll',function() {
         if($(document).scrollTop()>100){
-            $('#fixedTools').show();
+            $('#backtop').show();
         }else{
-            $('#fixedTools').hide();
+            $('#backtop').hide();
         }
     });
 	
@@ -360,6 +360,15 @@ WQ.post = function(url,data,callback) {
 $(function() {
 
     WQ.goTop();
+
+    $('#share-qrcode').on('click', function() {
+        if ($('#qrcode').css('display')=='none') {
+            $('#qrcode').html('').qrcode(window.location.href).show(); 
+        } else {
+            $('#qrcode').hide();
+        }
+        
+    })
 });
 
 if ( typeof define === "function" && define.amd ) {
