@@ -26,7 +26,7 @@
 			<div class="content">
 				<div class="w-desc">
 					<a href="{{ '/cloumn/'.$cloumn['cid'] }}"><span class="name">{{ $cloumn['name'] }}</span></a>
-					<p class="brief" style="width: 100%;">{{ $cloumn['description'] }}</p>
+					<p class="brief" style="max-width: 100%;">{{ $cloumn['description'] }}</p>
 				</div>
 			</div>
 		</div>
