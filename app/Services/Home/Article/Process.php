@@ -263,7 +263,7 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('rc'=>0,'data'=>$articleData, 'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
 		} else {
 			return array('rc'=>2001,'msg'=>'没有更多的文章了');
 		}
@@ -384,7 +384,7 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData,'count'=>$count, 'next'=>$next,'page'=>$page);
 		} else {
 			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
@@ -422,7 +422,7 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
 		} else {
 			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
@@ -456,7 +456,7 @@ class Process extends BaseProcess
 				array_push($articleData,$value);
 			}
 			
-			return array('rc'=>0,'data'=>$articleData,'next'=>$next);
+			return array('rc'=>0,'data'=>$articleData, 'count'=>$count, 'next'=>$next,'page'=>$page);
 		} else {
 			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
