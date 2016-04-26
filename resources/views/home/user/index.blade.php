@@ -31,5 +31,26 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ asset('js/user.js') }}"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#main').on('click','.article-more',function() {
+			var page = parseInt($(this).data('page'),10)+1;
+			var $this = $(this);
+			$this.text('加载中...');
 
+			var tab = $('#main').find('.nav-tabs.user-nav a.active').html();
+
+			if (tab=='已发布') {
+				var uid = "{{ $userInfo['id'] }}";
+				$.post('/articles/user/pub', {page: page, uid: uid}, function(data) {
+					$this.before(data).remove();
+				});
+			} else {
+				$.post('/articles/user/draft', {page: page}, function(data) {
+					$this.before(data).remove();
+				});
+			}
+		});
+	});
+</script>
 <?php echo widget('Home.Common')->footer(); ?>

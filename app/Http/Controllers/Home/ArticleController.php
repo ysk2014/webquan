@@ -118,10 +118,16 @@ class ArticleController extends Controller {
 	{
 		$page = Request::input('page');
 
+		if (Request::input('uid')) {
+			$uid = Request::input('uid');
+		} else {
+			$uid = $this->userinfo['id'];
+		}
+
 		$way = 'addtime';
 
 		//文章数据列表
-        $articles = (new ArticleProcess())->getArtsByUid(array('way'=>$way,'page'=>$page,'uid'=>$this->userinfo['id']));
+        $articles = (new ArticleProcess())->getArtsByUid(array('way'=>$way,'page'=>$page,'uid'=>$uid));
 
         return view('home.widget.articles', compact('articles','page'));
 	}
