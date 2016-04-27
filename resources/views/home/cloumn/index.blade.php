@@ -35,7 +35,7 @@
 			var page = parseInt($(this).data('page'),10)+1;
 			var $this = $(this);
 			$this.text('加载中...');
-			$.get('/articles/'+page,function(data) {
+			$.post('/articles/like/cloumn', {data: {cid:'{{ $cloumn["id"] }}', page: page}}, function(data) {
 				$this.before(data).remove();
 			});
 		});

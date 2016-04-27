@@ -27,7 +27,7 @@
 			var page = parseInt($(this).data('page'),10)+1;
 			var $this = $(this);
 			$this.text('加载中...');
-			$.get('/articles/'+page,function(data) {
+			$.post('/articles/like/tag', {data:{name: '{{ $tag["name"] }}', page: page}}, function(data) {
 				$this.before(data).remove();
 			});
 		});
