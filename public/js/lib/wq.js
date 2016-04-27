@@ -361,14 +361,15 @@ $(function() {
 
     WQ.goTop();
 
-    $('#share-qrcode').on('click', function() {
+    $('#share-qrcode').on('mouseenter', function() {
         if ($('#qrcode').css('display')=='none') {
             $('#qrcode').html('').qrcode(window.location.href).show(); 
         } else {
             $('#qrcode').hide();
         }
-        
-    })
+    }).on('mouseleave', function() {
+        $('#qrcode').hide();
+    });
 });
 
 if ( typeof define === "function" && define.amd ) {
