@@ -96,7 +96,7 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getArtsByCid(ArticleProcess $articleProcess,$cid)
+	public function getArtsByCid(ArticleProcess $articleProcess,$cid=0)
 	{
 		$data = Request::input('data');
 		$page = isset($data['page']) ? $data['page'] : 0;
@@ -149,7 +149,7 @@ class ArticleController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getArtsLikeTagName(ArticleProcess $articleProcess,$name)
+	public function getArtsLikeTagName(ArticleProcess $articleProcess,$name='')
 	{
 		$data = Request::input('data');
 		$data = $articleProcess->getArtsLikeTagName($data);

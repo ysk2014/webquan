@@ -165,6 +165,11 @@ class Routes
 
             // 根据nid更新已发布文章
             Route::post('/note/update/article', 'Home\ArticleController@upadteArtByNid');
+
+            //获取标签下的文件列表
+            Route::post('/articles/like/tag', 'Home\ArticleController@getArtsLikeTagName');
+            //获取专题下的文件列表
+            Route::post('/articles/like/cloumn', 'Home\ArticleController@getArtsByCid');
         });
     }
 
