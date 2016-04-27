@@ -384,7 +384,7 @@ class Process extends BaseProcess
 				}
 			}
 
-			return array('rc'=>0,'data'=>$articleData,'count'=>$count, 'next'=>$next,'page'=>$page);
+			return array('rc'=>0,'data'=>$articleData,'count'=>$count, 'next'=>$next,'page'=>$data['page']);
 		} else {
 			return array('rc'=>2001,'msg'=>'获取文章失败');
 		}
