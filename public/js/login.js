@@ -108,7 +108,7 @@ $(function() {
 
 			if (_this.$login.length>0) {
 
-				_this.$login.find('.tab-nav a').on('click',function() {
+				$('#myLogin').on('click', '.tab-nav a',function() {
 					if ($(this).hasClass('active')) {
 						return false;
 					}
