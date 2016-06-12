@@ -36,6 +36,7 @@ class UserArticle extends Base
 
     /**
      * 删除
+     * 
      *
      * @param array $ids
      */
@@ -47,6 +48,7 @@ class UserArticle extends Base
 
     /**
      * 获取ids
+     * 
      *
      */
     public function getIds($aid,$uid)
@@ -74,6 +76,7 @@ class UserArticle extends Base
     /**
      * 获取用户推荐的所有文章
      *
+     *
      * @param intval $id 用户的ID
      */
     public function getArticlesByUid($uid,$page,$type=0)
@@ -91,6 +94,7 @@ class UserArticle extends Base
 
     /**
      * 获取推荐文章的所有用户id
+     * 
      *
      * @param intval $id 文章的ID
      */
