@@ -111,5 +111,7 @@
 <script>hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript" src="{{ asset('js/article.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/comment.js') }}"></script>
-
+<script type="text/javascript">
+	console.log(WeixinJSBridge);
+</script>
 <?php echo widget('Home.Common')->footer(); ?>
