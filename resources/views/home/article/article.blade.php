@@ -124,7 +124,11 @@
     };
     (function () {
       var onBridgeReady = function () {
+      	if (typeof WeixinJSBridge != 'undefined') {
+      		alert('weixin');
+      	}
         WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+        	alert(11);
           WeixinJSBridge.invoke('sendAppMessage', {
             "appid": dataForWeixin.appId,
             "img_url": dataForWeixin.MsgImg,
