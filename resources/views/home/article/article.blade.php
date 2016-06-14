@@ -114,7 +114,7 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 	$(function() {
-		$.post('http://wechat.yjshare.com',{url: 'http://wechat.yjshare.com/'} ,function(data) {
+		$.post('http://wechat.yjshare.com/',{url: window.location.href.split('#')[0]} ,function(data) {
 			console.log(data);
 		},'json');
 	});
