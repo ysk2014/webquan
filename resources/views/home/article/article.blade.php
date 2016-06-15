@@ -115,15 +115,15 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8" async defer></script>
 <script>
 	$(function() {
-		var sdata = {
-		    title: '那年|时光遗忘了，文字却清晰地复刻着',
-            desc: '那年|时光遗忘了，文字却清晰地复刻着',
-		    link: location.href.split('#')[0],
-		    imgUrl: '{{ asset("image/logo.png") }}',
-		    success: function() {
-		    	alert('success');
-		    }
-		};
+		// var sdata = {
+		//     title: '那年|时光遗忘了，文字却清晰地复刻着',
+  //           desc: '那年|时光遗忘了，文字却清晰地复刻着',
+		//     link: location.href.split('#')[0],
+		//     imgUrl: '{{ asset("image/logo.png") }}',
+		//     success: function() {
+		//     	alert('success');
+		//     }
+		// };
 		var ua = window.navigator.userAgent.toLowerCase();
 	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
 	        $.post('http://wechat.yjshare.com/sg',{url: window.location.href.split('#')[0]} ,function(data) {
@@ -143,9 +143,21 @@
 	                ]
 	            });
 	            wx.ready(function() {
+	            	 var sdata = {
+			            title: '那年|时光遗忘了，文字却清晰地复刻着',
+			            desc: '那年|时光遗忘了，文字却清晰地复刻着',
+			            link: 'http://game.4gshu.com/deep-love/index2.html',
+			            imgUrl: 'http://game.4gshu.com/xuangedan/other-project/2015-01-06/img/share-wx-logo.jpg',
+			            success: function () {
+			             alert('用户确认分享后执行的回调函数');
+			            },
+			            cancel: function () {
+			             alert('用户取消分享后执行的回调函数');
+			            }
+			        };
 	            	// wx.onMenuShareQQ(sdata);
 					// wx.onMenuShareWeibo(sdata);
-					// wx.onMenuShareTimeline(sdata);
+					wx.onMenuShareTimeline(sdata);
 					wx.onMenuShareAppMessage(sdata);
 	            });
 	            
