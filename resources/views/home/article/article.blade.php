@@ -116,8 +116,8 @@
 <script>
 	$(function() {
 		var sdata = {
-		    title: "{{ $articleInfo['data']['title'] }}",
-		    desc: "{{ $articleInfo['data']['description'] }}",
+		    title: '那年|时光遗忘了，文字却清晰地复刻着',
+            desc: '那年|时光遗忘了，文字却清晰地复刻着',
 		    link: location.href.split('#')[0],
 		    imgUrl: '{{ asset("image/logo.png") }}',
 		    success: function() {
