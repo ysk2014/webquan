@@ -129,7 +129,7 @@
 	        $.post('http://wechat.yjshare.com/sg',{url: window.location.href.split('#')[0]} ,function(data) {
 				wx.config({
 	                appId: data.appid,
-	                debug: true,
+	                // debug: true,
 	                timestamp: data.timestamp,
 	                nonceStr: data.nonceStr,
 	                signature: data.signature,
