@@ -129,7 +129,7 @@
 		};
 		var ua = window.navigator.userAgent.toLowerCase();
 	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-	        $.post('http://wechat.yjshare.com',{url: window.location.href.split('#')[0]} ,function(data) {
+	        $.post('http://wechat.yjshare.com/sg',{url: window.location.href.split('#')[0]} ,function(data) {
 				wx.config({
 	                appId: data.appid,
 	                // debug: true,
