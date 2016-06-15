@@ -120,7 +120,10 @@
 			    title: "{{ $articleInfo['data']['title'] }}",
 			    desc: "{{ $articleInfo['data']['description'] }}",
 			    link: location.href.split('#')[0],
-			    imgUrl: '{{ asset("image/logo.png") }}'
+			    imgUrl: '{{ asset("image/logo.png") }}',
+			    success: function() {
+			    	alert('success');
+			    }
 			};
 			wx.onMenuShareQQ(sdata);
 			wx.onMenuShareWeibo(sdata);
@@ -146,12 +149,9 @@
 	                ]
 	            });
 	            wx.ready(function() {
-	            	alert('ready');
 	            	bindEvenet(wx);
 	            });
-	            wx.error(function(res){
-	            	alert(res);
-	            });
+	            
 			},'json');
 	    }
 	});
