@@ -127,27 +127,29 @@
 			wx.onMenuShareTimeline(sdata);
 			wx.onMenuShareAppMessage(sdata);
 		};
-		$.post('http://wechat.yjshare.com',{url: window.location.href.split('#')[0]} ,function(data) {
-			wx.config({
-                appId: data.appid,
-                // debug: true,
-                timestamp: data.timestamp,
-                nonceStr: data.nonceStr,
-                signature: data.signature,
-                jsApiList: [
-                    'checkJsApi',
-                    'onMenuShareTimeline',
-                    'onMenuShareAppMessage',
-                    'onMenuShareQQ',
-                    'onMenuShareWeibo',
-                    'onMenuShareQZone'
-                ]
-            });
-            wx.ready(function() {
-            	bindEvenet(wx);
-            });
-
-		},'json');
+		var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        $.post('http://wechat.yjshare.com',{url: window.location.href.split('#')[0]} ,function(data) {
+				wx.config({
+	                appId: data.appid,
+	                // debug: true,
+	                timestamp: data.timestamp,
+	                nonceStr: data.nonceStr,
+	                signature: data.signature,
+	                jsApiList: [
+	                    'checkJsApi',
+	                    'onMenuShareTimeline',
+	                    'onMenuShareAppMessage',
+	                    'onMenuShareQQ',
+	                    'onMenuShareWeibo',
+	                    'onMenuShareQZone'
+	                ]
+	            });
+	            wx.ready(function() {
+	            	bindEvenet(wx);
+	            });
+			},'json');
+	    }
 	});
 </script>
 
