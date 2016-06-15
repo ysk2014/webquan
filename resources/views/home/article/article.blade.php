@@ -143,9 +143,9 @@
 	                ]
 	            });
 	            wx.ready(function() {
-	            	wx.onMenuShareQQ(sdata);
-					wx.onMenuShareWeibo(sdata);
-					wx.onMenuShareTimeline(sdata);
+	            	// wx.onMenuShareQQ(sdata);
+					// wx.onMenuShareWeibo(sdata);
+					// wx.onMenuShareTimeline(sdata);
 					wx.onMenuShareAppMessage(sdata);
 	            });
 	            
