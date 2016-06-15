@@ -143,7 +143,7 @@
 	                ]
 	            });
 	            wx.ready(function() {
-	            	 var sdata = {
+	            	var sdata = {
 			            title: '那年|时光遗忘了，文字却清晰地复刻着',
 			            desc: '那年|时光遗忘了，文字却清晰地复刻着',
 			            link: 'http://game.4gshu.com/deep-love/index2.html',
@@ -153,7 +153,11 @@
 			            },
 			            cancel: function () {
 			             alert('用户取消分享后执行的回调函数');
+			            },
+			            trigger: function() {
+			            	alert('用户点击发送给朋友');
 			            }
+
 			        };
 	            	// wx.onMenuShareQQ(sdata);
 					// wx.onMenuShareWeibo(sdata);
