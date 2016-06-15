@@ -118,7 +118,7 @@
 		var bindEvenet = function(wx) {
 			var sdata = {
 			    title: "{{ $articleInfo['data']['title'] }}",
-			    desc: "{{ $articleInfo['data']['desc'] }}",
+			    desc: "{{ $articleInfo['data']['description'] }}",
 			    link: location.href.split('#')[0],
 			    imgUrl: '{{ asset("image/logo.png") }}'
 			};
