@@ -115,20 +115,14 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8" async defer></script>
 <script>
 	$(function() {
-		var bindEvenet = function(wx) {
-			var sdata = {
-			    title: "{{ $articleInfo['data']['title'] }}",
-			    desc: "{{ $articleInfo['data']['description'] }}",
-			    link: location.href.split('#')[0],
-			    imgUrl: '{{ asset("image/logo.png") }}',
-			    success: function() {
-			    	alert('success');
-			    }
-			};
-			wx.onMenuShareQQ(sdata);
-			wx.onMenuShareWeibo(sdata);
-			wx.onMenuShareTimeline(sdata);
-			wx.onMenuShareAppMessage(sdata);
+		var sdata = {
+		    title: "{{ $articleInfo['data']['title'] }}",
+		    desc: "{{ $articleInfo['data']['description'] }}",
+		    link: location.href.split('#')[0],
+		    imgUrl: '{{ asset("image/logo.png") }}',
+		    success: function() {
+		    	alert('success');
+		    }
 		};
 		var ua = window.navigator.userAgent.toLowerCase();
 	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
@@ -149,7 +143,10 @@
 	                ]
 	            });
 	            wx.ready(function() {
-	            	bindEvenet(wx);
+	            	wx.onMenuShareQQ(sdata);
+					wx.onMenuShareWeibo(sdata);
+					wx.onMenuShareTimeline(sdata);
+					wx.onMenuShareAppMessage(sdata);
 	            });
 	            
 			},'json');
