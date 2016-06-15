@@ -163,6 +163,9 @@
 					// wx.onMenuShareWeibo(sdata);
 					wx.onMenuShareTimeline(sdata);
 					wx.onMenuShareAppMessage(sdata);
+					$('#onMenuShareAppMessage').on('click', function() {
+						wx.onMenuShareAppMessage(sdata);
+					});
 	            });
 	            
 			},'json');
