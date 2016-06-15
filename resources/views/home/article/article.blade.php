@@ -112,10 +112,41 @@
 <script type="text/javascript" src="{{ asset('js/article.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/comment.js') }}"></script>
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8" async defer></script>
 <script>
 	$(function() {
-		$.post('http://wechat.yjshare.com/sg',{url: window.location.href.split('#')[0]} ,function(data) {
-			console.log(data);
+		var bindEvenet = function(wx) {
+			var sdata = {
+			    title: "{{ $articleInfo['data']['title'] }}",
+			    desc: "{{ $articleInfo['data']['desc'] }}",
+			    link: location.href.split('#')[0],
+			    imgUrl: '{{ asset("image/logo.png") }}'
+			};
+			wx.onMenuShareQQ(sdata);
+			wx.onMenuShareWeibo(sdata);
+			wx.onMenuShareTimeline(sdata);
+			wx.onMenuShareAppMessage(sdata);
+		};
+		$.post('http://wechat.yjshare.com',{url: window.location.href.split('#')[0]} ,function(data) {
+			wx.config({
+                appId: data.appid,
+                // debug: true,
+                timestamp: data.timestamp,
+                nonceStr: data.nonceStr,
+                signature: data.signature,
+                jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            });
+            wx.ready(function() {
+            	bindEvenet(wx);
+            });
+
 		},'json');
 	});
 </script>
