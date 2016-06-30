@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<meta property="qc:admins" content="15413750205567165526367" />
 		<meta property="wb:webmaster" content="8cde258978bf6c9f" />
+		<meta name="baidu-site-verification" content="UZvgOUXfVM" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<meta name="keywords" content="Web圈, 前端, 前端开发, web前端, web前端开发, 前端开发工程师, 前端开发攻城师,设计, 开发, 前端资源, CSS, JavaScript, Ajax, jQuery, html,html5,css3,浏览器兼容, 前端开发工具, 前端招聘, jQuery API, CSS整形和优化工具 , JS压缩工具 , JS格式化工具 , CSS参考手册 ,HTML参考手册 , 多重搜索 , nodejs , node , boostrap , sublime">
